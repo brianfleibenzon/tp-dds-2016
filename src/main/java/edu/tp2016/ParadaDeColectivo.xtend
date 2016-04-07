@@ -3,15 +3,15 @@ package edu.tp2016
 import org.uqbar.geodds.Point
 
 class ParadaDeColectivo extends POI{
-	override Boolean estaCercano(Point ubicacionActual){
-		
+	override boolean estaCercano(Point ubicacionActual){
+		 false //TODO: Eliminar linea
 	}
 	
-	override Boolean estaDisponible(){
-		
+	override boolean estaDisponible(){
+		 false //TODO: Eliminar linea
 	}
 	
-	override Boolean coincide(String texto){
-		
+	override boolean coincide(String texto){
+		 false //TODO: Eliminar linea
 	}
 }

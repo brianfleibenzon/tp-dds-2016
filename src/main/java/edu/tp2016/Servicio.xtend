@@ -1,8 +1,8 @@
 package edu.tp2016
 
-import java.util.Collection
+import java.util.List
 
 class Servicio {
 	String nombre
-	Collection rangoDeAtencion
+	List<DiaDeAtencion> rangoDeAtencion
 }

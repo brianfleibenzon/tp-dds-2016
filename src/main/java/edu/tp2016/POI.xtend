@@ -2,23 +2,24 @@ package edu.tp2016
 
 import org.uqbar.geodds.Point
 import java.util.Collection
+import java.util.List
 
 abstract class POI {
 	String nombre
 	Point ubicacion
-	Collection rangoDeAtencion
+	List<DiaDeAtencion> rangoDeAtencion
 	Direccion direccion
 	Collection palabrasClave
 	
-	def Boolean estaDisponible(){
-		
+	def boolean estaDisponible(){
+		false //TODO: Eliminar linea
 	}
 	
-	def Boolean estaCercano(Point ubicacionActual){
-	
+	def boolean estaCercano(Point ubicacionActual){
+		false //TODO: Eliminar linea
 	}
 	
-	def Boolean coincide(String texto){
-		
+	def boolean coincide(String texto){
+		false //TODO: Eliminar linea
 	}
 }

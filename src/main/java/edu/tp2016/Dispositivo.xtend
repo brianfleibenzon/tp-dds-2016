@@ -2,12 +2,12 @@ package edu.tp2016
 
 import org.uqbar.geodds.Point
 import org.joda.time.LocalDate
-import java.util.Collection
+import java.util.List
 
 class Dispositivo {
 	Point ubicacionActual
 	LocalDate fechaActual
-	Collection pois
+	List<POI> pois
 	Direccion direccion
 	
 	def consultarCercania(POI unPoi){

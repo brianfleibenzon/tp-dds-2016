@@ -5,15 +5,15 @@ import org.uqbar.geodds.Point
 class Comercio extends POI{
 	Rubro rubro
 	
-	override Boolean estaCercano(Point ubicacionActual){
-		
+	override boolean estaCercano(Point ubicacionActual){
+		 false //TODO: Eliminar linea
 	}
 	
-	override Boolean estaDisponible(){
-		
+	override boolean estaDisponible(){
+		 false //TODO: Eliminar linea
 	}
 	
-	override Boolean coincide(String texto){
-		
+	override boolean coincide(String texto){
+		 false //TODO: Eliminar linea
 	}
 }

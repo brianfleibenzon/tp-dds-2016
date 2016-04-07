@@ -1,21 +1,21 @@
 package edu.tp2016
 
 import org.uqbar.geodds.Point
-import java.util.Collection
+import java.util.List
 
 class CGP extends POI{
-	Collection servicios
+	List<Servicio> servicios
 	Comuna comuna
 	
-	override Boolean estaCercano(Point ubicacionActual){
-		
+	override boolean estaCercano(Point ubicacionActual){
+		 false //TODO: Eliminar linea
 	}
 	
-	override Boolean estaDisponible(){
-		
+	override boolean estaDisponible(){
+		 false //TODO: Eliminar linea
 	}
 	
-	override Boolean coincide(String texto){
-		
+	override boolean coincide(String texto){
+		 false //TODO: Eliminar linea
 	}
 }

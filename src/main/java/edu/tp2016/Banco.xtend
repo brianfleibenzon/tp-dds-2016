@@ -1,11 +1,11 @@
 package edu.tp2016
 
 class Banco extends POI{
-	override Boolean estaDisponible(){
-		
+	override boolean estaDisponible(){
+		false //TODO: Eliminar linea
 	}
 	
-	override Boolean coincide(String texto){
-		
+	override boolean coincide(String texto){
+		false //TODO: Eliminar linea
 	}
 }
