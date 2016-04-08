@@ -13,10 +13,8 @@ class TestCercania {
 	ParadaDeColectivo paradaLejos
 	Banco bancoCerca
 	Banco bancoLejos
-	CGP CGPCercaEnComuna
-	CGP CGPLejosEnComuna
-	CGP CGPCercaFueraDeComuna
-	CGP CGPLejosFueraDeComuna
+	CGP CGPCerca
+	CGP CGPLejos
 	Comuna comunaInterior
 	Comuna comunaExterior
 	Rubro rubroTest
@@ -54,22 +52,14 @@ class TestCercania {
 			poligono.add(new Point(-34.594238, -58.419617))
 			poligono.add(new Point(-34.594167, -58.416334))
 		]		
-		CGPCercaEnComuna = new CGP() => [
+		CGPCerca = new CGP() => [
 			ubicacion = new Point(-34.597768, -58.419860)
 			comuna = comunaInterior
 		]
-		CGPCercaFueraDeComuna = new CGP() => [
-			ubicacion = new Point(-34.597768, -58.419860)
-			comuna = comunaExterior
-		]	
-		CGPLejosEnComuna = new CGP() => [
-			ubicacion = new Point(-34.594150, -58.416313)
-			comuna = comunaInterior
-		]
-		CGPLejosFueraDeComuna = new CGP() => [
+		CGPLejos = new CGP() => [
 			ubicacion = new Point(-34.594150, -58.416313)
 			comuna = comunaExterior
-		]	
+		]		
 		rubroTest = new Rubro => [
 			radioDeCercania = 2
 		]	
@@ -105,23 +95,13 @@ class TestCercania {
 	}
 	
 	@Test
-	def void CGPEstaCercaYEnComuna() {
-		Assert.assertEquals(true, unDispositivo.consultarCercania(CGPCercaEnComuna))
+	def void CGPEstaCerca() {
+		Assert.assertEquals(true, unDispositivo.consultarCercania(CGPCerca))
 	}
 	
 	@Test
-	def void CGPEstaCercaPeroFueraDeComuna() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(CGPCercaFueraDeComuna))
-	}
-	
-	@Test
-	def void CGPEstaLejosYEnComuna() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(CGPLejosEnComuna))
-	}
-	
-	@Test
-	def void CGPEstaLejosYFueraDeComuna() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(CGPLejosFueraDeComuna))
+	def void CGPEstaLejos() {
+		Assert.assertEquals(false, unDispositivo.consultarCercania(CGPLejos))
 	}
 	
 	@Test

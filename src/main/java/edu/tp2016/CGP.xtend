@@ -10,7 +10,7 @@ class CGP extends POI{
 	Comuna comuna
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
-		super.estaCercaA(ubicacionDispositivo) && comuna.pertenecePunto(ubicacionDispositivo)
+		comuna.pertenecePunto(ubicacionDispositivo)
 	}
 	
 	override boolean estaDisponible(){
