@@ -7,6 +7,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class CGP extends POI{
 	List<Servicio> servicios
+	List<String> serviciosNombres = servicios.map [ nombre ]
 	Comuna comuna
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
@@ -17,7 +18,11 @@ class CGP extends POI{
 		false //TODO: Eliminar linea
 	}
 	
+	def boolean incluyeServicio(String texto){
+		servicios.exists [servicio | servicio.contieneEnSuNombre(texto)]
+	}
+	
 	override boolean coincide(String texto){
-		false //TODO: Eliminar linea
+		(texto.equals(nombre)) || (this.incluyeServicio(texto))
 	}
 }

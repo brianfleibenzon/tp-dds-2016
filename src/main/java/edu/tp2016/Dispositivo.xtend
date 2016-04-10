@@ -12,15 +12,15 @@ class Dispositivo {
 	List<POI> pois
 	Direccion direccion
 	
-	def consultarCercania(POI unPoi){
+	def boolean consultarCercania(POI unPoi){
 		unPoi.estaCercaA(ubicacionActual)
 	}
 	
-	def consultarDisponibilidad(POI unPoi){
-		
+	def boolean consultarDisponibilidad(POI unPoi){
+		false //TODO: Eliminar línea
 	}
 	
-	def buscar(String texto){
-		
+	def Iterable<POI> buscar(String texto){
+		pois.filter [poi | (poi.tienePalabraClave(texto)) || (poi.coincide(texto))]
 	}
 }

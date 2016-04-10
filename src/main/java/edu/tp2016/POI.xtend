@@ -1,7 +1,6 @@
 package edu.tp2016
 
 import org.uqbar.geodds.Point
-import java.util.Collection
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
@@ -11,7 +10,7 @@ abstract class POI {
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion
 	Direccion direccion
-	Collection palabrasClave
+	List<String> palabrasClave
 	
 	def boolean estaDisponible(){
 		false //TODO: Eliminar linea
@@ -25,7 +24,14 @@ abstract class POI {
 		unPunto.distance(ubicacion) * 10
 	}
 	
+	def boolean tienePalabraClave(String texto){
+		palabrasClave.contains(texto)
+	} // La búsqueda por palabra clave es igual para todos los POI
+	
 	def boolean coincide(String texto){
-		false //TODO: Eliminar linea
+		 texto.equals(nombre) 
+		 }
+		 /* Por defecto, un POI coincide con la búsqueda si su nombre
+		  * coincide con el texto buscado
+		  */
 	}
-}
