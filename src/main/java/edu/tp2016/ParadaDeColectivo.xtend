@@ -13,7 +13,4 @@ class ParadaDeColectivo extends POI{
 		 false //TODO: Eliminar linea
 	}
 	
-	override boolean coincide(String texto){
-		 false //TODO: Eliminar linea
-	}
 }
