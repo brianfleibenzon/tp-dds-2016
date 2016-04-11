@@ -27,18 +27,22 @@ class TestCercania {
 			ubicacionActual = new Point(-34.598574, -58.420280)
 		]
 		paradaCerca = new ParadaDeColectivo() => [
+			nombre = "114"
 			ubicacion = new Point(-34.597768, -58.419860)
 		]
 		paradaLejos = new ParadaDeColectivo() => [
+			nombre = "107"
 			ubicacion = new Point(-34.597859, -58.423351)
 		]		
 		bancoCerca = new Banco() => [
+			nombre = "Santander"
 			ubicacion = new Point(-34.597768, -58.419860)
 		]
 		bancoLejos = new Banco() => [
+			nombre = "Galicia"
 			ubicacion = new Point(-34.594150, -58.416313)
 		]	
-		comunaInterior = new Comuna => [
+		comunaInterior = new Comuna => [			
 			poligono = new Polygon()
 			poligono.add(new Point(-34.597735, -58.421806))
 			poligono.add(new Point(-34.597771, -58.417300))
@@ -53,21 +57,26 @@ class TestCercania {
 			poligono.add(new Point(-34.594167, -58.416334))
 		]		
 		CGPCerca = new CGP() => [
+			nombre = "CGP Caballito"
 			ubicacion = new Point(-34.597768, -58.419860)
 			comuna = comunaInterior
 		]
 		CGPLejos = new CGP() => [
+			nombre = "CGP Almagro"
 			ubicacion = new Point(-34.594150, -58.416313)
 			comuna = comunaExterior
 		]		
 		rubroTest = new Rubro => [
+			nombre = "indumentaria"
 			radioDeCercania = 2
 		]	
 		comercioCerca = new Comercio() => [
+			nombre = "test"
 			ubicacion = new Point(-34.597768, -58.419860)
 			rubro = rubroTest
 		]
 		comercioLejos = new Comercio() => [
+			nombre = "test"
 			ubicacion = new Point(-34.597824, -58.423415)
 			rubro = rubroTest
 		]	
