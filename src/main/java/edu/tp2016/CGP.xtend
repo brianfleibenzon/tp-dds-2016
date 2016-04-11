@@ -7,7 +7,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class CGP extends POI{
 	List<Servicio> servicios
-	List<String> serviciosNombres = servicios.map [ nombre ]
+	//COMENTO LINEA PORQUE nombre ES NULO AL CREAR CLASE
+	//List<String> serviciosNombres = servicios.map [ nombre ]
 	Comuna comuna
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
