@@ -17,6 +17,6 @@ class Comercio extends POI{
 	}
 	
 	override boolean coincide(String texto){
-		 (texto.equals(nombre)) || (texto.equals(rubro.nombre))
+		 (texto.equalsIgnoreCase(nombre)) || (texto.equalsIgnoreCase(rubro.nombre))
 	}
 }

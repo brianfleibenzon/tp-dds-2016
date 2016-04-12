@@ -7,5 +7,6 @@ import org.joda.time.LocalDate
 class Banco extends POI{
 	override boolean estaDisponible(LocalDate fecha, String nombre){
 		this.tieneRangoDeAtencionDisponibleEn(fecha.getDayOfWeek,fecha.hora)
-	}
+	}														
+		
 }
