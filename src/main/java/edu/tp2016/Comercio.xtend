@@ -12,7 +12,7 @@ class Comercio extends POI{
 	}
 	
 	override boolean estaDisponible(){
-		 false //TODO: Eliminar linea
+		 false // TODO: Eliminar linea
 	}
 	
 	override boolean coincide(String texto){

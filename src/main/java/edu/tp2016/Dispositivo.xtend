@@ -12,12 +12,14 @@ class Dispositivo {
 	List<POI> pois
 	Direccion direccion
 	
+		
 	def boolean consultarCercania(POI unPoi){
 		unPoi.estaCercaA(ubicacionActual)
 	}
 	
 	def boolean consultarDisponibilidad(POI unPoi){
-		false //TODO: Eliminar línea
+		//HAY QUE VER EL TEMA DEL FORMATO DE LA FECHA
+		 unPoi.estaDisponible(fechaActual)
 	}
 	
 	def Iterable<POI> buscar(String texto){

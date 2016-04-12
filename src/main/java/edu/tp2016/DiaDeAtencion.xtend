@@ -6,4 +6,9 @@ class DiaDeAtencion {
 	int minutoInicio
 	int horaFin
 	int minutoFin
+	
+	def boolean contieneLaHora(int unaHora)
+		
+	{ unaHora>this.horaInicio && unaHora<this.horaFin
+	}
 }

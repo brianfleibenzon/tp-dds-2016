@@ -10,7 +10,7 @@ class ParadaDeColectivo extends POI{
 	}
 	
 	override boolean estaDisponible(){
-		 false //TODO: Eliminar linea
+		 true
 	}
 	
 }
