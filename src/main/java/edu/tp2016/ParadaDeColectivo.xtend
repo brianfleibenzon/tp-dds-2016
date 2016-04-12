@@ -2,6 +2,7 @@ package edu.tp2016
 
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.joda.time.LocalDate
 
 @Accessors
 class ParadaDeColectivo extends POI{
@@ -9,8 +10,8 @@ class ParadaDeColectivo extends POI{
 		 distanciaA(ubicacionDispositivo) < 1
 	}
 	
-	override boolean estaDisponible(){
-		 false //TODO: Eliminar linea
+	override boolean estaDisponible(LocalDate fecha,String Nombre){
+		 true
 	}
 	
 }
