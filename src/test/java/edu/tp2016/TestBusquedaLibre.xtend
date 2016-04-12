@@ -29,19 +29,19 @@ class TestBusquedaLibre {
 		
 		utn7parada = new ParadaDeColectivo() => [
 			nombre = "7"
-			palabrasClave.addAll("utn", "campus")
+			palabrasClave= Arrays.asList("utn", "campus")
 		]
 		miserere7parada = new ParadaDeColectivo() => [
 			nombre = "7"
-			palabrasClave.addAll("utn", "campus")
+			palabrasClave= Arrays.asList("utn", "campus")
 		]		
 		utn114parada = new ParadaDeColectivo() => [
 			nombre = "114"
-			palabrasClave.addAll("utn", "campus")
+			palabrasClave= Arrays.asList("utn", "campus")
 		]
 		bancoGalicia = new Banco() => [
 			nombre = "Banco Galicia Callao"
-			palabrasClave.addAll("cajero", "sucursal galicia")
+			palabrasClave= Arrays.asList("cajero", "sucursal galicia")
 		]
 		cultura = new Servicio() => [
 			nombre="Cultura"
@@ -60,13 +60,13 @@ class TestBusquedaLibre {
 		]
 		CGPComuna1 = new CGP() => [
 			nombre="CGP Comuna 1"
-			servicios.addAll(asesoramientoLegal, cultura, deportes)
-			palabrasClave.addAll("CGP", "centro de atencion", "servicios sociales", "vecinos")
+			servicios= Arrays.asList(asesoramientoLegal, cultura, deportes)
+			palabrasClave= Arrays.asList("CGP", "centro de atencion", "servicios sociales", "vecinos")
 		]
 		CGPComuna2 = new CGP() => [
 			nombre="CGP Comuna 2"
-			servicios.addAll(turismo, cultura, salud)	
-			palabrasClave.addAll("CGP", "centro de atencion", "servicios sociales", "vecinos")
+			servicios= Arrays.asList(turismo, cultura, salud)	
+			palabrasClave= Arrays.asList("CGP", "centro de atencion", "servicios sociales", "vecinos")
 		]		
 		rubroFarmacia = new Rubro => [
 			nombre= "Farmacia"
@@ -77,15 +77,15 @@ class TestBusquedaLibre {
 		comercioFarmacity = new Comercio() => [
 			nombre="Farmacity"
 			rubro = rubroFarmacia
-			palabrasClave.addAll("medicamentos", "salud")
+			palabrasClave= Arrays.asList("medicamentos", "Salud")
 		]
 		comercioLoDeJuan = new Comercio() => [
 			nombre="Libreria Juan"
 			rubro = rubroLibreria
-			palabrasClave.addAll("fotocopias", "utiles", "libros")
+			palabrasClave= Arrays.asList("fotocopias", "utiles", "libros")
 		]
 		unDispositivo = new Dispositivo() => [
-			pois.addAll(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,comercioLoDeJuan, bancoGalicia)	
+			pois= Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,comercioLoDeJuan, bancoGalicia)	
 	]
 	}
 	
@@ -104,48 +104,61 @@ class TestBusquedaLibre {
 		Assert.assertEquals((unDispositivo.buscar("7")), Arrays.asList(utn7parada, miserere7parada))
 	}// Directamente usando assertEquals
 	
-	}
+	
 	
 	/* OBS.: NO HAY UNA FORMA CORTA (DIRECTA) DE CREAR LISTAS DE TIPO 'List',
 	 * HAY QUE MANDARLE LOS MENSAJES newArrayList O asList A LA CLASE 'Arrays', O BIEN, A LA CLASE 'Lists' */
 	
-	/*
+	
 	 
 	@Test
-	def void buscarParada114() {
-		"114"
+	def void coincideParada114() {
+	Assert.assertEquals(true, utn114parada.coincide("114"))
 	}
+	@Test
+	def void buscarParada114() {
+		Assert.assertEquals((unDispositivo.buscar("114")), Arrays.asList(utn114parada))
+	}// Directamente usando assertEquals
+	
+	
 	
 	@Test
 	def void buscarBancoPorNombre() {
-		"Banco Galicia Callao"
+		Assert.assertEquals((unDispositivo.buscar("Banco Galicia Callao")), Arrays.asList(bancoGalicia))
 	}
+	
 	
 	@Test
 	def void buscarPrimerPOIConAlgunaPalabraClave() {
-		"sucursal galicia"
+		Assert.assertEquals((unDispositivo.buscar("sucursal galicia")), Arrays.asList(bancoGalicia))
 	}
 	
 	@Test
 	def void buscarSegundoPOIConAlgunaPalabraClave() {
-		"campus"
+		Assert.assertEquals((unDispositivo.buscar("campus")), Arrays.asList(utn7parada, miserere7parada, utn114parada))
 	}
 	
 	@Test
 	def void buscarComercioPorRubro() {
-		"Libreria"
+		Assert.assertEquals((unDispositivo.buscar("Libreria")), Arrays.asList(comercioLoDeJuan))
 	}
+
 	@Test
 	def void buscarComercioPorNombre() {
-		"Farmacity"
+		Assert.assertEquals((unDispositivo.buscar("Farmacity")), Arrays.asList(comercioFarmacity))
 	}
+	
 	
 	@Test
 	def void buscarPorServicioEntero() {
-		"Salud"
+		Assert.assertEquals((unDispositivo.buscar("Salud")), Arrays.asList(CGPComuna2, comercioFarmacity))
 	}
 	
 	@Test
 	def void buscarPorServicioParcial() {
-		"Asesoramiento"
-*/
+		Assert.assertEquals((unDispositivo.buscar("Asesoramiento")), Arrays.asList(CGPComuna1))
+		}
+		
+		}
+		
+		

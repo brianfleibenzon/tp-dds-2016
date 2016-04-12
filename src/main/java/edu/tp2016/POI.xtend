@@ -29,7 +29,7 @@ abstract class POI {
 	} // La búsqueda por palabra clave es igual para todos los POI
 	
 	def boolean coincide(String texto){
-		 texto.equals(nombre) 
+		 texto.equalsIgnoreCase(nombre) 
 		 }
 		 /* Por defecto, un POI coincide con la búsqueda si su nombre
 		  * coincide con el texto buscado
