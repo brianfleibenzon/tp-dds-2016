@@ -3,6 +3,7 @@ package edu.tp2016
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert
+import java.util.Arrays
 
 class TestBusquedaLibre {
 	
@@ -28,19 +29,19 @@ class TestBusquedaLibre {
 		
 		utn7parada = new ParadaDeColectivo() => [
 			nombre = "7"
-			palabrasClave.add("colectivo utn")
+			palabrasClave.addAll("utn", "campus")
 		]
 		miserere7parada = new ParadaDeColectivo() => [
 			nombre = "7"
-			palabrasClave.add("colectivo utn")
+			palabrasClave.addAll("utn", "campus")
 		]		
 		utn114parada = new ParadaDeColectivo() => [
 			nombre = "114"
-			palabrasClave.add("colectivo utn")
+			palabrasClave.addAll("utn", "campus")
 		]
 		bancoGalicia = new Banco() => [
 			nombre = "Banco Galicia Callao"
-			palabrasClave.addAll("cajero callao", "sucursal galicia")
+			palabrasClave.addAll("cajero", "sucursal galicia")
 		]
 		cultura = new Servicio() => [
 			nombre="Cultura"
@@ -58,10 +59,14 @@ class TestBusquedaLibre {
 			nombre="Salud"
 		]
 		CGPComuna1 = new CGP() => [
+			nombre="CGP Comuna 1"
 			servicios.addAll(asesoramientoLegal, cultura, deportes)
+			palabrasClave.addAll("CGP", "centro de atencion", "servicios sociales", "vecinos")
 		]
 		CGPComuna2 = new CGP() => [
+			nombre="CGP Comuna 2"
 			servicios.addAll(turismo, cultura, salud)	
+			palabrasClave.addAll("CGP", "centro de atencion", "servicios sociales", "vecinos")
 		]		
 		rubroFarmacia = new Rubro => [
 			nombre= "Farmacia"
@@ -70,57 +75,77 @@ class TestBusquedaLibre {
 			nombre="Libreria"
 		]
 		comercioFarmacity = new Comercio() => [
+			nombre="Farmacity"
 			rubro = rubroFarmacia
+			palabrasClave.addAll("medicamentos", "salud")
 		]
 		comercioLoDeJuan = new Comercio() => [
+			nombre="Libreria Juan"
 			rubro = rubroLibreria
+			palabrasClave.addAll("fotocopias", "utiles", "libros")
 		]
 		unDispositivo = new Dispositivo() => [
-			pois.addAll(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,comercioLoDeJuan, bancoGalicia)
+			pois.addAll(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,comercioLoDeJuan, bancoGalicia)	
 	]
 	}
 	
-	/* @Test
-	def void buscarParada7() {
-		Assert.assertEquals(, unDispositivo.buscar("7"))
-	}
+	@Test
+	def void buscarParadaDeColectivo7OPCION1(){
+		Assert.assertTrue((unDispositivo.buscar("7")).containsAll(Arrays.asList(utn7parada, miserere7parada)))
+	}// Usando containsAll
 	
 	@Test
+	def void buscarParadaDeColectivo7OPCION2(){
+		Assert.assertTrue((unDispositivo.buscar("7")).equals(Arrays.asList(utn7parada, miserere7parada)))
+	}// Usando equals
+	
+	@Test
+	def void buscarParadaDeColectivo7OPCION3(){
+		Assert.assertEquals((unDispositivo.buscar("7")), Arrays.asList(utn7parada, miserere7parada))
+	}// Directamente usando assertEquals
+	
+	}
+	
+	/* OBS.: NO HAY UNA FORMA CORTA (DIRECTA) DE CREAR LISTAS DE TIPO 'List',
+	 * HAY QUE MANDARLE LOS MENSAJES newArrayList O asList A LA CLASE 'Arrays', O BIEN, A LA CLASE 'Lists' */
+	
+	/*
+	 
+	@Test
 	def void buscarParada114() {
-		Assert.assertEquals(, unDispositivo.buscar("114"))
+		"114"
 	}
 	
 	@Test
 	def void buscarBancoPorNombre() {
-		Assert.assertEquals(, unDispositivo.buscar("Banco Galicia Callao"))
+		"Banco Galicia Callao"
 	}
 	
 	@Test
 	def void buscarPrimerPOIConAlgunaPalabraClave() {
-		Assert.assertEquals(, unDispositivo.buscar("sucursal galicia"))
+		"sucursal galicia"
 	}
 	
 	@Test
 	def void buscarSegundoPOIConAlgunaPalabraClave() {
-		Assert.assertEquals(, unDispositivo.buscar("colectivo utn"))
+		"campus"
 	}
 	
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(, unDispositivo.buscar("Libreria"))
+		"Libreria"
 	}
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(, unDispositivo.buscar("Farmacity"))
+		"Farmacity"
 	}
 	
 	@Test
 	def void buscarPorServicioEntero() {
-		Assert.assertEquals(, unDispositivo.buscar("Salud"))
+		"Salud"
 	}
 	
 	@Test
 	def void buscarPorServicioParcial() {
-		Assert.assertEquals(, unDispositivo.buscar("Asesoramiento"))
+		"Asesoramiento"
 */
-}
