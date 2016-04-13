@@ -9,4 +9,5 @@ class Banco extends POI{
 		this.tieneRangoDeAtencionDisponibleEn(fecha)
 	}														
 		
+	
 }

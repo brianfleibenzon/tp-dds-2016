@@ -40,4 +40,5 @@ abstract class POI {
 		 /* Por defecto, un POI coincide con la búsqueda si su nombre
 		  * coincide con el texto buscado.
 		  */
+	
 	}

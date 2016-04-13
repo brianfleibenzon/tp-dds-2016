@@ -6,7 +6,6 @@ import org.joda.time.LocalDateTime
 
 class TestDisponibilidad {
 	
-	
 	Dispositivo unDispositivoConFechaDisponible
 	Dispositivo unDispositivoConFechaNoDisponible
 	Banco unBanco
@@ -248,8 +247,7 @@ def void CGPNoEstaDisponible() {
 @Test
 def void bancoEstaDisponible() {
 		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco,"Santander"))
-	}
-	
+	}	
 @Test
 def void bancoNoEstaDisponible() {
 		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco,"Provincia"))

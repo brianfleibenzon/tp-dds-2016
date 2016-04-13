@@ -10,7 +10,7 @@ import java.util.ArrayList
 class CGP extends POI{
 	List<Servicio> servicios = new ArrayList<Servicio>
 	Comuna comuna
-		
+
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		comuna.pertenecePunto(ubicacionDispositivo)
 	}
