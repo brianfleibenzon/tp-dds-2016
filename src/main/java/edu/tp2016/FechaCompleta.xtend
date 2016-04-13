@@ -9,6 +9,6 @@ class FechaCompleta {
 	int segundos
 	int dia
 	int mes
-	int año
+	int anio
 	
 }

@@ -12,7 +12,7 @@ class ParadaDeColectivo extends POI{
 	}
 	
 	override boolean estaDisponible(FechaCompleta unaFecha,String Nombre){
-		 true
+		return true
 	}
 	
 }

@@ -3,13 +3,13 @@ package edu.tp2016
 import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-
+import java.util.ArrayList
 
 @Accessors
 abstract class POI {
 	String nombre
 	Point ubicacion
-	List<DiaDeAtencion> rangoDeAtencion
+	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	Direccion direccion
 	List<String> palabrasClave
 	Iterable<DiaDeAtencion> horariosDelDia

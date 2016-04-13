@@ -5,9 +5,12 @@ import org.junit.Assert
 
 class TestDisponibilidad {
 	Dispositivo unDispositivo
+	Dispositivo unDispositivoConFechaNoDisponibleParaBanco
 	FechaCompleta fechaCualquiera
+	FechaCompleta fechaNoDisponibleParaBanco
 	ParadaDeColectivo unaParada
 	Banco unBanco
+	
 	DiaDeAtencion lunes
 	DiaDeAtencion martes
 	DiaDeAtencion miercoles
@@ -17,7 +20,9 @@ class TestDisponibilidad {
 	
 	@Before
 	def void SetUp(){
-		
+	unaParada = new ParadaDeColectivo()=> [
+						
+					]
 	fechaCualquiera= new FechaCompleta()=> [
 				hora=11
 				minutos=20
@@ -25,10 +30,22 @@ class TestDisponibilidad {
 				//VAMOS A TOMAR DIA 1=LUNES
 				dia=1
 	 			mes=2
-	 			año=2016						
+	 			anio=2016						
+					]
+	fechaNoDisponibleParaBanco= new FechaCompleta()=> [
+				hora=11
+				minutos=20
+				segundos=45
+				//VAMOS A TOMAR DIA 1=LUNES
+				dia=7
+	 			mes=2
+	 			anio=2016						
 					]
 	unDispositivo = new Dispositivo()=> [
 			fechaActual= fechaCualquiera
+		]
+	unDispositivoConFechaNoDisponibleParaBanco = new Dispositivo()=> [
+			fechaActual= fechaNoDisponibleParaBanco
 		]
 	
 	lunes = new DiaDeAtencion()=> [
@@ -62,14 +79,13 @@ class TestDisponibilidad {
 				rangoDeAtencion.add(miercoles)
 				rangoDeAtencion.add(jueves)
 				rangoDeAtencion.add(viernes)
-				nombre="Santander"
-				
+								
 					]
 					}
 					
 @Test
 def void ParadaDeColectivoEstaDisponible() {
-		Assert.assertEquals(true, unDispositivo.consultarDisponibilidad(unaParada, "s"))
+		Assert.assertEquals(true, unDispositivo.consultarDisponibilidad(unaParada, ""))
 	}
 
 @Test
@@ -78,7 +94,7 @@ def void BancoEstaDisponible() {
 	}
 @Test	
 def void BancoNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivo.consultarDisponibilidad(unBanco, ""))
+		Assert.assertEquals(false, unDispositivoConFechaNoDisponibleParaBanco.consultarDisponibilidad(unBanco, ""))
 	}
 
 }

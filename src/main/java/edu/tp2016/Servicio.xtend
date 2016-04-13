@@ -2,11 +2,12 @@ package edu.tp2016
 
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.ArrayList
 
 @Accessors
 class Servicio {
 	String nombre
-	List<DiaDeAtencion> rangoDeAtencion
+	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	Iterable<DiaDeAtencion> horariosDelDia 
 	
 	def boolean contieneEnSuNombre(String texto){
