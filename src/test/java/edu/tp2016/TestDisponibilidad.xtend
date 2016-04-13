@@ -2,8 +2,11 @@ package edu.tp2016
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert
+import org.joda.time.LocalDateTime
 
 class TestDisponibilidad {
+	
+	
 	Dispositivo unDispositivoConFechaDisponible
 	Dispositivo unDispositivoConFechaNoDisponible
 	Banco unBanco
@@ -14,11 +17,12 @@ class TestDisponibilidad {
 	DiaDeAtencion viernes
 	DiaDeAtencion sabado
 	DiaDeAtencion domingo
+	LocalDateTime fecha
 	
 	@Before
 	def void SetUp(){
 	unDispositivoConFechaDisponible = new Dispositivo()=> [
-			//fechaActual= (PONER UNA FECHA NO DISPONIBLE, HAY QUE VER EL FORMATO DE FECHA)
+			fechaActual = fecha
 		]
 	lunes= new DiaDeAtencion()=> [
 			dia = 1

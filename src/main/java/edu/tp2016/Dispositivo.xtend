@@ -5,12 +5,12 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import com.google.common.collect.Lists //Importada a través de una dependencia en el 'pom'.
 import java.util.Arrays
-import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 @Accessors
 class Dispositivo {
 	Point ubicacionActual
-	LocalDate fechaActual
+	LocalDateTime fechaActual
 	List<POI> pois
 	Direccion direccion
 			

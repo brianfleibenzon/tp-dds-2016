@@ -2,6 +2,7 @@ package edu.tp2016
 
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.joda.time.LocalDateTime
 
 @Accessors
 class Servicio {
@@ -17,11 +18,11 @@ class Servicio {
 		horariosDelDia = rangoDeAtencion.filter[ unRango | (unDia.equals(unRango.dia))]
 	}
 	
-	def boolean tieneRangoDeAtencionDisponibleEn(int unDia, int unaHora){
-		losHorariosDelDia(unDia).exists[unRango | ((unRango.horaInicio)<unaHora)&&((unRango.horaFin)>unaHora)]			
+	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha){
+		losHorariosDelDia(fecha.getDayOfWeek).exists[unRango | ((unRango.horaInicio)<fecha.getHourOfDay)&&((unRango.horaFin)>fecha.getHourOfDay)]			
 	}
 	
-	def boolean estaDisponibleEn(int unDia, int unaHora){		
-		tieneRangoDeAtencionDisponibleEn(unDia,unaHora)
+	def boolean estaDisponibleEn(LocalDateTime fecha){		
+		tieneRangoDeAtencionDisponibleEn(fecha)
 	}
 }

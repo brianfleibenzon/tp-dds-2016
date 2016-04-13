@@ -3,7 +3,7 @@ package edu.tp2016
 import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 @Accessors
 abstract class POI {
@@ -14,7 +14,7 @@ abstract class POI {
 	List<String> palabrasClave
 	Iterable<DiaDeAtencion> horariosDelDia
 	
-	def boolean estaDisponible(LocalDate unaFecha,String nombre){
+	def boolean estaDisponible(LocalDateTime unaFecha,String nombre){
 		false
 		}
 
@@ -22,8 +22,8 @@ abstract class POI {
 		horariosDelDia = rangoDeAtencion.filter[ unRango | (unDia.equals(unRango.dia))]
 	}
 	
-	def boolean tieneRangoDeAtencionDisponibleEn(int unDia, int unaHora){
-		losHorariosDelDia(unDia).exists[unRango | ((unRango.horaInicio)<unaHora)&&((unRango.horaFin)>unaHora)]			
+	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha){
+		losHorariosDelDia(fecha.getDayOfWeek).exists[unRango | ((unRango.horaInicio)<fecha.getHourOfDay)&&((unRango.horaFin)>fecha.getHourOfDay)]			
 	}
 	
 	def boolean estaCercaA(Point ubicacionDispositivo){
