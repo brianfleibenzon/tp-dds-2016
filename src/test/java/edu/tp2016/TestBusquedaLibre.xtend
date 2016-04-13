@@ -29,19 +29,19 @@ class TestBusquedaLibre {
 		
 		utn7parada = new ParadaDeColectivo() => [
 			nombre = "7"
-			palabrasClave= Arrays.asList("utn", "campus")
+			palabrasClave.addAll("utn", "campus")
 		]
 		miserere7parada = new ParadaDeColectivo() => [
 			nombre = "7"
-			palabrasClave= Arrays.asList("utn", "plaza miserere", "once")
+			palabrasClave.addAll("utn", "plaza miserere", "once")
 		]		
 		utn114parada = new ParadaDeColectivo() => [
 			nombre = "114"
-			palabrasClave= Arrays.asList("utn", "campus")
+			palabrasClave.addAll("utn", "campus")
 		]
 		bancoGalicia = new Banco() => [
 			nombre = "Banco Galicia Callao"
-			palabrasClave= Arrays.asList("cajero", "sucursal galicia")
+			palabrasClave.addAll("cajero", "sucursal galicia")
 		]
 		cultura = new Servicio() => [
 			nombre="cultura"
@@ -60,13 +60,13 @@ class TestBusquedaLibre {
 		]
 		CGPComuna1 = new CGP() => [
 			nombre="CGP Comuna 1"
-			servicios= Arrays.asList(asesoramientoLegal, cultura, deportes)
-			palabrasClave= Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")
+			servicios.addAll(asesoramientoLegal, cultura, deportes)
+			palabrasClave.addAll("CGP", "centro de atencion", "servicios sociales", "comuna 1")
 		]
 		CGPComuna2 = new CGP() => [
 			nombre="CGP Comuna 2"
-			servicios= Arrays.asList(turismo, cultura, salud)	
-			palabrasClave= Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2")
+			servicios.addAll(turismo, cultura, salud)	
+			palabrasClave.addAll("CGP", "centro de atencion", "servicios sociales", "comuna 2")
 		]		
 		rubroFarmacia = new Rubro => [
 			nombre= "Farmacia"
@@ -77,15 +77,15 @@ class TestBusquedaLibre {
 		comercioFarmacity = new Comercio() => [
 			nombre="Farmacity"
 			rubro = rubroFarmacia
-			palabrasClave= Arrays.asList("medicamentos", "salud")
+			palabrasClave.addAll("medicamentos", "salud")
 		]
 		comercioLoDeJuan = new Comercio() => [
 			nombre="Libreria Juan"
 			rubro = rubroLibreria
-			palabrasClave= Arrays.asList("fotocopias", "utiles", "libros")
+			palabrasClave.addAll("fotocopias", "utiles", "libros")
 		]
 		unDispositivo = new Dispositivo() => [
-			pois= Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,comercioLoDeJuan, bancoGalicia)	
+			pois.addAll(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,comercioLoDeJuan, bancoGalicia)	
 	]
 	}
 	

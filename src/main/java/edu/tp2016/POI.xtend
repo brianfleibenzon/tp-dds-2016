@@ -10,9 +10,9 @@ import java.util.ArrayList
 abstract class POI {
 	String nombre
 	Point ubicacion
-	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
+	List<DiaDeAtencion> rangoDeAtencion= new ArrayList<DiaDeAtencion> 
 	Direccion direccion
-	List<String> palabrasClave
+	List<String> palabrasClave= new ArrayList<String>
 	
 	def boolean estaDisponible(LocalDateTime unaFecha,String nombre){
 		false

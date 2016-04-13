@@ -6,12 +6,13 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import com.google.common.collect.Lists //Importada a través de una dependencia en el 'pom'.
 import java.util.Arrays
 import org.joda.time.LocalDateTime
+import java.util.ArrayList
 
 @Accessors
 class Dispositivo {
 	Point ubicacionActual
 	LocalDateTime fechaActual
-	List<POI> pois
+	List<POI> pois = new ArrayList<POI>
 	Direccion direccion
 		
 	def  filtrarBancos(Banco unBanco){

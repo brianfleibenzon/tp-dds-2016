@@ -83,19 +83,11 @@ class TestDisponibilidad {
 		]
 	unBanco = new Banco() => [
 			nombre = "Santander"
-			rangoDeAtencion.add(lunes)
-			rangoDeAtencion.add(martes)
-			rangoDeAtencion.add(miercoles)
-			rangoDeAtencion.add(jueves)
-			rangoDeAtencion.add(viernes)
+			rangoDeAtencion.addAll(lunes,martes,miercoles,jueves,viernes)
 		]		
 	unBanco = new Banco() => [
 			nombre = "Provincia"
-			rangoDeAtencion.add(lunes)
-			rangoDeAtencion.add(martes)
-			rangoDeAtencion.add(miercoles)
-			rangoDeAtencion.add(jueves)
-			rangoDeAtencion.add(viernes)
+			rangoDeAtencion.addAll(lunes,martes,miercoles,jueves,viernes)
 		]
 	lunesMan= new DiaDeAtencion()=> [
 			dia = 1
@@ -183,18 +175,7 @@ class TestDisponibilidad {
 		]
 	unComercio= new Comercio()=> [
 		nombre="Carrousel"
-		rangoDeAtencion.add(lunesMan)
-		rangoDeAtencion.add(lunesTar)
-		rangoDeAtencion.add(martesMan)
-		rangoDeAtencion.add(martesTar)
-		rangoDeAtencion.add(miercolesMan)
-		rangoDeAtencion.add(miercolesTar)
-		rangoDeAtencion.add(juevesMan)
-		rangoDeAtencion.add(juevesTar)
-		rangoDeAtencion.add(viernesMan)
-		rangoDeAtencion.add(viernesTar)
-		rangoDeAtencion.add(sabadoMan)
-		rangoDeAtencion.add(sabadoTar)
+		rangoDeAtencion.addAll(lunesMan,lunesTar,martesMan,martesTar,miercolesMan,miercolesTar,juevesMan,juevesTar,viernesMan,viernesTar,sabadoMan,sabadoTar)
 	]
 	unaParada = new ParadaDeColectivo()=> [
 		nombre="114"
