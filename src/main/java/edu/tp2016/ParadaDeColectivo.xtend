@@ -6,6 +6,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class ParadaDeColectivo extends POI{
+	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1
 	}
