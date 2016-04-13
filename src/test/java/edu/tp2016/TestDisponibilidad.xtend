@@ -241,6 +241,11 @@ class TestDisponibilidad {
 	def void CGPEstaDisponible() {
 		Assert.assertEquals(true, unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
 	}
+	
+	@Test
+	def void CGPEstaDisponibleParaAlgunServicio() {
+		Assert.assertEquals(true, unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+	}	
 
 	@Test
 	def void CGPNoEstaDisponible() {
