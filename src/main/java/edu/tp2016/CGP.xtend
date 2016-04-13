@@ -17,7 +17,15 @@ class CGP extends POI{
 		false //TODO: Eliminar linea
 	}
 	
+	def boolean incluyeServicio(String texto){
+		servicios.exists [servicio | servicio.contieneEnSuNombre(texto)]
+	}
+	
 	override boolean coincide(String texto){
-		false //TODO: Eliminar linea
+		(texto.equals(nombre)) || (this.incluyeServicio(texto))
+	}
+	
+	def List<String> serviciosNombres(){
+		servicios.map [ nombre ]
 	}
 }

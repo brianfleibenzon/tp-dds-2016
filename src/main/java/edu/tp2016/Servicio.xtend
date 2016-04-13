@@ -7,4 +7,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class Servicio {
 	String nombre
 	List<DiaDeAtencion> rangoDeAtencion
+	
+	def boolean contieneEnSuNombre(String texto){
+		nombre.contains(texto)
+	}
 }
