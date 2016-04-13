@@ -6,6 +6,7 @@ import org.joda.time.LocalDate
 
 @Accessors
 class ParadaDeColectivo extends POI{
+	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1
 	}

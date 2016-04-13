@@ -36,10 +36,7 @@ class CGP extends POI{
 	}
 	
 	override boolean coincide(String texto){
-		(texto.equalsIgnoreCase(nombre)) || (this.incluyeServicio(texto))
+		(super.coincide(texto)) || (this.incluyeServicio(texto))
 	}
 	
-	def List<String> serviciosNombres(){
-		servicios.map [ nombre ]
-	}
 }
