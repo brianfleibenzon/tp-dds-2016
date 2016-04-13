@@ -15,12 +15,7 @@ class Dispositivo {
 	List<POI> pois = new ArrayList<POI>
 	Direccion direccion
 		
-	def  filtrarBancos(Banco unBanco){
-		pois.filter[unPOI | (unPOI.class).equals(unBanco.class)]
-	}
-		
-	def boolean consultarCercania(POI unPoi){
-		
+	def boolean consultarCercania(POI unPoi){		
 		unPoi.estaCercaA(ubicacionActual)
 	}
 	
@@ -32,7 +27,7 @@ class Dispositivo {
 		pois.filter [poi | (poi.tienePalabraClave(texto)) || (poi.coincide(texto))]
 	}
 	
-		def List<POI> buscar(String texto){
+	def List<POI> buscar(String texto){
 		Arrays.asList(Lists.newArrayList(this.encontradosPorBusqueda(texto)))
 	}/* Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
 	 * de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.

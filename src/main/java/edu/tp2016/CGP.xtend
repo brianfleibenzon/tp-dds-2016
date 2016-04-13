@@ -26,9 +26,8 @@ class CGP extends POI{
 	override boolean estaDisponible(LocalDateTime fecha,String nombreServicio){
 		if(nombreServicio.equals("")){
 			hayAlgunServicioAtendiendoEnElMomento(fecha)
-		}
-		else{
-			incluyeServicio(nombreServicio)&& (obtenerServicio(nombreServicio)).tieneRangoDeAtencionDisponibleEn(fecha)
+		}else{
+			incluyeServicio(nombreServicio) && (obtenerServicio(nombreServicio)).tieneRangoDeAtencionDisponibleEn(fecha)
 		}
 	}
 	

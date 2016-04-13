@@ -14,9 +14,7 @@ abstract class POI {
 	Direccion direccion
 	List<String> palabrasClave= new ArrayList<String>
 	
-	def boolean estaDisponible(LocalDateTime unaFecha,String nombre){
-		false
-		}
+	def boolean estaDisponible(LocalDateTime unaFecha,String nombre)
 
 	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha){
 		rangoDeAtencion.exists[unRango | unRango.fechaEstaEnRango(fecha)]			
@@ -35,10 +33,10 @@ abstract class POI {
 	} // La búsqueda por palabra clave es igual para todos los POI.
 	
 	def boolean coincide(String texto){
-		 texto.equalsIgnoreCase(nombre) 
-		 }
-		 /* Por defecto, un POI coincide con la búsqueda si su nombre
-		  * coincide con el texto buscado.
-		  */
-	
+		texto.equalsIgnoreCase(nombre) 
 	}
+	/* Por defecto, un POI coincide con la búsqueda si su nombre
+		* coincide con el texto buscado.
+	*/
+	
+}
