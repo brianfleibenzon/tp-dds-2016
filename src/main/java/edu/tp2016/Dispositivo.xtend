@@ -28,7 +28,7 @@ class Dispositivo {
 	
 	def List<POI> buscar(String texto){
 		Arrays.asList(Lists.newArrayList(this.encontradosPorBusqueda(texto)))
-	}/* Hice este método porque el filter me devuelve una colección de tipo de dato ITERATOR, entonces debo pasar del
-	 * ITERARTOR a un ARRAYLIST, y finamente del ARRAYLIST auna LIST (no encontré una forma más feliz)
+	}/* Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
+	 * de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
 	 */
 }

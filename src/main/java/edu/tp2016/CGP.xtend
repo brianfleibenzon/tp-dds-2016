@@ -4,10 +4,11 @@ import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
+import java.util.ArrayList
 
 @Accessors
 class CGP extends POI{
-	List<Servicio> servicios
+	List<Servicio> servicios = new ArrayList<Servicio>
 	Comuna comuna
 		
 	override boolean estaCercaA(Point ubicacionDispositivo){
@@ -23,11 +24,11 @@ class CGP extends POI{
 	}
 	
 	override boolean estaDisponible(LocalDateTime fecha,String nombreServicio){
-		if(nombreServicio.equals(void)){
+		if(nombreServicio.equals("")){
 			hayAlgunServicioAtendiendoEnElMomento(fecha)
 		}
 		else{
-			incluyeServicio(nombreServicio)&& obtenerServicio(nombreServicio).estaDisponibleEn(fecha)
+			incluyeServicio(nombreServicio)&& (obtenerServicio(nombreServicio)).tieneRangoDeAtencionDisponibleEn(fecha)
 		}
 	}
 	
@@ -36,10 +37,7 @@ class CGP extends POI{
 	}
 	
 	override boolean coincide(String texto){
-		(texto.equalsIgnoreCase(nombre)) || (this.incluyeServicio(texto))
+		(super.coincide(texto)) || (this.incluyeServicio(texto))
 	}
 	
-	def List<String> serviciosNombres(){
-		servicios.map [ nombre ]
-	}
 }

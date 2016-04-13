@@ -13,10 +13,10 @@ class Comercio extends POI{
 	}
 	
 	override boolean estaDisponible(LocalDateTime fecha, String nombre){
-		(this.rubro.nombre).equals(nombre)&& this.tieneRangoDeAtencionDisponibleEn(fecha)
+		this.tieneRangoDeAtencionDisponibleEn(fecha)
 	}
 	
 	override boolean coincide(String texto){
-		 (texto.equalsIgnoreCase(nombre)) || (texto.equalsIgnoreCase(rubro.nombre))
+		 (super.coincide(texto)) || (texto.equalsIgnoreCase(rubro.nombre))
 	}
 }
