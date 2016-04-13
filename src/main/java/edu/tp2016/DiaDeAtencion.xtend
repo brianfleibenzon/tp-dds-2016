@@ -11,10 +11,6 @@ class DiaDeAtencion {
 	int horaFin
 	int minutoFin
 	
-	def boolean contieneLaHora(int unaHora){ 
-		unaHora>this.horaInicio && unaHora<this.horaFin
-	}
-	
 	def boolean fechaEstaEnRango(LocalDateTime unaFecha){
 		unaFecha.getDayOfWeek == dia &&
 		(horaInicio < unaFecha.getHourOfDay || (horaInicio == unaFecha.getHourOfDay && minutoInicio <= unaFecha.getMinuteOfHour)) && 

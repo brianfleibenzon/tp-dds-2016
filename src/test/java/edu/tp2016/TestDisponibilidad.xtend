@@ -1,11 +1,12 @@
 package edu.tp2016
+
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert
 import org.joda.time.LocalDateTime
 
 class TestDisponibilidad {
-	
+
 	Dispositivo unDispositivoConFechaDisponible
 	Dispositivo unDispositivoConFechaNoDisponible
 	Banco unBanco
@@ -29,67 +30,67 @@ class TestDisponibilidad {
 	DiaDeAtencion sabadoTar
 	CGP unCGP
 	DiaDeAtencion lunesRentas
-	Dispositivo unDispositivoConFechaDisponibleParaRentas	
-	Dispositivo unDispositivoConFechaNODisponibleParaRentas	
+	Dispositivo unDispositivoConFechaDisponibleParaRentas
+	Dispositivo unDispositivoConFechaNODisponibleParaRentas
 	Servicio unServicio
 	ParadaDeColectivo unaParada
 	LocalDateTime fecha
-	
+
 	@Before
-	def void SetUp(){
-	unDispositivoConFechaDisponible = new Dispositivo()=> [
+	def void SetUp() {
+		unDispositivoConFechaDisponible = new Dispositivo() => [
 			fecha = new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0)
 			fechaActual = fecha
 		]
-	unDispositivoConFechaNoDisponible = new Dispositivo()=> [
+		unDispositivoConFechaNoDisponible = new Dispositivo() => [
 			fecha = new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0)
 			fechaActual = fecha
 		]
 
-	lunes= new DiaDeAtencion()=> [
+		lunes = new DiaDeAtencion() => [
 			dia = 1
-			horaInicio=10
-			horaFin=15
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 15
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	martes= new DiaDeAtencion()=> [
+		martes = new DiaDeAtencion() => [
 			dia = 2
-			horaInicio=10
-			horaFin=15
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 15
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	miercoles= new DiaDeAtencion()=> [
+		miercoles = new DiaDeAtencion() => [
 			dia = 3
-			horaInicio=10
-			horaFin=15
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 15
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	jueves= new DiaDeAtencion()=> [
+		jueves = new DiaDeAtencion() => [
 			dia = 4
-			horaInicio=10
-			horaFin=15
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 15
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	viernes= new DiaDeAtencion()=> [
+		viernes = new DiaDeAtencion() => [
 			dia = 5
-			horaInicio=10
-			horaFin=15
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 15
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	unBanco = new Banco() => [
+		unBanco = new Banco() => [
 			nombre = "Santander"
 			rangoDeAtencion.add(lunes)
 			rangoDeAtencion.add(martes)
 			rangoDeAtencion.add(miercoles)
 			rangoDeAtencion.add(jueves)
 			rangoDeAtencion.add(viernes)
-		]		
-	unBanco = new Banco() => [
+		]
+		unBanco = new Banco() => [
 			nombre = "Provincia"
 			rangoDeAtencion.add(lunes)
 			rangoDeAtencion.add(martes)
@@ -97,171 +98,172 @@ class TestDisponibilidad {
 			rangoDeAtencion.add(jueves)
 			rangoDeAtencion.add(viernes)
 		]
-	lunesMan= new DiaDeAtencion()=> [
+		lunesMan = new DiaDeAtencion() => [
 			dia = 1
-			horaInicio=10
-			horaFin=13
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 13
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	martesMan= new DiaDeAtencion()=> [
+		martesMan = new DiaDeAtencion() => [
 			dia = 2
-			horaInicio=10
-			horaFin=13
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 13
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	miercolesMan= new DiaDeAtencion()=> [
+		miercolesMan = new DiaDeAtencion() => [
 			dia = 3
-			horaInicio=10
-			horaFin=13
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 13
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	juevesMan= new DiaDeAtencion()=> [
+		juevesMan = new DiaDeAtencion() => [
 			dia = 4
-			horaInicio=10
-			horaFin=13
-			minutoInicio=0
-			minutoFin=0
-		]		
-	viernesMan= new DiaDeAtencion()=> [
+			horaInicio = 10
+			horaFin = 13
+			minutoInicio = 0
+			minutoFin = 0
+		]
+		viernesMan = new DiaDeAtencion() => [
 			dia = 5
-			horaInicio=10
-			horaFin=13
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 13
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	sabadoMan= new DiaDeAtencion()=> [
+		sabadoMan = new DiaDeAtencion() => [
 			dia = 6
-			horaInicio=10
-			horaFin=13
-			minutoInicio=0
-			minutoFin=0
+			horaInicio = 10
+			horaFin = 13
+			minutoInicio = 0
+			minutoFin = 0
 		]
-	lunesTar= new DiaDeAtencion()=> [
+		lunesTar = new DiaDeAtencion() => [
 			dia = 1
-			horaInicio=17
-			horaFin=20
-			minutoInicio=0
-			minutoFin=30
+			horaInicio = 17
+			horaFin = 20
+			minutoInicio = 0
+			minutoFin = 30
 		]
-	martesTar= new DiaDeAtencion()=> [
+		martesTar = new DiaDeAtencion() => [
 			dia = 2
-			horaInicio=17
-			horaFin=20
-			minutoInicio=0
-			minutoFin=30
+			horaInicio = 17
+			horaFin = 20
+			minutoInicio = 0
+			minutoFin = 30
 		]
-	miercolesTar= new DiaDeAtencion()=> [
+		miercolesTar = new DiaDeAtencion() => [
 			dia = 3
-			horaInicio=17
-			horaFin=20
-			minutoInicio=0
-			minutoFin=30
+			horaInicio = 17
+			horaFin = 20
+			minutoInicio = 0
+			minutoFin = 30
 		]
-	juevesTar= new DiaDeAtencion()=> [
+		juevesTar = new DiaDeAtencion() => [
 			dia = 4
-			horaInicio=17
-			horaFin=20
-			minutoInicio=0
-			minutoFin=30
+			horaInicio = 17
+			horaFin = 20
+			minutoInicio = 0
+			minutoFin = 30
 		]
-	viernesTar= new DiaDeAtencion()=> [
+		viernesTar = new DiaDeAtencion() => [
 			dia = 5
-			horaInicio=17
-			horaFin=20
-			minutoInicio=0
-			minutoFin=30
+			horaInicio = 17
+			horaFin = 20
+			minutoInicio = 0
+			minutoFin = 30
 		]
-	sabadoTar= new DiaDeAtencion()=> [
+		sabadoTar = new DiaDeAtencion() => [
 			dia = 6
-			horaInicio=17
-			horaFin=20
-			minutoInicio=0
-			minutoFin=30
+			horaInicio = 17
+			horaFin = 20
+			minutoInicio = 0
+			minutoFin = 30
 		]
-	unComercio= new Comercio()=> [
-		nombre="Carrousel"
-		rangoDeAtencion.add(lunesMan)
-		rangoDeAtencion.add(lunesTar)
-		rangoDeAtencion.add(martesMan)
-		rangoDeAtencion.add(martesTar)
-		rangoDeAtencion.add(miercolesMan)
-		rangoDeAtencion.add(miercolesTar)
-		rangoDeAtencion.add(juevesMan)
-		rangoDeAtencion.add(juevesTar)
-		rangoDeAtencion.add(viernesMan)
-		rangoDeAtencion.add(viernesTar)
-		rangoDeAtencion.add(sabadoMan)
-		rangoDeAtencion.add(sabadoTar)
-	]
-	unaParada = new ParadaDeColectivo()=> [
-		nombre="114"
-	]
-	
-	lunesRentas = new DiaDeAtencion() => [
-		dia = 1
-		horaInicio=10
-		horaFin=19
-		minutoInicio=0
-		minutoFin=0	
-	] 
-	unServicio = new Servicio()=> [
-		nombre = "Rentas"
-		rangoDeAtencion.add(lunesRentas)
-	]
-	unCGP = new CGP()=> [
-		nombre ="CentroDeGestión"
-		servicios.add(unServicio)
-	]
-	unDispositivoConFechaDisponibleParaRentas = new Dispositivo()=> [
-		fecha = new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)	
-		fechaActual = fecha
-	]
-	unDispositivoConFechaNODisponibleParaRentas = new Dispositivo()=> [
-		fecha = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)	
-		fechaActual = fecha
-	]
-	
+		unComercio = new Comercio() => [
+			nombre = "Carrousel"
+			rangoDeAtencion.add(lunesMan)
+			rangoDeAtencion.add(lunesTar)
+			rangoDeAtencion.add(martesMan)
+			rangoDeAtencion.add(martesTar)
+			rangoDeAtencion.add(miercolesMan)
+			rangoDeAtencion.add(miercolesTar)
+			rangoDeAtencion.add(juevesMan)
+			rangoDeAtencion.add(juevesTar)
+			rangoDeAtencion.add(viernesMan)
+			rangoDeAtencion.add(viernesTar)
+			rangoDeAtencion.add(sabadoMan)
+			rangoDeAtencion.add(sabadoTar)
+		]
+		unaParada = new ParadaDeColectivo() => [
+			nombre = "114"
+		]
+
+		lunesRentas = new DiaDeAtencion() => [
+			dia = 1
+			horaInicio = 10
+			horaFin = 19
+			minutoInicio = 0
+			minutoFin = 0
+		]
+		unServicio = new Servicio() => [
+			nombre = "Rentas"
+			rangoDeAtencion.add(lunesRentas)
+		]
+		unCGP = new CGP() => [
+			nombre = "CentroDeGestión"
+			servicios.add(unServicio)
+		]
+		unDispositivoConFechaDisponibleParaRentas = new Dispositivo() => [
+			fecha = new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
+			fechaActual = fecha
+		]
+		unDispositivoConFechaNODisponibleParaRentas = new Dispositivo() => [
+			fecha = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
+			fechaActual = fecha
+		]
+
+	}
+
+	@Test
+	def void paradaDeColectivoEstaDisponible() {
+		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
+	}
+
+	@Test
+	def void paradaDeColectivoTambienEstaDisponible() {
+		Assert.assertEquals(true, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
+	}
+
+	@Test
+	def void CGPEstaDisponible() {
+		Assert.assertEquals(true, unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
+	}
+
+	@Test
+	def void CGPNoEstaDisponible() {
+		Assert.assertEquals(false, unDispositivoConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+	}
+
+	@Test
+	def void bancoEstaDisponible() {
+		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, "Santander"))
+	}
+
+	@Test
+	def void bancoNoEstaDisponible() {
+		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Provincia"))
+	}
+
+	@Test
+	def void comercioEstaDisponible() {
+		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
+	}
+
+	@Test
+	def void comercioNoEstaDisponible() {
+		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
+	}
 }
-
-@Test
-def void paradaDeColectivoEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unaParada,"114"))
-	}
-@Test
-def void paradaDeColectivoTambienEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unaParada,"114"))
-	}
-
-@Test
-def void CGPEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP,"Rentas"))
-	}
-@Test
-def void CGPNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP,""))
-	}
-
-@Test
-def void bancoEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco,"Santander"))
-	}	
-@Test
-def void bancoNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco,"Provincia"))
-	}
-
-@Test
-def void comercioEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unComercio,"Jugueteria"))
-	}
-@Test
-def void comercioNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco,"Jugueteria"))
-	}	
-}
-
-
-
