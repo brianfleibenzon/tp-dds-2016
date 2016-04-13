@@ -4,63 +4,81 @@ import org.junit.Test
 import org.junit.Assert
 
 class TestDisponibilidad {
-	Dispositivo unDispositivoConFechaDisponible
-	Dispositivo unDispositivoConFechaNoDisponible
+	Dispositivo unDispositivo
+	FechaCompleta fechaCualquiera
+	ParadaDeColectivo unaParada
 	Banco unBanco
 	DiaDeAtencion lunes
 	DiaDeAtencion martes
 	DiaDeAtencion miercoles
 	DiaDeAtencion jueves
 	DiaDeAtencion viernes
-	DiaDeAtencion sabado
-	DiaDeAtencion domingo
+	
 	
 	@Before
 	def void SetUp(){
-	unDispositivoConFechaDisponible = new Dispositivo()=> [
-			//fechaActual= (PONER UNA FECHA NO DISPONIBLE, HAY QUE VER EL FORMATO DE FECHA)
+		
+	fechaCualquiera= new FechaCompleta()=> [
+				hora=11
+				minutos=20
+				segundos=45
+				//VAMOS A TOMAR DIA 1=LUNES
+				dia=1
+	 			mes=2
+	 			año=2016						
+					]
+	unDispositivo = new Dispositivo()=> [
+			fechaActual= fechaCualquiera
 		]
-	lunes= new DiaDeAtencion()=> [
-			dia = 1
-			horaInicio=10
-			horaFin=15
-		]
-	martes= new DiaDeAtencion()=> [
-			dia = 2
-			horaInicio=10
-			horaFin=15
-		]
-	miercoles= new DiaDeAtencion()=> [
-			dia = 3
-			horaInicio=10
-			horaFin=15
-		]
-	jueves= new DiaDeAtencion()=> [
-			dia = 4
-			horaInicio=10
-			horaFin=15
-		]
-	viernes= new DiaDeAtencion()=> [
-			dia = 5
-			horaInicio=10
-			horaFin=15
-		]
-	unBanco = new Banco() => [
-			nombre = "Santander"
-			rangoDeAtencion.add(lunes)
-			rangoDeAtencion.add(martes)
-			rangoDeAtencion.add(miercoles)
-			rangoDeAtencion.add(jueves)
-			rangoDeAtencion.add(viernes)
-		]
+	
+	lunes = new DiaDeAtencion()=> [
+		dia=1
+		horaInicio=10
+		horaFin=15
+					]
+	martes = new DiaDeAtencion()=> [
+		dia=2
+		horaInicio=10
+		horaFin=15
+					]
+	miercoles = new DiaDeAtencion()=> [
+		dia=3
+		horaInicio=10
+		horaFin=15
+					]
+	jueves = new DiaDeAtencion()=> [
+		dia=4
+		horaInicio=10
+		horaFin=15
+					]
+	viernes = new DiaDeAtencion()=> [
+		dia=5
+		horaInicio=10
+		horaFin=15
+					]
+	unBanco = new Banco()=> [
+				rangoDeAtencion.add(lunes)
+				rangoDeAtencion.add(martes)
+				rangoDeAtencion.add(miercoles)
+				rangoDeAtencion.add(jueves)
+				rangoDeAtencion.add(viernes)
+				nombre="Santander"
+				
+					]
 					}
+					
 @Test
-def void bancoEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco,""))
+def void ParadaDeColectivoEstaDisponible() {
+		Assert.assertEquals(true, unDispositivo.consultarDisponibilidad(unaParada, "s"))
 	}
+
 @Test
-def void bancoNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco,""))
+def void BancoEstaDisponible() {
+		Assert.assertEquals(true, unDispositivo.consultarDisponibilidad(unBanco, ""))
+	}
+@Test	
+def void BancoNoEstaDisponible() {
+		Assert.assertEquals(false, unDispositivo.consultarDisponibilidad(unBanco, ""))
 	}
 
 }

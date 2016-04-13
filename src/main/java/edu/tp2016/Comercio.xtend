@@ -2,7 +2,7 @@ package edu.tp2016
 
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.LocalDate
+
 
 @Accessors
 class Comercio extends POI{
@@ -12,8 +12,9 @@ class Comercio extends POI{
 		 distanciaA(ubicacionDispositivo) < rubro.radioDeCercania
 	}
 	
-	override boolean estaDisponible(LocalDate fecha, String nombre){
-		this.tieneRangoDeAtencionDisponibleEn(fecha.getDayOfWeek,fecha.hora)
+	override boolean estaDisponible(FechaCompleta fecha, String nombre){
+		
+		(this.rubro.nombre).equals(nombre) && this.tieneRangoDeAtencionDisponibleEn(fecha.dia,fecha.hora)
 	}
 	
 	override boolean coincide(String texto){

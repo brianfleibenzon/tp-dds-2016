@@ -3,7 +3,7 @@ package edu.tp2016
 import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.LocalDate
+
 
 @Accessors
 abstract class POI {
@@ -14,7 +14,9 @@ abstract class POI {
 	List<String> palabrasClave
 	Iterable<DiaDeAtencion> horariosDelDia
 	
-	def boolean estaDisponible(LocalDate unaFecha,String nombre){
+	
+		
+	def boolean estaDisponible(FechaCompleta fecha,String nombre){
 		false
 		}
 
@@ -44,4 +46,5 @@ abstract class POI {
 		 /* Por defecto, un POI coincide con la búsqueda si su nombre
 		  * coincide con el texto buscado
 		  */
+	
 	}

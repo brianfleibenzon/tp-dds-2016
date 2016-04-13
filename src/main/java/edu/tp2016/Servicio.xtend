@@ -17,11 +17,11 @@ class Servicio {
 		horariosDelDia = rangoDeAtencion.filter[ unRango | (unDia.equals(unRango.dia))]
 	}
 	
-	def boolean tieneRangoDeAtencionDisponibleEn(int unDia, int unaHora){
-		losHorariosDelDia(unDia).exists[unRango | ((unRango.horaInicio)<unaHora)&&((unRango.horaFin)>unaHora)]			
+	def boolean tieneRangoDeAtencionDisponibleEn(FechaCompleta unaFecha){
+		losHorariosDelDia(unaFecha.dia).exists[unRango | ((unRango.horaInicio)<unaFecha.hora)&&((unRango.horaFin)>unaFecha.hora)]			
 	}
 	
-	def boolean estaDisponibleEn(int unDia, int unaHora){		
-		tieneRangoDeAtencionDisponibleEn(unDia,unaHora)
+	def boolean estaDisponibleEn(FechaCompleta fecha){		
+		tieneRangoDeAtencionDisponibleEn(fecha)
 	}
 }
