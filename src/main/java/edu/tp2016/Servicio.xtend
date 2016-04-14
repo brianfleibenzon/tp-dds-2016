@@ -11,7 +11,7 @@ class Servicio {
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 
 	def boolean contieneEnSuNombre(String texto){
-		nombre.contains(texto)
+		nombre.contains(texto) && !texto.equals("")
 	}
 
 	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha){

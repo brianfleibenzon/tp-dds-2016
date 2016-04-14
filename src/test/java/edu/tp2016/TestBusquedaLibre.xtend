@@ -23,6 +23,8 @@ class TestBusquedaLibre {
 	Servicio asesoramientoLegal
 	Servicio salud
 	Servicio turismo
+	
+	String test = "hola"
 
 	@Before
 	def void setUp() {
@@ -135,6 +137,11 @@ class TestBusquedaLibre {
 	def void buscarCGPEscribiendoServicioEntero() {
 		Assert.assertEquals(unDispositivo.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
 	}
+	
+	@Test
+	def void buscarVacioDevuelveListaVacia() {
+		Assert.assertEquals(Arrays.asList(), unDispositivo.buscar(""))
+	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioParcial() {
@@ -144,6 +151,11 @@ class TestBusquedaLibre {
 	@Test
 	def void buscarCGPEscrbiendoPalabraClave() {
 		Assert.assertEquals(unDispositivo.buscar("comuna 2"), Arrays.asList(CGPComuna2))
+	}
+	
+	@Test
+	def void testtest() {
+		Assert.assertEquals(true, test.contains(""))
 	}
 
 }
