@@ -4,6 +4,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.Assert
 import org.joda.time.LocalDateTime
+import java.util.Arrays
+import org.uqbar.geodds.Point
+import org.uqbar.geodds.Polygon
+import java.util.List
+import com.google.common.collect.Lists
 
 class TestDisponibilidad {
 
@@ -34,224 +39,116 @@ class TestDisponibilidad {
 	Dispositivo unDispositivoConFechaNODisponibleParaRentas
 	Servicio unServicio
 	ParadaDeColectivo unaParada
-	LocalDateTime fecha
+	Point ubicacionX
+	Rubro rubroX
+	Comuna comunaX
+	List<POI> pois
+	List<String> clavesX
 
 	@Before
-	def void SetUp() {
-		unDispositivoConFechaDisponible = new Dispositivo() => [
-			fecha = new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0)
-			fechaActual = fecha
+	def void setUp() {
+		
+		ubicacionX = new Point(-1, 1)
+		rubroX = new Rubro("x",1)
+		clavesX = Arrays.asList(Lists.newArrayList("algunas", "palabras", "clave"))
+		pois = Arrays.asList(Lists.newArrayList(unBanco, unCGP,unComercio, unaParada))
+		comunaX = new Comuna => [
+			poligono = new Polygon()
+			poligono.add(new Point(-1, 1))
+			poligono.add(new Point(-2, 2))
+			poligono.add(new Point(-3, 3))
+			poligono.add(new Point(-4, 4))
 		]
-		unDispositivoConFechaNoDisponible = new Dispositivo() => [
-			fecha = new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0)
-			fechaActual = fecha
-		]
+		
+		unDispositivoConFechaDisponible = new Dispositivo(ubicacionX, pois,
+			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
+			
+		unDispositivoConFechaNoDisponible = new Dispositivo(ubicacionX, pois,
+			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
 
-		lunes = new DiaDeAtencion() => [
-			dia = 1
-			horaInicio = 10
-			horaFin = 15
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		martes = new DiaDeAtencion() => [
-			dia = 2
-			horaInicio = 10
-			horaFin = 15
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		miercoles = new DiaDeAtencion() => [
-			dia = 3
-			horaInicio = 10
-			horaFin = 15
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		jueves = new DiaDeAtencion() => [
-			dia = 4
-			horaInicio = 10
-			horaFin = 15
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		viernes = new DiaDeAtencion() => [
-			dia = 5
-			horaInicio = 10
-			horaFin = 15
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		unBanco = new Banco() => [
-			nombre = "Santander"
-			rangoDeAtencion.addAll(lunes, martes, miercoles, jueves, viernes)
-		]
-		unBanco = new Banco() => [
-			nombre = "Provincia"
-			rangoDeAtencion.addAll(lunes, martes, miercoles, jueves, viernes)
-		]
-		lunesMan = new DiaDeAtencion() => [
-			dia = 1
-			horaInicio = 10
-			horaFin = 13
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		martesMan = new DiaDeAtencion() => [
-			dia = 2
-			horaInicio = 10
-			horaFin = 13
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		miercolesMan = new DiaDeAtencion() => [
-			dia = 3
-			horaInicio = 10
-			horaFin = 13
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		juevesMan = new DiaDeAtencion() => [
-			dia = 4
-			horaInicio = 10
-			horaFin = 13
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		viernesMan = new DiaDeAtencion() => [
-			dia = 5
-			horaInicio = 10
-			horaFin = 13
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		sabadoMan = new DiaDeAtencion() => [
-			dia = 6
-			horaInicio = 10
-			horaFin = 13
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		lunesTar = new DiaDeAtencion() => [
-			dia = 1
-			horaInicio = 17
-			horaFin = 20
-			minutoInicio = 0
-			minutoFin = 30
-		]
-		martesTar = new DiaDeAtencion() => [
-			dia = 2
-			horaInicio = 17
-			horaFin = 20
-			minutoInicio = 0
-			minutoFin = 30
-		]
-		miercolesTar = new DiaDeAtencion() => [
-			dia = 3
-			horaInicio = 17
-			horaFin = 20
-			minutoInicio = 0
-			minutoFin = 30
-		]
-		juevesTar = new DiaDeAtencion() => [
-			dia = 4
-			horaInicio = 17
-			horaFin = 20
-			minutoInicio = 0
-			minutoFin = 30
-		]
-		viernesTar = new DiaDeAtencion() => [
-			dia = 5
-			horaInicio = 17
-			horaFin = 20
-			minutoInicio = 0
-			minutoFin = 30
-		]
-		sabadoTar = new DiaDeAtencion() => [
-			dia = 6
-			horaInicio = 17
-			horaFin = 20
-			minutoInicio = 0
-			minutoFin = 30
-		]
-		unComercio = new Comercio() =>
-			[
-				nombre = "Carrousel"
-				rangoDeAtencion.addAll(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan,
-					juevesTar, viernesMan, viernesTar, sabadoMan, sabadoTar)
-			]
-		unaParada = new ParadaDeColectivo() => [
-			nombre = "114"
-		]
+		lunes = new DiaDeAtencion(1,10,15,0,0)
+		martes = new DiaDeAtencion(2,10,15,0,0)
+		miercoles = new DiaDeAtencion(3,10,15,0,0)
+		jueves = new DiaDeAtencion(4,10,15,0,0)
+		viernes = new DiaDeAtencion(5,10,15,0,0)
+		
+		unBanco = new Banco("Santander", ubicacionX, clavesX, Arrays.asList(lunes, martes, miercoles, jueves, viernes))
+		
+		unBanco = new Banco("Provincia",ubicacionX, clavesX, Arrays.asList(lunes, martes, miercoles, jueves, viernes))
 
-		lunesRentas = new DiaDeAtencion() => [
-			dia = 1
-			horaInicio = 10
-			horaFin = 19
-			minutoInicio = 0
-			minutoFin = 0
-		]
-		unServicio = new Servicio() => [
-			nombre = "Rentas"
-			rangoDeAtencion.add(lunesRentas)
-		]
-		unCGP = new CGP() => [
-			nombre = "CentroDeGestión"
-			servicios.add(unServicio)
-		]
-		unDispositivoConFechaDisponibleParaRentas = new Dispositivo() => [
-			fecha = new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
-			fechaActual = fecha
-		]
-		unDispositivoConFechaNODisponibleParaRentas = new Dispositivo() => [
-			fecha = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
-			fechaActual = fecha
-		]
+		lunesMan = new DiaDeAtencion(1,10,13,0,0)
+		martesMan = new DiaDeAtencion(2,10,13,0,0)
+		miercolesMan = new DiaDeAtencion(3,10,13,0,0)
+		juevesMan = new DiaDeAtencion(4,10,13,0,0)
+		viernesMan = new DiaDeAtencion(5,10,13,0,0)
+		sabadoMan = new DiaDeAtencion(6,10,13,0,0)
+		lunesTar = new DiaDeAtencion(1,17,20,0,30)
+		martesTar = new DiaDeAtencion(2,17,20,0,30)
+		miercolesTar = new DiaDeAtencion(3,17,20,0,30)
+		juevesTar = new DiaDeAtencion(4,17,20,0,30)
+		viernesTar = new DiaDeAtencion(5,17,20,0,30)
+		sabadoTar = new DiaDeAtencion(6,17,20,0,30)
+		
+		unComercio = new Comercio("Carrousel",ubicacionX,clavesX,rubroX, Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan,
+					juevesTar, viernesMan, viernesTar, sabadoMan, sabadoTar))
 
+		unaParada = new ParadaDeColectivo("114",ubicacionX,clavesX)
+		
+		lunesRentas = new DiaDeAtencion(1,10,19,0,0)
+		unServicio = new Servicio("Rentas",Arrays.asList(lunesRentas))
+		unCGP = new CGP("CentroDeGestión",ubicacionX,clavesX,comunaX,Arrays.asList(unServicio))
+		
+		unDispositivoConFechaDisponibleParaRentas = new Dispositivo(ubicacionX, pois,
+			new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
+		)
+
+		unDispositivoConFechaNODisponibleParaRentas = new Dispositivo(ubicacionX, pois,
+			new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
+	
 	}
 
 	@Test
 	def void paradaDeColectivoEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void paradaDeColectivoTambienEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void CGPEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
+		Assert.assertTrue(unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
 	}
 
 	@Test
 	def void CGPEstaDisponibleParaAlgunServicio() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertTrue(unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void CGPNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertFalse(unDispositivoConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void bancoEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, "Santander"))
+		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, "Santander"))
 	}
 
 	@Test
 	def void bancoNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Provincia"))
+		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Provincia"))
 	}
 
 	@Test
 	def void comercioEstaDisponible() {
-		Assert.assertEquals(true, unDispositivoConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
+		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
 	}
 
 	@Test
 	def void comercioNoEstaDisponible() {
-		Assert.assertEquals(false, unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
+		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
 	}
 }

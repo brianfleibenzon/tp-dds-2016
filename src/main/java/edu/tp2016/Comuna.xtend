@@ -9,8 +9,13 @@ import java.util.ArrayList
 @Accessors
 class Comuna {
 	Polygon poligono
-	int numero
 	List<String> barrios = new ArrayList<String>
+	
+	/* new(Polygon unPoligono, List<String> listaBarrios) {
+        poligono = unPoligono
+        barrios = listaBarrios 
+    }*/ //Por ahora no implementamos el constructor de Comuna
+	
 	
 	def boolean pertenecePunto(Point unPunto){
 		poligono.isInside(unPunto)

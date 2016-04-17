@@ -10,6 +10,13 @@ import java.util.ArrayList
 class CGP extends POI{
 	List<Servicio> servicios = new ArrayList<Servicio>
 	Comuna comuna
+	
+	new(String unNombre, Point unaUbicacion, List<String> claves, Comuna unaComuna, List<Servicio> listaServicios) {
+        super(unNombre, unaUbicacion, claves)
+        comuna = unaComuna
+        servicios = listaServicios
+    }
+	
 
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		comuna.pertenecePunto(ubicacionDispositivo)

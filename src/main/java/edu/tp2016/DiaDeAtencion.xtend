@@ -11,6 +11,15 @@ class DiaDeAtencion {
 	int horaFin
 	int minutoFin
 	
+	new(int unDia, int startHour, int endHour, int startMinute, int endMinute) {
+        dia = unDia
+        horaInicio = startHour
+        horaFin = endHour
+        minutoInicio = startMinute
+        minutoFin = endMinute
+    }
+	
+	
 	def boolean fechaEstaEnRango(LocalDateTime unaFecha){
 		unaFecha.getDayOfWeek == dia &&
 		(horaInicio < unaFecha.getHourOfDay || (horaInicio == unaFecha.getHourOfDay && minutoInicio <= unaFecha.getMinuteOfHour)) && 

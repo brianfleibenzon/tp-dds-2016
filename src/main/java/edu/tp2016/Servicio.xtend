@@ -9,9 +9,15 @@ import java.util.ArrayList
 class Servicio {
 	String nombre
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
+	
+	new(String unNombre, List<DiaDeAtencion> unRango) {
+        nombre = unNombre
+        rangoDeAtencion = unRango
+    }
+	
 
 	def boolean contieneEnSuNombre(String texto){
-		nombre.contains(texto) && !texto.equals("")
+		nombre.contains(texto)
 	}
 
 	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha){

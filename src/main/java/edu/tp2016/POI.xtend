@@ -14,6 +14,12 @@ abstract class POI {
 	Direccion direccion
 	List<String> palabrasClave= new ArrayList<String>
 	
+	new(String unNombre, Point unaUbicacion, List<String> claves){
+		nombre = unNombre
+		ubicacion = unaUbicacion
+		palabrasClave = claves
+	} // Constructor de POI, será implementado en las subclases como 'super'.
+	
 	def boolean estaDisponible(LocalDateTime unaFecha,String nombre)
 
 	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha){

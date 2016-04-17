@@ -5,6 +5,10 @@ import org.junit.Test
 import org.junit.Assert
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
+import java.util.List
+import org.joda.time.LocalDateTime
+import java.util.Arrays
+import com.google.common.collect.Lists
 
 class TestCercania {
 
@@ -20,28 +24,32 @@ class TestCercania {
 	Rubro rubroTest
 	Comercio comercioCerca
 	Comercio comercioLejos
+	DiaDeAtencion unDiaX
+	List<DiaDeAtencion> rangoX
+	LocalDateTime fechaX
+	List<String> clavesX 
+	List<POI> poisX
+	List<Servicio> serviciosX
 
 	@Before
 	def void setUp() {
-		unDispositivo = new Dispositivo() => [
-			ubicacionActual = new Point(-34.598574, -58.420280)
-		]
-		paradaCerca = new ParadaDeColectivo() => [
-			nombre = "114"
-			ubicacion = new Point(-34.597768, -58.419860)
-		]
-		paradaLejos = new ParadaDeColectivo() => [
-			nombre = "107"
-			ubicacion = new Point(-34.597859, -58.423351)
-		]
-		bancoCerca = new Banco() => [
-			nombre = "Santander"
-			ubicacion = new Point(-34.597768, -58.419860)
-		]
-		bancoLejos = new Banco() => [
-			nombre = "Galicia"
-			ubicacion = new Point(-34.594150, -58.416313)
-		]
+		
+		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
+		fechaX = new LocalDateTime()
+		clavesX = Arrays.asList(Lists.newArrayList("algunas", "palabras", "clave"))
+		poisX = Arrays.asList(Lists.newArrayList(bancoCerca,bancoLejos,CGPCerca,CGPLejos,comercioCerca,comercioLejos,paradaCerca,paradaLejos))
+		serviciosX = Arrays.asList(Lists.newArrayList(new Servicio("x", rangoX)))
+		
+		unDispositivo = new Dispositivo(new Point(-34.598574, -58.420280),poisX,fechaX)
+		
+		paradaCerca = new ParadaDeColectivo("114", new Point(-34.597768, -58.419860),clavesX)
+		
+		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351),clavesX)
+		
+		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860),clavesX,rangoX)
+		
+		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313),clavesX,rangoX)
+		
 		comunaInterior = new Comuna => [
 			poligono = new Polygon()
 			poligono.add(new Point(-34.597735, -58.421806))
@@ -56,71 +64,56 @@ class TestCercania {
 			poligono.add(new Point(-34.594238, -58.419617))
 			poligono.add(new Point(-34.594167, -58.416334))
 		]
-		CGPCerca = new CGP() => [
-			nombre = "CGP Caballito"
-			ubicacion = new Point(-34.597768, -58.419860)
-			comuna = comunaInterior
-		]
-		CGPLejos = new CGP() => [
-			nombre = "CGP Almagro"
-			ubicacion = new Point(-34.594150, -58.416313)
-			comuna = comunaExterior
-		]
-		rubroTest = new Rubro => [
-			nombre = "indumentaria"
-			radioDeCercania = 2
-		]
-		comercioCerca = new Comercio() => [
-			nombre = "test"
-			ubicacion = new Point(-34.597768, -58.419860)
-			rubro = rubroTest
-		]
-		comercioLejos = new Comercio() => [
-			nombre = "test"
-			ubicacion = new Point(-34.597824, -58.423415)
-			rubro = rubroTest
-		]
-
+		
+		CGPCerca = new CGP("CGP Caballito", new Point(-34.597768, -58.419860),clavesX, comunaInterior,serviciosX)
+	
+		CGPLejos = new CGP("CGP Almagro", new Point(-34.594150, -58.416313),clavesX, comunaExterior,serviciosX)
+		
+		rubroTest = new Rubro("indumentaria", 2)
+		
+		comercioCerca = new Comercio("test", new Point(-34.597768, -58.419860),clavesX,rubroTest,rangoX)
+	
+		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415),clavesX,rubroTest,rangoX)
 	}
 
 	@Test
 	def void paradaEstaCerca() {
-		Assert.assertEquals(true, unDispositivo.consultarCercania(paradaCerca))
+		Assert.assertTrue(unDispositivo.consultarCercania(paradaCerca))
 	}
 
 	@Test
 	def void paradaEstaLejos() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(paradaLejos))
+		Assert.assertFalse(unDispositivo.consultarCercania(paradaLejos))
 	}
 
 	@Test
 	def void bancoEstaCerca() {
-		Assert.assertEquals(true, unDispositivo.consultarCercania(bancoCerca))
+		Assert.assertTrue(unDispositivo.consultarCercania(bancoCerca))
 	}
 
 	@Test
 	def void bancoEstaLejos() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(bancoLejos))
+		Assert.assertFalse(unDispositivo.consultarCercania(bancoLejos))
 	}
 
 	@Test
 	def void CGPEstaCerca() {
-		Assert.assertEquals(true, unDispositivo.consultarCercania(CGPCerca))
+		Assert.assertTrue(unDispositivo.consultarCercania(CGPCerca))
 	}
 
 	@Test
 	def void CGPEstaLejos() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(CGPLejos))
+		Assert.assertFalse(unDispositivo.consultarCercania(CGPLejos))
 	}
 
 	@Test
 	def void comercioEstaCerca() {
-		Assert.assertEquals(true, unDispositivo.consultarCercania(comercioCerca))
+		Assert.assertTrue(unDispositivo.consultarCercania(comercioCerca))
 	}
 
 	@Test
 	def void comercioEstaLejos() {
-		Assert.assertEquals(false, unDispositivo.consultarCercania(comercioLejos))
+		Assert.assertFalse(unDispositivo.consultarCercania(comercioLejos))
 	}
 
 }

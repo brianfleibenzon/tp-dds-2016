@@ -14,6 +14,12 @@ class Dispositivo {
 	LocalDateTime fechaActual
 	List<POI> pois = new ArrayList<POI>
 	Direccion direccion
+	
+	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha){
+		ubicacionActual = unaUbicacion
+		pois = listaPois
+		fechaActual = unaFecha
+	}
 		
 	def boolean consultarCercania(POI unPoi){		
 		unPoi.estaCercaA(ubicacionActual)
@@ -24,7 +30,7 @@ class Dispositivo {
 	}
 	
 	def Iterable<POI> encontradosPorBusqueda(String texto){
-		pois.filter [poi | (poi.tienePalabraClave(texto)) || (poi.coincide(texto))]
+		pois.filter [poi | !texto.equals("") && (poi.tienePalabraClave(texto) || poi.coincide(texto))]
 	}
 	
 	def List<POI> buscar(String texto){

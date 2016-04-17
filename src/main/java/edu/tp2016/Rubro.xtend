@@ -6,4 +6,9 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class Rubro {
 	String nombre
 	int radioDeCercania
+	
+	new(String unNombre, int unRadio){
+		nombre = unNombre
+		radioDeCercania = unRadio
+	}
 }
