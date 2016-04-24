@@ -1,4 +1,4 @@
-package edu.tp2016
+package edu.tp2016.mod
 
 import org.uqbar.geodds.Polygon
 import org.uqbar.geodds.Point

@@ -1,14 +1,22 @@
 package edu.tp2016
 
+import com.google.common.collect.Lists
+import edu.tp2016.mod.Comuna
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Rubro
+import edu.tp2016.mod.Servicio
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.CGP
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.ParadaDeColectivo
+import java.util.Arrays
+import java.util.List
+import org.joda.time.LocalDateTime
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert
-import java.util.Arrays
 import org.uqbar.geodds.Point
-import java.util.List
-import com.google.common.collect.Lists
 import org.uqbar.geodds.Polygon
-import org.joda.time.LocalDateTime
 
 class TestBusquedaLibre {
 

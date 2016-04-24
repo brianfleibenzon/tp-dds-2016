@@ -7,13 +7,14 @@ import com.google.common.collect.Lists //Importada a través de una dependencia 
 import java.util.Arrays
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
+import edu.tp2016.pois.POI
 
 @Accessors
 class Dispositivo {
 	Point ubicacionActual
 	LocalDateTime fechaActual
 	List<POI> pois = new ArrayList<POI>
-	Direccion direccion
+	String direccion
 	
 	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha){
 		ubicacionActual = unaUbicacion

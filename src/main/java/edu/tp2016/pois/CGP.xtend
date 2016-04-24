@@ -1,10 +1,12 @@
-package edu.tp2016
+package edu.tp2016.pois
 
-import org.uqbar.geodds.Point
+import edu.tp2016.mod.Comuna
+import edu.tp2016.mod.Servicio
+import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
-import java.util.ArrayList
+import org.uqbar.geodds.Point
 
 @Accessors
 class CGP extends POI{

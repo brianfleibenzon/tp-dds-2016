@@ -1,17 +1,18 @@
-package edu.tp2016
+package edu.tp2016.pois
 
 import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
+import edu.tp2016.mod.DiaDeAtencion
 
 @Accessors
 abstract class POI {
 	String nombre
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion= new ArrayList<DiaDeAtencion> 
-	Direccion direccion
+	String direccion
 	List<String> palabrasClave= new ArrayList<String>
 	
 	new(String unNombre, Point unaUbicacion, List<String> claves){

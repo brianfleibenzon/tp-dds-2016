@@ -1,14 +1,23 @@
 package edu.tp2016
 
-import org.junit.Before
-import org.junit.Test
-import org.junit.Assert
-import org.uqbar.geodds.Point
-import org.uqbar.geodds.Polygon
+import com.google.common.collect.Lists
+import edu.tp2016.mod.Comuna
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Rubro
+import edu.tp2016.mod.Servicio
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.CGP
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
+import edu.tp2016.pois.ParadaDeColectivo
+import java.util.Arrays
 import java.util.List
 import org.joda.time.LocalDateTime
-import java.util.Arrays
-import com.google.common.collect.Lists
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.uqbar.geodds.Point
+import org.uqbar.geodds.Polygon
 
 class TestCercania {
 

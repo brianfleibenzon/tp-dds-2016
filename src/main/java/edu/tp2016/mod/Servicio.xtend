@@ -1,4 +1,4 @@
-package edu.tp2016
+package edu.tp2016.mod
 
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
