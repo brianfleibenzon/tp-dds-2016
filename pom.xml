@@ -24,6 +24,11 @@
   			<artifactId>guava</artifactId>
   			<version>19.0</version>
 		</dependency>
+		<dependency>
+			 <groupId>org.uqbar-project</groupId>
+			 <artifactId>uqbar-domain</artifactId>
+   			<version>3.6.1</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
