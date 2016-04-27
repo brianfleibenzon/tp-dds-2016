@@ -31,8 +31,43 @@ class StubInterfazBanco implements InterfazBanco{
 			listaServicios.add("créditos")
 			
 			sucursal1.add("servicios", listaServicios)
+	   
+	   			
+		val sucursal2 = new SucursalBanco()
+		sucursal2.add("banco", "Banco de la Plaza")
+		sucursal2.add("x", -35.9338322)
+		sucursal2.add("y", 72.348353)
+		sucursal2.add("sucursal", "Avellaneda")
+		sucursal2.add("gerente", "Javier Loeschbor")
 		
-			listaSucursalesEncontradas.add(sucursal1)
+		val listaServicios2 = new JsonArray()
+			listaServicios2.add("cobro cheques")
+			listaServicios2.add("depósitos")
+			listaServicios2.add("extracciones")
+			listaServicios2.add("seguros")
+
+			
+			sucursal2.add("servicios", listaServicios2)
+		
+		val sucursal3 = new SucursalBanco()
+		sucursal3.add("banco", "Banco de la Plaza")
+		sucursal3.add("x", -35.9345681)
+		sucursal3.add("y", 72.348253)
+		sucursal3.add("sucursal", "Caballito")
+		sucursal3.add("gerente", "Fabian Fataguzzi")
+		
+		val listaServicios3 = new JsonArray()
+			listaServicios3.add("cobro cheques")
+			listaServicios3.add("depósitos")
+			listaServicios3.add("extracciones")
+			listaServicios3.add("seguros")
+
+			
+			sucursal3.add("servicios", listaServicios3)
+		
+			listaSucursalesEncontradas.addAll(sucursal1,sucursal2,sucursal3)
+		
+			
 			// Y así con sucursal 2 y sucursal3, que se pueden copiar del enunciado (se hace un addAll)
 			listaSucursalesEncontradas
 }

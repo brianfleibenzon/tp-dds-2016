@@ -30,6 +30,30 @@ class TestBusquedaBanco {
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
 	}
-	// Y así se va jugando con el fixture de datos hecho en el StubInterfazBanco
+	
+	@Test
+		def void buscarBancoLlamadoBandoDeLaPlazaSucursal2() {
+		val bancoEncontrado = (unDispositivo.buscar("Banco de la Plaza")).get(0) as Banco
+	
+		Assert.assertEquals("Javier Loeschbor", bancoEncontrado.nombreGerente)
+		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
+	}
+	
+	@Test
+		def void buscarBancoLlamadoBandoDeLaPlazaSucursal3() {
+		val bancoEncontrado = (unDispositivo.buscar("Banco de la Plaza")).get(1) as Banco
+	
+		Assert.assertEquals("Fabian Fataguzzi", bancoEncontrado.nombreGerente)
+		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
 	
 }
