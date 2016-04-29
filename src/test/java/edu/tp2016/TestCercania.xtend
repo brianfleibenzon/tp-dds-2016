@@ -36,29 +36,31 @@ class TestCercania {
 	DiaDeAtencion unDiaX
 	List<DiaDeAtencion> rangoX
 	LocalDateTime fechaX
-	List<String> clavesX 
+	List<String> clavesX
 	List<POI> poisX
 	List<Servicio> serviciosX
 
 	@Before
 	def void setUp() {
-		
+
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
 		clavesX = Arrays.asList(Lists.newArrayList("algunas", "palabras", "clave"))
-		poisX = Arrays.asList(Lists.newArrayList(bancoCerca,bancoLejos,CGPCerca,CGPLejos,comercioCerca,comercioLejos,paradaCerca,paradaLejos))
+		poisX = Arrays.asList(
+			Lists.newArrayList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
+				paradaLejos))
 		serviciosX = Arrays.asList(Lists.newArrayList(new Servicio("x", rangoX)))
-		
-		unDispositivo = new Dispositivo(new Point(-34.598574, -58.420280),poisX,fechaX)
-		
-		paradaCerca = new ParadaDeColectivo("114", new Point(-34.597768, -58.419860),clavesX)
-		
-		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351),clavesX)
-		
-		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860),clavesX,rangoX)
-		
-		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313),clavesX,rangoX)
-		
+
+		unDispositivo = new Dispositivo(new Point(-34.598574, -58.420280), poisX, fechaX)
+
+		paradaCerca = new ParadaDeColectivo("114", new Point(-34.597768, -58.419860), clavesX)
+
+		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351), clavesX)
+
+		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860), clavesX, rangoX)
+
+		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313), clavesX, rangoX)
+
 		comunaInterior = new Comuna => [
 			poligono = new Polygon()
 			poligono.add(new Point(-34.597735, -58.421806))
@@ -73,16 +75,18 @@ class TestCercania {
 			poligono.add(new Point(-34.594238, -58.419617))
 			poligono.add(new Point(-34.594167, -58.416334))
 		]
-		
-		CGPCerca = new CGP("CGP Caballito", new Point(-34.597768, -58.419860),clavesX, comunaInterior,serviciosX)
-	
-		CGPLejos = new CGP("CGP Almagro", new Point(-34.594150, -58.416313),clavesX, comunaExterior,serviciosX)
-		
+
+		CGPCerca = new CGP("CGP Caballito", new Point(-34.597768, -58.419860), clavesX, comunaInterior, serviciosX, "",
+			"", "")
+
+		CGPLejos = new CGP("CGP Almagro", new Point(-34.594150, -58.416313), clavesX, comunaExterior, serviciosX, "",
+			"", "")
+
 		rubroTest = new Rubro("indumentaria", 2)
-		
-		comercioCerca = new Comercio("test", new Point(-34.597768, -58.419860),clavesX,rubroTest,rangoX)
-	
-		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415),clavesX,rubroTest,rangoX)
+
+		comercioCerca = new Comercio("test", new Point(-34.597768, -58.419860), clavesX, rubroTest, rangoX)
+
+		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415), clavesX, rubroTest, rangoX)
 	}
 
 	@Test

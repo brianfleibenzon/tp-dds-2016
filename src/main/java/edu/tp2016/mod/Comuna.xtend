@@ -8,6 +8,7 @@ import java.util.ArrayList
 
 @Accessors
 class Comuna {
+	int numero
 	Polygon poligono
 	List<String> barrios = new ArrayList<String>
 	

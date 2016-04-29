@@ -41,10 +41,10 @@ class TestBusquedaLibre {
 	List<DiaDeAtencion> rangoX
 	Comuna comunaX
 	LocalDateTime fechaX
-	
+
 	@Before
 	def void setUp() {
-		
+
 		ubicacionX = new Point(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
@@ -56,48 +56,54 @@ class TestBusquedaLibre {
 			poligono.add(new Point(-4, 4))
 		]
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX ,Arrays.asList("utn", "campus"))
+		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX , Arrays.asList("utn", "plaza miserere", "once"))
-		
+		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
+
 		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
-			
-		bancoGalicia = new Banco("Banco Galicia Callao", ubicacionX, Arrays.asList("cajero", "sucursal galicia", "banco"), rangoX)
-			
+
+		bancoGalicia = new Banco("Banco Galicia Callao", ubicacionX,
+			Arrays.asList("cajero", "sucursal galicia", "banco"), rangoX)
+
 		cultura = new Servicio("cultura", rangoX)
-		
-		deportes = new Servicio("deportes", rangoX) 
-		
+
+		deportes = new Servicio("deportes", rangoX)
+
 		asesoramientoLegal = new Servicio("asesoramiento legal", rangoX)
-		
+
 		turismo = new Servicio("turismo", rangoX)
-		
+
 		salud = new Servicio("salud", rangoX)
-		
-		CGPComuna1 = new CGP("CGP Comuna 1",ubicacionX,Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1"),
-			comunaX, Arrays.asList(asesoramientoLegal, cultura, deportes))
-		
-		CGPComuna2 = new CGP("CGP Comuna 2",ubicacionX,Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2"),
-			comunaX, Arrays.asList(turismo, cultura, salud))
-			
-		rubroFarmacia = new Rubro("Farmacia",1)
-		
+
+		CGPComuna1 = new CGP("CGP Comuna 1", ubicacionX,
+			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1"), comunaX,
+			Arrays.asList(asesoramientoLegal, cultura, deportes), "", "", "")
+
+		CGPComuna2 = new CGP("CGP Comuna 2", ubicacionX,
+			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2"), comunaX,
+			Arrays.asList(turismo, cultura, salud), "", "", "")
+
+		rubroFarmacia = new Rubro("Farmacia", 1)
+
 		rubroLibreria = new Rubro("Libreria", 2)
-		
-		comercioFarmacity = new Comercio("Farmacity",ubicacionX,Arrays.asList("medicamentos", "salud"),rubroFarmacia,rangoX)
-		
-		comercioLoDeJuan = new Comercio("Libreria Juan",ubicacionX,Arrays.asList("fotocopias", "utiles", "libros"),rubroLibreria,rangoX)
-			
-		unDispositivo = new Dispositivo(ubicacionX, Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
-					comercioLoDeJuan, bancoGalicia), fechaX)
-	
+
+		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
+			rangoX)
+
+		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
+			rubroLibreria, rangoX)
+
+		unDispositivo = new Dispositivo(ubicacionX,
+			Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
+				comercioLoDeJuan, bancoGalicia), fechaX)
+
 	}
 
 	@Test
 	def void buscarCadenaVaciaQueDevuelveListaVacia() {
 		Assert.assertEquals(Arrays.asList(), unDispositivo.buscar(""))
 	}
-	
+
 	@Test
 	def void buscarParadaDeColectivo7() {
 		Assert.assertEquals(unDispositivo.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
@@ -152,9 +158,9 @@ class TestBusquedaLibre {
 	def void buscarCGPEscrbiendoPalabraClave() {
 		Assert.assertEquals(unDispositivo.buscar("comuna 2"), Arrays.asList(CGPComuna2))
 	}
-	
+
 	@Test
-	def void buscarYQueNoHayaCoincidencias(){
+	def void buscarYQueNoHayaCoincidencias() {
 		Assert.assertEquals(unDispositivo.buscar("palabraInexistente"), Arrays.asList())
 	}
 

@@ -7,45 +7,74 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
+import edu.tp2016.interfacesExternas.cgp.CentroDTO
+import java.util.Arrays
+import edu.tp2016.mod.DiaDeAtencion
 
 @Accessors
-class CGP extends POI{
+class CGP extends POI {
 	List<Servicio> servicios = new ArrayList<Servicio>
 	Comuna comuna
-	
-	new(String unNombre, Point unaUbicacion, List<String> claves, Comuna unaComuna, List<Servicio> listaServicios) {
-        super(unNombre, unaUbicacion, claves)
-        comuna = unaComuna
-        servicios = listaServicios
-    }
-	
+	String zonasIncluidas
+	String nombreDirector
+	String telefono
 
-	override boolean estaCercaA(Point ubicacionDispositivo){
+	new(String unNombre, Point unaUbicacion, List<String> claves, Comuna unaComuna, List<Servicio> listaServicios,
+		String _zonasIncluidas, String director, String unTelefono) {
+		super(unNombre, unaUbicacion, claves)
+		comuna = unaComuna
+		servicios = listaServicios
+		zonasIncluidas = _zonasIncluidas
+		nombreDirector = director
+		telefono = unTelefono
+	}
+
+	new(CentroDTO unCentro) {
+		super("CGP " + unCentro.numeroComuna, new Point(unCentro.x, unCentro.y), Arrays.asList())
+
+		unCentro.servicios.forEach [ unServicio |
+			val rangos = new ArrayList<DiaDeAtencion>
+			unServicio.rangos.forEach [ unRango |
+				rangos.add(
+					new DiaDeAtencion(unRango.numeroDia, unRango.horarioDesde, unRango.horarioHasta,
+						unRango.minutosDesde, unRango.minutosHasta))
+			]
+			servicios.add(new Servicio(unServicio.nombreServicio, rangos))
+
+		]
+		
+		comuna = new Comuna()=>[
+			numero = unCentro.numeroComuna
+		]
+
+	}
+
+	override boolean estaCercaA(Point ubicacionDispositivo) {
 		comuna.pertenecePunto(ubicacionDispositivo)
 	}
-	
-	def Servicio obtenerServicio(String nombre){
-		servicios.findFirst[servicio | nombre.equals(servicio.nombre)]
+
+	def Servicio obtenerServicio(String nombre) {
+		servicios.findFirst[servicio|nombre.equals(servicio.nombre)]
 	}
-	
-	def boolean hayAlgunServicioAtendiendoEnElMomento(LocalDateTime fecha){
-		servicios.exists[servicio | servicio.tieneRangoDeAtencionDisponibleEn(fecha)]
+
+	def boolean hayAlgunServicioAtendiendoEnElMomento(LocalDateTime fecha) {
+		servicios.exists[servicio|servicio.tieneRangoDeAtencionDisponibleEn(fecha)]
 	}
-	
-	override boolean estaDisponible(LocalDateTime fecha,String nombreServicio){
-		if(nombreServicio.equals("")){
+
+	override boolean estaDisponible(LocalDateTime fecha, String nombreServicio) {
+		if (nombreServicio.equals("")) {
 			hayAlgunServicioAtendiendoEnElMomento(fecha)
-		}else{
+		} else {
 			incluyeServicio(nombreServicio) && (obtenerServicio(nombreServicio)).tieneRangoDeAtencionDisponibleEn(fecha)
 		}
 	}
-	
-	def boolean incluyeServicio(String texto){
-		servicios.exists [servicio | servicio.contieneEnSuNombre(texto)]
+
+	def boolean incluyeServicio(String texto) {
+		servicios.exists[servicio|servicio.contieneEnSuNombre(texto)]
 	}
-	
-	override boolean coincide(String texto){
+
+	override boolean coincide(String texto) {
 		(super.coincide(texto)) || (this.incluyeServicio(texto))
 	}
-	
+
 }
