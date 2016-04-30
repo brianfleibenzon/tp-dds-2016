@@ -7,16 +7,15 @@ import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
 
 @Accessors
-class Banco extends POI{
-	
+class Banco extends POI {
+
 	new(String unNombre, Point unaUbicacion, List<String> claves, List<DiaDeAtencion> unRango) {
-        super(unNombre, unaUbicacion, claves)
-        rangoDeAtencion = unRango
-    } // Constructor
-	
-	override boolean estaDisponible(LocalDateTime fecha, String nombre){
+		super(unNombre, unaUbicacion, claves)
+		rangoDeAtencion = unRango
+	}
+
+	override boolean estaDisponible(LocalDateTime fecha, String nombre) {
 		this.tieneRangoDeAtencionDisponibleEn(fecha)
-	}														
-		
-	
+	}
+
 }

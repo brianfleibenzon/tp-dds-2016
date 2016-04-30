@@ -47,11 +47,13 @@ class Dispositivo {
 		poisBusqueda.filter[poi|!texto.equals("") && (poi.tienePalabraClave(texto) || poi.coincide(texto))]
 	
 	}
-
+	
+	/**
+	 * Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
+	 * de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.	 * 
+	 * 
+	 */
 	def List<POI> buscar(String texto) {
 		Arrays.asList(Lists.newArrayList(this.encontradosPorBusqueda(texto)))
 	}
-/* Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
- * de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
- */
 }

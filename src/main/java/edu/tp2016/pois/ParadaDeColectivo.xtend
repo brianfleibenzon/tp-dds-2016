@@ -10,7 +10,7 @@ class ParadaDeColectivo extends POI{
 	
 	new(String unNombre, Point unaUbicacion, List<String> claves) {
        	super(unNombre, unaUbicacion, claves)
-    } // Constructor
+    }
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1

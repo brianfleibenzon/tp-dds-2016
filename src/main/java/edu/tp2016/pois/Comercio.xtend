@@ -15,7 +15,7 @@ class Comercio extends POI{
         super(unNombre, unaUbicacion, claves)
         rubro = unRubro
         rangoDeAtencion = unRango
-    } // Constructor
+    }
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < rubro.radioDeCercania

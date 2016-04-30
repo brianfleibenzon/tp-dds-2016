@@ -4,7 +4,7 @@ import org.junit.Before
 import org.uqbar.geodds.Point
 import java.util.Arrays
 import org.joda.time.LocalDateTime
-import edu.tp2016.interfacesExternas.cgp.BusquedaCGP
+import edu.tp2016.interfacesExternas.cgp.AdapterCGP
 import edu.tp2016.interfacesExternas.cgp.StubInterfazCGP
 import org.junit.Test
 import org.junit.Assert
@@ -20,7 +20,7 @@ class TestBusquedaCGP {
 		ubicacionX = new Point(-1, 1)
 		fechaX = new LocalDateTime()
 		unDispositivo = new Dispositivo(ubicacionX, Arrays.asList(), fechaX)
-		unDispositivo.interfacesExternas.add(new BusquedaCGP(new StubInterfazCGP))	
+		unDispositivo.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))	
 	}
 	
 	@Test
