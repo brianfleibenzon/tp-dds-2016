@@ -72,8 +72,6 @@ class TestDisponibilidad {
 
 		unBanco = new Banco("Santander", ubicacionX, clavesX, "Caballito", "Juan Pérez")
 
-		unBanco = new Banco("Provincia", ubicacionX, clavesX, "Avellaneda", "Miguel Hernández")
-
 		lunesMan = new DiaDeAtencion(1, 10, 13, 0, 0)
 		martesMan = new DiaDeAtencion(2, 10, 13, 0, 0)
 		miercolesMan = new DiaDeAtencion(3, 10, 13, 0, 0)
@@ -135,12 +133,12 @@ class TestDisponibilidad {
 
 	@Test
 	def void bancoEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, "Santander"))
+		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void bancoNoEstaDisponible() {
-		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Provincia"))
+		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test

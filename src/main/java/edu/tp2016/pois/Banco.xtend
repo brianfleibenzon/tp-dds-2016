@@ -11,7 +11,6 @@ import java.util.Arrays
 class Banco extends POI {
 String sucursal
 String nombreGerente
-List<DiaDeAtencion> rangoDeAtencion
 
 	def void setRangoDeAtencionBancario(){
 		val lunes = new DiaDeAtencion(1, 10, 15, 0, 0)
