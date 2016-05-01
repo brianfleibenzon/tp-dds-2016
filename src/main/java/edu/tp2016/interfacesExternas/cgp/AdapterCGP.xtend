@@ -14,12 +14,12 @@ class AdapterCGP extends InterfazExterna{
 	}
 	
 	/**
-	 * Adapter entre la busqueda medienta la interfaz externa y los datos locales
+	 * Adapter entre la búsqueda mediente la interfaz externa y los datos locales
 	 * Crea una lista de POIs a partir de la lista de CentroDTO que recibimos desde la interfaz externa
-	 * Se busca con una cadena vacia ya que el parametro de busqueda de la interfaz externa es el barrio o la 
-	 * calle, y no tenemos esos datos, por lo que necesito que me devuelva todos los disponibles
+	 * Se busca con una cadena vacía ya que el parámetro de búsqueda de la interfaz externa es el barrio o la 
+	 * calle, y no tenemos esos datos, por lo que necesito que me devuelva todos los coincidentes
 	 * 
-	 * @param texto Cadena de busqueda
+	 * @param texto Cadena de búsqueda
 	 * @return Lista de POIs
 	 */
 	

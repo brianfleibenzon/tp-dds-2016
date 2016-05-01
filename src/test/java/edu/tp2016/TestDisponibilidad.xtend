@@ -24,11 +24,6 @@ class TestDisponibilidad {
 	Dispositivo unDispositivoConFechaDisponible
 	Dispositivo unDispositivoConFechaNoDisponible
 	Banco unBanco
-	DiaDeAtencion lunes
-	DiaDeAtencion martes
-	DiaDeAtencion miercoles
-	DiaDeAtencion jueves
-	DiaDeAtencion viernes
 	Comercio unComercio
 	DiaDeAtencion lunesMan
 	DiaDeAtencion martesMan
@@ -75,15 +70,9 @@ class TestDisponibilidad {
 		unDispositivoConFechaNoDisponible = new Dispositivo(ubicacionX, pois,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
 
-		lunes = new DiaDeAtencion(1, 10, 15, 0, 0)
-		martes = new DiaDeAtencion(2, 10, 15, 0, 0)
-		miercoles = new DiaDeAtencion(3, 10, 15, 0, 0)
-		jueves = new DiaDeAtencion(4, 10, 15, 0, 0)
-		viernes = new DiaDeAtencion(5, 10, 15, 0, 0)
+		unBanco = new Banco("Santander", ubicacionX, clavesX, "Caballito", "Juan Pérez")
 
-		unBanco = new Banco("Santander", ubicacionX, clavesX, Arrays.asList(lunes, martes, miercoles, jueves, viernes))
-
-		unBanco = new Banco("Provincia", ubicacionX, clavesX, Arrays.asList(lunes, martes, miercoles, jueves, viernes))
+		unBanco = new Banco("Provincia", ubicacionX, clavesX, "Avellaneda", "Miguel Hernández")
 
 		lunesMan = new DiaDeAtencion(1, 10, 13, 0, 0)
 		martesMan = new DiaDeAtencion(2, 10, 13, 0, 0)

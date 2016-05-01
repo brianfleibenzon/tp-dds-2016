@@ -63,7 +63,7 @@ class TestBusquedaLibre {
 		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
 
 		bancoGalicia = new Banco("Banco Galicia Callao", ubicacionX,
-			Arrays.asList("cajero", "sucursal galicia", "banco"), rangoX)
+			Arrays.asList("cajero", "sucursal galicia", "banco"), "Almagro", "Juan Perez")
 
 		cultura = new Servicio("cultura", rangoX)
 

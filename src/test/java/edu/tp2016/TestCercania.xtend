@@ -57,9 +57,9 @@ class TestCercania {
 
 		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351), clavesX)
 
-		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860), clavesX, rangoX)
+		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860), clavesX,"Caballito", "Juan Perez")
 
-		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313), clavesX, rangoX)
+		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313), clavesX, "Belgrano", "María García")
 
 		comunaInterior = new Comuna => [
 			poligono = new Polygon()
