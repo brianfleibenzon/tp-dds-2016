@@ -19,8 +19,8 @@ class AdapterCGP extends InterfazExterna{
 	 * Se busca con una cadena vacía ya que el parámetro de búsqueda de la interfaz externa es el barrio o la 
 	 * calle, y no tenemos esos datos, por lo que necesito que me devuelva todos los coincidentes
 	 * 
-	 * @param texto Cadena de búsqueda
-	 * @return Lista de POIs
+	 * @param texto cadena de búsqueda
+	 * @return Lista de POIs (que incluye solo CGPs)
 	 */
 	
 	override def List<POI> buscar(String texto){ 

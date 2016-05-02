@@ -10,33 +10,39 @@ import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonValue
 
 class AdapterBanco extends InterfazExterna{
-	InterfazBanco interfaz
+	InterfazBanco interfazExternaBancos
 	
 	new(InterfazBanco _interfaz){
-		interfaz = _interfaz
+		interfazExternaBancos = _interfaz
 }
 
 /**
-	 * Adapter entre la búsqueda mediante la interfaz externa y el repositorio local
-	 * Crea una lista de POIs a partir de la lista de SucursalBanco (objetos JSON) que recibimos desde la interfaz externa
-	 * La interfaz externa necesita como parámetro de búsqueda un string que represente el nombre del banco,
-	 * y nos devolverá todas las sucursales que cumplan con ese criterio.
+	 * Adapter entre la búsqueda mediante la interfaz externa para búsqueda de Bancos y el repositorio local.
+	 * Genera una lista de POIs a partir de la lista de SucursalBanco (objetos JSON) que recibimos desde la interfaz externa.
+	 * Dicha interfaz necesita como parámetro de búsqueda un String que represente el nombre del Banco,
+	 * y devuelve todas las sucursales que cumplen con ese criterio.
 	 * 
-	 * @param Cadena de texto que representa el nombre de un Banco
+	 * @param nombreBanco cadena de texto que representa el nombre de un Banco
 	 * @return Lista de POIs (que incluye solo Bancos)
 	 */
 
 	override def List<POI> buscar(String nombreBanco){ 
 		val pois = new ArrayList<POI>
 		
-		interfaz.buscar(nombreBanco).forEach[sucursalEncontrada | 
+		interfazExternaBancos.buscar(nombreBanco).forEach[sucursalEncontrada | 
 			val sucursalParseada = parsearSucursal(sucursalEncontrada)
 			pois.add(sucursalParseada)
 		]
 		pois
 	}
 	
-	// Uso el parser de minimal-json
+/**
+	 * ParsearSucursal convierte una SucursalBanco, que es un objeto Banco pero en formato JSON,
+	 * a un objeto Banco en el formato de nuestro dominio.
+	 * 
+	 * @param sucursal banco de tipo SucursalBanco
+	 * @return Banco, un banco en el formato de nuestro dominio
+	 */
 	def Banco parsearSucursal(SucursalBanco sucursal){
 		val nombreBanco = sucursal.get("banco").asString()
 		val x = sucursal.get("x").asInt()
@@ -50,7 +56,14 @@ class AdapterBanco extends InterfazExterna{
 		sucursalParseada
 	}
 	
-	// Parseo un array del objeto JSON sucursal
+/**
+	 * Los servicios en el objeto JSON SucursalBancaria son un 'array', y no pueden obtenerse en forma directa.
+	 * Por tal motivo, se utiliza la siguiente función que recorre el array JSON y pone todos sus valores
+	 * una lista de strings, que sí es un objeto de nuestro dominio.
+	 * 
+	 * @param sucursal banco de tipo SucursalBanco
+	 * @return Lista de strings, los servicios (o palabras claves) de un banco
+	 */
 	def List<String> parsearArrayServicios(SucursalBanco sucursal){
 		val palabras_servicios = new ArrayList
 		val servicios = Json.parse("servicios").asArray()

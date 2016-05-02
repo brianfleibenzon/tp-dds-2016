@@ -23,22 +23,21 @@ String nombreGerente
 	}
 
 /**
-	 * Constructores para la creación de Bancos
-	 * El primero es el constructor original de la Primera Entrega.
+	 * Constructores para la creación de Bancos:
+	 * El primero es el constructor original de la Primer Entrega.
 	 * El segundo es necesario para crear un Banco de nuestro dominio, a partir del Banco que nos devuelve
-	 * la interfaz externa y que debemos antes parsear
+	 * la interfaz externa de búsqueda y que debemos seguidamente parsear
 	 * 
 	 * @param Atributos de un Banco
-	 * @return Nuevo Banco con todos sus atributos instanciados
+	 * @return Nuevo Banco, con todos sus atributos instanciados
 	 */
-	// Modifico constructor a los datos Entrega 2
 	new(String nombreBanco, Point ubicacion, List<String> claves_servicios, String unaSucursal, String gerente){
 		super(nombreBanco, ubicacion, claves_servicios)
 		sucursal = unaSucursal
 		nombreGerente = gerente
 		setRangoDeAtencionBancario
 	}
-	// constructor para banco parseado
+
 	new(String nombreBanco, int x, int y, String unaSucursal, String gerente, List<String> claves_servicios){
 		super(nombreBanco, new Point(x,y), claves_servicios)
 		sucursal = unaSucursal
