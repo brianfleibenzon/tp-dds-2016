@@ -9,6 +9,7 @@ import org.joda.time.LocalDateTime
 import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.interfacesExternas.InterfazExterna
+import edu.tp2016.repositorioExterno.Repositorio
 
 @Accessors
 class Dispositivo {
@@ -17,7 +18,8 @@ class Dispositivo {
 	List<POI> pois = new ArrayList<POI>
 	String direccion
 	List<InterfazExterna> interfacesExternas = new ArrayList<InterfazExterna>
-
+	Repositorio repo
+	
 	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha) {
 		ubicacionActual = unaUbicacion
 		pois = listaPois
