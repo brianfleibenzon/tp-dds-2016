@@ -6,9 +6,10 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
+import org.uqbar.commons.model.Entity
 
 @Accessors
-abstract class POI {
+ abstract class POI extends Entity{
 	String nombre
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
@@ -63,4 +64,5 @@ abstract class POI {
 	def boolean coincide(String texto) {
 		texto.equalsIgnoreCase(nombre)
 	}
+
 }
