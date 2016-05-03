@@ -38,7 +38,7 @@ String nombreGerente
 		setRangoDeAtencionBancario
 	}
 
-	new(String nombreBanco, int x, int y, String unaSucursal, String gerente, List<String> claves_servicios){
+	new(String nombreBanco, double x, double y, String unaSucursal, String gerente, List<String> claves_servicios){
 		super(nombreBanco, new Point(x,y), claves_servicios)
 		sucursal = unaSucursal
 		nombreGerente = gerente
