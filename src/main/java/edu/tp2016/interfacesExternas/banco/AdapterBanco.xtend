@@ -5,8 +5,6 @@ import edu.tp2016.pois.POI
 import java.util.ArrayList
 import edu.tp2016.pois.Banco
 import edu.tp2016.interfacesExternas.InterfazExterna
-import java.util.Arrays
-import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonValue
 
 class AdapterBanco extends InterfazExterna{
@@ -23,7 +21,7 @@ class AdapterBanco extends InterfazExterna{
 	 * y devuelve todas las sucursales que cumplen con ese criterio.
 	 * 
 	 * @param nombreBanco cadena de texto que representa el nombre de un Banco
-	 * @return Lista de POIs (que incluye solo Bancos)
+	 * @return lista de POIs (que incluye solo Bancos)
 	 */
 
 	override def List<POI> buscar(String nombreBanco){ 
@@ -40,18 +38,18 @@ class AdapterBanco extends InterfazExterna{
 	 * ParsearSucursal convierte una SucursalBanco, que es un objeto Banco pero en formato JSON,
 	 * a un objeto Banco en el formato de nuestro dominio.
 	 * 
-	 * @param sucursal banco de tipo SucursalBanco
-	 * @return Banco, un banco en el formato de nuestro dominio
+	 * @param sucursalBanco banco en formato JSON
+	 * @return banco un banco en el formato de nuestro dominio
 	 */
 	def Banco parsearSucursal(SucursalBanco sucursal){
 		val nombreBanco = sucursal.get("banco").asString()
-		val x = sucursal.get("x").asInt()
-		val y = sucursal.get("y").asInt()
-		val _sucursal = sucursal.get("sucursal").asString()
+		val x = sucursal.get("x").asDouble()
+		val y = sucursal.get("y").asDouble()
+		val nombreSucursal = sucursal.get("sucursal").asString()
 		val gerente = sucursal.get("gerente").asString()
 		val claves_servicios = this.parsearArrayServicios(sucursal)
 		
-		val sucursalParseada = new Banco(nombreBanco, x, y, _sucursal, gerente, claves_servicios)
+		val sucursalParseada = new Banco(nombreBanco, x, y, nombreSucursal, gerente, claves_servicios)
 		
 		sucursalParseada
 	}
@@ -61,17 +59,18 @@ class AdapterBanco extends InterfazExterna{
 	 * Por tal motivo, se utiliza la siguiente función que recorre el array JSON y pone todos sus valores
 	 * una lista de strings, que sí es un objeto de nuestro dominio.
 	 * 
-	 * @param sucursal banco de tipo SucursalBanco
-	 * @return Lista de strings, los servicios (o palabras claves) de un banco
+	 * @param sucursalBanco banco en formato JSON
+	 * @return lista de strings de los servicios (o palabras claves) de un banco
 	 */
 	def List<String> parsearArrayServicios(SucursalBanco sucursal){
-		val palabras_servicios = new ArrayList
-		val servicios = Json.parse("servicios").asArray()
+		val palabras_servicios = new ArrayList()
+		
+		val servicios = (sucursal.get("servicios").asArray()).values()
 		
 		for(JsonValue servicio : servicios){
 			palabras_servicios.add(servicio.asString())
 		}
-		Arrays.asList(palabras_servicios)
+		palabras_servicios
 	}
 	
 }
