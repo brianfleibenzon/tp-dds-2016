@@ -3,7 +3,6 @@ package edu.tp2016.interfacesExternas.banco
 import java.util.ArrayList
 import java.util.List
 import com.eclipsesource.json.JsonArray
-import java.util.Arrays
 
 class StubInterfazBanco implements InterfazBanco{
 /**
@@ -35,6 +34,6 @@ class StubInterfazBanco implements InterfazBanco{
 		
 			listaSucursalesEncontradas.add(sucursal1)
 			// Y así con sucursal 2 y sucursal3, que se pueden copiar del enunciado (se hace un addAll)
-			Arrays.asList(listaSucursalesEncontradas)
+			listaSucursalesEncontradas
 }
 }
