@@ -10,6 +10,7 @@ abstract class Repositorio extends CollectionBasedRepo <POI> {
 		
 		override createExample() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
 }
 
 		
@@ -31,9 +32,19 @@ abstract class Repositorio extends CollectionBasedRepo <POI> {
 	}
 
 	def getCriterioPorNombre(String nombre){
-		[POI poi | poi.tienePalabraClave(nombre) || poi.coincide(nombre)] as Predicate<POI>
+		[POI poi |poi.coincide(nombre)] as Predicate<POI>
 	}
-	
-
+	def getCriterioPorPalabraClave(String palabraClave){
+		[POI poi |poi.tienePalabraClave(palabraClave)] as Predicate <POI>
+	}
+	def getCriterioPorParada (String parada){
+		[POI poi| poi.coincide(parada)] as Predicate <POI>
+	}
+	def getCriterioPorServicio(String servicio){
+		[POI poi| poi.coincide(servicio)] as Predicate <POI>
+	}
+	def getCriterioPorRubro(String rubro){
+		[POI poi| poi.coincide(rubro)] as Predicate <POI>
+	}
 }
 
