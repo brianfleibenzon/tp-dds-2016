@@ -17,7 +17,7 @@ class Dispositivo {
 	LocalDateTime fechaActual
 	String direccion
 	List<InterfazExterna> interfacesExternas = new ArrayList<InterfazExterna>
-	Repositorio repo
+	Repositorio repo = Repositorio.newInstance
 		
 	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha) {
 		ubicacionActual = unaUbicacion
