@@ -4,7 +4,7 @@ import java.util.ArrayList
 import java.util.List
 import com.eclipsesource.json.JsonArray
 
-class StubInterfazBanco implements InterfazBanco{
+class StubInterfazBanco implements ServicioExternoBanco{
 /**
 	 * Búsqueda de Bancos mediante una interfaz externa. Genera una lista de SucursalBanco (objetos JSON).
 	 * Dicha interfaz necesita como parámetro de búsqueda un String que represente el nombre del Banco,

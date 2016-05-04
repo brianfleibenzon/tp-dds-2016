@@ -6,13 +6,13 @@ import java.util.ArrayList
 import edu.tp2016.pois.Banco
 import com.eclipsesource.json.JsonValue
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
-import edu.tp2016.serviciosExternos.banco.InterfazBanco
+import edu.tp2016.serviciosExternos.banco.ServicioExternoBanco
 
 class AdapterBanco extends ExternalServiceAdapter{
-	InterfazBanco interfazExternaBancos
+	ServicioExternoBanco servicio
 	
-	new(InterfazBanco _interfaz){
-		interfazExternaBancos = _interfaz
+	new(ServicioExternoBanco _servicio){
+		servicio = _servicio
 }
 
 /**
@@ -28,7 +28,7 @@ class AdapterBanco extends ExternalServiceAdapter{
 	override def List<POI> buscar(String nombreBanco){ 
 		val pois = new ArrayList<POI>
 		
-		interfazExternaBancos.buscar(nombreBanco).forEach[sucursalEncontrada | 
+		servicio.buscar(nombreBanco).forEach[sucursalEncontrada | 
 			val sucursalParseada = parsearSucursal(sucursalEncontrada)
 			pois.add(sucursalParseada)
 		]

@@ -7,10 +7,10 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 
 class AdapterCGP extends ExternalServiceAdapter{
-	InterfazCGP interfaz
+	ServicioExternoCGP servicio
 	
-	new(InterfazCGP _interfaz){
-		interfaz = _interfaz
+	new(ServicioExternoCGP _servicio){
+		servicio = _servicio
 	}
 	
 	/**
@@ -25,7 +25,7 @@ class AdapterCGP extends ExternalServiceAdapter{
 	
 	override def List<POI> buscar(String texto){ 
 		val pois = new ArrayList<POI>
-		interfaz.buscar("").forEach[unCentroDTO | 
+		servicio.buscar("").forEach[unCentroDTO | 
 			val unCGP = new CGP(unCentroDTO)
 			pois.add(unCGP)
 		]

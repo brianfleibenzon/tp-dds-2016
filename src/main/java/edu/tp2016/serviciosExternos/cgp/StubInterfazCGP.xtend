@@ -1,14 +1,14 @@
 package edu.tp2016.serviciosExternos.cgp
 
 import edu.tp2016.serviciosExternos.cgp.CentroDTO
-import edu.tp2016.serviciosExternos.cgp.InterfazCGP
+import edu.tp2016.serviciosExternos.cgp.ServicioExternoCGP
 import java.util.ArrayList
 import java.util.List
 import java.util.Arrays
 import edu.tp2016.serviciosExternos.cgp.ServicioDTO
 import edu.tp2016.serviciosExternos.cgp.RangoServicioDTO
 
-class StubInterfazCGP implements InterfazCGP {
+class StubInterfazCGP implements ServicioExternoCGP {
 
 	override List<CentroDTO> buscar(String texto) {
 		val lista = new ArrayList<CentroDTO>

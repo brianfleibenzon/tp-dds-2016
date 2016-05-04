@@ -1,6 +1,7 @@
 package edu.tp2016.serviciosExternos.banco
 
 import java.util.List
+import edu.tp2016.serviciosExternos.banco.SucursalBanco
 
 /**
  * InterfazBanco es una interfaz externa que nos provee la búsqueda de bancos.
@@ -12,6 +13,6 @@ import java.util.List
  * @return lista de sucursales bancarias
 
  */
-interface InterfazBanco {
+interface ServicioExternoBanco {
 	def List<SucursalBanco> buscar(String nombreBanco)
 }
