@@ -9,7 +9,7 @@ import org.joda.time.LocalDateTime
 import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.interfacesExternas.InterfazExterna
-import edu.tp2016.repositorioExterno.Repositorio
+import edu.tp2016.repositorio.Repositorio
 
 @Accessors
 class Dispositivo {

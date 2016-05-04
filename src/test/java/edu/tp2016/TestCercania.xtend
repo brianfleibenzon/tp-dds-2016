@@ -19,7 +19,7 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 
-class TestCercania{
+class TestCercania {
 
 	Dispositivo unDispositivo
 	ParadaDeColectivo paradaCerca
@@ -57,7 +57,7 @@ class TestCercania{
 
 		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351), clavesX)
 
-		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860), clavesX,"Caballito", "Juan Perez")
+		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860), clavesX, "Caballito", "Juan Perez")
 
 		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313), clavesX, "Belgrano", "María García")
 

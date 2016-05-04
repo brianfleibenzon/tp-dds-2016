@@ -26,59 +26,50 @@ class TestBusquedaBanco {
 	@Test
 	def void buscarBancoLlamadoSantanderRio() {
 		val bancoEncontrado = (unDispositivo.buscar("Santander Rio")).get(0) as Banco
-	
+
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
 	}
-	
+
 	@Test
-		def void buscarBancoLlamadoBandoDeLaPlazaSucursal2() {
+	def void buscarBancoLlamadoBandoDeLaPlazaSucursal2() {
 		val bancoEncontrado = (unDispositivo.buscar("Banco de la Plaza")).get(0) as Banco
-	
+
 		Assert.assertEquals("Javier Loeschbor", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
 	}
-	
+
 	@Test
-		def void buscarBancoLlamadoBandoDeLaPlazaSucursal3() {
+	def void buscarBancoLlamadoBandoDeLaPlazaSucursal3() {
 		val bancoEncontrado = (unDispositivo.buscar("Banco de la Plaza")).get(1) as Banco
-	
+
 		Assert.assertEquals("Fabian Fataguzzi", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
 	}
-	
-		@Test
-		def void buscarBancoLlamadoBandoaPlazaPorGerenteFabian() {
+
+	@Test
+	def void buscarBancoLlamadoBandoaPlazaPorGerenteFabian() {
 		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
 		val bancos = bancosEncontrados.map[banco|banco as Banco]
 		bancos.exists[banco|banco.nombreGerente.contains("Fabian Fataguzzi")]
-	
-		
-		}
-		
-		@Test
-		def void buscarBancoLlamadoBandoaPlazaPorSucursalAvellaneda() {
+
+	}
+
+	@Test
+	def void buscarBancoLlamadoBandoaPlazaPorSucursalAvellaneda() {
 		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
 		val bancos = bancosEncontrados.map[banco|banco as Banco]
 		bancos.exists[banco|banco.sucursal.contains("Avellaneda")]
-	
-		
-		}
+
+	}
 
 	@Test
-		def void buscarBancoLlamadoBandoaPlazaPorSucursaCaballito() {
+	def void buscarBancoLlamadoBandoaPlazaPorSucursaCaballito() {
 		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
 		val bancos = bancosEncontrados.map[banco|banco as Banco]
 		bancos.exists[banco|banco.sucursal.contains("Caballito")]
-	
-		
-		}
-	
-	
-	
-	
-	
-	
+
+	}
 	
 	
 }
