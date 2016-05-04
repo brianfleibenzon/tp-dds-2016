@@ -21,7 +21,7 @@ class Dispositivo {
 		
 	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha) {
 		ubicacionActual = unaUbicacion
-		repo.objects=listaPois
+		repo.objects.addAll(listaPois)
 		fechaActual = unaFecha
 	}
 

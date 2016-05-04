@@ -46,4 +46,5 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	def getCriterioPorRubro(String rubro) {
 		[POI poi|poi.coincide(rubro)] as Predicate<POI>
 	}
+	
 }

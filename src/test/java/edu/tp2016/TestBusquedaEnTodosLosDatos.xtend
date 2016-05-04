@@ -55,9 +55,14 @@ class TestBusquedaEnTodosLosDatos {
 		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
 			rubroLibreria, rangoX)
 
-		unDispositivo = new Dispositivo(ubicacionX,
-			Arrays.asList(utn7parada, miserere7parada, utn114parada, comercioFarmacity, comercioLoDeJuan), fechaX)
+		unDispositivo = new Dispositivo(ubicacionX,	Arrays.asList(), fechaX)
 
+		unDispositivo.repo.create(utn7parada)
+		unDispositivo.repo.create(utn114parada)
+		unDispositivo.repo.create(miserere7parada)
+		unDispositivo.repo.create(comercioFarmacity)
+		unDispositivo.repo.create(comercioLoDeJuan)
+		
 		unDispositivo.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		unDispositivo.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 

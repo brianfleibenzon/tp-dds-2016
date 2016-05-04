@@ -9,7 +9,7 @@ import org.uqbar.geodds.Point
 import org.uqbar.commons.model.Entity
 
 @Accessors
- abstract class POI extends Entity{
+abstract class POI extends Entity {
 	String nombre
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
@@ -42,13 +42,13 @@ import org.uqbar.commons.model.Entity
 	def double distanciaA(Point unPunto) {
 		unPunto.distance(ubicacion) * 10
 	}
-	
+
 	/**
 	 * Busca el texto en las palabras claves del POI
- 	 * La búsqueda por palabra clave es igual para todos los POI.
- 	 * 
- 	 * @param texto cadena de busqueda
- 	 * @return valor de verdad si se encuentra el texto en alguna palabra clave
+	 * La búsqueda por palabra clave es igual para todos los POI.
+	 * 
+	 * @param texto cadena de busqueda
+	 * @return valor de verdad si se encuentra el texto en alguna palabra clave
 	 */
 	def boolean tienePalabraClave(String texto) {
 		palabrasClave.contains(texto)
@@ -57,9 +57,9 @@ import org.uqbar.commons.model.Entity
 
 	/**
 	 * Busca el texto en el nombre del POI
- 	 * 
- 	 * @param texto cadena de busqueda
- 	 * @return valor de verdad si el nombre coincide con el texto
+	 * 
+	 * @param texto cadena de busqueda
+	 * @return valor de verdad si el nombre coincide con el texto
 	 */
 	def boolean coincide(String texto) {
 		texto.equalsIgnoreCase(nombre)
