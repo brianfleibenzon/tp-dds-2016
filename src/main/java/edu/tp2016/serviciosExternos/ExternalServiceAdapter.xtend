@@ -1,8 +1,8 @@
-package edu.tp2016.interfacesExternas
+package edu.tp2016.serviciosExternos
 
 import java.util.List
 import edu.tp2016.pois.POI
 
-abstract class InterfazExterna {
+abstract class ExternalServiceAdapter {
 	def List<POI> buscar(String texto)
 }

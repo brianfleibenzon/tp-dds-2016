@@ -4,8 +4,8 @@ import org.junit.Before
 import org.uqbar.geodds.Point
 import java.util.Arrays
 import org.joda.time.LocalDateTime
-import edu.tp2016.interfacesExternas.cgp.AdapterCGP
-import edu.tp2016.interfacesExternas.cgp.StubInterfazCGP
+import edu.tp2016.serviciosExternos.cgp.AdapterCGP
+import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import org.junit.Test
 import org.junit.Assert
 import edu.tp2016.pois.CGP

@@ -4,6 +4,7 @@ import org.uqbar.commons.model.CollectionBasedRepo
 import edu.tp2016.pois.POI
 import org.apache.commons.collections15.Predicate
 import org.apache.commons.collections15.functors.AndPredicate
+import java.util.List
 
 class Repositorio extends CollectionBasedRepo<POI> {
 
@@ -45,6 +46,10 @@ class Repositorio extends CollectionBasedRepo<POI> {
 
 	def getCriterioPorRubro(String rubro) {
 		[POI poi|poi.coincide(rubro)] as Predicate<POI>
+	}
+	
+	def agregarPois(List<POI> pois){
+		pois.forEach[poi | this.create(poi)]
 	}
 	
 }

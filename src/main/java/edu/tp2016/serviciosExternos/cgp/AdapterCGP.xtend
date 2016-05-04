@@ -1,12 +1,12 @@
-package edu.tp2016.interfacesExternas.cgp
+package edu.tp2016.serviciosExternos.cgp
 
 import java.util.List
 import edu.tp2016.pois.POI
 import java.util.ArrayList
 import edu.tp2016.pois.CGP
-import edu.tp2016.interfacesExternas.InterfazExterna
+import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 
-class AdapterCGP extends InterfazExterna{
+class AdapterCGP extends ExternalServiceAdapter{
 	InterfazCGP interfaz
 	
 	new(InterfazCGP _interfaz){

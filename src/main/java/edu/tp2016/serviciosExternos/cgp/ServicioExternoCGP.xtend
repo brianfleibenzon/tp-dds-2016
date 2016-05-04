@@ -1,4 +1,4 @@
-package edu.tp2016.interfacesExternas.cgp
+package edu.tp2016.serviciosExternos.cgp
 
 import java.util.List
 

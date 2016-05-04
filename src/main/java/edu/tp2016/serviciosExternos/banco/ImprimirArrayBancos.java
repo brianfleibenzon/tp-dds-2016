@@ -1,7 +1,9 @@
-package edu.tp2016.interfacesExternas.banco;
+package edu.tp2016.serviciosExternos.banco;
 
 import java.util.ArrayList;
 import com.eclipsesource.json.JsonArray;
+
+import edu.tp2016.serviciosExternos.banco.SucursalBanco;
 
 public class ImprimirArrayBancos {
 	public static void main (String [ ] args) {

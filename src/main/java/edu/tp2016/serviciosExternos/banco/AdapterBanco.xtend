@@ -1,13 +1,14 @@
-package edu.tp2016.interfacesExternas.banco
+package edu.tp2016.serviciosExternos.banco
 
 import java.util.List
 import edu.tp2016.pois.POI
 import java.util.ArrayList
 import edu.tp2016.pois.Banco
-import edu.tp2016.interfacesExternas.InterfazExterna
 import com.eclipsesource.json.JsonValue
+import edu.tp2016.serviciosExternos.ExternalServiceAdapter
+import edu.tp2016.serviciosExternos.banco.InterfazBanco
 
-class AdapterBanco extends InterfazExterna{
+class AdapterBanco extends ExternalServiceAdapter{
 	InterfazBanco interfazExternaBancos
 	
 	new(InterfazBanco _interfaz){

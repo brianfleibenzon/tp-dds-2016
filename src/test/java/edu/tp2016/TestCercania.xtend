@@ -43,15 +43,11 @@ class TestCercania {
 	@Before
 	def void setUp() {
 
-		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
+		rangoX = Arrays.asList(unDiaX)
 		fechaX = new LocalDateTime()
-		clavesX = Arrays.asList(Lists.newArrayList("algunas", "palabras", "clave"))
-		poisX = Arrays.asList(
-			Lists.newArrayList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
-				paradaLejos))
-		serviciosX = Arrays.asList(Lists.newArrayList(new Servicio("x", rangoX)))
+		clavesX = Arrays.asList("algunas", "palabras", "clave")
 
-		unDispositivo = new Dispositivo(new Point(-34.598574, -58.420280), poisX, fechaX)
+		serviciosX = Arrays.asList(new Servicio("x", rangoX))
 
 		paradaCerca = new ParadaDeColectivo("114", new Point(-34.597768, -58.419860), clavesX)
 
@@ -87,6 +83,12 @@ class TestCercania {
 		comercioCerca = new Comercio("test", new Point(-34.597768, -58.419860), clavesX, rubroTest, rangoX)
 
 		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415), clavesX, rubroTest, rangoX)
+
+		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
+			paradaLejos)
+
+		unDispositivo = new Dispositivo(new Point(-34.598574, -58.420280), poisX, fechaX)
+
 	}
 
 	@Test

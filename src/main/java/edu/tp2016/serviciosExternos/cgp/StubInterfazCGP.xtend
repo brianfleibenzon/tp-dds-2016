@@ -1,12 +1,12 @@
-package edu.tp2016.interfacesExternas.cgp
+package edu.tp2016.serviciosExternos.cgp
 
-import edu.tp2016.interfacesExternas.cgp.CentroDTO
-import edu.tp2016.interfacesExternas.cgp.InterfazCGP
+import edu.tp2016.serviciosExternos.cgp.CentroDTO
+import edu.tp2016.serviciosExternos.cgp.InterfazCGP
 import java.util.ArrayList
 import java.util.List
 import java.util.Arrays
-import edu.tp2016.interfacesExternas.cgp.ServicioDTO
-import edu.tp2016.interfacesExternas.cgp.RangoServicioDTO
+import edu.tp2016.serviciosExternos.cgp.ServicioDTO
+import edu.tp2016.serviciosExternos.cgp.RangoServicioDTO
 
 class StubInterfazCGP implements InterfazCGP {
 

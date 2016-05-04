@@ -8,20 +8,20 @@ import java.util.Arrays
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
 import edu.tp2016.pois.POI
-import edu.tp2016.interfacesExternas.InterfazExterna
 import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 
 @Accessors
 class Dispositivo {
 	Point ubicacionActual
 	LocalDateTime fechaActual
 	String direccion
-	List<InterfazExterna> interfacesExternas = new ArrayList<InterfazExterna>
+	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
 		
 	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha) {
 		ubicacionActual = unaUbicacion
-		repo.objects.addAll(listaPois)
+		repo.agregarPois(listaPois)
 		fechaActual = unaFecha
 	}
 
@@ -39,7 +39,7 @@ class Dispositivo {
 		]
 	}
 
-	def Iterable<POI> encontradosPorBusqueda(String texto) {
+	def Iterable<POI> buscarPor(String texto) {
 		val poisBusqueda = new ArrayList<POI>
 		poisBusqueda.addAll(repo.allInstances)
 		
@@ -54,6 +54,6 @@ class Dispositivo {
 	 de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
 	 */
 	def List<POI> buscar(String texto) {
-		Arrays.asList(Lists.newArrayList(this.encontradosPorBusqueda(texto)))
+		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
 	}
 }

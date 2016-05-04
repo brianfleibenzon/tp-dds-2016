@@ -54,8 +54,8 @@ class TestDisponibilidad {
 
 		ubicacionX = new Point(-1, 1)
 		rubroX = new Rubro("x", 1)
-		clavesX = Arrays.asList(Lists.newArrayList("algunas", "palabras", "clave"))
-		pois = Arrays.asList(Lists.newArrayList(unBanco, unCGP, unComercio, unaParada))
+		clavesX = Arrays.asList("algunas", "palabras", "clave")
+		
 		comunaX = new Comuna => [
 			poligono = new Polygon()
 			poligono.add(new Point(-1, 1))
@@ -63,12 +63,6 @@ class TestDisponibilidad {
 			poligono.add(new Point(-3, 3))
 			poligono.add(new Point(-4, 4))
 		]
-
-		unDispositivoConFechaDisponible = new Dispositivo(ubicacionX, pois,
-			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
-
-		unDispositivoConFechaNoDisponible = new Dispositivo(ubicacionX, pois,
-			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
 
 		unBanco = new Banco("Santander", ubicacionX, clavesX, "Caballito", "Juan Pérez")
 
@@ -95,6 +89,14 @@ class TestDisponibilidad {
 		unServicio = new Servicio("Rentas", Arrays.asList(lunesRentas))
 		unCGP = new CGP("CentroDeGestión", ubicacionX, clavesX, comunaX, Arrays.asList(unServicio), "", "", "")
 
+		pois = Arrays.asList(unBanco, unCGP, unComercio, unaParada)
+		
+		unDispositivoConFechaDisponible = new Dispositivo(ubicacionX, pois,
+			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
+
+		unDispositivoConFechaNoDisponible = new Dispositivo(ubicacionX, pois,
+			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
+			
 		unDispositivoConFechaDisponibleParaRentas = new Dispositivo(
 			ubicacionX,
 			pois,

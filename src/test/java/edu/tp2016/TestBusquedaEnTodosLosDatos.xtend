@@ -1,9 +1,9 @@
 package edu.tp2016
 
-import edu.tp2016.interfacesExternas.banco.AdapterBanco
-import edu.tp2016.interfacesExternas.banco.StubInterfazBanco
-import edu.tp2016.interfacesExternas.cgp.AdapterCGP
-import edu.tp2016.interfacesExternas.cgp.StubInterfazCGP
+import edu.tp2016.serviciosExternos.banco.AdapterBanco
+import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
+import edu.tp2016.serviciosExternos.cgp.AdapterCGP
+import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
 import java.util.List

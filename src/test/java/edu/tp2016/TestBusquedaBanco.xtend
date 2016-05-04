@@ -7,8 +7,8 @@ import org.joda.time.LocalDateTime
 import org.junit.Test
 import org.junit.Assert
 import edu.tp2016.pois.Banco
-import edu.tp2016.interfacesExternas.banco.AdapterBanco
-import edu.tp2016.interfacesExternas.banco.StubInterfazBanco
+import edu.tp2016.serviciosExternos.banco.AdapterBanco
+import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 
 class TestBusquedaBanco {
 	Dispositivo unDispositivo

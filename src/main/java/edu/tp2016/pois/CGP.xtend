@@ -7,7 +7,7 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
-import edu.tp2016.interfacesExternas.cgp.CentroDTO
+import edu.tp2016.serviciosExternos.cgp.CentroDTO
 import java.util.Arrays
 import edu.tp2016.mod.DiaDeAtencion
 

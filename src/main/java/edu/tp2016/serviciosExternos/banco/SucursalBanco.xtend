@@ -1,4 +1,4 @@
-package edu.tp2016.interfacesExternas.banco
+package edu.tp2016.serviciosExternos.banco
 
 import com.eclipsesource.json.JsonObject
 /**
