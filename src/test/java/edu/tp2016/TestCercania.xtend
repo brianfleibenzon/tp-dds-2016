@@ -19,7 +19,7 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 
-class TestCercania {
+class TestCercania{
 
 	Dispositivo unDispositivo
 	ParadaDeColectivo paradaCerca

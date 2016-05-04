@@ -9,9 +9,8 @@ import org.apache.commons.collections15.functors.AndPredicate
  class Repositorio extends CollectionBasedRepo <POI> {
 	
 		
-		override createExample() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-
+	override createExample() {
+	throw new UnsupportedOperationException("TODO: auto-generated method stub")
 }
 
 		
