@@ -47,7 +47,32 @@ class TestBusquedaBanco {
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
 	}
 	
+		@Test
+		def void buscarBancoLlamadoBandoaPlazaPorGerenteFabian() {
+		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
+		val bancos = bancosEncontrados.map[banco|banco as Banco]
+		bancos.exists[banco|banco.nombreGerente.contains("Fabian Fataguzzi")]
+	
+		
+		}
+		
+		@Test
+		def void buscarBancoLlamadoBandoaPlazaPorSucursalAvellaneda() {
+		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
+		val bancos = bancosEncontrados.map[banco|banco as Banco]
+		bancos.exists[banco|banco.sucursal.contains("Avellaneda")]
+	
+		
+		}
 
+	@Test
+		def void buscarBancoLlamadoBandoaPlazaPorSucursaCaballito() {
+		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
+		val bancos = bancosEncontrados.map[banco|banco as Banco]
+		bancos.exists[banco|banco.sucursal.contains("Caballito")]
+	
+		
+		}
 	
 	
 	
