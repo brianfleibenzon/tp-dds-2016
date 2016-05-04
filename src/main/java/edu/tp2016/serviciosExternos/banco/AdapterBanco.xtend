@@ -56,8 +56,8 @@ class AdapterBanco extends ExternalServiceAdapter{
 	}
 	
 /**
-	 * Los servicios en el objeto JSON SucursalBancaria son un 'array', y no pueden obtenerse en forma directa.
-	 * Por tal motivo, se utiliza la siguiente función que recorre el array JSON y pone todos sus valores
+	 * Los servicios (o palabras clave) en el objeto JSON SucursalBanco son un 'array', y no pueden obtenerse en forma
+	 * directa. Por tal motivo, se utiliza la siguiente función que recorre el array JSON y pone todos sus valores
 	 * una lista de strings, que sí es un objeto de nuestro dominio.
 	 * 
 	 * @param sucursalBanco banco en formato JSON

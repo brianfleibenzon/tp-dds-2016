@@ -1,6 +1,5 @@
 package edu.tp2016
 
-import com.google.common.collect.Lists
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.DiaDeAtencion
 import edu.tp2016.mod.Rubro

@@ -8,7 +8,6 @@ import java.util.Arrays
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 import java.util.List
-import com.google.common.collect.Lists
 import edu.tp2016.mod.DiaDeAtencion
 import edu.tp2016.pois.Banco
 import edu.tp2016.pois.ParadaDeColectivo
