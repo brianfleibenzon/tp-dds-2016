@@ -24,7 +24,7 @@ class TestBusquedaBanco {
 	}
 	
 	@Test
-	def void buscarBancoLlamadoSantanderRio() {
+	def void buscarBancoLlamadoSantanderRío() {
 		val bancoEncontrado = (unDispositivo.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
@@ -32,44 +32,28 @@ class TestBusquedaBanco {
 	}
 
 	@Test
-	def void buscarBancoLlamadoBandoDeLaPlazaSucursal2() {
-		val bancoEncontrado = (unDispositivo.buscar("Banco de la Plaza")).get(0) as Banco
-
-		Assert.assertEquals("Javier Loeschbor", bancoEncontrado.nombreGerente)
-		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
+	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
+		val resultadoBusqueda = unDispositivo.buscar("Banco de la Plaza")
+		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
+		
+		Assert.assertTrue(bancosEncontrados.exists[ banco |
+			(banco.sucursal == "Avellaneda") && (banco.nombreGerente == "Javier Loeschbor") ] )
 	}
 
 	@Test
-	def void buscarBancoLlamadoBandoDeLaPlazaSucursal3() {
-		val bancoEncontrado = (unDispositivo.buscar("Banco de la Plaza")).get(1) as Banco
-
-		Assert.assertEquals("Fabian Fataguzzi", bancoEncontrado.nombreGerente)
-		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
+	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
+		val resultadoBusqueda = unDispositivo.buscar("Banco de la Plaza")
+		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
+		
+		Assert.assertTrue(bancosEncontrados.exists[ banco |
+			(banco.sucursal == "Caballito") && (banco.palabrasClave.contains("transferencias")) ] )
 	}
 
 	@Test
-	def void buscarBancoLlamadoBandoaPlazaPorGerenteFabian() {
-		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
-		val bancos = bancosEncontrados.map[banco|banco as Banco]
-		bancos.exists[banco|banco.nombreGerente.contains("Fabian Fataguzzi")]
-
-	}
-
-	@Test
-	def void buscarBancoLlamadoBandoaPlazaPorSucursalAvellaneda() {
-		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
-		val bancos = bancosEncontrados.map[banco|banco as Banco]
-		bancos.exists[banco|banco.sucursal.contains("Avellaneda")]
-
-	}
-
-	@Test
-	def void buscarBancoLlamadoBandoaPlazaPorSucursaCaballito() {
-		val bancosEncontrados = (unDispositivo.buscar("Banco de la Plaza"))
-		val bancos = bancosEncontrados.map[banco|banco as Banco]
-		bancos.exists[banco|banco.sucursal.contains("Caballito")]
-
+	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
+		val resultadoBusqueda = unDispositivo.buscar("Galicia")
+		
+		Assert.assertTrue(resultadoBusqueda.empty)
 	}
 	
-	
-}
+	}
