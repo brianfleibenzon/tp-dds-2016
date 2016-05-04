@@ -7,6 +7,8 @@ import org.apache.commons.collections15.functors.AndPredicate
 
 
 abstract class Repositorio extends CollectionBasedRepo <POI> {
+		/*Inicializo repositorio  */
+		Repositorio repo= Repositorio.newInstance
 		
 		override createExample() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")

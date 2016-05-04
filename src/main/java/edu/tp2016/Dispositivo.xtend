@@ -15,14 +15,13 @@ import edu.tp2016.repositorioExterno.Repositorio
 class Dispositivo {
 	Point ubicacionActual
 	LocalDateTime fechaActual
-	List<POI> pois = new ArrayList<POI>
 	String direccion
 	List<InterfazExterna> interfacesExternas = new ArrayList<InterfazExterna>
 	Repositorio repo
-	
+		
 	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha) {
 		ubicacionActual = unaUbicacion
-		pois = listaPois
+		repo.objects=listaPois
 		fechaActual = unaFecha
 	}
 
@@ -42,7 +41,7 @@ class Dispositivo {
 
 	def Iterable<POI> encontradosPorBusqueda(String texto) {
 		val poisBusqueda = new ArrayList<POI>
-		poisBusqueda.addAll(pois)
+		poisBusqueda.addAll(repo.allInstances)
 		
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
