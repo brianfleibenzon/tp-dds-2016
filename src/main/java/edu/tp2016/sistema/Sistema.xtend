@@ -1,4 +1,4 @@
-package edu.tp2016
+package edu.tp2016.sistema
 
 import org.uqbar.geodds.Point
 import java.util.List
@@ -12,29 +12,26 @@ import edu.tp2016.repositorio.Repositorio
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 
 @Accessors
-class Dispositivo {
-	Point ubicacionActual
+class Sistema{
 	LocalDateTime fechaActual
-	String direccion
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
-		
-	new(Point unaUbicacion, List<POI> listaPois, LocalDateTime unaFecha) {
-		ubicacionActual = unaUbicacion
+
+	new(List<POI> listaPois, LocalDateTime unaFecha) {
 		repo.agregarPois(listaPois)
 		fechaActual = unaFecha
 	}
 
-	def boolean consultarCercania(POI unPoi) {
-		unPoi.estaCercaA(ubicacionActual)
+	def boolean consultarCercania(POI unPoi, Point ubicacion) {
+		unPoi.estaCercaA(ubicacion)
 	}
 
 	def boolean consultarDisponibilidad(POI unPoi, String valorX) {
 		unPoi.estaDisponible(fechaActual, valorX)
 	}
-	
-	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda){
-		interfacesExternas.forEach[unaInterfaz|
+
+	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
+		interfacesExternas.forEach [ unaInterfaz |
 			poisBusqueda.addAll(unaInterfaz.buscar(texto))
 		]
 	}
@@ -42,18 +39,19 @@ class Dispositivo {
 	def Iterable<POI> buscarPor(String texto) {
 		val poisBusqueda = new ArrayList<POI>
 		poisBusqueda.addAll(repo.allInstances)
-		
+
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
 		poisBusqueda.filter[poi|!texto.equals("") && (poi.tienePalabraClave(texto) || poi.coincide(texto))]
-	
+
 	}
-	
+
 	/**
-	 Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
-	 de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
+	 *  Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
+	 *  de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
 	 */
 	def List<POI> buscar(String texto) {
 		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
 	}
+
 }

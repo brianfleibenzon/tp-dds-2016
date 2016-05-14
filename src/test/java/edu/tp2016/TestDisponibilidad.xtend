@@ -17,11 +17,12 @@ import edu.tp2016.mod.Rubro
 import edu.tp2016.mod.Comuna
 import edu.tp2016.pois.POI
 import edu.tp2016.pois.Comercio
+import edu.tp2016.sistema.Sistema
 
 class TestDisponibilidad {
 
-	Dispositivo unDispositivoConFechaDisponible
-	Dispositivo unDispositivoConFechaNoDisponible
+	Sistema unSistemaConFechaDisponible
+	Sistema unSistemaConFechaNoDisponible
 	Banco unBanco
 	Comercio unComercio
 	DiaDeAtencion lunesMan
@@ -38,8 +39,8 @@ class TestDisponibilidad {
 	DiaDeAtencion sabadoTar
 	CGP unCGP
 	DiaDeAtencion lunesRentas
-	Dispositivo unDispositivoConFechaDisponibleParaRentas
-	Dispositivo unDispositivoConFechaNODisponibleParaRentas
+	Sistema unSistemaConFechaDisponibleParaRentas
+	Sistema unSistemaConFechaNODisponibleParaRentas
 	Servicio unServicio
 	ParadaDeColectivo unaParada
 	Point ubicacionX
@@ -51,7 +52,6 @@ class TestDisponibilidad {
 	@Before
 	def void setUp() {
 
-		ubicacionX = new Point(-1, 1)
 		rubroX = new Rubro("x", 1)
 		clavesX = Arrays.asList("algunas", "palabras", "clave")
 		
@@ -90,65 +90,64 @@ class TestDisponibilidad {
 
 		pois = Arrays.asList(unBanco, unCGP, unComercio, unaParada)
 		
-		unDispositivoConFechaDisponible = new Dispositivo(ubicacionX, pois,
+		unSistemaConFechaDisponible = new Sistema(pois,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
 
-		unDispositivoConFechaNoDisponible = new Dispositivo(ubicacionX, pois,
+		unSistemaConFechaNoDisponible = new Sistema(pois,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
 			
-		unDispositivoConFechaDisponibleParaRentas = new Dispositivo(
-			ubicacionX,
+		unSistemaConFechaDisponibleParaRentas = new Sistema(
 			pois,
 			new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
 		)
 
-		unDispositivoConFechaNODisponibleParaRentas = new Dispositivo(ubicacionX, pois,
+		unSistemaConFechaNODisponibleParaRentas = new Sistema(pois,
 			new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
 
 	}
 
 	@Test
 	def void paradaDeColectivoEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(unSistemaConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void paradaDeColectivoTambienEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(unSistemaConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void CGPEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
+		Assert.assertTrue(unSistemaConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
 	}
 
 	@Test
 	def void CGPEstaDisponibleParaAlgunServicio() {
-		Assert.assertTrue(unDispositivoConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertTrue(unSistemaConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void CGPNoEstaDisponible() {
-		Assert.assertFalse(unDispositivoConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertFalse(unSistemaConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void bancoEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, ""))
+		Assert.assertTrue(unSistemaConFechaDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void bancoNoEstaDisponible() {
-		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
+		Assert.assertFalse(unSistemaConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void comercioEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
+		Assert.assertTrue(unSistemaConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
 	}
 
 	@Test
 	def void comercioNoEstaDisponible() {
-		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
+		Assert.assertFalse(unSistemaConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
 	}
 }
