@@ -5,7 +5,7 @@ import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import org.joda.time.LocalDateTime
 import org.joda.time.Duration
 
-class DemoraConsultaObserver extends BusquedaObserver{
+class DemoraConsultaObserver implements BusquedaObserver{
 	
 	override def void registrarBusqueda(String texto, RegistroDeBusqueda busqueda, ServidorLocal servidor){
 		

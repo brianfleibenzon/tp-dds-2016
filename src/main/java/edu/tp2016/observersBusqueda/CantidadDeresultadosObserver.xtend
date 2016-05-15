@@ -1,9 +1,8 @@
 package edu.tp2016.observersBusqueda
 
 import edu.tp2016.servidores.ServidorLocal
-import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 
-class CantidadDeresultadosObserver extends BusquedaObserver{
+class CantidadDeresultadosObserver implements BusquedaObserver{
 	
 	override def void registrarBusqueda(String texto, RegistroDeBusqueda busqueda, ServidorLocal servidor){
 		
@@ -11,4 +10,4 @@ class CantidadDeresultadosObserver extends BusquedaObserver{
 
 		busqueda.cantidadDeResultados = cantidadRetornada
 	}
-	}
+}
