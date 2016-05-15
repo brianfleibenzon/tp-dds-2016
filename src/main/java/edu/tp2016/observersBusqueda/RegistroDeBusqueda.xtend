@@ -17,6 +17,15 @@ class RegistroDeBusqueda {
 		terminal = _terminal
 	}
 	
+	def void registrarCantResult(int cantResult){
+		cantidadDeResultados = cantResult
+	}
+	
+	def void registrarTexto(String txt){
+		textoBuscado = txt
+	}
+	
+	
 	new() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
