@@ -16,16 +16,29 @@ import org.joda.time.LocalDateTime
 @Accessors
 class ServidorLocal{
 	
-	LocalDateTime fechaActual
-	ServidorCentral servidorCentral//por ahora nada
+	ServidorCentral servidorCentral //por ahora nada
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
-	List<BusquedaObserver> busquedaObservers // Se tiene un conjunto de observadores para las búsquedas
+	List<BusquedaObserver> busquedaObservers
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
-	int tiempoLimiteDeBusqueda
+	long tiempoLimiteDeBusqueda
+	String nombreTerminal
 
-	new(List<POI> listaPois) {
+	new(List<POI> listaPois, String terminal) {
 		repo.agregarPois(listaPois)
+		nombreTerminal = terminal
+	}
+	
+	def inicializarTiempoLimiteDeBusqueda(int tiempo){
+		tiempoLimiteDeBusqueda = tiempo
+	} // de esta forma es parametizable
+	
+	def adscribirObserver(BusquedaObserver observador){
+		busquedaObservers.add(observador)
+	}
+	
+	def quitarObserver(BusquedaObserver observador){
+		busquedaObservers.remove(observador)
 	}
 
 	def boolean consultarCercania(POI unPoi, Point ubicacion) {
@@ -34,6 +47,7 @@ class ServidorLocal{
 
 
 	def boolean consultarDisponibilidad(POI unPoi, String valorX) {
+		val fechaActual = new LocalDateTime
 		unPoi.estaDisponible(fechaActual,valorX)
 	}
 
@@ -59,7 +73,7 @@ class ServidorLocal{
 	 */
 	def List<POI> buscar(String texto) {
 	
-		val busquedaActual = new RegistroDeBusqueda
+		val busquedaActual = new RegistroDeBusqueda(new LocalDateTime, nombreTerminal)
 		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
 		busquedas.add(busquedaActual)
 		
