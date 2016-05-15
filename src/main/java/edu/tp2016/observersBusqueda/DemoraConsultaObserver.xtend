@@ -1,6 +1,6 @@
 package edu.tp2016.observersBusqueda
 
-import edu.tp2016.servidores.servidorLocal
+import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import org.joda.time.LocalDateTime
 import org.joda.time.Duration

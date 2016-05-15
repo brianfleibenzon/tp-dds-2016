@@ -1,4 +1,4 @@
-package edu.tp2016.servidorCentral.observers
+package edu.tp2016.observersBusqueda
 
 import org.joda.time.LocalDateTime
 
@@ -17,4 +17,9 @@ class RegistroDeBusqueda {
 		cantidadDeResultados = resultados
 		demora = tiempo
 	}
+	
+	new() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

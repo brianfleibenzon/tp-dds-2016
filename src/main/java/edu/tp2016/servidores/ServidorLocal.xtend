@@ -11,10 +11,12 @@ import edu.tp2016.repositorio.Repositorio
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import edu.tp2016.observersBusqueda.BusquedaObserver
 import edu.tp2016.observersBusqueda.RegistroDeBusqueda
+import org.joda.time.LocalDateTime
 
 @Accessors
 class ServidorLocal{
-
+	
+	LocalDateTime fechaActual
 	ServidorCentral servidorCentral//por ahora nada
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
@@ -30,8 +32,9 @@ class ServidorLocal{
 		unPoi.estaCercaA(ubicacion)
 	}
 
+
 	def boolean consultarDisponibilidad(POI unPoi, String valorX) {
-		unPoi.estaDisponible(fechaActual, valorX)
+		unPoi.estaDisponible(fechaActual,valorX)
 	}
 
 	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
