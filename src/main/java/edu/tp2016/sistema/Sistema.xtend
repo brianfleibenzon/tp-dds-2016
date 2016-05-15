@@ -12,7 +12,7 @@ import edu.tp2016.repositorio.Repositorio
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 
 @Accessors
-class Sistema{
+class Sistema implements SistemaInterface{
 	LocalDateTime fechaActual
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
@@ -22,11 +22,11 @@ class Sistema{
 		fechaActual = unaFecha
 	}
 
-	def boolean consultarCercania(POI unPoi, Point ubicacion) {
+	override boolean consultarCercania(POI unPoi, Point ubicacion) {
 		unPoi.estaCercaA(ubicacion)
 	}
 
-	def boolean consultarDisponibilidad(POI unPoi, String valorX) {
+	override boolean consultarDisponibilidad(POI unPoi, String valorX) {
 		unPoi.estaDisponible(fechaActual, valorX)
 	}
 
@@ -50,7 +50,7 @@ class Sistema{
 	 *  Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
 	 *  de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
 	 */
-	def List<POI> buscar(String texto) {
+	override List<POI> buscar(String texto) {
 		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
 	}
 

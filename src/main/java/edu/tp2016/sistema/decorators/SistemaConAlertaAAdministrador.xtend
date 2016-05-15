@@ -5,32 +5,31 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.joda.time.Duration
+import edu.tp2016.sistema.SistemaInterface
 
 @Accessors
-class SistemaConAlertaAAdministrador{
+class SistemaConAlertaAAdministrador extends SistemaDecorator{
 		
-	SistemaConRegistroDeBusqueda sistema
+	int timeout
+	String terminal
+	boolean enviarMail = true
 
-	new(SistemaConRegistroDeBusqueda _sistema) {
-		sistema = _sistema
+	new(SistemaInterface _sistema) {
+		super(_sistema)
 	}
 
-	def List<POI> buscar(String texto, String terminal, int timeout) {
+	override List<POI> buscar(String texto) {
 		val LocalDateTime inicioBusqueda = new LocalDateTime()
-		val list = sistema.buscar(texto, terminal)
+		val list = sistema.buscar(texto)
 		val LocalDateTime finBusqueda = new LocalDateTime()
 		val tiempo = new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime).standardSeconds
-		if (tiempo > timeout){
-			//TODO: Enviar correo a administrador
+		if (tiempo > timeout && enviarMail){
+			sendMail()
 		}
 		list
 	}
 	
-	def generarReportePorFecha(){
-		sistema.generarReportePorFecha()
-	}
-	
-	def generarReportePorTerminal(){
-		sistema.generarReportePorFecha()
+	def sendMail(){
+		//Enviar mail a administrador
 	}
 }
