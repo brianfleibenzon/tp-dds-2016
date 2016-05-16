@@ -18,15 +18,13 @@ class ServidorCentral {
 
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	List<BusquedaObserver> busquedaObservers
-	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda> // ver
 	long tiempoLimiteDeBusqueda
 	Repositorio repo = Repositorio.newInstance
 	List<ServidorLocal> servidoresLocales
-	Map<Integer, String> busquedasPorTerminal = new HashMap<Integer, String>()
+	Map<Integer, String> busquedasPorTerminal = new HashMap<Integer, String>() // VER
 		
 		new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
-		
 	}
 	
 	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
