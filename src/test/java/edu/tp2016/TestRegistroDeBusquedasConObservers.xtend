@@ -112,7 +112,9 @@ class TestRegistroDeBusquedasConObservers {
 	
 	@Test	
 	def void testRegistroDeDemoraDeConsulta(){
-		val demoraDeBusquedaEnSegundos = 11
+		terminalAbasto.buscar("utn")
+		val busquedaObtenida = terminalAbasto.busquedasTerminal.head
+		Assert.assertEquals(0,busquedaObtenida.demoraConsulta)	
 		
 	}
 
