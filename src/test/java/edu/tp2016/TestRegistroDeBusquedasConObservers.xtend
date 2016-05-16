@@ -90,15 +90,15 @@ class TestRegistroDeBusquedasConObservers {
 	
 	@Test
 	def void testRegistroDeFrasesBuscadas(){
-		terminalAbasto.buscar("Libreria")
-		terminalAbasto.buscar("Farmacia")
-		terminalFlorida.buscar("114")
+		terminalAbasto.buscar("114")
+		terminalAbasto.buscar("7")
 		terminalFlorida.buscar("plaza miserere")
+		terminalFlorida.buscar("Libreria Juan")
 		
 		val frasesBuscadasDeAbasto = terminalAbasto.busquedasTerminal.map[ busqueda | busqueda.textoBuscado]
 		val frasesBuscadasDeFlorida = terminalFlorida.busquedasTerminal.map[ busqueda | busqueda.textoBuscado]
-		Assert.assertTrue(frasesBuscadasDeAbasto.containsAll(Arrays.asList("libreria","rentas")) &&
-						  frasesBuscadasDeFlorida.containsAll(Arrays.asList("144","plaza miserere"))
+		Assert.assertTrue(frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
+					   && frasesBuscadasDeFlorida.containsAll(Arrays.asList("plaza miserere","Libreria Juan"))
 		)
 	}	
 	
@@ -125,8 +125,9 @@ class TestRegistroDeBusquedasConObservers {
 	def void testReporteDeBusquedasPorFecha(){
 		terminalAbasto.buscar("Farmacia")
 		terminalFlorida.buscar("114")
+		terminalTeatroColon.buscar("plaza miserere")
 		val reporteGenerado= servidorCentral.generarReporteCantidadTotalDeBusquedasPorFecha()
-		Assert.assertEquals(4,reporteGenerado.size)		
+		Assert.assertEquals(3,reporteGenerado.size)
 	}	
 	
 	@Test	
