@@ -15,7 +15,7 @@ class ServidorLocal{
 	String nombreTerminal
 	Point ubicacion
 	List<RegistroDeBusqueda> busquedasTerminal = new ArrayList<RegistroDeBusqueda>
-	LocalDateTime fechaDisponible
+	LocalDateTime fechaActual
 
 /**
 	 * Constructor para un ServidorLocal. Lo creo con su nombre (ej.: "terminalAbasto")
@@ -29,25 +29,25 @@ class ServidorLocal{
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
 		servidorCentral = servidor
-		servidorCentral.agregarServidorLocal(this)
+		servidor.agregarServidorLocal(this)
+		fechaActual = new LocalDateTime
 	}
 
 	new(Point _ubicacion, String terminal, ServidorCentral servidor, LocalDateTime _fecha) {
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
 		servidorCentral = servidor
-		servidorCentral.agregarServidorLocal(this)
-		fechaDisponible = _fecha
-	}
+		servidor.agregarServidorLocal(this)
+		fechaActual = _fecha
+	} // Constructor con fecha parametrizable (solo para test de Disponibilidad)
 
 
 	def boolean consultarCercania(POI unPoi) {
 		unPoi.estaCercaA(ubicacion)
 	}
 
-	def boolean consultarDisponibilidad(POI unPoi, String valorX) {
-		val fechaActual = new LocalDateTime
-		unPoi.estaDisponible(fechaActual,valorX)
+	def boolean consultarDisponibilidad(POI unPoi, String textoX) {
+		unPoi.estaDisponible(fechaActual, textoX)
 	}
 	
 	def List<POI> buscar(String texto){
