@@ -7,7 +7,6 @@ import edu.tp2016.pois.POI
 import edu.tp2016.repositorio.Repositorio
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.observersBusqueda.BusquedaObserver
-import java.util.Arrays
 import com.google.common.collect.Lists
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.ArrayList
@@ -22,6 +21,7 @@ class ServidorCentral {
 	Repositorio repo = Repositorio.newInstance
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
+	String administradorMailAdress
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -45,9 +45,14 @@ class ServidorCentral {
 	
 	def List<POI> buscarEnRepoCentral(String texto, RegistroDeBusqueda busquedaActual) {
 		
-		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
+		val LocalDateTime t1 = new LocalDateTime()
+		val listaDePoisDevueltos = Lists.newArrayList(this.buscarPor(texto))
+		val LocalDateTime t2 = new LocalDateTime()
 		
-		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
+		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, listaDePoisDevueltos, t1, t2, this) ]
+		
+		listaDePoisDevueltos
+
 	}
 	
 	/**
