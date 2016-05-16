@@ -28,9 +28,6 @@ class TestRegistroDeBusquedasConObservers {
 	ServidorLocal terminalFlorida
 	ServidorLocal terminalTeatroColon
 	ServidorCentral servidorCentral
-	CantidadDeResultadosObserver cantResultadosObserver
-	DemoraConsultaObserver demoraConsultaObserver
-	FraseBuscadaObserver fraseBuscadaObserver
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -77,9 +74,9 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 		
-		servidorCentral.adscribirObserver(cantResultadosObserver)
-		servidorCentral.adscribirObserver(demoraConsultaObserver)		
-		servidorCentral.adscribirObserver(fraseBuscadaObserver)
+		servidorCentral.adscribirObserver(new CantidadDeResultadosObserver)
+		servidorCentral.adscribirObserver(new FraseBuscadaObserver)		
+		servidorCentral.adscribirObserver(new DemoraConsultaObserver)
 		
 		servidorCentral.inicializarTiempoLimiteDeBusqueda(10)
 

@@ -11,10 +11,12 @@ class RegistroDeBusqueda {
 	String textoBuscado
 	int cantidadDeResultados
 	long demoraConsulta
+	boolean sendMail
 	
-	new(LocalDateTime _fecha, String _terminal){
+	new(LocalDateTime _fecha, String _terminal, boolean notificaAlAdministrador){
 		fecha = _fecha
 		nombreTerminal = _terminal
+		sendMail = notificaAlAdministrador
 	}
 		
 	new() {
