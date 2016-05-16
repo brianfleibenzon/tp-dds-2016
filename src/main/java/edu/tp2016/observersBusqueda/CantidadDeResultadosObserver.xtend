@@ -4,7 +4,7 @@ import edu.tp2016.servidores.ServidorLocal
 
 class CantidadDeResultadosObserver implements BusquedaObserver{
 
-override def void registrarBusqueda(String texto, RegistroDeBusqueda busqueda, ServidorLocal servidor){
+	override def void registrarBusqueda(String texto, RegistroDeBusqueda busqueda, ServidorLocal servidor){
 		
 		val cantidadRetornadaDePois = (servidor.buscarPor(texto)).size
 
