@@ -36,18 +36,6 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		[POI poi|poi.tienePalabraClave(palabraClave)] as Predicate<POI>
 	}
 
-	def getCriterioPorParada(String parada) {
-		[POI poi|poi.coincide(parada)] as Predicate<POI>
-	}
-
-	def getCriterioPorServicio(String servicio) {
-		[POI poi|poi.coincide(servicio)] as Predicate<POI>
-	}
-
-	def getCriterioPorRubro(String rubro) {
-		[POI poi|poi.coincide(rubro)] as Predicate<POI>
-	}
-	
 	def agregarPois(List<POI> pois){
 		pois.forEach[poi | this.create(poi)]
 	}

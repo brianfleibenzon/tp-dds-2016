@@ -9,6 +9,7 @@ import edu.tp2016.pois.Banco
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.sistema.Sistema
 import java.util.Arrays
 import java.util.List
 import org.joda.time.LocalDateTime
@@ -17,7 +18,6 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
-import edu.tp2016.sistema.Sistema
 
 class TestBusquedaLibre {
 
