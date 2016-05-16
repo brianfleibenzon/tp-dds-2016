@@ -3,7 +3,6 @@ package edu.tp2016.servidores
 import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import org.joda.time.LocalDateTime
@@ -12,7 +11,6 @@ import org.joda.time.LocalDateTime
 class ServidorLocal{
 	
 	ServidorCentral servidorCentral
-	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
 	String nombreTerminal
 
 /**
@@ -40,12 +38,10 @@ class ServidorLocal{
 		
 		val busquedaActual = new RegistroDeBusqueda(new LocalDateTime, nombreTerminal)
 		
-		val searchResult = servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
-		
-		busquedas.add(busquedaActual)
-		
-		searchResult
+		servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
 		
 	}
+	
+	
 	
 }

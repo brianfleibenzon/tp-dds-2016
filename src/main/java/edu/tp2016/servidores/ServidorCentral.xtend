@@ -21,6 +21,7 @@ class ServidorCentral {
 	long tiempoLimiteDeBusqueda
 	Repositorio repo = Repositorio.newInstance
 	List<ServidorLocal> servidoresLocales
+	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
 	Map<Integer, String> busquedasPorTerminal = new HashMap<Integer, String>() // VER
 		
 		new(List<POI> listaPois) {
@@ -49,6 +50,7 @@ class ServidorCentral {
 	def List<POI> buscarEnRepoCentral(String texto, RegistroDeBusqueda busquedaActual) {
 		
 		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
+		busquedas.add(busquedaActual)
 		
 		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
 		
