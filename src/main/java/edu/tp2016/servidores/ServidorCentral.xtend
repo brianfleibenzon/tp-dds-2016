@@ -23,6 +23,8 @@ class ServidorCentral {
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
 	String administradorMailAdress
+	String centralMailAdress
+	int mailsEnviados = 0
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -94,9 +96,7 @@ class ServidorCentral {
 	
      /**
 	 * Observación. Date es una fecha con el siguiente formato:
-	 * public Date(int year,
-                   int month,
-                    int date)
+	 * public Date(int year, int month, int date)
 	 * 
 	 * @return reporte de búsquedas por fecha
 	 */
@@ -115,7 +115,6 @@ class ServidorCentral {
 				reporte.put(date, 1)
 			}
 		]
-
 		reporte
 	}
 	
@@ -129,9 +128,7 @@ class ServidorCentral {
 				reporte.put(busqueda.nombreTerminal, new ArrayList<Integer>)
 			}
 			reporte.get(busqueda.nombreTerminal).add(busqueda.cantidadDeResultados)
-
 		]
-
 		reporte
 	}
 	
@@ -145,7 +142,6 @@ class ServidorCentral {
 		
 		busquedasDeLaTerminalEspecifica.forEach [ busqueda | reporte.add(busqueda.cantidadDeResultados)
 		]
-		
 		reporte
 	}
 

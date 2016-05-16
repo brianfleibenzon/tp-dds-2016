@@ -162,7 +162,7 @@ class TestBusquedaEnTodosLosDatos {
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
-			(banco.sucursal == "Avellaneda") && (banco.nombreGerente == "Javier Loeschbor") ] )
+			(banco.sucursal.equals("Avellaneda")) && (banco.nombreGerente.equals("Javier Loeschbor")) ] )
 	}
 
 	@Test
@@ -171,7 +171,7 @@ class TestBusquedaEnTodosLosDatos {
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
-			(banco.sucursal == "Caballito") && (banco.palabrasClave.contains("transferencias")) ] )
+			(banco.sucursal.equals("Caballito")) && (banco.palabrasClave.contains("transferencias")) ] )
 	}
 
 	@Test
