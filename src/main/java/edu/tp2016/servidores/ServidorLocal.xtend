@@ -12,6 +12,7 @@ class ServidorLocal{
 	
 	ServidorCentral servidorCentral
 	String nombreTerminal
+	Point ubicacion
 
 /**
 	 * Constructor para un ServidorLocal. Lo creo con su nombre (ej.: "terminalAbasto")
@@ -20,7 +21,8 @@ class ServidorLocal{
 	 * @param nombre cadena de texto que representa el nombre de un ServidorLocal
 	 * @return servidorCentral el servidor central de todos los servidores locales
 	 */
-	new(String terminal, ServidorCentral servidor) {
+	new(Point ubic, String terminal, ServidorCentral servidor) {
+		ubicacion = ubic
 		nombreTerminal = terminal
 		servidorCentral.agregarServidorLocal(this)
 	}

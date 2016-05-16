@@ -12,6 +12,7 @@ import java.util.Arrays
 import com.google.common.collect.Lists
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.ArrayList
+import org.joda.time.LocalDateTime
 
 @Accessors
 class ServidorCentral {
@@ -43,10 +44,7 @@ class ServidorCentral {
 		poisBusqueda.filter[poi|!texto.equals("") && (poi.tienePalabraClave(texto) || poi.coincide(texto))]
 	}
 
-	/**
-	 *  Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
-	 *  de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
-	 */
+	
 	def List<POI> buscarEnRepoCentral(String texto, RegistroDeBusqueda busquedaActual) {
 		
 		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
@@ -72,8 +70,62 @@ class ServidorCentral {
 		busquedaObservers.remove(observador)
 	}
 		
-	def registrarBusquedaDeTerminal(RegistroDeBusqueda busqueda){
+// REPORTES DE BÚSQUEDAS:
 			
+	def generarReporteCantidadTotalDeBusquedasPorFecha() {
+		val HashMap<LocalDateTime, Integer> reporte = new HashMap<LocalDateTime, Integer>()
+
+		busquedas.forEach [ busqueda |
+			if (reporte.containsKey(busqueda.fecha)) {
+				reporte.put(busqueda.fecha, reporte.get(busqueda.fecha) + 1)
+			} else {
+				reporte.put(busqueda.fecha, 1)
+			}
+		]
+
+		reporte
+	}
+	
+	def generarReporteCantidadDeResultadosParcialesPorTerminal() {
+		val HashMap<String, List<Integer>> reporte = new HashMap<String, List<Integer>>()
+
+		busquedas.forEach [ busqueda |
+
+			if (!reporte.containsKey(busqueda.nombreTerminal)) {
+				reporte.put(busqueda.nombreTerminal, new ArrayList<Integer>)
+			}
+			reporte.get(busqueda.nombreTerminal).add(busqueda.cantidadDeResultados)
+
+		]
+
+		reporte
+	}
+	
+
+	def generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica(String nombreDeConsulta) {
+		val List<Integer> reporte = new ArrayList<Integer>
+		
+		val busquedasDeLaTerminal = busquedas.filter [ busqueda | (busqueda.nombreTerminal).equals(nombreDeConsulta) ]
+		
+		busquedasDeLaTerminal.forEach [ busqueda | reporte.add(busqueda.cantidadDeResultados)
+		]
+		
+		reporte
+	}
+
+	def generarReporteCantidadTotalDeResultadosPorTerminal() {
+		val HashMap<String, Integer> reporte = new HashMap<String, Integer>()
+
+		busquedas.forEach [ busqueda |
+			
+			if (reporte.containsKey(busqueda.nombreTerminal)) {
+				reporte.put(busqueda.nombreTerminal, reporte.get(busqueda.nombreTerminal) + busqueda.cantidadDeResultados)
+			} else {
+				reporte.put(busqueda.nombreTerminal, busqueda.cantidadDeResultados)
+			}			
+
+		]
+
 	}
 
 }

@@ -2,30 +2,32 @@ package edu.tp2016
 
 import org.junit.Before
 import org.uqbar.geodds.Point
-import java.util.Arrays
-import org.joda.time.LocalDateTime
 import org.junit.Test
 import org.junit.Assert
 import edu.tp2016.pois.Banco
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
+import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.servidores.ServidorCentral
+import java.util.Arrays
 
 class TestBusquedaBanco {
-	Dispositivo unDispositivo
-	LocalDateTime fechaX
+	ServidorLocal servidorLocal
+	ServidorCentral servidorCentral
 	Point ubicacionX
+	Banco banco
 	
 	@Before
 	def void setUp() {
 		ubicacionX = new Point(-1, 1)
-		fechaX = new LocalDateTime()
-		unDispositivo = new Dispositivo(ubicacionX, Arrays.asList(), fechaX)
-		unDispositivo.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))	
+		servidorCentral = new ServidorCentral(Arrays.asList())
+		servidorLocal = new ServidorLocal(ubicacionX,"servLocalGenerico", servidorCentral)
+		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))	
 	}
 	
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unDispositivo.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (servidorLocal.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -33,7 +35,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unDispositivo.buscar("Banco de la Plaza")
+		val resultadoBusqueda = servidorLocal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -42,7 +44,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unDispositivo.buscar("Banco de la Plaza")
+		val resultadoBusqueda = servidorLocal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -51,7 +53,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unDispositivo.buscar("Galicia")
+		val resultadoBusqueda = servidorLocal.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
