@@ -11,17 +11,17 @@ class DemoraConsultaObserver implements BusquedaObserver{
 		
 	val LocalDateTime inicioBusqueda = new LocalDateTime()
  	servidor.buscarPor(texto)
- 	// TODO: Para no repetir la búsqueda, este observer podría ser directamente el encargado de hacerla
- 	// Se me ocurre como, pero lo vemos después
  	val LocalDateTime finBusqueda = new LocalDateTime()
 	val demora = new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime).standardSeconds
-	verificarTiempoDeConsulta(servidor.tiempoLimiteDeBusqueda, demora) 	
+	
+	verificarTiempoDeConsulta(servidor.tiempoLimiteDeBusqueda, demora, busquedaActual.sendMail)
+	
 	busquedaActual.demoraConsulta = demora
 	}
 	
-	def verificarTiempoDeConsulta(long timeout, long demora){
+	def verificarTiempoDeConsulta(long timeout, long demora, boolean enviaMail){
 		
- 	if (demora > timeout){
+ 	if ((demora > timeout) && enviaMail){
  		enviarMail()
 	}
 	}

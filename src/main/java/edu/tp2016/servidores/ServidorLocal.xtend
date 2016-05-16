@@ -16,6 +16,8 @@ class ServidorLocal{
 	Point ubicacion
 	List<RegistroDeBusqueda> busquedasTerminal = new ArrayList<RegistroDeBusqueda>
 	LocalDateTime fechaActual
+	boolean puedeGenerarReportes = true
+	boolean notificaAlAdministrador = true
 
 /**
 	 * Constructor para un ServidorLocal. Lo creo con su nombre (ej.: "terminalAbasto")
@@ -52,14 +54,29 @@ class ServidorLocal{
 	
 	def List<POI> buscar(String texto){
 		
-		val busquedaActual = new RegistroDeBusqueda(new LocalDateTime, nombreTerminal)
+		val busquedaActual = new RegistroDeBusqueda(new LocalDateTime, nombreTerminal, notificaAlAdministrador)
 		
 		val searchResult = servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
+		
 		busquedasTerminal.add(busquedaActual)
 		
 		searchResult
 	}
 	
+	def activarNotificacionesAlAdministardor(){
+		notificaAlAdministrador = true
+	}
 	
+	def desactivarNotificacionesAlAdministardor(){
+		notificaAlAdministrador = false
+	}
+	
+	def desactivarGeneracionDeReportes(){
+		puedeGenerarReportes = false
+	}
+	
+	def activarGeneracionDeReportes(){
+		puedeGenerarReportes = true
+	}
 	
 }

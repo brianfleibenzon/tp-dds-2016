@@ -48,38 +48,49 @@ class ServidorCentral {
 		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
 		
 		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
-		
 	}
 	
-	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminales(){
+	/**
+	 * Esta función permite al ServidorCentral mapearse las búsquedas de cada terminal
+	 * de su lista de terminales (servidoresLocales), para luego destinarlas a un reporte en particular.
+	 * Para ello se seleccionan primero aquellas terminales que estén habilitadas para generar reportes.
+	 * 
+	 * @return lista de búsquedas
+	 */
+	
+	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminalesAReportar(){
 		val busquedasTerminales = new ArrayList<RegistroDeBusqueda>
-		val registrosPorTerminal = servidoresLocales.map [terminal | terminal.busquedasTerminal] 
-		registrosPorTerminal.forEach [ registros | busquedasTerminales.addAll(registros) ]
-		busquedasTerminales
+		val registrosPorTerminal = ( servidoresLocales
+				.filter [terminal | (terminal.puedeGenerarReportes).equals(true) ]
+				.map [terminal | terminal.busquedasTerminal ] )
 		
+		registrosPorTerminal.forEach [ registro | busquedasTerminales.addAll(registro) ]
+		
+		busquedasTerminales
 	}
 	
 	def inicializarTiempoLimiteDeBusqueda(long tiempo){
 		tiempoLimiteDeBusqueda = tiempo
 	} // De esta forma es parametizable
 	
-	def agregarServidorLocal(ServidorLocal servidor){
-		servidoresLocales.add(servidor)
+	def agregarServidorLocal(ServidorLocal terminal){
+		servidoresLocales.add(terminal)
 	}
 	
-	def adscribirObserver(BusquedaObserver observadores){
-		busquedaObservers.addAll(observadores)
+	def adscribirObserver(BusquedaObserver observador){
+		busquedaObservers.add(observador)
 	}
 	
-	def quitarObserver(BusquedaObserver observadores){
-		busquedaObservers.removeAll(observadores)
+	def quitarObserver(BusquedaObserver observador){
+		busquedaObservers.remove(observador)
 	}
 		
 // REPORTES DE BÚSQUEDAS:
 			
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
 		val HashMap<LocalDateTime, Integer> reporte = new HashMap<LocalDateTime, Integer>()
-		val busquedas = obtenerBusquedasDeTerminales
+		val busquedas = obtenerBusquedasDeTerminalesAReportar
+		
 		busquedas.forEach [ busqueda |
 			if (reporte.containsKey(busqueda.fecha)) {
 				reporte.put(busqueda.fecha, reporte.get(busqueda.fecha) + 1)
@@ -93,7 +104,8 @@ class ServidorCentral {
 	
 	def generarReporteCantidadDeResultadosParcialesPorTerminal() {
 		val HashMap<String, List<Integer>> reporte = new HashMap<String, List<Integer>>()
-		val busquedas = obtenerBusquedasDeTerminales
+		val busquedas = obtenerBusquedasDeTerminalesAReportar
+		
 		busquedas.forEach [ busqueda |
 
 			if (!reporte.containsKey(busqueda.nombreTerminal)) {
@@ -109,8 +121,10 @@ class ServidorCentral {
 
 	def generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica(String nombreDeConsulta) {
 		val List<Integer> reporte = new ArrayList<Integer>
-		val busquedas = obtenerBusquedasDeTerminales
-		val busquedasDeLaTerminalEspecifica = busquedas.filter [ busqueda | (busqueda.nombreTerminal).equals(nombreDeConsulta) ]
+		val busquedas = obtenerBusquedasDeTerminalesAReportar
+		
+		val busquedasDeLaTerminalEspecifica = ( busquedas
+				.filter [ busqueda | (busqueda.nombreTerminal).equals(nombreDeConsulta) ] )
 		
 		busquedasDeLaTerminalEspecifica.forEach [ busqueda | reporte.add(busqueda.cantidadDeResultados)
 		]
@@ -120,17 +134,19 @@ class ServidorCentral {
 
 	def generarReporteCantidadTotalDeResultadosPorTerminal() {
 		val HashMap<String, Integer> reporte = new HashMap<String, Integer>()
-		val busquedas = obtenerBusquedasDeTerminales
+		val busquedas = obtenerBusquedasDeTerminalesAReportar
+		
 		busquedas.forEach [ busqueda |
 			
-			if (reporte.containsKey(busqueda.nombreTerminal)) {
-				reporte.put(busqueda.nombreTerminal, reporte.get(busqueda.nombreTerminal) + busqueda.cantidadDeResultados)
+				if (reporte.containsKey(busqueda.nombreTerminal)) {
+				reporte.put(busqueda.nombreTerminal,
+					reporte.get(busqueda.nombreTerminal) + busqueda.cantidadDeResultados
+				)
 			} else {
 				reporte.put(busqueda.nombreTerminal, busqueda.cantidadDeResultados)
-			}			
-
+			}
 		]
-
+		reporte
 	}
 
 }
