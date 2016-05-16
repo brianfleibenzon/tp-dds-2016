@@ -18,6 +18,9 @@ import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.serviciosExternos.cgp.AdapterCGP
 import org.junit.Assert
 import org.junit.Test
+import edu.tp2016.observersBusqueda.CantidadDeResultadosObserver
+import edu.tp2016.observersBusqueda.DemoraConsultaObserver
+import edu.tp2016.observersBusqueda.FraseBuscadaObserver
 
 class TestRegistroDeBusquedasConObservers {
 	
@@ -70,14 +73,19 @@ class TestRegistroDeBusquedasConObservers {
 		
 		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-	
+		
+		servidorCentral.adscribirObserver(new CantidadDeResultadosObserver)
+		servidorCentral.adscribirObserver(new FraseBuscadaObserver)		
+		servidorCentral.adscribirObserver(new DemoraConsultaObserver)
+		
+		servidorCentral.inicializarTiempoLimiteDeBusqueda(10)
+
 		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral)
 		
 		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral)
 		
 		terminalTeatroColon = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral)
 		
-		servidorCentral.inicializarTiempoLimiteDeBusqueda(10)
 	}
 	
 	@Test
