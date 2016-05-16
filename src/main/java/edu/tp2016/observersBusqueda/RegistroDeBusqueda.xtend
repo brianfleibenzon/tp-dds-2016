@@ -7,14 +7,14 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class RegistroDeBusqueda {
 
 	LocalDateTime fecha
-	String terminal
+	String nombreTerminal
 	String textoBuscado
 	int cantidadDeResultados
 	long demoraConsulta
 	
 	new(LocalDateTime _fecha, String _terminal){
 		fecha = _fecha
-		terminal = _terminal
+		nombreTerminal = _terminal
 	}
 	
 	def void registrarCantResult(int cantResult){
