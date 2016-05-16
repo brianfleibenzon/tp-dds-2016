@@ -17,10 +17,13 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
+import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.servidores.ServidorCentral
 
 class TestCercania {
 
-	Dispositivo unDispositivo
+	ServidorLocal unServidorLocal
+	ServidorCentral servidorCentral
 	ParadaDeColectivo paradaCerca
 	ParadaDeColectivo paradaLejos
 	Banco bancoCerca
@@ -85,49 +88,49 @@ class TestCercania {
 
 		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
 			paradaLejos)
-
-		unDispositivo = new Dispositivo(new Point(-34.598574, -58.420280), poisX, fechaX)
+		servidorCentral = new ServidorCentral(poisX)
+		unServidorLocal = new ServidorLocal(new Point(-34.598574, -58.420280), "unServidorLocal", servidorCentral)
 
 	}
 
 	@Test
 	def void paradaEstaCerca() {
-		Assert.assertTrue(unDispositivo.consultarCercania(paradaCerca))
+		Assert.assertTrue(unServidorLocal.consultarCercania(paradaCerca))
 	}
 
 	@Test
 	def void paradaEstaLejos() {
-		Assert.assertFalse(unDispositivo.consultarCercania(paradaLejos))
+		Assert.assertFalse(unServidorLocal.consultarCercania(paradaLejos))
 	}
 
 	@Test
 	def void bancoEstaCerca() {
-		Assert.assertTrue(unDispositivo.consultarCercania(bancoCerca))
+		Assert.assertTrue(unServidorLocal.consultarCercania(bancoCerca))
 	}
 
 	@Test
 	def void bancoEstaLejos() {
-		Assert.assertFalse(unDispositivo.consultarCercania(bancoLejos))
+		Assert.assertFalse(unServidorLocal.consultarCercania(bancoLejos))
 	}
 
 	@Test
 	def void CGPEstaCerca() {
-		Assert.assertTrue(unDispositivo.consultarCercania(CGPCerca))
+		Assert.assertTrue(unServidorLocal.consultarCercania(CGPCerca))
 	}
 
 	@Test
 	def void CGPEstaLejos() {
-		Assert.assertFalse(unDispositivo.consultarCercania(CGPLejos))
+		Assert.assertFalse(unServidorLocal.consultarCercania(CGPLejos))
 	}
 
 	@Test
 	def void comercioEstaCerca() {
-		Assert.assertTrue(unDispositivo.consultarCercania(comercioCerca))
+		Assert.assertTrue(unServidorLocal.consultarCercania(comercioCerca))
 	}
 
 	@Test
 	def void comercioEstaLejos() {
-		Assert.assertFalse(unDispositivo.consultarCercania(comercioLejos))
+		Assert.assertFalse(unServidorLocal.consultarCercania(comercioLejos))
 	}
 
 }

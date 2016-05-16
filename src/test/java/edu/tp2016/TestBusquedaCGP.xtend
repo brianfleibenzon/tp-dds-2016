@@ -9,9 +9,12 @@ import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import org.junit.Test
 import org.junit.Assert
 import edu.tp2016.pois.CGP
+import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.servidores.ServidorCentral
 
 class TestBusquedaCGP {
-	Dispositivo unDispositivo
+	ServidorLocal unServidorLocal
+	ServidorCentral servidorCentral
 	LocalDateTime fechaX
 	Point ubicacionX
 	
@@ -19,27 +22,28 @@ class TestBusquedaCGP {
 	def void setUp() {
 		ubicacionX = new Point(-1, 1)
 		fechaX = new LocalDateTime()
-		unDispositivo = new Dispositivo(ubicacionX, Arrays.asList(), fechaX)
-		unDispositivo.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))	
+		servidorCentral= new ServidorCentral(Arrays.asList())
+		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))	
+		unServidorLocal = new ServidorLocal(ubicacionX, "servidorLocal", servidorCentral)
 	}
 	
 	@Test
 	def void buscarCGPConRentas() {
-		val resultado = unDispositivo.buscar("Rentas")
+		val resultado = unServidorLocal.buscar("Rentas")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(2, unCGP.comuna.numero)
 	}
 	
 	@Test
 	def void buscarCGPConAtencionCiudadana() {
-		val resultado = unDispositivo.buscar("Atencion ciudadana")
+		val resultado = unServidorLocal.buscar("Atencion ciudadana")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(3, unCGP.comuna.numero)
 	}
 	
 	@Test
 	def void buscarCGPConVeterinaria() {
-		val resultado = unDispositivo.buscar("Veterinaria")
+		val resultado = unServidorLocal.buscar("Veterinaria")
 		Assert.assertEquals(0, resultado.size)
 	}
 }

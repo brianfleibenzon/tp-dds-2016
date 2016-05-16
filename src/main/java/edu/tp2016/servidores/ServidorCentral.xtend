@@ -1,6 +1,5 @@
 package edu.tp2016.servidores
 
-import java.util.Map
 import java.util.HashMap
 import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import java.util.List
@@ -18,12 +17,11 @@ import org.joda.time.LocalDateTime
 class ServidorCentral {
 
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
-	List<BusquedaObserver> busquedaObservers
+	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
 	long tiempoLimiteDeBusqueda
 	Repositorio repo = Repositorio.newInstance
-	List<ServidorLocal> servidoresLocales
+	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
-	Map<Integer, String> busquedasPorTerminal = new HashMap<Integer, String>() // VER
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -48,13 +46,20 @@ class ServidorCentral {
 	def List<POI> buscarEnRepoCentral(String texto, RegistroDeBusqueda busquedaActual) {
 		
 		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
-		busquedas.add(busquedaActual)
 		
 		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
 		
 	}
 	
-	def inicializarTiempoLimiteDeBusqueda(int tiempo){
+	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminales(){
+		val busquedasTerminales = new ArrayList<RegistroDeBusqueda>
+		val registrosPorTerminal = servidoresLocales.map [terminal | terminal.busquedasTerminal] 
+		registrosPorTerminal.forEach [ registros | busquedasTerminales.addAll(registros) ]
+		busquedasTerminales
+		
+	}
+	
+	def inicializarTiempoLimiteDeBusqueda(long tiempo){
 		tiempoLimiteDeBusqueda = tiempo
 	} // De esta forma es parametizable
 	
@@ -62,19 +67,19 @@ class ServidorCentral {
 		servidoresLocales.add(servidor)
 	}
 	
-	def adscribirObserver(BusquedaObserver observador){
-		busquedaObservers.add(observador)
+	def adscribirObserver(BusquedaObserver observadores){
+		busquedaObservers.addAll(observadores)
 	}
 	
-	def quitarObserver(BusquedaObserver observador){
-		busquedaObservers.remove(observador)
+	def quitarObserver(BusquedaObserver observadores){
+		busquedaObservers.removeAll(observadores)
 	}
 		
 // REPORTES DE BÚSQUEDAS:
 			
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
 		val HashMap<LocalDateTime, Integer> reporte = new HashMap<LocalDateTime, Integer>()
-
+		val busquedas = obtenerBusquedasDeTerminales
 		busquedas.forEach [ busqueda |
 			if (reporte.containsKey(busqueda.fecha)) {
 				reporte.put(busqueda.fecha, reporte.get(busqueda.fecha) + 1)
@@ -88,7 +93,7 @@ class ServidorCentral {
 	
 	def generarReporteCantidadDeResultadosParcialesPorTerminal() {
 		val HashMap<String, List<Integer>> reporte = new HashMap<String, List<Integer>>()
-
+		val busquedas = obtenerBusquedasDeTerminales
 		busquedas.forEach [ busqueda |
 
 			if (!reporte.containsKey(busqueda.nombreTerminal)) {
@@ -104,10 +109,10 @@ class ServidorCentral {
 
 	def generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica(String nombreDeConsulta) {
 		val List<Integer> reporte = new ArrayList<Integer>
+		val busquedas = obtenerBusquedasDeTerminales
+		val busquedasDeLaTerminalEspecifica = busquedas.filter [ busqueda | (busqueda.nombreTerminal).equals(nombreDeConsulta) ]
 		
-		val busquedasDeLaTerminal = busquedas.filter [ busqueda | (busqueda.nombreTerminal).equals(nombreDeConsulta) ]
-		
-		busquedasDeLaTerminal.forEach [ busqueda | reporte.add(busqueda.cantidadDeResultados)
+		busquedasDeLaTerminalEspecifica.forEach [ busqueda | reporte.add(busqueda.cantidadDeResultados)
 		]
 		
 		reporte
@@ -115,7 +120,7 @@ class ServidorCentral {
 
 	def generarReporteCantidadTotalDeResultadosPorTerminal() {
 		val HashMap<String, Integer> reporte = new HashMap<String, Integer>()
-
+		val busquedas = obtenerBusquedasDeTerminales
 		busquedas.forEach [ busqueda |
 			
 			if (reporte.containsKey(busqueda.nombreTerminal)) {

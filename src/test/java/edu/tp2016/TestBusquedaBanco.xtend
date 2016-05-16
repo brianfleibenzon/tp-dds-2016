@@ -10,19 +10,35 @@ import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import java.util.Arrays
+import edu.tp2016.pois.Comercio
+import edu.tp2016.mod.Rubro
+import java.util.List
+import edu.tp2016.mod.DiaDeAtencion
 
 class TestBusquedaBanco {
 	ServidorLocal servidorLocal
 	ServidorCentral servidorCentral
 	Point ubicacionX
-	Banco banco
+	
+	Comercio comercioCerca
+	Comercio comercioLejos	
+	Rubro rubroTest
+	List<String> clavesX
+	List<DiaDeAtencion> rangoX
 	
 	@Before
 	def void setUp() {
 		ubicacionX = new Point(-1, 1)
-		servidorCentral = new ServidorCentral(Arrays.asList())
+
+		comercioCerca = new Comercio("test", new Point(-34.597768, -58.419860), clavesX, rubroTest, rangoX)
+
+		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415), clavesX, rubroTest, rangoX)
+
+
+		servidorCentral = new ServidorCentral(Arrays.asList(comercioCerca, comercioLejos))
+		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		servidorLocal = new ServidorLocal(ubicacionX,"servLocalGenerico", servidorCentral)
-		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))	
+			
 	}
 	
 	@Test

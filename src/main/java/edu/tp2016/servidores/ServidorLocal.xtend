@@ -6,6 +6,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import org.joda.time.LocalDateTime
+import java.util.ArrayList
 
 @Accessors
 class ServidorLocal{
@@ -13,6 +14,8 @@ class ServidorLocal{
 	ServidorCentral servidorCentral
 	String nombreTerminal
 	Point ubicacion
+	List<RegistroDeBusqueda> busquedasTerminal = new ArrayList<RegistroDeBusqueda>
+	LocalDateTime fechaDisponible
 
 /**
 	 * Constructor para un ServidorLocal. Lo creo con su nombre (ej.: "terminalAbasto")
@@ -21,13 +24,24 @@ class ServidorLocal{
 	 * @param nombre cadena de texto que representa el nombre de un ServidorLocal
 	 * @return servidorCentral el servidor central de todos los servidores locales
 	 */
-	new(Point ubic, String terminal, ServidorCentral servidor) {
-		ubicacion = ubic
+
+	new(Point _ubicacion, String terminal, ServidorCentral servidor) {
+		ubicacion = _ubicacion
 		nombreTerminal = terminal
+		servidorCentral = servidor
 		servidorCentral.agregarServidorLocal(this)
 	}
 
-	def boolean consultarCercania(POI unPoi, Point ubicacion) {
+	new(Point _ubicacion, String terminal, ServidorCentral servidor, LocalDateTime _fecha) {
+		ubicacion = _ubicacion
+		nombreTerminal = terminal
+		servidorCentral = servidor
+		servidorCentral.agregarServidorLocal(this)
+		fechaDisponible = _fecha
+	}
+
+
+	def boolean consultarCercania(POI unPoi) {
 		unPoi.estaCercaA(ubicacion)
 	}
 
@@ -40,8 +54,10 @@ class ServidorLocal{
 		
 		val busquedaActual = new RegistroDeBusqueda(new LocalDateTime, nombreTerminal)
 		
-		servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
+		val searchResult = servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
+		busquedasTerminal.add(busquedaActual)
 		
+		searchResult
 	}
 	
 	

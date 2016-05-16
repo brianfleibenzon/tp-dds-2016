@@ -17,10 +17,13 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
+import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.servidores.ServidorCentral
 
 class TestBusquedaLibre {
 
-	Dispositivo unDispositivo
+	ServidorLocal unServidorLocal
+	ServidorCentral servidorCentral
 	ParadaDeColectivo utn7parada
 	ParadaDeColectivo miserere7parada
 	ParadaDeColectivo utn114parada
@@ -93,75 +96,76 @@ class TestBusquedaLibre {
 		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
 			rubroLibreria, rangoX)
 
-		unDispositivo = new Dispositivo(ubicacionX,
-			Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
-				comercioLoDeJuan, bancoGalicia), fechaX)
+		servidorCentral = new ServidorCentral(Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
+				comercioLoDeJuan, bancoGalicia))
+
+		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal", servidorCentral, fechaX)
 
 	}
 
 	@Test
 	def void buscarCadenaVaciaQueDevuelveListaVacia() {
-		Assert.assertEquals(Arrays.asList(), unDispositivo.buscar(""))
+		Assert.assertEquals(Arrays.asList(), unServidorLocal.buscar(""))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unDispositivo.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(unServidorLocal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unDispositivo.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(unServidorLocal.buscar("114"), Arrays.asList(utn114parada))
 	}
 
 	@Test
 	def void buscarBancoPorNombre() {
-		Assert.assertEquals(unDispositivo.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
+		Assert.assertEquals(unServidorLocal.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
 	}
 
 	@Test
 	def void buscarBancoConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
+		Assert.assertEquals(unServidorLocal.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
 	}
 
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(unServidorLocal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unDispositivo.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(unServidorLocal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unDispositivo.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioEntero() {
-		Assert.assertEquals(unDispositivo.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
+		Assert.assertEquals(unServidorLocal.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioParcial() {
-		Assert.assertEquals(unDispositivo.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
+		Assert.assertEquals(unServidorLocal.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
 	}
 
 	@Test
 	def void buscarCGPEscrbiendoPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("comuna 2"), Arrays.asList(CGPComuna2))
+		Assert.assertEquals(unServidorLocal.buscar("comuna 2"), Arrays.asList(CGPComuna2))
 	}
 
 	@Test
 	def void buscarYQueNoHayaCoincidencias() {
-		Assert.assertEquals(unDispositivo.buscar("palabraInexistente"), Arrays.asList())
+		Assert.assertEquals(unServidorLocal.buscar("palabraInexistente"), Arrays.asList())
 	}
 
 }
