@@ -20,6 +20,8 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
+import builder.ParadaBuilder
+import builder.ComercioBuilder
 
 class TestBusquedaEnTodosLosDatos {
 	ServidorLocal unServidorLocal
@@ -42,22 +44,39 @@ class TestBusquedaEnTodosLosDatos {
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+		utn7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		claves( Arrays.asList("utn", "campus")).build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
+		miserere7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		 claves(Arrays.asList("utn", "plaza miserere", "once")).build
 
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
+		utn114parada = new ParadaBuilder().nombre("114").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("utn", "campus")).build
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
-
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
-
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
 		
+	
+	    comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("medicamentos", "salud")).
+		rubro(rubroFarmacia).
+		rango(rangoX).build
+
+		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("fotocopias", "utiles", "libros")).
+		rubro(rubroLibreria).
+		rango(rangoX).build
+	
+	
+	
+	
+	
 		servidorCentral = new ServidorCentral(Arrays.asList())
 		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal",servidorCentral, fechaX)
 

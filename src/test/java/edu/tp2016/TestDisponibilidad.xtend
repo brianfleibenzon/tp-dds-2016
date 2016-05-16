@@ -19,6 +19,10 @@ import edu.tp2016.pois.POI
 import edu.tp2016.pois.Comercio
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
+import builder.CGPBuilder
+import builder.ParadaBuilder
+import builder.ComercioBuilder
+import builder.BancoBuilder
 
 class TestDisponibilidad {
 
@@ -66,7 +70,13 @@ class TestDisponibilidad {
 			poligono.add(new Point(-4, 4))
 		]
 
-		unBanco = new Banco("Santander", ubicacionX, clavesX, "Caballito", "Juan Pérez")
+		unBanco = new BancoBuilder().nombre("Santander").
+		ubicacion(ubicacionX).
+		claves(clavesX).
+		sucursal("Caballito").
+		nombreGerente("Juan Pérez").
+		setearHorarios.
+		build
 
 		lunesMan = new DiaDeAtencion(1, 10, 13, 0, 0)
 		martesMan = new DiaDeAtencion(2, 10, 13, 0, 0)
@@ -81,15 +91,30 @@ class TestDisponibilidad {
 		viernesTar = new DiaDeAtencion(5, 17, 20, 0, 30)
 		sabadoTar = new DiaDeAtencion(6, 17, 20, 0, 30)
 
-		unComercio = new Comercio("Carrousel", ubicacionX, clavesX, rubroX,
-			Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan, juevesTar,
-				viernesMan, viernesTar, sabadoMan, sabadoTar))
+		unComercio = new ComercioBuilder().nombre("Carrousel").
+		ubicacion(ubicacionX).
+		claves(clavesX).
+		rubro(rubroX).
+		rango(Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan, juevesTar,
+				viernesMan, viernesTar, sabadoMan, sabadoTar)).
+		build
 
-		unaParada = new ParadaDeColectivo("114", ubicacionX, clavesX)
+		unaParada = new ParadaBuilder().nombre("114").
+		ubicacion(ubicacionX).
+		claves(clavesX).
+		build
 
 		lunesRentas = new DiaDeAtencion(1, 10, 19, 0, 0)
 		unServicio = new Servicio("Rentas", Arrays.asList(lunesRentas))
-		unCGP = new CGP("CentroDeGestión", ubicacionX, clavesX, comunaX, Arrays.asList(unServicio), "", "", "")
+		unCGP = new CGPBuilder().nombre("CentroDeGestión").
+		ubicacion(ubicacionX).
+		claves(clavesX).
+		comuna(comunaX).
+		servicio(Arrays.asList(unServicio)).
+		zonasIncluidas("").
+		nombreDirector("").
+		telefono("").
+		build
 
 		pois = Arrays.asList(unBanco, unCGP, unComercio, unaParada)
 		

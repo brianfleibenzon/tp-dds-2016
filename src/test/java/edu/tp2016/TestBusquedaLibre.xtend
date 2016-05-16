@@ -19,6 +19,10 @@ import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
+import builder.BancoBuilder
+import builder.ParadaBuilder
+import builder.ComercioBuilder
+import builder.CGPBuilder
 
 class TestBusquedaLibre {
 
@@ -59,14 +63,25 @@ class TestBusquedaLibre {
 			poligono.add(new Point(-4, 4))
 		]
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+			utn7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		claves( Arrays.asList("utn", "campus")).build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
+		miserere7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		 claves(Arrays.asList("utn", "plaza miserere", "once")).build
 
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
+		utn114parada = new ParadaBuilder().nombre("114").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("utn", "campus")).build
 
-		bancoGalicia = new Banco("Banco Galicia Callao", ubicacionX,
-			Arrays.asList("cajero", "sucursal galicia", "banco"), "Almagro", "Juan Perez")
+		bancoGalicia = new BancoBuilder().nombre("Banco Galicia Callao").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("cajero", "sucursal galicia", "banco")).
+		sucursal("Almagro").
+		nombreGerente("Juan Perez").
+		setearHorarios.
+		build
 
 		cultura = new Servicio("cultura", rangoX)
 
@@ -78,23 +93,41 @@ class TestBusquedaLibre {
 
 		salud = new Servicio("salud", rangoX)
 
-		CGPComuna1 = new CGP("CGP Comuna 1", ubicacionX,
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1"), comunaX,
-			Arrays.asList(asesoramientoLegal, cultura, deportes), "", "", "")
+		CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).
+		comuna(comunaX).
+		servicio(Arrays.asList(asesoramientoLegal, cultura, deportes)).
+		zonasIncluidas("").
+		nombreDirector("").
+		telefono( "").
+		build
 
-		CGPComuna2 = new CGP("CGP Comuna 2", ubicacionX,
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2"), comunaX,
-			Arrays.asList(turismo, cultura, salud), "", "", "")
+		CGPComuna2 = new CGPBuilder().nombre("CGP Comuna 2").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2")).
+		comuna(comunaX).
+		servicio(Arrays.asList(turismo, cultura, salud)).
+		zonasIncluidas("").
+	    nombreDirector("").
+	    telefono("").
+	    build
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
 
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
+		comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("medicamentos", "salud")).
+		rubro(rubroFarmacia).
+		rango(rangoX).build
 
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
+		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("fotocopias", "utiles", "libros")).
+		rubro(rubroLibreria).
+		rango(rangoX).build
 
 		servidorCentral = new ServidorCentral(Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
 				comercioLoDeJuan, bancoGalicia))
