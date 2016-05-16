@@ -67,12 +67,12 @@ class ServidorCentral {
 		servidoresLocales.add(servidor)
 	}
 	
-	def adscribirObserver(BusquedaObserver observadores){
-		busquedaObservers.addAll(observadores)
+	def adscribirObserver(BusquedaObserver observador){
+		busquedaObservers.addAll(observador)
 	}
 	
-	def quitarObserver(BusquedaObserver observadores){
-		busquedaObservers.removeAll(observadores)
+	def quitarObserver(BusquedaObserver observador){
+		busquedaObservers.removeAll(observador)
 	}
 		
 // REPORTES DE BÚSQUEDAS:
