@@ -143,16 +143,37 @@ class TestRegistroDeBusquedasConObservers {
 	
 	@Test	
 	def void testReporteDeResultadosParcialesPorTerminal(){
+		terminalAbasto.buscar("Farmacia")
+		terminalAbasto.buscar("utn")
+		terminalFlorida.buscar("114")
+		terminalTeatroColon.buscar("Libreria")
 		
+		val reporteGenerado = servidorCentral.generarReporteCantidadDeResultadosParcialesPorTerminal
+		
+		Assert.assertEquals(1,reporteGenerado.get("terminalAbasto"))
 	}	
 	
 	@Test
 	def void testReporteDeResultadosParcialesDeTerminalEspecifica(){
+		terminalAbasto.buscar("Farmacia")
+		terminalFlorida.buscar("114")
+		terminalTeatroColon.buscar("Libreria")
+		
+		val reporteGenerado = servidorCentral.generarReporteCantidadDeResultadosParcialesPorTerminal
+		
+		Assert.assertEquals(,)
 		
 	}	
 	
 	@Test
 	def void testReporteDeResultadosTotalesPorTerminal(){
+		terminalAbasto.buscar("Farmacia")
+		terminalFlorida.buscar("114")
+		terminalTeatroColon.buscar("Libreria")
+		
+		val reporteGenerado = servidorCentral.generarReporteCantidadDeResultadosParcialesPorTerminal
+		
+		Assert.assertEquals(,)
 		
 	}	
 }	
