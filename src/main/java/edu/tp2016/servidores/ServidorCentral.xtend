@@ -7,7 +7,6 @@ import edu.tp2016.pois.POI
 import edu.tp2016.repositorio.Repositorio
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.observersBusqueda.BusquedaObserver
-import java.util.Arrays
 import com.google.common.collect.Lists
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.ArrayList
@@ -22,6 +21,8 @@ class ServidorCentral {
 	Repositorio repo = Repositorio.newInstance
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
+	String administradorMailAdress
+	int buzonDeSalidaDeMails = 0
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -45,17 +46,23 @@ class ServidorCentral {
 	
 	def List<POI> buscarEnRepoCentral(String texto, RegistroDeBusqueda busquedaActual) {
 		
-		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, this) ]
+		val LocalDateTime t1 = new LocalDateTime()
+		val listaDePoisDevueltos = Lists.newArrayList(this.buscarPor(texto))
+		val LocalDateTime t2 = new LocalDateTime()
 		
-		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
+		busquedaObservers.forEach [ observer |
+			observer.registrarBusqueda(texto, busquedaActual, listaDePoisDevueltos, t1, t2, this) ]
+		
+		listaDePoisDevueltos
+
 	}
 	
 	/**
-	 * Esta función permite al ServidorCentral mapearse las búsquedas de cada terminal
-	 * de su lista de terminales (servidoresLocales), para luego destinarlas a un reporte en particular.
+	 * Esta función le permite al ServidorCentral mapearse las búsquedas de cada terminal
+	 * a partir de su lista de terminales (servidoresLocales), para luego destinarlas a un reporte en particular.
 	 * Para ello se seleccionan primero aquellas terminales que estén habilitadas para generar reportes.
 	 * 
-	 * @return lista de búsquedas
+	 * @return lista con búsquedas de todas las terminales
 	 */
 	
 	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminalesAReportar(){
@@ -70,8 +77,8 @@ class ServidorCentral {
 	}
 	
 	def inicializarTiempoLimiteDeBusqueda(long tiempo){
-		tiempoLimiteDeBusqueda = tiempo
-	} // De esta forma es parametizable
+		tiempoLimiteDeBusqueda = tiempo.longValue()
+	}
 	
 	def agregarServidorLocal(ServidorLocal terminal){
 		servidoresLocales.add(terminal)
@@ -92,6 +99,7 @@ class ServidorCentral {
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
+			
 			if (reporte.containsKey(busqueda.fecha)) {
 				reporte.put(busqueda.fecha, reporte.get(busqueda.fecha) + 1)
 			} else {
