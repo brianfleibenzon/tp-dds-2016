@@ -11,6 +11,7 @@ import com.google.common.collect.Lists
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.ArrayList
 import org.joda.time.LocalDateTime
+import java.util.Date
 
 @Accessors
 class ServidorCentral {
@@ -93,17 +94,28 @@ class ServidorCentral {
 	}
 		
 // REPORTES DE BÚSQUEDAS:
-			
+	
+     /**
+	 * Observación. Date es una fecha con el siguiente formato:
+	 * public Date(int year,
+                   int month,
+                    int date)
+	 * 
+	 * @return reporte de búsquedas por fecha
+	 */
+	
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
-		val HashMap<LocalDateTime, Integer> reporte = new HashMap<LocalDateTime, Integer>()
+		val HashMap<Date, Integer> reporte = new HashMap<Date, Integer>()
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
-			
-			if (reporte.containsKey(busqueda.fecha)) {
-				reporte.put(busqueda.fecha, reporte.get(busqueda.fecha) + 1)
+
+			val date = (busqueda.fecha).toDate
+	
+			if (reporte.containsKey(date)) {
+				reporte.put(date, reporte.get(date) + 1)
 			} else {
-				reporte.put(busqueda.fecha, 1)
+				reporte.put(date, 1)
 			}
 		]
 
