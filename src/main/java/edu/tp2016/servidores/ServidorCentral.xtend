@@ -56,11 +56,11 @@ class ServidorCentral {
 	}
 	
 	/**
-	 * Esta función permite al ServidorCentral mapearse las búsquedas de cada terminal
-	 * de su lista de terminales (servidoresLocales), para luego destinarlas a un reporte en particular.
+	 * Esta función le permite al ServidorCentral mapearse las búsquedas de cada terminal
+	 * a partir de su lista de terminales (servidoresLocales), para luego destinarlas a un reporte en particular.
 	 * Para ello se seleccionan primero aquellas terminales que estén habilitadas para generar reportes.
 	 * 
-	 * @return lista de búsquedas
+	 * @return lista con búsquedas de todas las terminales
 	 */
 	
 	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminalesAReportar(){
@@ -76,7 +76,7 @@ class ServidorCentral {
 	
 	def inicializarTiempoLimiteDeBusqueda(long tiempo){
 		tiempoLimiteDeBusqueda = tiempo
-	} // De esta forma es parametizable
+	}
 	
 	def agregarServidorLocal(ServidorLocal terminal){
 		servidoresLocales.add(terminal)

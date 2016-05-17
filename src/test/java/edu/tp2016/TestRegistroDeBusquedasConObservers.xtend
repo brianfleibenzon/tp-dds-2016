@@ -21,6 +21,7 @@ import org.junit.Test
 import edu.tp2016.observersBusqueda.CantidadDeResultadosObserver
 import edu.tp2016.observersBusqueda.DemoraConsultaObserver
 import edu.tp2016.observersBusqueda.FraseBuscadaObserver
+import edu.tp2016.observersBusqueda.StubDemoraConsultaObserver
 
 class TestRegistroDeBusquedasConObservers {
 	
@@ -28,6 +29,8 @@ class TestRegistroDeBusquedasConObservers {
 	ServidorLocal terminalFlorida
 	ServidorLocal terminalTeatroColon
 	ServidorCentral servidorCentral
+	ServidorCentral mockServidorCentral
+	ServidorLocal mockTerminal
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -48,18 +51,12 @@ class TestRegistroDeBusquedasConObservers {
 		fechaX = new LocalDateTime()
 
 		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
-
 		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
-
 		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
-
 		rubroFarmacia = new Rubro("Farmacia", 1)
-
 		rubroLibreria = new Rubro("Libreria", 2)
-
 		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
 			rangoX)
-
 		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
 			rubroLibreria, rangoX)
 		
@@ -81,11 +78,15 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.inicializarTiempoLimiteDeBusqueda(10)
 
 		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral)
-		
 		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral)
-		
 		terminalTeatroColon = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral)
 		
+		// Setup para mockear:
+		mockServidorCentral = new ServidorCentral(Arrays.asList())
+		mockServidorCentral.repo.create(utn7parada)
+		servidorCentral.adscribirObserver(new StubDemoraConsultaObserver)
+		mockServidorCentral.inicializarTiempoLimiteDeBusqueda(10)
+		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
 	}
 	
 	@Test
@@ -107,23 +108,26 @@ class TestRegistroDeBusquedasConObservers {
 	def void testRegistroDeCantidadDeResultadosDevueltos(){
 		terminalAbasto.buscar("utn")
 		
-		val cantResultados = terminalAbasto.busquedasTerminal.map[ busqueda | busqueda.cantidadDeResultados ].get(0)
+		val cantResultadosRegistrada = terminalAbasto.busquedasTerminal.map[ busqueda | busqueda.cantidadDeResultados ].get(0)
 		 
-		Assert.assertEquals( 3, cantResultados)	
+		Assert.assertEquals( 3, cantResultadosRegistrada)	
 	}	
 	
 	@Test	
 	def void testRegistroDeDemoraDeConsulta(){
 		terminalAbasto.buscar("utn")
-		val busquedaObtenida = terminalAbasto.busquedasTerminal.head
+		val demoraRegistrada = (terminalAbasto.busquedasTerminal.head).demoraConsulta
 		
-		Assert.assertEquals( 0, busquedaObtenida.demoraConsulta)	
-		
-	}
+		Assert.assertTrue( demoraRegistrada < 1 )	
+		}
 
 	@Test
 	def void testRegistroDeDemoraDeConsultaConMailAlAdministrador(){
+		mockTerminal.buscar("7")
+		val demoraConsulta = (mockTerminal.busquedasTerminal.head).demoraConsulta
 		
+		Assert.assertEquals(11, demoraConsulta)
+		// TODO: mockear envío de mail
 	}
 	
 	@Test	
