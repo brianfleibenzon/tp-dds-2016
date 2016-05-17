@@ -12,7 +12,7 @@ class DemoraConsultaObserver implements BusquedaObserver{
 	override def void registrarBusqueda(String texto, RegistroDeBusqueda busquedaActual, List<POI> poisDevueltos,
 		LocalDateTime inicioBusqueda, LocalDateTime finBusqueda, ServidorCentral servidor){
 		
-	val demora = new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime).standardSeconds
+	val demora = (new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime)).standardSeconds
 	
 	verificarTiempoDeConsulta(servidor.tiempoLimiteDeBusqueda, demora,
 					busquedaActual.sendMail, servidor.administradorMailAdress)

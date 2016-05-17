@@ -11,7 +11,7 @@ class StubDemoraConsultaObserver implements BusquedaObserver{
 	override def void registrarBusqueda(String texto, RegistroDeBusqueda busquedaActual, List<POI> poisDevueltos,
 		LocalDateTime inicioBusqueda, LocalDateTime finBusqueda, ServidorCentral servidor){
 		
-	val demora = 11
+	val demora = (11).longValue()
 	
 	verificarTiempoDeConsulta(servidor.tiempoLimiteDeBusqueda, demora,
 					busquedaActual.sendMail, servidor.administradorMailAdress)

@@ -49,7 +49,8 @@ class ServidorCentral {
 		val listaDePoisDevueltos = Lists.newArrayList(this.buscarPor(texto))
 		val LocalDateTime t2 = new LocalDateTime()
 		
-		busquedaObservers.forEach [ observer | observer.registrarBusqueda(texto, busquedaActual, listaDePoisDevueltos, t1, t2, this) ]
+		busquedaObservers.forEach [ observer |
+			observer.registrarBusqueda(texto, busquedaActual, listaDePoisDevueltos, t1, t2, this) ]
 		
 		listaDePoisDevueltos
 
@@ -75,7 +76,7 @@ class ServidorCentral {
 	}
 	
 	def inicializarTiempoLimiteDeBusqueda(long tiempo){
-		tiempoLimiteDeBusqueda = tiempo
+		tiempoLimiteDeBusqueda = tiempo.longValue()
 	}
 	
 	def agregarServidorLocal(ServidorLocal terminal){

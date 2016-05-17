@@ -115,10 +115,10 @@ class TestRegistroDeBusquedasConObservers {
 	
 	@Test	
 	def void testRegistroDeDemoraDeConsulta(){
-		terminalAbasto.buscar("utn")
+		terminalAbasto.buscar("7")
 		val demoraRegistrada = (terminalAbasto.busquedasTerminal.head).demoraConsulta
 		
-		Assert.assertTrue( demoraRegistrada < 1 )	
+		Assert.assertTrue( demoraRegistrada < (1).longValue())	
 		}
 
 	@Test
@@ -126,8 +126,8 @@ class TestRegistroDeBusquedasConObservers {
 		mockTerminal.buscar("7")
 		val demoraConsulta = (mockTerminal.busquedasTerminal.head).demoraConsulta
 		
-		Assert.assertEquals(11, demoraConsulta)
-		// TODO: mockear envío de mail
+		Assert.assertEquals((11).longValue(), demoraConsulta)
+		// TODO: mockear envío de mail al admin
 	}
 	
 	@Test	
