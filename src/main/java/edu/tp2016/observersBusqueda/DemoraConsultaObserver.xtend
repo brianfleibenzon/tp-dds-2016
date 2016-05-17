@@ -15,20 +15,21 @@ class DemoraConsultaObserver implements BusquedaObserver{
 	val demora = (new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime)).standardSeconds
 	
 	verificarTiempoDeConsulta(servidor.tiempoLimiteDeBusqueda, demora,
-					busquedaActual.sendMail, servidor.administradorMailAdress)
+					busquedaActual.sendMail, servidor.administradorMailAdress, servidor)
 	
 	busquedaActual.demoraConsulta = demora
 	}
 	
-	def verificarTiempoDeConsulta(long timeout, long demora, boolean enviaMail, String mailTo){
+	def verificarTiempoDeConsulta(long timeout, long demora, boolean enviaMail, String mailTo, ServidorCentral mailFrom){
 		
  	if ((demora > timeout) && enviaMail){
- 		enviarMail(mailTo)
+ 		enviarMail(mailFrom, mailTo)
 	}
 	}
 	
-	def enviarMail(String administradorMailAdress){
+	def enviarMail(ServidorCentral servidor, String administradorMailAdress){
 		// Enviar un mail al Administrador
+		servidor.buzonDeSalidaDeMails = servidor.buzonDeSalidaDeMails + 1
 	}
 	
 	}

@@ -22,6 +22,7 @@ class ServidorCentral {
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
 	String administradorMailAdress
+	int buzonDeSalidaDeMails = 0
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
