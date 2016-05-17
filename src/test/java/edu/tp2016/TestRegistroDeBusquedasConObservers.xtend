@@ -28,6 +28,9 @@ class TestRegistroDeBusquedasConObservers {
 	ServidorLocal terminalAbasto 
 	ServidorLocal terminalFlorida
 	ServidorLocal terminalTeatroColon
+	ServidorLocal terminalAbastoEnFechaPasada
+	ServidorLocal terminalFloridaEnFechaPasada
+	ServidorLocal terminalTeatroColonEnFechaPasada
 	ServidorCentral servidorCentral
 	ServidorCentral mockServidorCentral
 	ServidorLocal mockTerminal
@@ -38,7 +41,8 @@ class TestRegistroDeBusquedasConObservers {
 	ParadaDeColectivo utn7parada
 	ParadaDeColectivo miserere7parada
 	ParadaDeColectivo utn114parada
-	LocalDateTime fechaX
+	LocalDateTime fechaDeHoy
+	LocalDateTime unaFechaPasada
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
@@ -48,7 +52,8 @@ class TestRegistroDeBusquedasConObservers {
 	def void setUp(){
 		ubicacionX = new Point(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
-		fechaX = new LocalDateTime()
+		fechaDeHoy = new LocalDateTime()
+		unaFechaPasada = new LocalDateTime(2016, 5, 11, 12, 0)
 
 		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
 		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
@@ -75,19 +80,37 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.adscribirObserver(new FraseBuscadaObserver)		
 		servidorCentral.adscribirObserver(new DemoraConsultaObserver)
 		
-		servidorCentral.inicializarTiempoLimiteDeBusqueda(10)
+		servidorCentral.inicializarTiempoLimiteDeBusqueda(8)
 
 		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral)
 		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral)
 		terminalTeatroColon = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral)
+		terminalAbastoEnFechaPasada = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral, unaFechaPasada)
+		terminalFloridaEnFechaPasada = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral, unaFechaPasada)
+		terminalTeatroColonEnFechaPasada = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral, unaFechaPasada)
 		
 		// Setup para mockear:
 		mockServidorCentral = new ServidorCentral(Arrays.asList())
 		mockServidorCentral.repo.create(utn7parada)
-		servidorCentral.adscribirObserver(new StubDemoraConsultaObserver)
+		mockServidorCentral.adscribirObserver(new StubDemoraConsultaObserver)
 		mockServidorCentral.inicializarTiempoLimiteDeBusqueda(10)
 		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
 	}
+	
+	def busquedasEnVariasTerminalesYEnDistintasFechas(){
+		terminalAbasto.buscar("114") // encuentra
+		terminalAbasto.buscar("Banco Nacion") // no encuentra
+		terminalFlorida.buscar("plaza miserere") // encuentra
+		terminalFlorida.buscar("Libreria Juan") // encuentra
+		terminalTeatroColon.buscar("seguros") // encuentra
+		terminalTeatroColon.buscar("plaza miserere") // encuentra
+		terminalAbastoEnFechaPasada.buscar("Banco de la Plaza") // encuentra
+		terminalAbastoEnFechaPasada.buscar("utn") // encuentra
+		terminalFloridaEnFechaPasada.buscar("Farmacity") // encuentra
+		terminalFloridaEnFechaPasada.buscar("facultad de medicina") // no encuentra 
+		terminalTeatroColonEnFechaPasada.buscar("Atencion ciudadana") // encuentra
+		terminalTeatroColonEnFechaPasada.buscar("cine") // no encuentra
+		}
 	
 	@Test
 	def void testRegistroDeFrasesBuscadas(){
@@ -108,7 +131,8 @@ class TestRegistroDeBusquedasConObservers {
 	def void testRegistroDeCantidadDeResultadosDevueltos(){
 		terminalAbasto.buscar("utn")
 		
-		val cantResultadosRegistrada = terminalAbasto.busquedasTerminal.map[ busqueda | busqueda.cantidadDeResultados ].get(0)
+		val cantResultadosRegistrada = terminalAbasto.busquedasTerminal.map[ busqueda
+			| busqueda.cantidadDeResultados].get(0)
 		 
 		Assert.assertEquals( 3, cantResultadosRegistrada)	
 	}	
@@ -132,27 +156,33 @@ class TestRegistroDeBusquedasConObservers {
 	
 	@Test	
 	def void testReporteDeBusquedasPorFecha(){
-		terminalAbasto.buscar("Farmacia")
-		terminalFlorida.buscar("114")
-		terminalTeatroColon.buscar("plaza miserere")
 		
-		val reporteGenerado= servidorCentral.generarReporteCantidadTotalDeBusquedasPorFecha()
+		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		Assert.assertEquals( 3, reporteGenerado.size)
+		val reporteGenerado = servidorCentral.generarReporteCantidadTotalDeBusquedasPorFecha()
+		
+		Assert.assertEquals( 6, reporteGenerado.get(fechaDeHoy.toDate))
+		Assert.assertEquals( 6, reporteGenerado.get(unaFechaPasada.toDate))
 	}	
 	
 	@Test	
 	def void testReporteDeResultadosParcialesPorTerminal(){
+		
+		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
 	}	
 	
 	@Test
 	def void testReporteDeResultadosParcialesDeTerminalEspecifica(){
 		
+		busquedasEnVariasTerminalesYEnDistintasFechas()
+		
 	}	
 	
 	@Test
 	def void testReporteDeResultadosTotalesPorTerminal(){
+		
+		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
 	}	
 }	
