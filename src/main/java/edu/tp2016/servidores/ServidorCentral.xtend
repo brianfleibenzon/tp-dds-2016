@@ -23,7 +23,6 @@ class ServidorCentral {
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
 	String administradorMailAdress
-	int buzonDeSalidaDeMails = 0
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -67,14 +66,12 @@ class ServidorCentral {
 	 */
 	
 	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminalesAReportar(){
-		val busquedasTerminales = new ArrayList<RegistroDeBusqueda>
-		val registrosPorTerminal = ( servidoresLocales
-				.filter [terminal | (terminal.puedeGenerarReportes).equals(true) ]
-				.map [terminal | terminal.busquedasTerminal ] )
+		val busquedas = new ArrayList<RegistroDeBusqueda>
+		val terminalesAReportar = servidoresLocales.filter [terminal | (terminal.puedeGenerarReportes).equals(true)]
 		
-		registrosPorTerminal.forEach [ registro | busquedasTerminales.addAll(registro) ]
+		terminalesAReportar.forEach [ terminal | busquedas.addAll(terminal.busquedasTerminal) ]
 		
-		busquedasTerminales
+		busquedas
 	}
 	
 	def inicializarTiempoLimiteDeBusqueda(long tiempo){
@@ -153,17 +150,19 @@ class ServidorCentral {
 	}
 
 	def generarReporteCantidadTotalDeResultadosPorTerminal() {
-		val HashMap<String, Integer> reporte = new HashMap<String, Integer>()
+		val reporte = new HashMap<String, Integer>()
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
 			
-				if (reporte.containsKey(busqueda.nombreTerminal)) {
-				reporte.put(busqueda.nombreTerminal,
-					reporte.get(busqueda.nombreTerminal) + busqueda.cantidadDeResultados
-				)
+			val cantResultados = busqueda.cantidadDeResultados
+			
+			if (reporte.containsKey(busqueda.nombreTerminal)) {
+				val cantidadAcumulada = reporte.get(busqueda.nombreTerminal) + cantResultados
+				
+				reporte.put(busqueda.nombreTerminal,cantidadAcumulada)
 			} else {
-				reporte.put(busqueda.nombreTerminal, busqueda.cantidadDeResultados)
+				reporte.put(busqueda.nombreTerminal, cantResultados)
 			}
 		]
 		reporte

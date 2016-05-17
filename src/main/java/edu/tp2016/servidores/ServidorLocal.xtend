@@ -54,7 +54,7 @@ class ServidorLocal{
 	
 	def List<POI> buscar(String texto){
 		
-		val busquedaActual = new RegistroDeBusqueda(new LocalDateTime, nombreTerminal, notificaAlAdministrador)
+		val busquedaActual = new RegistroDeBusqueda(fechaActual, nombreTerminal, notificaAlAdministrador)
 		
 		val searchResult = servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
 		
