@@ -97,6 +97,7 @@ class TestRegistroDeBusquedasConObservers {
 		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
 	}
 	
+
 	def busquedasEnVariasTerminalesYEnDistintasFechas(){
 		terminalAbasto.buscar("114") // encuentra
 		terminalAbasto.buscar("Banco Nacion") // no encuentra
@@ -110,6 +111,7 @@ class TestRegistroDeBusquedasConObservers {
 		terminalFloridaEnFechaPasada.buscar("facultad de medicina") // no encuentra 
 		terminalTeatroColonEnFechaPasada.buscar("Atencion ciudadana") // encuentra
 		terminalTeatroColonEnFechaPasada.buscar("cine") // no encuentra
+		// En total 12 terminales
 		}
 	
 	@Test
@@ -151,14 +153,14 @@ class TestRegistroDeBusquedasConObservers {
 		val demoraConsulta = (mockTerminal.busquedasTerminal.head).demoraConsulta
 		
 		Assert.assertEquals((11).longValue(), demoraConsulta)
-		// TODO: mockear envío de mail al admin
+		// TODO: mockear el envío de mail al admin
 	}
 	
 	@Test	
 	def void testReporteDeBusquedasPorFecha(){
 		
-	busquedasEnVariasTerminalesYEnDistintasFechas()
-		
+		busquedasEnVariasTerminalesYEnDistintasFechas()
+	
 		val reporteGenerado = servidorCentral.generarReporteCantidadTotalDeBusquedasPorFecha()
 		
 		Assert.assertEquals( 6, reporteGenerado.get(fechaDeHoy.toDate))
@@ -171,6 +173,17 @@ class TestRegistroDeBusquedasConObservers {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
 	}	
+	
+	// Test auxiliar para ver si anda esta función
+	@Test	
+	def void testObtenerBusquedasDeTerminalesAReportar(){
+		
+	busquedasEnVariasTerminalesYEnDistintasFechas()
+	
+	val cantidadDeTerminalesAReportar = (servidorCentral.obtenerBusquedasDeTerminalesAReportar()).size
+	Assert.assertEquals( 12, cantidadDeTerminalesAReportar)
+		
+	}
 	
 	@Test
 	def void testReporteDeResultadosParcialesDeTerminalEspecifica(){

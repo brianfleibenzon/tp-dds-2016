@@ -23,7 +23,6 @@ class ServidorCentral {
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal> 
 	List<RegistroDeBusqueda> busquedas = new ArrayList<RegistroDeBusqueda>
 	String administradorMailAdress
-	int buzonDeSalidaDeMails = 0
 		
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -67,14 +66,12 @@ class ServidorCentral {
 	 */
 	
 	def List<RegistroDeBusqueda> obtenerBusquedasDeTerminalesAReportar(){
-		val busquedasTerminales = new ArrayList<RegistroDeBusqueda>
-		val registrosPorTerminal = ( servidoresLocales
-				.filter [terminal | (terminal.puedeGenerarReportes).equals(true) ]
-				.map [terminal | terminal.busquedasTerminal ] )
+		val busquedas = new ArrayList<RegistroDeBusqueda>
+		val terminalesAReportar = servidoresLocales.filter [terminal | (terminal.puedeGenerarReportes).equals(true)]
 		
-		registrosPorTerminal.forEach [ registro | busquedasTerminales.addAll(registro) ]
+		terminalesAReportar.forEach [ terminal | busquedas.addAll(terminal.busquedasTerminal) ]
 		
-		busquedasTerminales
+		busquedas
 	}
 	
 	def inicializarTiempoLimiteDeBusqueda(long tiempo){
