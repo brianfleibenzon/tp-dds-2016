@@ -46,9 +46,9 @@ class ServidorCentral {
 	
 	def List<POI> buscarEnRepoCentral(String texto, RegistroDeBusqueda busquedaActual) {
 		
-		val LocalDateTime t1 = new LocalDateTime()
+		val t1 = new LocalDateTime()
 		val listaDePoisDevueltos = Lists.newArrayList(this.buscarPor(texto))
-		val LocalDateTime t2 = new LocalDateTime()
+		val t2 = new LocalDateTime()
 		
 		busquedaObservers.forEach [ observer |
 			observer.registrarBusqueda(texto, busquedaActual, listaDePoisDevueltos, t1, t2, this) ]
@@ -102,7 +102,7 @@ class ServidorCentral {
 	 */
 	
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
-		val HashMap<Date, Integer> reporte = new HashMap<Date, Integer>()
+		val reporte = new HashMap<Date, Integer>()
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
@@ -120,7 +120,7 @@ class ServidorCentral {
 	}
 	
 	def generarReporteCantidadDeResultadosParcialesPorTerminal() {
-		val HashMap<String, List<Integer>> reporte = new HashMap<String, List<Integer>>()
+		val reporte = new HashMap<String, List<Integer>>()
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
@@ -137,7 +137,7 @@ class ServidorCentral {
 	
 
 	def generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica(String nombreDeConsulta) {
-		val List<Integer> reporte = new ArrayList<Integer>
+		val reporte = new ArrayList<Integer>
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		val busquedasDeLaTerminalEspecifica = ( busquedas
@@ -150,7 +150,7 @@ class ServidorCentral {
 	}
 
 	def generarReporteCantidadTotalDeResultadosPorTerminal() {
-		val HashMap<String, Integer> reporte = new HashMap<String, Integer>()
+		val reporte = new HashMap<String, Integer>()
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
