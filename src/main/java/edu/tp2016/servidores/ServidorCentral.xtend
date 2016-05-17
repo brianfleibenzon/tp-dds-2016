@@ -109,6 +109,7 @@ class ServidorCentral {
 		val busquedas = obtenerBusquedasDeTerminalesAReportar
 		
 		busquedas.forEach [ busqueda |
+
 			val date = (busqueda.fecha).toDate
 	
 			if (reporte.containsKey(date)) {

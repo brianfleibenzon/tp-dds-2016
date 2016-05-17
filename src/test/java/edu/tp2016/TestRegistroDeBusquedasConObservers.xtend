@@ -80,7 +80,7 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.adscribirObserver(new FraseBuscadaObserver)		
 		servidorCentral.adscribirObserver(new DemoraConsultaObserver)
 		
-		servidorCentral.inicializarTiempoLimiteDeBusqueda(8)
+		servidorCentral.inicializarTiempoLimiteDeBusqueda(5)
 
 		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral)
 		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral)
@@ -157,7 +157,7 @@ class TestRegistroDeBusquedasConObservers {
 	@Test	
 	def void testReporteDeBusquedasPorFecha(){
 		
-		busquedasEnVariasTerminalesYEnDistintasFechas()
+	busquedasEnVariasTerminalesYEnDistintasFechas()
 		
 		val reporteGenerado = servidorCentral.generarReporteCantidadTotalDeBusquedasPorFecha()
 		
