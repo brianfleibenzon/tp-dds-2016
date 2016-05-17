@@ -78,7 +78,7 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.adscribirObserver(new FraseBuscadaObserver)		
 		servidorCentral.adscribirObserver(new DemoraConsultaObserver)
 		
-		servidorCentral.inicializarTiempoLimiteDeBusqueda(10)
+		servidorCentral.inicializarTiempoLimiteDeBusqueda(5)
 
 		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral)
 		
@@ -120,7 +120,10 @@ class TestRegistroDeBusquedasConObservers {
 
 	@Test
 	def void testRegistroDeDemoraDeConsultaConMailAlAdministrador(){
+		servidorCentral.inicializarTiempoLimiteDeBusqueda(0)
+		terminalAbasto.buscar("114")
 		
+			
 	}
 	
 	@Test	
