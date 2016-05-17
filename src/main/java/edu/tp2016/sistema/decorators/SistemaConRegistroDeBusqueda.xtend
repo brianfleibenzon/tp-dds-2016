@@ -9,26 +9,25 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.HashMap
 import org.joda.time.LocalDate
 import edu.tp2016.sistema.SistemaInterface
+import edu.tp2016.sistema.Terminal
 
 @Accessors
 class SistemaConRegistroDeBusqueda extends SistemaDecorator{
 
 	List<RegistroBusqueda> busquedas = new ArrayList<RegistroBusqueda>
-	String terminal
 	LocalDateTime fechaActual
-	Boolean registrarDatos = true
 
 	new(SistemaInterface _sistema) {
 		super(_sistema)
 	}
 
-	override List<POI> buscar(String texto) {
+	override List<POI> buscar(String texto, Terminal terminal) {
 		val LocalDateTime inicioBusqueda = new LocalDateTime()
-		val list = sistema.buscar(texto)
+		val list = sistema.buscar(texto, terminal)
 		val LocalDateTime finBusqueda = new LocalDateTime()
 		val tiempo = new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime).standardSeconds
-		if (registrarDatos){
-			busquedas.add(new RegistroBusqueda(fechaActual.toLocalDate, terminal, texto, list.length, tiempo))
+		if (terminal.activarGeneracionDeReportes){
+			busquedas.add(new RegistroBusqueda(fechaActual.toLocalDate, terminal.nombreTerminal, texto, list.length, tiempo))
 		}		
 		list
 	}

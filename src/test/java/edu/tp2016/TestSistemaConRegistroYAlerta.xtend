@@ -20,6 +20,7 @@ import org.junit.Assert
 import edu.tp2016.sistema.decorators.SistemaConAlertaAAdministrador
 import edu.tp2016.sistema.decorators.SistemaConRegistroDeBusqueda
 import edu.tp2016.pois.CGP
+import edu.tp2016.sistema.Terminal
 
 class TestSistemaConRegistroYAlerta {
 	Sistema unSistema
@@ -35,6 +36,9 @@ class TestSistemaConRegistroYAlerta {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
+	Terminal terminalAbasto
+	Terminal terminalFlorida
+	Terminal terminalTeatroColon	
 
 	@Before
 	def void setUp() {
@@ -70,28 +74,55 @@ class TestSistemaConRegistroYAlerta {
 		unSistema.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 
 		unSistemaConRegistro = new SistemaConRegistroDeBusqueda(
-			new SistemaConAlertaAAdministrador(unSistema) => [
-				timeout = 10
-			]
+			new SistemaConAlertaAAdministrador(unSistema)
 		) => [
 			fechaActual = fechaX
 		]
-
-		unSistemaConRegistro.terminal = "terminalRetiro"
+		
+		terminalAbasto = new Terminal("terminalAbasto", ubicacionX, unSistemaConRegistro, fechaX)
+		terminalFlorida = new Terminal("terminalFlorida", ubicacionX, unSistemaConRegistro, fechaX)		
+		terminalTeatroColon = new Terminal("terminalTeatroColon", ubicacionX, unSistemaConRegistro, fechaX)
 	}
 
 	@Test
-	def void buscarCGPConRentas() {
-		val resultado = unSistemaConRegistro.buscar("Rentas")
-		val unCGP = resultado.get(0) as CGP
-		Assert.assertEquals(2, unCGP.comuna.numero)
-	}
-
+	def void testRegistroDeFrasesBuscadas(){
+		terminalAbasto.buscar("114")
+		terminalAbasto.buscar("7")
+		terminalFlorida.buscar("plaza miserere")
+		terminalFlorida.buscar("Libreria Juan")
+		
+		val frasesBuscadasDeAbasto = unSistemaConRegistro.busquedas
+			.filter[ registro | registro.terminal == terminalAbasto.nombreTerminal]
+			.map[registro | registro.busqueda].toList
+			
+		val frasesBuscadasDeFlorida = unSistemaConRegistro.busquedas
+			.filter[ registro | registro.terminal == terminalFlorida.nombreTerminal]
+			.map[registro | registro.busqueda].toList
+			
+		Assert.assertTrue(frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
+			&& frasesBuscadasDeFlorida.containsAll(Arrays.asList("plaza miserere","Libreria Juan"))
+		)
+	}	
+	
 	@Test
-	def void HacerDosBusquedasYGenerarReporte() {
-		unSistemaConRegistro.buscar("utn")
-		unSistemaConRegistro.buscar("Rentas")
-		unSistemaConRegistro.generarReportePorFecha()
-		unSistemaConRegistro.generarReporteTotal()
-	}
+	def void testRegistroDeCantidadDeResultadosDevueltos(){
+		terminalAbasto.buscar("utn")
+		
+		val cantResultadosRegistrada = unSistemaConRegistro.busquedas
+			.filter[ registro | registro.terminal == terminalAbasto.nombreTerminal]
+			.map[registro | registro.resultados].toList.get(0)
+		
+		Assert.assertEquals( 3, cantResultadosRegistrada)	
+	}	
+	
+	@Test	
+	def void testReporteDeBusquedasPorFecha(){
+		terminalAbasto.buscar("Farmacia")
+		terminalFlorida.buscar("114")
+		terminalTeatroColon.buscar("plaza miserere")
+		
+		val reporteGenerado = unSistemaConRegistro.generarReportePorFecha()
+		
+		Assert.assertEquals( 3, reporteGenerado.get(fechaX.toLocalDate))
+	}	
 }

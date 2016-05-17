@@ -18,6 +18,7 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 import edu.tp2016.sistema.Sistema
+import edu.tp2016.sistema.Terminal
 
 class TestCercania {
 
@@ -40,6 +41,7 @@ class TestCercania {
 	List<POI> poisX
 	List<Servicio> serviciosX
 	Point ubicacion
+	Terminal terminal
 
 	@Before
 	def void setUp() {
@@ -91,47 +93,50 @@ class TestCercania {
 		unSistema = new Sistema(poisX, fechaX)
 		
 		ubicacion = new Point(-34.598574, -58.420280)
+		
+		terminal = new Terminal("terminalAbasto", ubicacion, unSistema)
+		
 
 	}
 
 	@Test
 	def void paradaEstaCerca() {
-		Assert.assertTrue(unSistema.consultarCercania(paradaCerca, ubicacion))
+		Assert.assertTrue(terminal.consultarCercania(paradaCerca))
 	}
 
 	@Test
 	def void paradaEstaLejos() {
-		Assert.assertFalse(unSistema.consultarCercania(paradaLejos, ubicacion))
+		Assert.assertFalse(terminal.consultarCercania(paradaLejos))
 	}
 
 	@Test
 	def void bancoEstaCerca() {
-		Assert.assertTrue(unSistema.consultarCercania(bancoCerca, ubicacion))
+		Assert.assertTrue(terminal.consultarCercania(bancoCerca))
 	}
 
 	@Test
 	def void bancoEstaLejos() {
-		Assert.assertFalse(unSistema.consultarCercania(bancoLejos, ubicacion))
+		Assert.assertFalse(terminal.consultarCercania(bancoLejos))
 	}
 
 	@Test
 	def void CGPEstaCerca() {
-		Assert.assertTrue(unSistema.consultarCercania(CGPCerca, ubicacion))
+		Assert.assertTrue(terminal.consultarCercania(CGPCerca))
 	}
 
 	@Test
 	def void CGPEstaLejos() {
-		Assert.assertFalse(unSistema.consultarCercania(CGPLejos, ubicacion))
+		Assert.assertFalse(terminal.consultarCercania(CGPLejos))
 	}
 
 	@Test
 	def void comercioEstaCerca() {
-		Assert.assertTrue(unSistema.consultarCercania(comercioCerca, ubicacion))
+		Assert.assertTrue(terminal.consultarCercania(comercioCerca))
 	}
 
 	@Test
 	def void comercioEstaLejos() {
-		Assert.assertFalse(unSistema.consultarCercania(comercioLejos, ubicacion))
+		Assert.assertFalse(terminal.consultarCercania(comercioLejos))
 	}
 
 }

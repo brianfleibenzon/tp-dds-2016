@@ -18,6 +18,7 @@ import edu.tp2016.mod.Comuna
 import edu.tp2016.pois.POI
 import edu.tp2016.pois.Comercio
 import edu.tp2016.sistema.Sistema
+import edu.tp2016.sistema.Terminal
 
 class TestDisponibilidad {
 
@@ -48,6 +49,11 @@ class TestDisponibilidad {
 	Comuna comunaX
 	List<POI> pois
 	List<String> clavesX
+	
+	Terminal terminalConFechaDisponible
+	Terminal terminalConFechaNoDisponible
+	Terminal terminalConFechaDisponibleParaRentas
+	Terminal terminalConFechaNODisponibleParaRentas
 
 	@Before
 	def void setUp() {
@@ -104,50 +110,55 @@ class TestDisponibilidad {
 		unSistemaConFechaNODisponibleParaRentas = new Sistema(pois,
 			new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
 
+		terminalConFechaDisponible = new Terminal("terminalAbasto", new Point(-1, -1), unSistemaConFechaDisponible, new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0))
+		terminalConFechaNoDisponible = new Terminal("terminalChacarita", new Point(-1, -1), unSistemaConFechaNoDisponible, new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
+		
+		terminalConFechaDisponibleParaRentas = new Terminal("terminalChacarita", new Point(-1, -1), unSistemaConFechaNoDisponible, new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0))
+		terminalConFechaNODisponibleParaRentas = new Terminal("terminalChacarita", new Point(-1, -1), unSistemaConFechaNoDisponible, new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
 	}
 
 	@Test
 	def void paradaDeColectivoEstaDisponible() {
-		Assert.assertTrue(unSistemaConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(terminalConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void paradaDeColectivoTambienEstaDisponible() {
-		Assert.assertTrue(unSistemaConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(terminalConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void CGPEstaDisponible() {
-		Assert.assertTrue(unSistemaConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
+		Assert.assertTrue(terminalConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
 	}
 
 	@Test
 	def void CGPEstaDisponibleParaAlgunServicio() {
-		Assert.assertTrue(unSistemaConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertTrue(terminalConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void CGPNoEstaDisponible() {
-		Assert.assertFalse(unSistemaConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertFalse(terminalConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void bancoEstaDisponible() {
-		Assert.assertTrue(unSistemaConFechaDisponible.consultarDisponibilidad(unBanco, ""))
+		Assert.assertTrue(terminalConFechaDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void bancoNoEstaDisponible() {
-		Assert.assertFalse(unSistemaConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
+		Assert.assertFalse(terminalConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void comercioEstaDisponible() {
-		Assert.assertTrue(unSistemaConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
+		Assert.assertTrue(terminalConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
 	}
 
 	@Test
 	def void comercioNoEstaDisponible() {
-		Assert.assertFalse(unSistemaConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
+		Assert.assertFalse(terminalConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
 	}
 }

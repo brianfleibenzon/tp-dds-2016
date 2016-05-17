@@ -18,6 +18,7 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
+import edu.tp2016.sistema.Terminal
 
 class TestBusquedaLibre {
 
@@ -42,6 +43,7 @@ class TestBusquedaLibre {
 	List<DiaDeAtencion> rangoX
 	Comuna comunaX
 	LocalDateTime fechaX
+	Terminal terminal
 
 	@Before
 	def void setUp() {
@@ -96,72 +98,75 @@ class TestBusquedaLibre {
 		unSistema = new Sistema(
 			Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
 				comercioLoDeJuan, bancoGalicia), fechaX)
+				
+		terminal = new Terminal("terminalAbasto", new Point(-1, -1), unSistema)
+			
 
 	}
 
 	@Test
 	def void buscarCadenaVaciaQueDevuelveListaVacia() {
-		Assert.assertEquals(Arrays.asList(), unSistema.buscar(""))
+		Assert.assertEquals(Arrays.asList(), terminal.buscar(""))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unSistema.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(terminal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unSistema.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(terminal.buscar("114"), Arrays.asList(utn114parada))
 	}
 
 	@Test
 	def void buscarBancoPorNombre() {
-		Assert.assertEquals(unSistema.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
+		Assert.assertEquals(terminal.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
 	}
 
 	@Test
 	def void buscarBancoConUnaPalabraClave() {
-		Assert.assertEquals(unSistema.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
+		Assert.assertEquals(terminal.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
 	}
 
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unSistema.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(terminal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unSistema.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(terminal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unSistema.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(terminal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unSistema.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(terminal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioEntero() {
-		Assert.assertEquals(unSistema.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
+		Assert.assertEquals(terminal.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioParcial() {
-		Assert.assertEquals(unSistema.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
+		Assert.assertEquals(terminal.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
 	}
 
 	@Test
 	def void buscarCGPEscrbiendoPalabraClave() {
-		Assert.assertEquals(unSistema.buscar("comuna 2"), Arrays.asList(CGPComuna2))
+		Assert.assertEquals(terminal.buscar("comuna 2"), Arrays.asList(CGPComuna2))
 	}
 
 	@Test
 	def void buscarYQueNoHayaCoincidencias() {
-		Assert.assertEquals(unSistema.buscar("palabraInexistente"), Arrays.asList())
+		Assert.assertEquals(terminal.buscar("palabraInexistente"), Arrays.asList())
 	}
 
 }

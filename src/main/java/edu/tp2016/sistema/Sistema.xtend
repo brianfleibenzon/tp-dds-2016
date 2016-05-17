@@ -1,6 +1,5 @@
 package edu.tp2016.sistema
 
-import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import com.google.common.collect.Lists //Importada a través de una dependencia en el 'pom'.
@@ -16,18 +15,11 @@ class Sistema implements SistemaInterface{
 	LocalDateTime fechaActual
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
+	List<Terminal> terminales = new ArrayList<Terminal> 
 
 	new(List<POI> listaPois, LocalDateTime unaFecha) {
 		repo.agregarPois(listaPois)
 		fechaActual = unaFecha
-	}
-
-	override boolean consultarCercania(POI unPoi, Point ubicacion) {
-		unPoi.estaCercaA(ubicacion)
-	}
-
-	override boolean consultarDisponibilidad(POI unPoi, String valorX) {
-		unPoi.estaDisponible(fechaActual, valorX)
 	}
 
 	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
@@ -50,7 +42,7 @@ class Sistema implements SistemaInterface{
 	 *  Dado que el filter retorna una colección de tipo ITERATOR, en este método se convierte la colección
 	 *  de ITERARTOR a ARRAYLIST, y finamente de ARRAYLIST a LIST, que es el tipo que usamos.
 	 */
-	override List<POI> buscar(String texto) {
+	override List<POI> buscar(String texto, Terminal terminal) {
 		Arrays.asList(Lists.newArrayList(this.buscarPor(texto)))
 	}
 

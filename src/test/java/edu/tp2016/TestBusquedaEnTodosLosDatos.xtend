@@ -19,6 +19,7 @@ import org.junit.Test
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
 import edu.tp2016.sistema.Sistema
+import edu.tp2016.sistema.Terminal
 
 class TestBusquedaEnTodosLosDatos {
 	Sistema unSistema
@@ -33,6 +34,7 @@ class TestBusquedaEnTodosLosDatos {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
+	Terminal terminal
 
 	@Before
 	def void setUp() {
@@ -65,69 +67,71 @@ class TestBusquedaEnTodosLosDatos {
 		
 		unSistema.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		unSistema.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
+		
+		terminal = new Terminal("terminalAbasto", new Point(-1, -1), unSistema)
 
 	}
 
 	@Test
 	def void buscarConUnStringVacíoYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unSistema.buscar("")
+		val resultadoBusqueda = terminal.buscar("")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unSistema.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(terminal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unSistema.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(terminal.buscar("114"), Arrays.asList(utn114parada))
 	}
 	
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unSistema.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(terminal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unSistema.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(terminal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unSistema.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(terminal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unSistema.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(terminal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPConRentas() {
-		val resultado = unSistema.buscar("Rentas")
+		val resultado = terminal.buscar("Rentas")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(2, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConAtencionCiudadana() {
-		val resultado = unSistema.buscar("Atencion ciudadana")
+		val resultado = terminal.buscar("Atencion ciudadana")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(3, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConVeterinaria() {
-		val resultado = unSistema.buscar("Veterinaria")
+		val resultado = terminal.buscar("Veterinaria")
 		Assert.assertEquals(0, resultado.size)
 	}
 
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unSistema.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (terminal.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -135,7 +139,7 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unSistema.buscar("Banco de la Plaza")
+		val resultadoBusqueda = terminal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -144,7 +148,7 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unSistema.buscar("Banco de la Plaza")
+		val resultadoBusqueda = terminal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -153,7 +157,7 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unSistema.buscar("Galicia")
+		val resultadoBusqueda = terminal.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}

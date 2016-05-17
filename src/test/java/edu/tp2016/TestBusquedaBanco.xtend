@@ -9,21 +9,25 @@ import edu.tp2016.pois.Banco
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.sistema.Sistema
+import edu.tp2016.sistema.Terminal
+import org.uqbar.geodds.Point
 
 class TestBusquedaBanco {
 	Sistema unSistema
 	LocalDateTime fechaX
+	Terminal terminal
 	
 	@Before
 	def void setUp() {
 		fechaX = new LocalDateTime()
 		unSistema = new Sistema(Arrays.asList(), fechaX)
-		unSistema.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))	
+		unSistema.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
+		terminal = new Terminal("terminalAbasto", new Point(-1, -1), unSistema)
 	}
 	
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unSistema.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (terminal.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -31,7 +35,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unSistema.buscar("Banco de la Plaza")
+		val resultadoBusqueda = terminal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -40,7 +44,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unSistema.buscar("Banco de la Plaza")
+		val resultadoBusqueda = terminal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -49,7 +53,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unSistema.buscar("Galicia")
+		val resultadoBusqueda = terminal.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
