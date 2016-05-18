@@ -15,6 +15,7 @@ class Terminal {
 	boolean notificaAlAdministrador = true
 	LocalDateTime fechaActual
 	int timeout
+	String emailAdministrador
 	
 	new(String _terminal, Point _ubicacion, SistemaInterface _sistema) {
 		ubicacion = _ubicacion

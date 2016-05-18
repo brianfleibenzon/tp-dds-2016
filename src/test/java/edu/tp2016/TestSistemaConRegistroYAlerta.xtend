@@ -19,12 +19,17 @@ import com.google.common.collect.Lists
 import org.junit.Assert
 import edu.tp2016.sistema.decorators.SistemaConAlertaAAdministrador
 import edu.tp2016.sistema.decorators.SistemaConRegistroDeBusqueda
-import edu.tp2016.pois.CGP
 import edu.tp2016.sistema.Terminal
+
+import static org.mockito.Matchers.*
+import static org.mockito.Mockito.*
+import org.mockito.ArgumentMatcher
+import edu.tp2016.serviciosExternos.MailSender
 
 class TestSistemaConRegistroYAlerta {
 	Sistema unSistema
 	SistemaConRegistroDeBusqueda unSistemaConRegistro
+	SistemaConAlertaAAdministrador unSistemaConAlerta
 	LocalDateTime fechaX
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
@@ -38,7 +43,8 @@ class TestSistemaConRegistroYAlerta {
 	List<DiaDeAtencion> rangoX
 	Terminal terminalAbasto
 	Terminal terminalFlorida
-	Terminal terminalTeatroColon	
+	Terminal terminalTeatroColon
+	MailSender mockedMailSender	
 
 	@Before
 	def void setUp() {
@@ -72,9 +78,13 @@ class TestSistemaConRegistroYAlerta {
 
 		unSistema.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		unSistema.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-
+		
+		mockedMailSender = mock(typeof(MailSender))
+		
+		unSistemaConAlerta = new SistemaConAlertaAAdministrador(unSistema, mockedMailSender)
+		
 		unSistemaConRegistro = new SistemaConRegistroDeBusqueda(
-			new SistemaConAlertaAAdministrador(unSistema)
+			unSistemaConAlerta
 		) => [
 			fechaActual = fechaX
 		]
@@ -125,4 +135,11 @@ class TestSistemaConRegistroYAlerta {
 		
 		Assert.assertEquals( 3, reporteGenerado.get(fechaX.toLocalDate))
 	}	
+	
+	@Test	
+	def void testEnvioMail(){
+		terminalAbasto.timeout = 0
+		terminalAbasto.buscar("Farmacia")
+		verify(mockedMailSender, times(1)).send(any(typeof(String)))
+	}
 }
