@@ -1,5 +1,7 @@
 package edu.tp2016
 
+import edu.tp2016.Builder.Builder
+import edu.tp2016.Builder.BuilderParada
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.DiaDeAtencion
 import edu.tp2016.mod.Rubro
@@ -9,6 +11,8 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.POI
 import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.sistema.Sistema
+import edu.tp2016.sistema.Terminal
 import java.util.Arrays
 import java.util.List
 import org.joda.time.LocalDateTime
@@ -17,14 +21,12 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
-import edu.tp2016.sistema.Sistema
-import edu.tp2016.sistema.Terminal
 
 class TestCercania {
 
 	Sistema unSistema
-	ParadaDeColectivo paradaCerca
 	ParadaDeColectivo paradaLejos
+	
 	Banco bancoCerca
 	Banco bancoLejos
 	CGP CGPCerca
@@ -42,17 +44,19 @@ class TestCercania {
 	List<Servicio> serviciosX
 	Point ubicacion
 	Terminal terminal
-
+	/*BUILDER */
+	 BuilderParada paradaCerca
+	
 	@Before
 	def void setUp() {
-
+		
 		rangoX = Arrays.asList(unDiaX)
 		fechaX = new LocalDateTime()
 		clavesX = Arrays.asList("algunas", "palabras", "clave")
 
 		serviciosX = Arrays.asList(new Servicio("x", rangoX))
 
-		paradaCerca = new ParadaDeColectivo("114", new Point(-34.597768, -58.419860), clavesX)
+		paradaCerca =new Builder().construirParada("114", new Point(-34.597768, -58.419860), clavesX)
 
 		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351), clavesX)
 
@@ -87,7 +91,7 @@ class TestCercania {
 
 		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415), clavesX, rubroTest, rangoX)
 
-		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
+		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos,paradaCerca,
 			paradaLejos)
 
 		unSistema = new Sistema(poisX, fechaX)

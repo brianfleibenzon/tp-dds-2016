@@ -12,11 +12,20 @@ class ParadaDeColectivo extends POI{
        	super(unNombre, unaUbicacion, claves)
     }
 	
+	
+	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1
 	}
 	
 	override boolean estaDisponible(LocalDateTime fecha,String Nombre){
 		 true
-	}	
+	}
+	
+	def add(String unNombre, Point unaUbicacion, List<String> claves) {
+		this.nombre=unNombre
+		this.ubicacion = unaUbicacion
+		this.palabrasClave = claves
+	}
+		
 }
