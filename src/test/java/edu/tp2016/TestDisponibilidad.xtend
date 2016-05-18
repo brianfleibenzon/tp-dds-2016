@@ -19,10 +19,10 @@ import edu.tp2016.pois.POI
 import edu.tp2016.pois.Comercio
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
-import builder.CGPBuilder
-import builder.ParadaBuilder
-import builder.ComercioBuilder
-import builder.BancoBuilder
+import edu.tp2016.builder.CGPBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.BancoBuilder
 
 class TestDisponibilidad {
 

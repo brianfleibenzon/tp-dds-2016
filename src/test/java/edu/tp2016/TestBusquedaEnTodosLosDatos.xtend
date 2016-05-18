@@ -20,8 +20,8 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
-import builder.ParadaBuilder
-import builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.builder.ComercioBuilder
 
 class TestBusquedaEnTodosLosDatos {
 	ServidorLocal unServidorLocal

@@ -1,4 +1,4 @@
-package builder
+package edu.tp2016.builder
 
 import edu.tp2016.pois.ParadaDeColectivo
 import org.uqbar.geodds.Point

@@ -23,8 +23,8 @@ import edu.tp2016.observersBusqueda.DemoraConsultaObserver
 import edu.tp2016.observersBusqueda.FraseBuscadaObserver
 import edu.tp2016.observersBusqueda.StubDemoraConsultaObserver
 import edu.tp2016.serviciosExternos.StubMailSender
-import builder.ParadaBuilder
-import builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.builder.ComercioBuilder
 
 class TestRegistroDeBusquedasConObservers {
 	

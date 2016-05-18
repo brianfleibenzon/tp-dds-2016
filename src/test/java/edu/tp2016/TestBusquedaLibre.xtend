@@ -19,10 +19,10 @@ import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
-import builder.BancoBuilder
-import builder.ParadaBuilder
-import builder.ComercioBuilder
-import builder.CGPBuilder
+import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.CGPBuilder
 
 class TestBusquedaLibre {
 
