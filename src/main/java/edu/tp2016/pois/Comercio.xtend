@@ -1,9 +1,11 @@
-package edu.tp2016
+package edu.tp2016.pois
 
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import java.util.List
+import edu.tp2016.mod.Rubro
+import edu.tp2016.mod.DiaDeAtencion
 
 @Accessors
 class Comercio extends POI{
@@ -13,7 +15,7 @@ class Comercio extends POI{
         super(unNombre, unaUbicacion, claves)
         rubro = unRubro
         rangoDeAtencion = unRango
-    } // Constructor
+    }
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < rubro.radioDeCercania

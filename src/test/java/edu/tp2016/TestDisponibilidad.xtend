@@ -8,18 +8,21 @@ import java.util.Arrays
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 import java.util.List
-import com.google.common.collect.Lists
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.pois.CGP
+import edu.tp2016.mod.Servicio
+import edu.tp2016.mod.Rubro
+import edu.tp2016.mod.Comuna
+import edu.tp2016.pois.POI
+import edu.tp2016.pois.Comercio
 
 class TestDisponibilidad {
 
 	Dispositivo unDispositivoConFechaDisponible
 	Dispositivo unDispositivoConFechaNoDisponible
 	Banco unBanco
-	DiaDeAtencion lunes
-	DiaDeAtencion martes
-	DiaDeAtencion miercoles
-	DiaDeAtencion jueves
-	DiaDeAtencion viernes
 	Comercio unComercio
 	DiaDeAtencion lunesMan
 	DiaDeAtencion martesMan
@@ -47,11 +50,11 @@ class TestDisponibilidad {
 
 	@Before
 	def void setUp() {
-		
+
 		ubicacionX = new Point(-1, 1)
-		rubroX = new Rubro("x",1)
-		clavesX = Arrays.asList(Lists.newArrayList("algunas", "palabras", "clave"))
-		pois = Arrays.asList(Lists.newArrayList(unBanco, unCGP,unComercio, unaParada))
+		rubroX = new Rubro("x", 1)
+		clavesX = Arrays.asList("algunas", "palabras", "clave")
+		
 		comunaX = new Comuna => [
 			poligono = new Polygon()
 			poligono.add(new Point(-1, 1))
@@ -59,52 +62,49 @@ class TestDisponibilidad {
 			poligono.add(new Point(-3, 3))
 			poligono.add(new Point(-4, 4))
 		]
+
+		unBanco = new Banco("Santander", ubicacionX, clavesX, "Caballito", "Juan Pérez")
+
+		lunesMan = new DiaDeAtencion(1, 10, 13, 0, 0)
+		martesMan = new DiaDeAtencion(2, 10, 13, 0, 0)
+		miercolesMan = new DiaDeAtencion(3, 10, 13, 0, 0)
+		juevesMan = new DiaDeAtencion(4, 10, 13, 0, 0)
+		viernesMan = new DiaDeAtencion(5, 10, 13, 0, 0)
+		sabadoMan = new DiaDeAtencion(6, 10, 13, 0, 0)
+		lunesTar = new DiaDeAtencion(1, 17, 20, 0, 30)
+		martesTar = new DiaDeAtencion(2, 17, 20, 0, 30)
+		miercolesTar = new DiaDeAtencion(3, 17, 20, 0, 30)
+		juevesTar = new DiaDeAtencion(4, 17, 20, 0, 30)
+		viernesTar = new DiaDeAtencion(5, 17, 20, 0, 30)
+		sabadoTar = new DiaDeAtencion(6, 17, 20, 0, 30)
+
+		unComercio = new Comercio("Carrousel", ubicacionX, clavesX, rubroX,
+			Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan, juevesTar,
+				viernesMan, viernesTar, sabadoMan, sabadoTar))
+
+		unaParada = new ParadaDeColectivo("114", ubicacionX, clavesX)
+
+		lunesRentas = new DiaDeAtencion(1, 10, 19, 0, 0)
+		unServicio = new Servicio("Rentas", Arrays.asList(lunesRentas))
+		unCGP = new CGP("CentroDeGestión", ubicacionX, clavesX, comunaX, Arrays.asList(unServicio), "", "", "")
+
+		pois = Arrays.asList(unBanco, unCGP, unComercio, unaParada)
 		
 		unDispositivoConFechaDisponible = new Dispositivo(ubicacionX, pois,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
-			
+
 		unDispositivoConFechaNoDisponible = new Dispositivo(ubicacionX, pois,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
-
-		lunes = new DiaDeAtencion(1,10,15,0,0)
-		martes = new DiaDeAtencion(2,10,15,0,0)
-		miercoles = new DiaDeAtencion(3,10,15,0,0)
-		jueves = new DiaDeAtencion(4,10,15,0,0)
-		viernes = new DiaDeAtencion(5,10,15,0,0)
-		
-		unBanco = new Banco("Santander", ubicacionX, clavesX, Arrays.asList(lunes, martes, miercoles, jueves, viernes))
-		
-		unBanco = new Banco("Provincia",ubicacionX, clavesX, Arrays.asList(lunes, martes, miercoles, jueves, viernes))
-
-		lunesMan = new DiaDeAtencion(1,10,13,0,0)
-		martesMan = new DiaDeAtencion(2,10,13,0,0)
-		miercolesMan = new DiaDeAtencion(3,10,13,0,0)
-		juevesMan = new DiaDeAtencion(4,10,13,0,0)
-		viernesMan = new DiaDeAtencion(5,10,13,0,0)
-		sabadoMan = new DiaDeAtencion(6,10,13,0,0)
-		lunesTar = new DiaDeAtencion(1,17,20,0,30)
-		martesTar = new DiaDeAtencion(2,17,20,0,30)
-		miercolesTar = new DiaDeAtencion(3,17,20,0,30)
-		juevesTar = new DiaDeAtencion(4,17,20,0,30)
-		viernesTar = new DiaDeAtencion(5,17,20,0,30)
-		sabadoTar = new DiaDeAtencion(6,17,20,0,30)
-		
-		unComercio = new Comercio("Carrousel",ubicacionX,clavesX,rubroX, Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan,
-					juevesTar, viernesMan, viernesTar, sabadoMan, sabadoTar))
-
-		unaParada = new ParadaDeColectivo("114",ubicacionX,clavesX)
-		
-		lunesRentas = new DiaDeAtencion(1,10,19,0,0)
-		unServicio = new Servicio("Rentas",Arrays.asList(lunesRentas))
-		unCGP = new CGP("CentroDeGestión",ubicacionX,clavesX,comunaX,Arrays.asList(unServicio))
-		
-		unDispositivoConFechaDisponibleParaRentas = new Dispositivo(ubicacionX, pois,
+			
+		unDispositivoConFechaDisponibleParaRentas = new Dispositivo(
+			ubicacionX,
+			pois,
 			new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
 		)
 
 		unDispositivoConFechaNODisponibleParaRentas = new Dispositivo(ubicacionX, pois,
 			new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
-	
+
 	}
 
 	@Test
@@ -134,12 +134,12 @@ class TestDisponibilidad {
 
 	@Test
 	def void bancoEstaDisponible() {
-		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, "Santander"))
+		Assert.assertTrue(unDispositivoConFechaDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void bancoNoEstaDisponible() {
-		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, "Provincia"))
+		Assert.assertFalse(unDispositivoConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test

@@ -1,4 +1,4 @@
-package edu.tp2016
+package edu.tp2016.mod
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
@@ -26,3 +26,4 @@ class DiaDeAtencion {
 		(horaFin > unaFecha.getHourOfDay || (horaFin == unaFecha.getHourOfDay && minutoFin >= unaFecha.getMinuteOfHour))
 	}
 }
+				

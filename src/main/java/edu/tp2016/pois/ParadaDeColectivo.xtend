@@ -1,4 +1,4 @@
-package edu.tp2016
+package edu.tp2016.pois
 
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -10,7 +10,7 @@ class ParadaDeColectivo extends POI{
 	
 	new(String unNombre, Point unaUbicacion, List<String> claves) {
        	super(unNombre, unaUbicacion, claves)
-    } // Constructor
+    }
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1
