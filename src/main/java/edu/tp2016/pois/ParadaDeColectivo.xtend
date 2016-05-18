@@ -7,13 +7,9 @@ import java.util.List
 
 @Accessors
 class ParadaDeColectivo extends POI{
-	
-	new(String unNombre, Point unaUbicacion, List<String> claves) {
-       	super(unNombre, unaUbicacion, claves)
-    }
-	
-	
-	
+	 new() {
+		
+	}	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1
 	}
@@ -22,10 +18,6 @@ class ParadaDeColectivo extends POI{
 		 true
 	}
 	
-	def add(String unNombre, Point unaUbicacion, List<String> claves) {
-		this.nombre=unNombre
-		this.ubicacion = unaUbicacion
-		this.palabrasClave = claves
-	}
+	
 		
 }

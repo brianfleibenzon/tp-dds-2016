@@ -1,6 +1,5 @@
 package edu.tp2016
 
-import edu.tp2016.Builder.Builder
 import edu.tp2016.Builder.BuilderParada
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.DiaDeAtencion
@@ -21,21 +20,17 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
+import edu.tp2016.Builder.BuilderBanco
+import edu.tp2016.Builder.BuilderComercio
+import edu.tp2016.Builder.BuilderCGP
 
 class TestCercania {
 
 	Sistema unSistema
-	ParadaDeColectivo paradaLejos
-	
-	Banco bancoCerca
-	Banco bancoLejos
-	CGP CGPCerca
-	CGP CGPLejos
 	Comuna comunaInterior
 	Comuna comunaExterior
 	Rubro rubroTest
-	Comercio comercioCerca
-	Comercio comercioLejos
+	
 	DiaDeAtencion unDiaX
 	List<DiaDeAtencion> rangoX
 	LocalDateTime fechaX
@@ -44,8 +39,16 @@ class TestCercania {
 	List<Servicio> serviciosX
 	Point ubicacion
 	Terminal terminal
+	
 	/*BUILDER */
-	 BuilderParada paradaCerca
+	 ParadaDeColectivo paradaCerca
+	 ParadaDeColectivo paradaLejos
+	 Banco bancoCerca
+	 Banco bancoLejos
+	 Comercio comercioCerca
+	 Comercio comercioLejos
+	 CGP CGPCerca
+	 CGP CGPLejos
 	
 	@Before
 	def void setUp() {
@@ -56,14 +59,32 @@ class TestCercania {
 
 		serviciosX = Arrays.asList(new Servicio("x", rangoX))
 
-		paradaCerca =new Builder().construirParada("114", new Point(-34.597768, -58.419860), clavesX)
+		paradaCerca =new BuilderParada().nombre("114")
+						.ubicacion(new Point(-34.597768, -58.419860))
+						.claves(clavesX)
+						.build
 
-		paradaLejos = new ParadaDeColectivo("107", new Point(-34.597859, -58.423351), clavesX)
+		paradaLejos = new BuilderParada().nombre("107")
+						 .ubicacion(new Point(-34.597859, -58.423351))
+						 .claves(clavesX)
+						 .build
 
-		bancoCerca = new Banco("Santander", new Point(-34.597768, -58.419860), clavesX, "Caballito", "Juan Perez")
-
-		bancoLejos = new Banco("Galicia", new Point(-34.594150, -58.416313), clavesX, "Belgrano", "María García")
-
+		bancoCerca = new BuilderBanco().nombre("Santander")
+									   .ubicacion(new Point(-34.597768, -58.419860))
+									   .claves(clavesX)
+									   .sucursal("Caballito")
+									   .nombreDeGerente("Juan Perez")
+									   .rangoDeAtencion
+									   .build
+									   
+		bancoLejos = new BuilderBanco().nombre("Galicia")
+									   .ubicacion(new Point(-34.594150, -58.416313))
+									   .claves(clavesX)
+									   .sucursal("Belgrano")
+									   .nombreDeGerente("María García")
+									   .rangoDeAtencion
+									   .build
+									   
 		comunaInterior = new Comuna => [
 			poligono = new Polygon()
 			poligono.add(new Point(-34.597735, -58.421806))
@@ -79,18 +100,37 @@ class TestCercania {
 			poligono.add(new Point(-34.594167, -58.416334))
 		]
 
-		CGPCerca = new CGP("CGP Caballito", new Point(-34.597768, -58.419860), clavesX, comunaInterior, serviciosX, "",
-			"", "")
-
-		CGPLejos = new CGP("CGP Almagro", new Point(-34.594150, -58.416313), clavesX, comunaExterior, serviciosX, "",
-			"", "")
+		CGPCerca = new BuilderCGP().nombre("CGP Caballito")
+								   .ubicacion(new Point(-34.597768, -58.419860))
+								   .claves(clavesX)
+								   .comuna(comunaInterior)
+								   .servicios(serviciosX)
+								   .build						   			
+				CGPLejos = new BuilderCGP().nombre("CGP Almagro")
+										   .ubicacion(new Point(-34.594150, -58.416313))
+										   .claves(clavesX)
+										   .comuna(comunaExterior)
+										   .servicios(serviciosX)
+										   .build
+				
 
 		rubroTest = new Rubro("indumentaria", 2)
 
-		comercioCerca = new Comercio("test", new Point(-34.597768, -58.419860), clavesX, rubroTest, rangoX)
+		comercioCerca = new BuilderComercio().nombre("test")
+											 .ubicacion(new Point(-34.597768, -58.419860))
+											 .claves(clavesX)
+											 .rubro(rubroTest)
+											 .rango(rangoX)
+											 .build
+		
 
-		comercioLejos = new Comercio("test", new Point(-34.597824, -58.423415), clavesX, rubroTest, rangoX)
-
+		comercioLejos = new BuilderComercio().nombre("test")
+											 .ubicacion(new Point(-34.597824, -58.423415))
+											 .claves(clavesX)
+											 .rubro(rubroTest)
+											 .rango(rangoX)
+											 .build
+	
 		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos,paradaCerca,
 			paradaLejos)
 

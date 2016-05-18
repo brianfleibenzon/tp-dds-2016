@@ -4,12 +4,30 @@ import edu.tp2016.pois.ParadaDeColectivo
 import org.uqbar.geodds.Point
 import java.util.List
 
-class BuilderParada extends Builder {
+class BuilderParada {
 	
-	ParadaDeColectivo unaParada
+	ParadaDeColectivo unPoi
 		
-	override construirParada(String unNombre, Point unaUbicacion, List<String> claves){
-		unaParada.add(unNombre,unaUbicacion,claves)
+	new(){
+		unPoi = new ParadaDeColectivo
+	}
+	def build()
+	{
+		unPoi
+	}
+	def nombre (String nombreBanco)
+	{
+		unPoi.nombre=nombreBanco
+		this
+	}
+	def ubicacion(Point unaUbicacion)
+	{
+		unPoi.ubicacion= unaUbicacion
+		this
+	}
+	def claves(List<String>claves)
+	{
+		unPoi.palabrasClave=claves
 		this
 	}
 }

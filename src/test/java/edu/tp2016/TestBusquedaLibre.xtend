@@ -19,20 +19,18 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
 import edu.tp2016.sistema.Terminal
+import edu.tp2016.Builder.BuilderParada
+import edu.tp2016.Builder.BuilderBanco
+import edu.tp2016.Builder.BuilderComercio
+import edu.tp2016.Builder.BuilderCGP
 
 class TestBusquedaLibre {
 
 	Sistema unSistema
-	ParadaDeColectivo utn7parada
-	ParadaDeColectivo miserere7parada
-	ParadaDeColectivo utn114parada
-	CGP CGPComuna1
-	CGP CGPComuna2
+	
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
-	Comercio comercioFarmacity
-	Comercio comercioLoDeJuan
-	Banco bancoGalicia
+	
 	Servicio cultura
 	Servicio deportes
 	Servicio asesoramientoLegal
@@ -44,7 +42,15 @@ class TestBusquedaLibre {
 	Comuna comunaX
 	LocalDateTime fechaX
 	Terminal terminal
-
+	/*Builder */
+	ParadaDeColectivo utn7parada
+	ParadaDeColectivo miserere7parada
+	ParadaDeColectivo utn114parada
+	Banco bancoGalicia
+	Comercio comercioFarmacity
+	Comercio comercioLoDeJuan
+	CGP CGPComuna1
+	CGP CGPComuna2
 	@Before
 	def void setUp() {
 
@@ -58,15 +64,29 @@ class TestBusquedaLibre {
 			poligono.add(new Point(-4, 4))
 		]
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+		utn7parada = new BuilderParada().nombre("7")
+						.ubicacion(ubicacionX)
+						.claves(Arrays.asList("utn", "campus"))
+						.build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
+		miserere7parada= new BuilderParada().nombre("7")
+											.ubicacion(ubicacionX)
+											.claves(Arrays.asList("utn","plaza miserere" , "once"))
+											.build
+											
+		utn114parada = new BuilderParada().nombre("114")
+										  .ubicacion(ubicacionX)
+										  .claves(Arrays.asList("utn","campus"))
+										  .build
 
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
-
-		bancoGalicia = new Banco("Banco Galicia Callao", ubicacionX,
-			Arrays.asList("cajero", "sucursal galicia", "banco"), "Almagro", "Juan Perez")
-
+		bancoGalicia = new BuilderBanco().nombre("Banco Galicia Callao")
+										 .ubicacion(ubicacionX)
+										 .claves(Arrays.asList("cajero", "sucursal galicia", "banco"))
+										 .sucursal("Almagro")
+										 .nombreDeGerente("Juan Perez")
+										 .rangoDeAtencion
+										 .build
+		
 		cultura = new Servicio("cultura", rangoX)
 
 		deportes = new Servicio("deportes", rangoX)
@@ -77,24 +97,39 @@ class TestBusquedaLibre {
 
 		salud = new Servicio("salud", rangoX)
 
-		CGPComuna1 = new CGP("CGP Comuna 1", ubicacionX,
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1"), comunaX,
-			Arrays.asList(asesoramientoLegal, cultura, deportes), "", "", "")
-
-		CGPComuna2 = new CGP("CGP Comuna 2", ubicacionX,
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2"), comunaX,
-			Arrays.asList(turismo, cultura, salud), "", "", "")
+		CGPComuna1 = new BuilderCGP().nombre("CGP Comuna 1")
+									 .ubicacion(ubicacionX)
+									 .claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1"))
+									 .comuna(comunaX)
+									 .servicios(Arrays.asList(asesoramientoLegal, cultura, deportes))
+									 .build
+		
+		CGPComuna2 = new BuilderCGP().nombre("CGP Comuna 2")
+									 .ubicacion(ubicacionX)
+									 .claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2"))
+									 .comuna(comunaX)
+									 .servicios(Arrays.asList(turismo, cultura, salud))
+									 .build							 
+									 
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
 
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
+		comercioFarmacity = new BuilderComercio().nombre("Farmacity")
+												 .ubicacion(ubicacionX)
+												 .claves(Arrays.asList("medicamentos", "salud"))
+												 .rubro(rubroFarmacia)
+												 .rango(rangoX)
+												 .build
+		
 
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
-
+		comercioLoDeJuan = new BuilderComercio().nombre("Libreria Juan")
+												.ubicacion(ubicacionX)
+												.claves(Arrays.asList("fotocopias", "utiles", "libros"))
+												.rubro(rubroLibreria)
+												.rango(rangoX)
+												.build
 		unSistema = new Sistema(
 			Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
 				comercioLoDeJuan, bancoGalicia), fechaX)

@@ -1,26 +1,27 @@
 package edu.tp2016
 
-import edu.tp2016.sistema.Sistema
-import org.junit.Before
-import org.junit.Test
-import org.joda.time.LocalDateTime
-import java.util.Arrays
-import edu.tp2016.pois.ParadaDeColectivo
-import edu.tp2016.pois.Comercio
-import edu.tp2016.mod.Rubro
-import org.uqbar.geodds.Point
-import edu.tp2016.mod.DiaDeAtencion
-import java.util.List
-import edu.tp2016.serviciosExternos.banco.AdapterBanco
-import edu.tp2016.serviciosExternos.cgp.AdapterCGP
-import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
-import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import com.google.common.collect.Lists
-import org.junit.Assert
+import edu.tp2016.Builder.BuilderParada
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Rubro
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.serviciosExternos.banco.AdapterBanco
+import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
+import edu.tp2016.serviciosExternos.cgp.AdapterCGP
+import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
+import edu.tp2016.sistema.Sistema
+import edu.tp2016.sistema.Terminal
 import edu.tp2016.sistema.decorators.SistemaConAlertaAAdministrador
 import edu.tp2016.sistema.decorators.SistemaConRegistroDeBusqueda
-import edu.tp2016.pois.CGP
-import edu.tp2016.sistema.Terminal
+import java.util.Arrays
+import java.util.List
+import org.joda.time.LocalDateTime
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.uqbar.geodds.Point
+import edu.tp2016.Builder.BuilderComercio
 
 class TestSistemaConRegistroYAlerta {
 	Sistema unSistema
@@ -28,39 +29,56 @@ class TestSistemaConRegistroYAlerta {
 	LocalDateTime fechaX
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
-	Comercio comercioFarmacity
-	Comercio comercioLoDeJuan
-	ParadaDeColectivo utn7parada
-	ParadaDeColectivo miserere7parada
-	ParadaDeColectivo utn114parada
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
 	Terminal terminalAbasto
 	Terminal terminalFlorida
 	Terminal terminalTeatroColon	
-
+	/*Builder */
+	ParadaDeColectivo utn7parada
+	ParadaDeColectivo miserere7parada
+	ParadaDeColectivo utn114parada
+	Comercio comercioFarmacity
+	Comercio comercioLoDeJuan	
+	
 	@Before
 	def void setUp() {
 		fechaX = new LocalDateTime()
 
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+		utn7parada = new BuilderParada().nombre("7")
+						.ubicacion(ubicacionX)
+						.claves(Arrays.asList("utn", "campus"))
+						.build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
-
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
-
+		miserere7parada= new BuilderParada().nombre("7")
+							.ubicacion(ubicacionX)
+							.claves(Arrays.asList("utn","plaza miserere" , "once"))
+							.build
+		utn114parada = new BuilderParada().nombre("114")
+										  .ubicacion(ubicacionX)
+										  .claves(Arrays.asList("utn","campus"))
+										  .build
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
 
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
-
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
+		comercioFarmacity = new BuilderComercio().nombre("Farmacity")
+												 .ubicacion(ubicacionX)
+												 .claves(Arrays.asList("medicamentos", "salud"))
+												 .rubro(rubroFarmacia)
+												 .rango(rangoX)
+												 .build
+		
+		comercioLoDeJuan = new BuilderComercio().nombre("Libreria Juan")
+												.ubicacion(ubicacionX)
+												.claves(Arrays.asList("fotocopias", "utiles", "libros"))
+												.rubro(rubroLibreria)
+												.rango(rangoX)
+												.build												
+	
 
 		unSistema = new Sistema(Arrays.asList(), fechaX)
 

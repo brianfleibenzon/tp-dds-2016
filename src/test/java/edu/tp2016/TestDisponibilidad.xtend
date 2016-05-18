@@ -19,13 +19,16 @@ import edu.tp2016.pois.POI
 import edu.tp2016.pois.Comercio
 import edu.tp2016.sistema.Sistema
 import edu.tp2016.sistema.Terminal
+import edu.tp2016.Builder.BuilderParada
+import edu.tp2016.Builder.BuilderBanco
+import edu.tp2016.Builder.BuilderComercio
+import edu.tp2016.Builder.BuilderCGP
 
 class TestDisponibilidad {
 
 	Sistema unSistemaConFechaDisponible
-	Sistema unSistemaConFechaNoDisponible
-	Banco unBanco
-	Comercio unComercio
+	Sistema unSistemaConFechaNoDisponible	
+	
 	DiaDeAtencion lunesMan
 	DiaDeAtencion martesMan
 	DiaDeAtencion miercolesMan
@@ -38,12 +41,11 @@ class TestDisponibilidad {
 	DiaDeAtencion juevesTar
 	DiaDeAtencion viernesTar
 	DiaDeAtencion sabadoTar
-	CGP unCGP
+	
 	DiaDeAtencion lunesRentas
 	Sistema unSistemaConFechaDisponibleParaRentas
 	Sistema unSistemaConFechaNODisponibleParaRentas
-	Servicio unServicio
-	ParadaDeColectivo unaParada
+	Servicio unServicio	
 	Point ubicacionX
 	Rubro rubroX
 	Comuna comunaX
@@ -54,7 +56,11 @@ class TestDisponibilidad {
 	Terminal terminalConFechaNoDisponible
 	Terminal terminalConFechaDisponibleParaRentas
 	Terminal terminalConFechaNODisponibleParaRentas
-
+	/*Builder */
+	ParadaDeColectivo unaParada
+	Banco unBanco
+	Comercio unComercio
+	CGP unCGP
 	@Before
 	def void setUp() {
 
@@ -69,7 +75,13 @@ class TestDisponibilidad {
 			poligono.add(new Point(-4, 4))
 		]
 
-		unBanco = new Banco("Santander", ubicacionX, clavesX, "Caballito", "Juan Pérez")
+		unBanco = new BuilderBanco().nombre("Santander")
+									.ubicacion(ubicacionX)
+									.claves(clavesX)
+									.sucursal("Caballito")
+									.nombreDeGerente("Juan Pérez")
+									.rangoDeAtencion
+									.build
 
 		lunesMan = new DiaDeAtencion(1, 10, 13, 0, 0)
 		martesMan = new DiaDeAtencion(2, 10, 13, 0, 0)
@@ -84,15 +96,28 @@ class TestDisponibilidad {
 		viernesTar = new DiaDeAtencion(5, 17, 20, 0, 30)
 		sabadoTar = new DiaDeAtencion(6, 17, 20, 0, 30)
 
-		unComercio = new Comercio("Carrousel", ubicacionX, clavesX, rubroX,
-			Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan, juevesTar,
+		unComercio = new BuilderComercio().nombre("Carrousel")
+										  .ubicacion(ubicacionX)
+										  .claves(clavesX)
+										  .rubro(rubroX)
+										  .rango(Arrays.asList(lunesMan, lunesTar, martesMan, martesTar, miercolesMan, miercolesTar, juevesMan, juevesTar,
 				viernesMan, viernesTar, sabadoMan, sabadoTar))
-
-		unaParada = new ParadaDeColectivo("114", ubicacionX, clavesX)
+										  .build
+		
+		unaParada =new BuilderParada().nombre("114")
+									  .ubicacion(ubicacionX)
+									  .claves(clavesX)
+									  .build
+		
 
 		lunesRentas = new DiaDeAtencion(1, 10, 19, 0, 0)
 		unServicio = new Servicio("Rentas", Arrays.asList(lunesRentas))
-		unCGP = new CGP("CentroDeGestión", ubicacionX, clavesX, comunaX, Arrays.asList(unServicio), "", "", "")
+		unCGP = new BuilderCGP().nombre("CentroDeGestión")
+								.ubicacion(ubicacionX)
+								.claves(clavesX)
+								.comuna(comunaX)
+								.servicios( Arrays.asList(unServicio))
+								.build
 
 		pois = Arrays.asList(unBanco, unCGP, unComercio, unaParada)
 		
