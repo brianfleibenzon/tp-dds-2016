@@ -19,14 +19,9 @@ class CGP extends POI {
 	String nombreDirector
 	String telefono
 
-	new(String unNombre, Point unaUbicacion, List<String> claves, Comuna unaComuna, List<Servicio> listaServicios,
-		String _zonasIncluidas, String director, String unTelefono) {
-		super(unNombre, unaUbicacion, claves)
-		comuna = unaComuna
-		servicios = listaServicios
-		zonasIncluidas = _zonasIncluidas
-		nombreDirector = director
-		telefono = unTelefono
+	new()
+	{
+		
 	}
 
 	new(CentroDTO unCentro) {

@@ -20,43 +20,61 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
 import edu.tp2016.sistema.Sistema
 import edu.tp2016.sistema.Terminal
+import edu.tp2016.Builder.BuilderParada
+import edu.tp2016.Builder.BuilderComercio
 
 class TestBusquedaEnTodosLosDatos {
 	Sistema unSistema
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
-	Comercio comercioFarmacity
-	Comercio comercioLoDeJuan
-	ParadaDeColectivo utn7parada
-	ParadaDeColectivo miserere7parada
-	ParadaDeColectivo utn114parada
+	
 	LocalDateTime fechaX
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
 	Terminal terminal
-
+	
+	/*Builder */	
+	ParadaDeColectivo utn7parada
+	ParadaDeColectivo miserere7parada
+	ParadaDeColectivo utn114parada
+	Comercio comercioFarmacity
+	Comercio comercioLoDeJuan
 	@Before
 	def void setUp() {
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+		utn7parada = new BuilderParada().nombre("7")
+						.ubicacion(ubicacionX)
+						.claves(Arrays.asList("utn", "campus"))
+						.build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
-
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
-
+		miserere7parada= new BuilderParada().nombre("7")
+							.ubicacion(ubicacionX)
+							.claves(Arrays.asList("utn","plaza miserere" , "once"))
+							.build
+		utn114parada = new BuilderParada().nombre("114")
+										  .ubicacion(ubicacionX)
+										  .claves(Arrays.asList("utn","campus"))
+										  .build
+				
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
 
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
-
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
-
+		comercioFarmacity = new BuilderComercio().nombre("Farmacity")
+												.ubicacion(ubicacionX)
+												.claves(Arrays.asList("medicamentos", "salud"))
+												.rubro(rubroFarmacia)
+												.rango(rangoX)
+												.build
+		comercioLoDeJuan = new BuilderComercio().nombre("Libreria Juan")
+												.ubicacion(ubicacionX)
+												.claves(Arrays.asList("fotocopias", "utiles", "libros"))
+												.rubro(rubroLibreria)
+												.rango(rangoX)
+												.build
 		unSistema = new Sistema(Arrays.asList(), fechaX)
 
 		unSistema.repo.create(utn7parada)

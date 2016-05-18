@@ -11,10 +11,8 @@ import edu.tp2016.mod.DiaDeAtencion
 class Comercio extends POI{
 	Rubro rubro
 	
-	new(String unNombre, Point unaUbicacion, List<String> claves, Rubro unRubro, List<DiaDeAtencion> unRango) {
-        super(unNombre, unaUbicacion, claves)
-        rubro = unRubro
-        rangoDeAtencion = unRango
+    new(){
+    	
     }
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){

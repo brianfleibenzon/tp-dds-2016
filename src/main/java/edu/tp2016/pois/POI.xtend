@@ -28,7 +28,8 @@ abstract class POI extends Entity {
 		ubicacion = unaUbicacion
 		palabrasClave = claves
 	}
-
+	 new()
+	{}
 	def boolean estaDisponible(LocalDateTime unaFecha, String nombre)
 
 	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha) {
