@@ -22,6 +22,7 @@ import edu.tp2016.observersBusqueda.CantidadDeResultadosObserver
 import edu.tp2016.observersBusqueda.DemoraConsultaObserver
 import edu.tp2016.observersBusqueda.FraseBuscadaObserver
 import edu.tp2016.observersBusqueda.StubDemoraConsultaObserver
+import edu.tp2016.serviciosExternos.StubMailSender
 
 class TestRegistroDeBusquedasConObservers {
 	
@@ -43,7 +44,6 @@ class TestRegistroDeBusquedasConObservers {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
-	
 	
 	@Before
 	def void setUp(){
@@ -83,11 +83,11 @@ class TestRegistroDeBusquedasConObservers {
 		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral, fechaDeHoy)
 		terminalTeatroColon = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral, fechaDeHoy)
 		
-		// Setup para mockear:
+		// Setup para mockear demora excedida y envío de mail al administrador:
 		mockServidorCentral = new ServidorCentral(Arrays.asList())
 		mockServidorCentral.repo.create(utn7parada)
-		mockServidorCentral.adscribirObserver(new StubDemoraConsultaObserver)
-		mockServidorCentral.inicializarTiempoLimiteDeBusqueda(10)
+		mockServidorCentral.adscribirObserver(new StubDemoraConsultaObserver(new StubMailSender))
+		mockServidorCentral.inicializarTiempoLimiteDeBusqueda(5)
 		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
 	}
 	
@@ -150,7 +150,7 @@ class TestRegistroDeBusquedasConObservers {
 		val demoraConsulta = (mockTerminal.busquedasTerminal.head).demoraConsulta
 		
 		Assert.assertEquals((11).longValue(), demoraConsulta)
-		// TODO: mockear el envío de mail al admin
+		Assert.assertEquals( 1, mockServidorCentral.mailsEnviados )
 	}
 	
 	@Test	

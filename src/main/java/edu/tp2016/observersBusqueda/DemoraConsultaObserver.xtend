@@ -6,29 +6,34 @@ import org.joda.time.Duration
 import edu.tp2016.servidores.ServidorCentral
 import java.util.List
 import edu.tp2016.pois.POI
+import edu.tp2016.serviciosExternos.MailSender
+import edu.tp2016.serviciosExternos.Mail
 
 class DemoraConsultaObserver implements BusquedaObserver{
+	MailSender mailSender
 	
 	override def void registrarBusqueda(String texto, RegistroDeBusqueda busquedaActual, List<POI> poisDevueltos,
 		LocalDateTime inicioBusqueda, LocalDateTime finBusqueda, ServidorCentral servidor){
 		
 	val demora = (new Duration(inicioBusqueda.toDateTime, finBusqueda.toDateTime)).standardSeconds
 	
-	verificarTiempoDeConsulta(servidor.tiempoLimiteDeBusqueda, demora,
-					busquedaActual.sendMail, servidor.administradorMailAdress)
+	verificarTiempoDeConsulta(demora, busquedaActual.sendMail, servidor)
 	
 	busquedaActual.demoraConsulta = demora
 	}
 	
-	def verificarTiempoDeConsulta(long timeout, long demora, boolean enviaMail, String mailTo){
+	def verificarTiempoDeConsulta(long demora, boolean enviaMail, ServidorCentral servidor){
 		
- 	if ((demora > timeout) && enviaMail){
- 		enviarMail(mailTo)
+		val limite = servidor.tiempoLimiteDeBusqueda
+ 	if ((demora > limite) && enviaMail.equals(true)){
+ 		enviarMail(servidor)
 	}
 	}
 	
-	def enviarMail(String administradorMailAdress){
-		// Enviar un mail al Administrador
+	def boolean enviarMail(ServidorCentral servidor){
+		mailSender.sendMail(new Mail(
+			servidor.centralMailAdress, servidor.administradorMailAdress, "un mensaje", "un asunto")
+			)
 	}
 	
 	}
