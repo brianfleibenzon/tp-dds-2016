@@ -28,7 +28,7 @@ class EnviarMailObserver implements BusquedaObserver {
 
 	def verificarTiempoDeConsulta(long demora) {
 
-		if (demora > timeout) {
+		if (demora >= timeout) {
 			enviarMail()
 		}
 	}

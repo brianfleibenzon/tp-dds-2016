@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
 import edu.tp2016.observersBusqueda.EnviarMailObserver
-import edu.tp2016.observersBusqueda.StubEnviarMailObserver
 
 class TestRegistroDeBusquedasConObservers {
 
@@ -105,7 +104,7 @@ class TestRegistroDeBusquedasConObservers {
 		mockServidorCentral = new ServidorCentral(Arrays.asList())
 		mockServidorCentral.repo.create(utn7parada)
 		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
-		mockTerminal.adscribirObserver(new StubEnviarMailObserver(0, mockedMailSender))
+		mockTerminal.adscribirObserver(new EnviarMailObserver(0, mockedMailSender))
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
