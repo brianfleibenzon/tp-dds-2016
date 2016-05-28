@@ -9,6 +9,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.ArrayList
 import java.util.Date
+import edu.tp2016.usuarios.Usuario
 
 @Accessors
 class ServidorCentral {
@@ -17,7 +18,7 @@ class ServidorCentral {
 	Repositorio repo = Repositorio.newInstance
 	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal>
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
-	int mailsEnviados = 0
+	List<Usuario> usuarios = new ArrayList<Usuario>
 
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -40,17 +41,6 @@ class ServidorCentral {
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){
 		busquedas.add(unaBusqueda)
-	}
-
-	/**
-	 * Esta función le permite al ServidorCentral mapearse las búsquedas de cada terminal
-	 * a partir de su lista de terminales (servidoresLocales), para luego destinarlas a un reporte en particular.
-	 * Para ello se seleccionan primero aquellas terminales que estén habilitadas para generar reportes.
-	 * 
-	 * @return lista con búsquedas de todas las terminales
-	 */
-	def agregarServidorLocal(ServidorLocal terminal) {
-		servidoresLocales.add(terminal)
 	}
 
 // REPORTES DE BÚSQUEDAS:

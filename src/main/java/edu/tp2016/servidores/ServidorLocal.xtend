@@ -30,7 +30,6 @@ class ServidorLocal{
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
 		servidorCentral = servidor
-		servidor.agregarServidorLocal(this)
 		fechaActual = new LocalDateTime
 	}
 
@@ -38,7 +37,6 @@ class ServidorLocal{
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
 		servidorCentral = servidor
-		servidor.agregarServidorLocal(this)
 		fechaActual = _fecha
 	} // Constructor con fecha parametrizable (solo para test de Disponibilidad)
 	
