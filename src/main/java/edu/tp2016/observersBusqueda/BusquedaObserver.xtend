@@ -1,14 +1,12 @@
 package edu.tp2016.observersBusqueda
 
-import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import edu.tp2016.servidores.ServidorCentral
 import java.util.List
 import edu.tp2016.pois.POI
-import org.joda.time.LocalDateTime
+import edu.tp2016.servidores.ServidorLocal
 
 interface BusquedaObserver {
-	
-def void registrarBusqueda(String texto, RegistroDeBusqueda busqueda,
-	List<POI> poisDevueltos, LocalDateTime inicioBusqueda, LocalDateTime finBusqueda, ServidorCentral servidor)
+
+	def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, ServidorLocal terminal, ServidorCentral servidor)
 
 }

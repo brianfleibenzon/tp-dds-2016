@@ -4,9 +4,11 @@ import org.uqbar.geodds.Point
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.pois.POI
-import edu.tp2016.observersBusqueda.RegistroDeBusqueda
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
+import com.google.common.collect.Lists
+import edu.tp2016.observersBusqueda.BusquedaObserver
+import org.joda.time.Duration
 
 @Accessors
 class ServidorLocal{
@@ -14,11 +16,8 @@ class ServidorLocal{
 	ServidorCentral servidorCentral
 	String nombreTerminal
 	Point ubicacion
-	List<RegistroDeBusqueda> busquedasTerminal = new ArrayList<RegistroDeBusqueda>
 	LocalDateTime fechaActual
-	boolean puedeGenerarReportes = true
-	boolean notificaAlAdministrador = true
-
+	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
 /**
 	 * Constructor para un ServidorLocal. Lo creo con su nombre (ej.: "terminalAbasto")
 	 * y le indico quién es su ServidorCentral (que es único).
@@ -42,7 +41,14 @@ class ServidorLocal{
 		servidor.agregarServidorLocal(this)
 		fechaActual = _fecha
 	} // Constructor con fecha parametrizable (solo para test de Disponibilidad)
-
+	
+	def adscribirObserver(BusquedaObserver observador){
+		busquedaObservers.add(observador)
+	}
+	
+	def quitarObserver(BusquedaObserver observador){
+		busquedaObservers.remove(observador)
+	}
 
 	def boolean consultarCercania(POI unPoi) {
 		unPoi.estaCercaA(ubicacion)
@@ -54,29 +60,16 @@ class ServidorLocal{
 	
 	def List<POI> buscar(String texto){
 		
-		val busquedaActual = new RegistroDeBusqueda(fechaActual, nombreTerminal, notificaAlAdministrador)
+		val t1 = new LocalDateTime()
+		val listaDePoisDevueltos = Lists.newArrayList(servidorCentral.buscarPor(texto))
+		val t2 = new LocalDateTime()
 		
-		val searchResult = servidorCentral.buscarEnRepoCentral(texto, busquedaActual)
+		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
 		
-		busquedasTerminal.add(busquedaActual)
-		
-		searchResult
-	}
-	
-	def activarNotificacionesAlAdministardor(){
-		notificaAlAdministrador = true
-	}
-	
-	def desactivarNotificacionesAlAdministardor(){
-		notificaAlAdministrador = false
-	}
-	
-	def desactivarGeneracionDeReportes(){
-		puedeGenerarReportes = false
-	}
-	
-	def activarGeneracionDeReportes(){
-		puedeGenerarReportes = true
+		busquedaObservers.forEach [ observer |
+			observer.registrarBusqueda(texto, listaDePoisDevueltos, demora, this, servidorCentral) ]
+
+		listaDePoisDevueltos
 	}
 	
 }
