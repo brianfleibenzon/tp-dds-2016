@@ -7,15 +7,15 @@ import org.junit.Assert
 import edu.tp2016.pois.Banco
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import java.util.Arrays
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
 import com.google.common.collect.Lists
+import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaBanco {
-	ServidorLocal unServidorLocal
+	Terminal unServidorLocal
 	ServidorCentral servidorCentral
 	DiaDeAtencion unDiaX
 	Point ubicacionX
@@ -27,7 +27,7 @@ class TestBusquedaBanco {
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		
 		servidorCentral = new ServidorCentral(Arrays.asList())
-		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal",servidorCentral)
+		unServidorLocal = new Terminal(ubicacionX,"servidorLocal",servidorCentral)
 		
 		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 

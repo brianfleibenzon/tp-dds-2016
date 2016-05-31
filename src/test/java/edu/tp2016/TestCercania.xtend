@@ -17,16 +17,15 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.builder.ComercioBuilder
-
+import edu.tp2016.usuarios.Terminal
 class TestCercania {
 
-	ServidorLocal unServidorLocal
+	Terminal unServidorLocal
 	ServidorCentral servidorCentral
 	ParadaDeColectivo paradaCerca
 	ParadaDeColectivo paradaLejos
@@ -135,7 +134,7 @@ class TestCercania {
 		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
 			paradaLejos)
 		servidorCentral = new ServidorCentral(poisX)
-		unServidorLocal = new ServidorLocal(new Point(-34.598574, -58.420280), "unServidorLocal", servidorCentral)
+		unServidorLocal = new Terminal(new Point(-34.598574, -58.420280), "unServidorLocal", servidorCentral)
 
 	}
 

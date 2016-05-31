@@ -9,16 +9,18 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.ArrayList
 import java.util.Date
-import edu.tp2016.usuarios.Usuario
+import edu.tp2016.usuarios.Administrador
+import edu.tp2016.usuarios.Terminal
 
 @Accessors
 class ServidorCentral {
 
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
-	List<ServidorLocal> servidoresLocales = new ArrayList<ServidorLocal>
+	List<Terminal> servidoresLocales = new ArrayList<Terminal>
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
-	List<Usuario> usuarios = new ArrayList<Usuario>
+	List<Administrador> administradores = new ArrayList<Administrador>
+	Administrador administrador // Para Entrega 3 (único administrador)
 
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
@@ -80,15 +82,8 @@ class ServidorCentral {
 	}
 
 	def generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica(String nombreDeConsulta) {
-		val reporte = new ArrayList<Integer>
-
-		val busquedasDeLaTerminalEspecifica = ( busquedas.filter [ busqueda |
-			(busqueda.nombreTerminal).equals(nombreDeConsulta)
-		] )
-
-		busquedasDeLaTerminalEspecifica.forEach [ busqueda |
-			reporte.add(busqueda.cantidadDeResultados)
-		]
+		val reporte = generarReporteCantidadDeResultadosParcialesPorTerminal().get(nombreDeConsulta)
+		
 		reporte
 	}
 

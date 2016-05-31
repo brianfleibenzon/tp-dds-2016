@@ -1,7 +1,6 @@
 package edu.tp2016
 
 import org.junit.Before
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.mod.Rubro
 import edu.tp2016.pois.Comercio
@@ -26,15 +25,16 @@ import static org.mockito.Mockito.*
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
 import edu.tp2016.observersBusqueda.EnviarMailObserver
+import edu.tp2016.usuarios.Terminal
 
 class TestRegistroDeBusquedasConObservers {
 
-	ServidorLocal terminalAbasto
-	ServidorLocal terminalFlorida
-	ServidorLocal terminalTeatroColon
+	Terminal terminalAbasto
+	Terminal terminalFlorida
+	Terminal terminalTeatroColon
 	ServidorCentral servidorCentral
 	ServidorCentral mockServidorCentral
-	ServidorLocal mockTerminal
+	Terminal mockTerminal
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -85,9 +85,9 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 
-		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral, fechaDeHoy)
-		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral, fechaDeHoy)
-		terminalTeatroColon = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral, fechaDeHoy)
+		terminalAbasto = new Terminal(ubicacionX, "terminalAbasto", servidorCentral, fechaDeHoy)
+		terminalFlorida = new Terminal(ubicacionX, "terminalFlorida", servidorCentral, fechaDeHoy)
+		terminalTeatroColon = new Terminal(ubicacionX, "terminalTeatroColon", servidorCentral, fechaDeHoy)
 
 		mockedMailSender = mock(typeof(MailSender))
 
@@ -103,7 +103,7 @@ class TestRegistroDeBusquedasConObservers {
 		// Setup para mockear demora excedida y envío de mail al administrador:
 		mockServidorCentral = new ServidorCentral(Arrays.asList())
 		mockServidorCentral.repo.create(utn7parada)
-		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
+		mockTerminal = new Terminal(ubicacionX, "mockTerminal", mockServidorCentral)
 		mockTerminal.adscribirObserver(new EnviarMailObserver(0, mockedMailSender))
 	}
 

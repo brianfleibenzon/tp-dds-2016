@@ -6,7 +6,7 @@ import edu.tp2016.pois.POI
 import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.Mail
 import org.eclipse.xtend.lib.annotations.Accessors
-import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.usuarios.Terminal
 
 @Accessors
 class EnviarMailObserver implements BusquedaObserver {
@@ -20,10 +20,8 @@ class EnviarMailObserver implements BusquedaObserver {
 		mailSender = _sender
 	}
 
-	override def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, ServidorLocal terminal, ServidorCentral servidor){
-
+	override def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, Terminal terminal, ServidorCentral servidor){
 		verificarTiempoDeConsulta(demora)
-		
 	}
 
 	def verificarTiempoDeConsulta(long demora) {
@@ -34,9 +32,9 @@ class EnviarMailObserver implements BusquedaObserver {
 	}
 
 	def boolean enviarMail() {
+	
 		mailSender.sendMail(
-			new Mail(centralMailAdress, administradorMailAdress, "un mensaje", "un asunto")
-		)
-	}
+			new Mail(centralMailAdress, administradorMailAdress, "un mensaje", "un asunto") )
+		}
 
 }

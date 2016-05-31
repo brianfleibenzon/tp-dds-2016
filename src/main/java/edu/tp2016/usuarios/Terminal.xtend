@@ -1,4 +1,4 @@
-package edu.tp2016.servidores
+package edu.tp2016.usuarios
 
 import org.uqbar.geodds.Point
 import java.util.List
@@ -9,9 +9,10 @@ import java.util.ArrayList
 import com.google.common.collect.Lists
 import edu.tp2016.observersBusqueda.BusquedaObserver
 import org.joda.time.Duration
+import edu.tp2016.servidores.ServidorCentral
 
 @Accessors
-class ServidorLocal{
+class Terminal{
 	
 	ServidorCentral servidorCentral
 	String nombreTerminal
@@ -47,6 +48,8 @@ class ServidorLocal{
 	def quitarObserver(BusquedaObserver observador){
 		busquedaObservers.remove(observador)
 	}
+
+	// ACCIONES DE USUARIO:
 
 	def boolean consultarCercania(POI unPoi) {
 		unPoi.estaCercaA(ubicacion)

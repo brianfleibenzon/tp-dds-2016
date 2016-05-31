@@ -1,11 +1,10 @@
 package edu.tp2016.procesos
 
+import edu.tp2016.procesos.Proceso
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-abstract class Proceso {
+class AgregarAccionesPorUsuario extends Proceso{
 	
-	def void correr(){
-		
-	}
+	
 }

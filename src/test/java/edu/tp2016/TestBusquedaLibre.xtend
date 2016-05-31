@@ -17,16 +17,16 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.CGPBuilder
+import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaLibre {
 
-	ServidorLocal unServidorLocal
+	Terminal unServidorLocal
 	ServidorCentral servidorCentral
 	ParadaDeColectivo utn7parada
 	ParadaDeColectivo miserere7parada
@@ -132,7 +132,7 @@ class TestBusquedaLibre {
 		servidorCentral = new ServidorCentral(Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
 				comercioLoDeJuan, bancoGalicia))
 
-		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal", servidorCentral, fechaX)
+		unServidorLocal = new Terminal(ubicacionX,"servidorLocal", servidorCentral, fechaX)
 
 	}
 

@@ -18,13 +18,13 @@ import org.junit.Assert
 import org.junit.Test
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaEnTodosLosDatos {
-	ServidorLocal unServidorLocal
+	Terminal unServidorLocal
 	ServidorCentral servidorCentral
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
@@ -78,7 +78,7 @@ class TestBusquedaEnTodosLosDatos {
 	
 	
 		servidorCentral = new ServidorCentral(Arrays.asList())
-		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal",servidorCentral, fechaX)
+		unServidorLocal = new Terminal(ubicacionX,"servidorLocal",servidorCentral, fechaX)
 
 		servidorCentral.repo.create(utn7parada)
 		servidorCentral.repo.create(utn114parada)

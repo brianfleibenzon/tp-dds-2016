@@ -17,17 +17,17 @@ import edu.tp2016.mod.Rubro
 import edu.tp2016.mod.Comuna
 import edu.tp2016.pois.POI
 import edu.tp2016.pois.Comercio
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.usuarios.Terminal
 
 class TestDisponibilidad {
 
-	ServidorLocal unServidorLocalConFechaDisponible
-	ServidorLocal unServidorLocalConFechaNoDisponible
+	Terminal unServidorLocalConFechaDisponible
+	Terminal unServidorLocalConFechaNoDisponible
 	ServidorCentral servidorCentral
 	Banco unBanco
 	Comercio unComercio
@@ -45,8 +45,8 @@ class TestDisponibilidad {
 	DiaDeAtencion sabadoTar
 	CGP unCGP
 	DiaDeAtencion lunesRentas
-	ServidorLocal unServidorLocalConFechaDisponibleParaRentas
-	ServidorLocal unServidorLocalConFechaNODisponibleParaRentas
+	Terminal unServidorLocalConFechaDisponibleParaRentas
+	Terminal unServidorLocalConFechaNODisponibleParaRentas
 	Servicio unServicio
 	ParadaDeColectivo unaParada
 	Point ubicacionX
@@ -119,20 +119,20 @@ class TestDisponibilidad {
 		pois = Arrays.asList(unBanco, unCGP, unComercio, unaParada)
 		
 		servidorCentral = new ServidorCentral(pois) 
-		unServidorLocalConFechaDisponible = new ServidorLocal(ubicacionX,"servidorLocal1" ,servidorCentral ,
+		unServidorLocalConFechaDisponible = new Terminal(ubicacionX,"servidorLocal1" ,servidorCentral ,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
 
-		unServidorLocalConFechaNoDisponible = new ServidorLocal(ubicacionX,"servidorLocal2" ,servidorCentral,
+		unServidorLocalConFechaNoDisponible = new Terminal(ubicacionX,"servidorLocal2" ,servidorCentral,
 			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
 			
-		unServidorLocalConFechaDisponibleParaRentas = new ServidorLocal(
+		unServidorLocalConFechaDisponibleParaRentas = new Terminal(
 			ubicacionX,
 			"servidorLocal" ,
 			servidorCentral,
 			new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
 		)
 
-		unServidorLocalConFechaNODisponibleParaRentas = new ServidorLocal(ubicacionX,"servidorLocal" ,servidorCentral,
+		unServidorLocalConFechaNODisponibleParaRentas = new Terminal(ubicacionX,"servidorLocal" ,servidorCentral,
 			new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
 
 	}

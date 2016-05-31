@@ -9,11 +9,11 @@ import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import org.junit.Test
 import org.junit.Assert
 import edu.tp2016.pois.CGP
-import edu.tp2016.servidores.ServidorLocal
 import edu.tp2016.servidores.ServidorCentral
+import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaCGP {
-	ServidorLocal unServidorLocal
+	Terminal unServidorLocal
 	ServidorCentral servidorCentral
 	LocalDateTime fechaX
 	Point ubicacionX
@@ -24,7 +24,7 @@ class TestBusquedaCGP {
 		fechaX = new LocalDateTime()
 		servidorCentral= new ServidorCentral(Arrays.asList())
 		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))	
-		unServidorLocal = new ServidorLocal(ubicacionX, "servidorLocal", servidorCentral)
+		unServidorLocal = new Terminal(ubicacionX, "servidorLocal", servidorCentral)
 	}
 	
 	@Test
