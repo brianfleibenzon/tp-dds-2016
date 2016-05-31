@@ -17,10 +17,17 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
+import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.servidores.ServidorCentral
+import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.CGPBuilder
 
 class TestBusquedaLibre {
 
-	Dispositivo unDispositivo
+	ServidorLocal unServidorLocal
+	ServidorCentral servidorCentral
 	ParadaDeColectivo utn7parada
 	ParadaDeColectivo miserere7parada
 	ParadaDeColectivo utn114parada
@@ -56,14 +63,25 @@ class TestBusquedaLibre {
 			poligono.add(new Point(-4, 4))
 		]
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+			utn7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		claves( Arrays.asList("utn", "campus")).build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
+		miserere7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		 claves(Arrays.asList("utn", "plaza miserere", "once")).build
 
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
+		utn114parada = new ParadaBuilder().nombre("114").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("utn", "campus")).build
 
-		bancoGalicia = new Banco("Banco Galicia Callao", ubicacionX,
-			Arrays.asList("cajero", "sucursal galicia", "banco"), "Almagro", "Juan Perez")
+		bancoGalicia = new BancoBuilder().nombre("Banco Galicia Callao").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("cajero", "sucursal galicia", "banco")).
+		sucursal("Almagro").
+		nombreGerente("Juan Perez").
+		setearHorarios.
+		build
 
 		cultura = new Servicio("cultura", rangoX)
 
@@ -75,93 +93,112 @@ class TestBusquedaLibre {
 
 		salud = new Servicio("salud", rangoX)
 
-		CGPComuna1 = new CGP("CGP Comuna 1", ubicacionX,
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1"), comunaX,
-			Arrays.asList(asesoramientoLegal, cultura, deportes), "", "", "")
+		CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).
+		comuna(comunaX).
+		servicio(Arrays.asList(asesoramientoLegal, cultura, deportes)).
+		zonasIncluidas("").
+		nombreDirector("").
+		telefono( "").
+		build
 
-		CGPComuna2 = new CGP("CGP Comuna 2", ubicacionX,
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2"), comunaX,
-			Arrays.asList(turismo, cultura, salud), "", "", "")
+		CGPComuna2 = new CGPBuilder().nombre("CGP Comuna 2").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2")).
+		comuna(comunaX).
+		servicio(Arrays.asList(turismo, cultura, salud)).
+		zonasIncluidas("").
+	    nombreDirector("").
+	    telefono("").
+	    build
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
 
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
+		comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("medicamentos", "salud")).
+		rubro(rubroFarmacia).
+		rango(rangoX).build
 
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
+		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("fotocopias", "utiles", "libros")).
+		rubro(rubroLibreria).
+		rango(rangoX).build
 
-		unDispositivo = new Dispositivo(ubicacionX,
-			Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
-				comercioLoDeJuan, bancoGalicia), fechaX)
+		servidorCentral = new ServidorCentral(Arrays.asList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2, comercioFarmacity,
+				comercioLoDeJuan, bancoGalicia))
+
+		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal", servidorCentral, fechaX)
 
 	}
 
 	@Test
 	def void buscarCadenaVaciaQueDevuelveListaVacia() {
-		Assert.assertEquals(Arrays.asList(), unDispositivo.buscar(""))
+		Assert.assertEquals(Arrays.asList(), unServidorLocal.buscar(""))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unDispositivo.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(unServidorLocal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unDispositivo.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(unServidorLocal.buscar("114"), Arrays.asList(utn114parada))
 	}
 
 	@Test
 	def void buscarBancoPorNombre() {
-		Assert.assertEquals(unDispositivo.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
+		Assert.assertEquals(unServidorLocal.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
 	}
 
 	@Test
 	def void buscarBancoConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
+		Assert.assertEquals(unServidorLocal.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
 	}
 
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(unServidorLocal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unDispositivo.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(unServidorLocal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unDispositivo.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioEntero() {
-		Assert.assertEquals(unDispositivo.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
+		Assert.assertEquals(unServidorLocal.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioParcial() {
-		Assert.assertEquals(unDispositivo.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
+		Assert.assertEquals(unServidorLocal.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
 	}
 
 	@Test
 	def void buscarCGPEscrbiendoPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("comuna 2"), Arrays.asList(CGPComuna2))
+		Assert.assertEquals(unServidorLocal.buscar("comuna 2"), Arrays.asList(CGPComuna2))
 	}
 
 	@Test
 	def void buscarYQueNoHayaCoincidencias() {
-		Assert.assertEquals(unDispositivo.buscar("palabraInexistente"), Arrays.asList())
+		Assert.assertEquals(unServidorLocal.buscar("palabraInexistente"), Arrays.asList())
 	}
 
 }

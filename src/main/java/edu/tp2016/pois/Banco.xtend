@@ -31,18 +31,16 @@ String nombreGerente
 	 * @param Atributos de un Banco
 	 * @return Nuevo Banco, con todos sus atributos instanciados
 	 */
-	new(String nombreBanco, Point ubicacion, List<String> claves_servicios, String unaSucursal, String gerente){
-		super(nombreBanco, ubicacion, claves_servicios)
-		sucursal = unaSucursal
-		nombreGerente = gerente
-		setRangoDeAtencionBancario
-	}
 
 	new(String nombreBanco, double x, double y, String unaSucursal, String gerente, List<String> claves_servicios){
 		super(nombreBanco, new Point(x,y), claves_servicios)
 		sucursal = unaSucursal
 		nombreGerente = gerente
 		setRangoDeAtencionBancario
+	}
+	
+	new(){
+		
 	}
 
 	override boolean estaDisponible(LocalDateTime fecha, String nombre) {

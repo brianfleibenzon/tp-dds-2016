@@ -3,14 +3,13 @@ package edu.tp2016.pois
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
-import java.util.List
+
 
 @Accessors
 class ParadaDeColectivo extends POI{
-	
-	new(String unNombre, Point unaUbicacion, List<String> claves) {
-       	super(unNombre, unaUbicacion, claves)
-    }
+	    
+    new()
+    {}
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1

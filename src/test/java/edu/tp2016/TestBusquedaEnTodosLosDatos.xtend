@@ -18,9 +18,14 @@ import org.junit.Assert
 import org.junit.Test
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
+import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.servidores.ServidorCentral
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.builder.ComercioBuilder
 
 class TestBusquedaEnTodosLosDatos {
-	Dispositivo unDispositivo
+	ServidorLocal unServidorLocal
+	ServidorCentral servidorCentral
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -39,95 +44,113 @@ class TestBusquedaEnTodosLosDatos {
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
 
-		utn7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "campus"))
+		utn7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		claves( Arrays.asList("utn", "campus")).build
 
-		miserere7parada = new ParadaDeColectivo("7", ubicacionX, Arrays.asList("utn", "plaza miserere", "once"))
+		miserere7parada = new ParadaBuilder().nombre("7").
+		ubicacion(ubicacionX).
+		 claves(Arrays.asList("utn", "plaza miserere", "once")).build
 
-		utn114parada = new ParadaDeColectivo("114", ubicacionX, Arrays.asList("utn", "campus"))
+		utn114parada = new ParadaBuilder().nombre("114").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("utn", "campus")).build
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
-
-		comercioFarmacity = new Comercio("Farmacity", ubicacionX, Arrays.asList("medicamentos", "salud"), rubroFarmacia,
-			rangoX)
-
-		comercioLoDeJuan = new Comercio("Libreria Juan", ubicacionX, Arrays.asList("fotocopias", "utiles", "libros"),
-			rubroLibreria, rangoX)
-
-		unDispositivo = new Dispositivo(ubicacionX,	Arrays.asList(), fechaX)
-
-		unDispositivo.repo.create(utn7parada)
-		unDispositivo.repo.create(utn114parada)
-		unDispositivo.repo.create(miserere7parada)
-		unDispositivo.repo.create(comercioFarmacity)
-		unDispositivo.repo.create(comercioLoDeJuan)
 		
-		unDispositivo.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-		unDispositivo.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
+	
+	    comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("medicamentos", "salud")).
+		rubro(rubroFarmacia).
+		rango(rangoX).build
+
+		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("fotocopias", "utiles", "libros")).
+		rubro(rubroLibreria).
+		rango(rangoX).build
+	
+	
+	
+	
+	
+		servidorCentral = new ServidorCentral(Arrays.asList())
+		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal",servidorCentral, fechaX)
+
+		servidorCentral.repo.create(utn7parada)
+		servidorCentral.repo.create(utn114parada)
+		servidorCentral.repo.create(miserere7parada)
+		servidorCentral.repo.create(comercioFarmacity)
+		servidorCentral.repo.create(comercioLoDeJuan)
+		
+		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
+		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 
 	}
 
 	@Test
 	def void buscarConUnStringVacíoYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unDispositivo.buscar("")
+		val resultadoBusqueda = unServidorLocal.buscar("")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unDispositivo.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(unServidorLocal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unDispositivo.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(unServidorLocal.buscar("114"), Arrays.asList(utn114parada))
 	}
 	
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(unServidorLocal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unDispositivo.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(unServidorLocal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unDispositivo.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unDispositivo.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPConRentas() {
-		val resultado = unDispositivo.buscar("Rentas")
+		val resultado = unServidorLocal.buscar("Rentas")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(2, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConAtencionCiudadana() {
-		val resultado = unDispositivo.buscar("Atencion ciudadana")
+		val resultado = unServidorLocal.buscar("Atencion ciudadana")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(3, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConVeterinaria() {
-		val resultado = unDispositivo.buscar("Veterinaria")
+		val resultado = unServidorLocal.buscar("Veterinaria")
 		Assert.assertEquals(0, resultado.size)
 	}
 
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unDispositivo.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (unServidorLocal.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -135,25 +158,25 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unDispositivo.buscar("Banco de la Plaza")
+		val resultadoBusqueda = unServidorLocal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
-			(banco.sucursal == "Avellaneda") && (banco.nombreGerente == "Javier Loeschbor") ] )
+			(banco.sucursal.equals("Avellaneda")) && (banco.nombreGerente.equals("Javier Loeschbor")) ] )
 	}
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unDispositivo.buscar("Banco de la Plaza")
+		val resultadoBusqueda = unServidorLocal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
-			(banco.sucursal == "Caballito") && (banco.palabrasClave.contains("transferencias")) ] )
+			(banco.sucursal.equals("Caballito")) && (banco.palabrasClave.contains("transferencias")) ] )
 	}
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unDispositivo.buscar("Galicia")
+		val resultadoBusqueda = unServidorLocal.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
