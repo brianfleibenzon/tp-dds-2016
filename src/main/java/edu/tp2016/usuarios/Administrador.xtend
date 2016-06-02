@@ -16,5 +16,9 @@ class Administrador{
 	def correrProceso(){
 		
 	}
+	
+	def registrarResultado(ResultadoDeProceso resultado){
+		resultadosDeEjecucion.add(resultado)
+	}
 
 }

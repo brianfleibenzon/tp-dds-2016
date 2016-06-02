@@ -21,5 +21,15 @@ class ResultadoDeProceso {
 		procesoEjecutado = proceso
 		nombreUsuario = usuario
 		resultadoEjecucion = resultado
+		mensajeDeError = error
+	}
+	
+	new(LocalDateTime inicio, LocalDateTime fin, Proceso proceso,
+			Administrador usuario, String resultado){
+		inicioEjecucion = inicio
+		finEjecucion = fin
+		procesoEjecutado = proceso
+		nombreUsuario = usuario
+		resultadoEjecucion = resultado
 	}
 }
