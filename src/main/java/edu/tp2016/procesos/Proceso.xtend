@@ -3,15 +3,16 @@ package edu.tp2016.procesos
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.usuarios.Administrador
 import org.joda.time.LocalDateTime
+import edu.tp2016.servidores.ServidorCentral
 
 @Accessors
 abstract class Proceso {
 	
-	Proceso accionEnCasoDeError
+	Proceso accionEnCasoDeError = null
 	int reintentos = 1
 	LocalDateTime inicio = new LocalDateTime
 	Administrador usuario
-	
+	ServidorCentral servidor	
 	
 	def void iniciar(){
 		if (reintentos == 0){

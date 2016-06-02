@@ -10,31 +10,28 @@ import edu.tp2016.usuarios.Terminal
 
 @Accessors
 class EnviarMailObserver implements BusquedaObserver {
-	MailSender mailSender	
 	String administradorMailAdress
-	String centralMailAdress
 	long timeout
-	
-	new(long _timeout, MailSender _sender) {
+
+	new(long _timeout) {
 		timeout = _timeout
-		mailSender = _sender
 	}
 
-	override def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, Terminal terminal, ServidorCentral servidor){
-		verificarTiempoDeConsulta(demora)
+	override def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, Terminal terminal,
+		ServidorCentral servidor) {
+		verificarTiempoDeConsulta(demora, servidor.mailSender)
 	}
 
-	def verificarTiempoDeConsulta(long demora) {
+	def verificarTiempoDeConsulta(long demora, MailSender mailSender) {
 
 		if (demora >= timeout) {
-			enviarMail()
+			enviarMail(mailSender)
 		}
 	}
 
-	def boolean enviarMail() {
-	
-		mailSender.sendMail(
-			new Mail(centralMailAdress, administradorMailAdress, "un mensaje", "un asunto") )
-		}
+	def boolean enviarMail(MailSender mailSender) {
+
+		mailSender.sendMail(new Mail(administradorMailAdress, "un mensaje", "un asunto"))
+	}
 
 }

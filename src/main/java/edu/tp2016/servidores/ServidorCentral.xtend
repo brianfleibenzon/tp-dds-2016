@@ -11,6 +11,7 @@ import java.util.ArrayList
 import java.util.Date
 import edu.tp2016.usuarios.Administrador
 import edu.tp2016.usuarios.Terminal
+import edu.tp2016.serviciosExternos.MailSender
 
 @Accessors
 class ServidorCentral {
@@ -21,6 +22,7 @@ class ServidorCentral {
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Administrador administrador // Para Entrega 3 (único administrador)
+	MailSender mailSender
 
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)

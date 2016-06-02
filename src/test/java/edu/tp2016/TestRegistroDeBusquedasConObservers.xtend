@@ -85,26 +85,29 @@ class TestRegistroDeBusquedasConObservers {
 		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 
+		mockedMailSender = mock(typeof(MailSender))
+		
+		servidorCentral.mailSender = mockedMailSender
+
 		terminalAbasto = new Terminal(ubicacionX, "terminalAbasto", servidorCentral, fechaDeHoy)
 		terminalFlorida = new Terminal(ubicacionX, "terminalFlorida", servidorCentral, fechaDeHoy)
 		terminalTeatroColon = new Terminal(ubicacionX, "terminalTeatroColon", servidorCentral, fechaDeHoy)
 
-		mockedMailSender = mock(typeof(MailSender))
-
 		terminalAbasto.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalAbasto.adscribirObserver(new EnviarMailObserver(5, mockedMailSender))
+		terminalAbasto.adscribirObserver(new EnviarMailObserver(5))
 
 		terminalTeatroColon.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalTeatroColon.adscribirObserver(new EnviarMailObserver(5, mockedMailSender))
+		terminalTeatroColon.adscribirObserver(new EnviarMailObserver(5))
 
 		terminalFlorida.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalFlorida.adscribirObserver(new EnviarMailObserver(5, mockedMailSender))
+		terminalFlorida.adscribirObserver(new EnviarMailObserver(5))
 
 		// Setup para mockear demora excedida y envío de mail al administrador:
 		mockServidorCentral = new ServidorCentral(Arrays.asList())
 		mockServidorCentral.repo.create(utn7parada)
+		mockServidorCentral.mailSender = mockedMailSender
 		mockTerminal = new Terminal(ubicacionX, "mockTerminal", mockServidorCentral)
-		mockTerminal.adscribirObserver(new EnviarMailObserver(0, mockedMailSender))
+		mockTerminal.adscribirObserver(new EnviarMailObserver(0))		
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {

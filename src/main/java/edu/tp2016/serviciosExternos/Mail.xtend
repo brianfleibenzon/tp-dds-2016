@@ -9,8 +9,8 @@ class Mail {
 	String message
 	String subject
 	
-	new(String emisor, String destinatario, String mensaje, String asunto){
-		from = emisor
+	new(String destinatario, String mensaje, String asunto){
+		from = "terminal@tppois.com"
 		to = destinatario
 		message = mensaje
 		subject = asunto
