@@ -13,7 +13,12 @@ class ResultadoDeProceso {
 	String resultadoEjecucion
 	String mensajeDeError // opcional
 	
-	
+	/**
+	 * Construye el resultado de ejecución de un proceso incluyendo un mensaje de error.
+	 * 
+	 * @param
+	 * @return resultado de la ejecución de un proceso con mensaje de error
+	 */
 	new(LocalDateTime inicio, LocalDateTime fin, Proceso proceso,
 			Administrador usuario, String resultado, String error){
 		inicioEjecucion = inicio
@@ -24,6 +29,12 @@ class ResultadoDeProceso {
 		mensajeDeError = error
 	}
 	
+	/**
+	 * Construye el resultado de ejecución de un proceso sin incluir un mensaje de error.
+	 * 
+	 * @param inicio y fin de ejecución, proceso ejecutado, usuario que lo ejecutó, resultado
+	 * @return resultado de la ejecución de un proceso
+	 */
 	new(LocalDateTime inicio, LocalDateTime fin, Proceso proceso,
 			Administrador usuario, String resultado){
 		inicioEjecucion = inicio

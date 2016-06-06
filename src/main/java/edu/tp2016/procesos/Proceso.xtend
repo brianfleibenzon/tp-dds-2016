@@ -27,7 +27,14 @@ abstract class Proceso {
 		}
 	}
 	
-	def void correr()
+	/**
+	 * Realiza la ejecución de un proceso y retorna su resultado (ok, error).
+	 * 
+	 * @param Ninguno
+	 * @return String resultado de la ejecución
+	 */
+	def String correr(){
+	}
 	
 	def void manejarError(Exception e){
 		registrarError(e)

@@ -20,11 +20,11 @@ class Terminal{
 	LocalDateTime fechaActual
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
 /**
-	 * Constructor para un ServidorLocal. Lo creo con su nombre (ej.: "terminalAbasto")
-	 * y le indico quién es su ServidorCentral (que es único).
+	 * Constructor para una Terminal. La creo con su nombre (ej.: "terminalAbasto")
+	 * y le indico quién es el Servidor Central (que es único).
 	 * 
-	 * @param nombre cadena de texto que representa el nombre de un ServidorLocal
-	 * @return servidorCentral el servidor central de todos los servidores locales
+	 * @param ubicación, nombre, servidor central 
+	 * @return una terminal
 	 */
 
 	new(Point _ubicacion, String terminal, ServidorCentral servidor) {

@@ -13,8 +13,11 @@ class Administrador{
 	List<Proceso> procesosDisponibles
 	List<ResultadoDeProceso> resultadosDeEjecucion
 
-	def correrProceso(){
+	def correrProceso(Proceso unProceso){
+		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
 		
+		procesoAEjecutar.correr()
+		// TODO: ver el tema del registro del resultado de ejecución
 	}
 	
 	def registrarResultado(ResultadoDeProceso resultado){
