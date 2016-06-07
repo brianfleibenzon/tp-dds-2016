@@ -17,8 +17,8 @@ class Administrador{
 	def correrProceso(Proceso unProceso){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
 		
-		procesoAEjecutar.correr()
-		// TODO: ver el tema del registro del resultado de ejecución
+		procesoAEjecutar.ejecutarProceso()
+		
 	}
 	
 	def registrarResultado(ResultadoDeProceso resultado){

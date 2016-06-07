@@ -145,12 +145,12 @@ class TestEjecucionDeProcesosAdministrativos {
 	}
 
 	@Test
-	def void ejecutarAsignacionDeAccionesALosUsuariosDelSistema() {
+	def void ejecutarAsignacionDeAcciones() {
 		// TODO: Completar
 	}
 	
 	@Test
-	def void deshacerEfectosDeAccionesALosUsuariosDelSistema() {
+	def void deshacerEfectosDeEjecutarAsignacionDeAcciones() {
 		// TODO: Completar
 	}
 }

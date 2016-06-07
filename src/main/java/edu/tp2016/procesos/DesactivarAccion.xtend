@@ -9,7 +9,11 @@ class DesactivarAccion extends AccionAdministrativa{
 		accionAsociada = accion
 	}
 
-	override applyTo(Terminal usuario){
+	override doAction(Terminal usuario){
 		usuario.quitarObserver(accionAsociada)
+	}
+	
+	override undoAction(Terminal usuario){
+		usuario.adscribirObserver(accionAsociada)
 	}
 }

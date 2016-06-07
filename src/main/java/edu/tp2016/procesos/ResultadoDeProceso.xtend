@@ -9,8 +9,8 @@ class ResultadoDeProceso {
 	LocalDateTime inicioEjecucion
 	LocalDateTime finEjecucion
 	Proceso procesoEjecutado
-	Administrador nombreUsuario
-	String resultadoEjecucion
+	Administrador idUsuario
+	boolean resultadoEjecucion // OK o ERROR
 	String mensajeDeError // opcional
 	
 	/**
@@ -20,11 +20,11 @@ class ResultadoDeProceso {
 	 * @return resultado de la ejecución de un proceso con mensaje de error
 	 */
 	new(LocalDateTime inicio, LocalDateTime fin, Proceso proceso,
-			Administrador usuario, String resultado, String error){
+			Administrador usuario, boolean resultado, String error){
 		inicioEjecucion = inicio
 		finEjecucion = fin
 		procesoEjecutado = proceso
-		nombreUsuario = usuario
+		idUsuario = usuario
 		resultadoEjecucion = resultado
 		mensajeDeError = error
 	}
@@ -36,11 +36,11 @@ class ResultadoDeProceso {
 	 * @return resultado de la ejecución de un proceso
 	 */
 	new(LocalDateTime inicio, LocalDateTime fin, Proceso proceso,
-			Administrador usuario, String resultado){
+			Administrador usuario, boolean resultado){
 		inicioEjecucion = inicio
 		finEjecucion = fin
 		procesoEjecutado = proceso
-		nombreUsuario = usuario
+		idUsuario = usuario
 		resultadoEjecucion = resultado
 	}
 }

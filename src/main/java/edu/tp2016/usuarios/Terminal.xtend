@@ -89,6 +89,7 @@ class Terminal implements Cloneable{
 		nombreTerminal = usuarioBefore.nombreTerminal
 		ubicacion = usuarioBefore.ubicacion
 		fechaActual = usuarioBefore.fechaActual
+		busquedaObservers.removeAll()
 		busquedaObservers.addAll(usuarioBefore.busquedaObservers)
     }
 }

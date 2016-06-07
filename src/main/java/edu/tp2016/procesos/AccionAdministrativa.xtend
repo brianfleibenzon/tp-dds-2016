@@ -9,8 +9,11 @@ abstract class AccionAdministrativa {
 	
 	BusquedaObserver accionAsociada
 
-	def applyTo(Terminal usuario){
-		
+	def doAction(Terminal usuario){
 	}
+	
+	def undoAction(Terminal usuario){
+	}
+	
 
 }

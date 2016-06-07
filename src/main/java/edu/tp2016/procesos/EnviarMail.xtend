@@ -6,10 +6,10 @@ import edu.tp2016.usuarios.Administrador
 
 class EnviarMail extends Proceso {
 
-	override String correr() {
+	override correr() {
 		servidor.mailSender.sendMail(new Mail(usuarioAdministrador.mailAdress, "un mensaje", "un asunto"))
 		
-		return "ok" // TODO: Ver bien qué y cómo lo devuelve
+		return OK
 	}
 	
 	new(ServidorCentral _servidor, Administrador admin){
