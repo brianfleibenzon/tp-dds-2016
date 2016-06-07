@@ -12,7 +12,7 @@ import org.joda.time.Duration
 import edu.tp2016.servidores.ServidorCentral
 
 @Accessors
-class Terminal{
+class Terminal implements Cloneable{
 	
 	ServidorCentral servidorCentral
 	String nombreTerminal
@@ -79,4 +79,16 @@ class Terminal{
 		listaDePoisDevueltos
 	}
 	
+	@Override
+    override clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    
+    def copyFrom(Terminal usuarioBefore){
+    	servidorCentral = usuarioBefore.servidorCentral
+		nombreTerminal = usuarioBefore.nombreTerminal
+		ubicacion = usuarioBefore.ubicacion
+		fechaActual = usuarioBefore.fechaActual
+		busquedaObservers.addAll(usuarioBefore.busquedaObservers)
+    }
 }

@@ -19,13 +19,13 @@ import org.junit.Assert
 import org.junit.Test
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.serviciosExternos.MailSender
-import static org.mockito.Matchers.*
-import static org.mockito.Mockito.*
-import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
 import edu.tp2016.observersBusqueda.EnviarMailObserver
 import edu.tp2016.usuarios.Terminal
+import edu.tp2016.usuarios.Administrador
+import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
+import edu.tp2016.procesos.ActivarAccion
+import edu.tp2016.procesos.DesactivarAccion
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -33,8 +33,6 @@ class TestEjecucionDeProcesosAdministrativos {
 	Terminal terminalFlorida
 	Terminal terminalTeatroColon
 	ServidorCentral servidorCentral
-	ServidorCentral mockServidorCentral
-	Terminal mockTerminal
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -48,7 +46,15 @@ class TestEjecucionDeProcesosAdministrativos {
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
 	
-	MailSender mockedMailSender
+	// Nuevos seteos para la Entrega 4:
+	EnviarMailObserver notificacionAlAdministradorAnteDemora
+	RegistrarBusquedaObserver registroDeBusqueda
+	Administrador administrador
+	AgregarAccionesParaTodosLosUsuarios proceso3
+	ActivarAccion activarRegistroDeBusqueda
+	DesactivarAccion desactivarRegistroDeBusqueda
+	ActivarAccion activarNotificacionAlAdministrador
+	DesactivarAccion desactivarNotificacionAlAdministrador
 
 	@Before
 	def void setUp() {
@@ -85,29 +91,38 @@ class TestEjecucionDeProcesosAdministrativos {
 		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 
-		mockedMailSender = mock(typeof(MailSender))
-		
-		servidorCentral.mailSender = mockedMailSender
-
 		terminalAbasto = new Terminal(ubicacionX, "terminalAbasto", servidorCentral, fechaDeHoy)
 		terminalFlorida = new Terminal(ubicacionX, "terminalFlorida", servidorCentral, fechaDeHoy)
 		terminalTeatroColon = new Terminal(ubicacionX, "terminalTeatroColon", servidorCentral, fechaDeHoy)
 
-		terminalAbasto.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalAbasto.adscribirObserver(new EnviarMailObserver(5))
+		notificacionAlAdministradorAnteDemora = new EnviarMailObserver(5)
+		registroDeBusqueda = new RegistrarBusquedaObserver()
 
-		terminalTeatroColon.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalTeatroColon.adscribirObserver(new EnviarMailObserver(5))
+		terminalAbasto.adscribirObserver(registroDeBusqueda)
+		terminalAbasto.adscribirObserver(notificacionAlAdministradorAnteDemora)
 
-		terminalFlorida.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalFlorida.adscribirObserver(new EnviarMailObserver(5))
+		terminalTeatroColon.adscribirObserver(registroDeBusqueda)
+		terminalTeatroColon.adscribirObserver(notificacionAlAdministradorAnteDemora)
 
-		// Setup para mockear demora excedida y envío de mail al administrador:
-		mockServidorCentral = new ServidorCentral(Arrays.asList())
-		mockServidorCentral.repo.create(utn7parada)
-		mockServidorCentral.mailSender = mockedMailSender
-		mockTerminal = new Terminal(ubicacionX, "mockTerminal", mockServidorCentral)
-		mockTerminal.adscribirObserver(new EnviarMailObserver(0))		
+		terminalFlorida.adscribirObserver(registroDeBusqueda)
+		terminalFlorida.adscribirObserver(notificacionAlAdministradorAnteDemora)
+		
+		// Nuevos seteos para la Entrega 4:
+		activarRegistroDeBusqueda = new ActivarAccion(registroDeBusqueda)
+		desactivarRegistroDeBusqueda = new DesactivarAccion(registroDeBusqueda)
+		activarNotificacionAlAdministrador = new ActivarAccion(notificacionAlAdministradorAnteDemora)
+		desactivarNotificacionAlAdministrador = new DesactivarAccion(notificacionAlAdministradorAnteDemora)
+		
+		proceso3 = new AgregarAccionesParaTodosLosUsuarios(servidorCentral) => [
+			agregarAccionAdministrativa(activarRegistroDeBusqueda)
+			agregarAccionAdministrativa(desactivarRegistroDeBusqueda)
+			agregarAccionAdministrativa(activarNotificacionAlAdministrador)
+			agregarAccionAdministrativa(desactivarNotificacionAlAdministrador)
+		]
+		
+		administrador = new Administrador(servidorCentral) => [
+			agregarProceso(proceso3)
+		]		
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
@@ -129,5 +144,13 @@ class TestEjecucionDeProcesosAdministrativos {
 		// En total 12 terminales
 	}
 
+	@Test
+	def void ejecutarAsignacionDeAccionesALosUsuariosDelSistema() {
+		// TODO: Completar
+	}
 	
+	@Test
+	def void deshacerEfectosDeAccionesALosUsuariosDelSistema() {
+		// TODO: Completar
+	}
 }

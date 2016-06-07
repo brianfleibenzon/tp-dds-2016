@@ -5,13 +5,14 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
 import edu.tp2016.servidores.ServidorCentral
+import java.util.ArrayList
 
 @Accessors
 class Administrador{
 	ServidorCentral servidorCentral
 	String mailAdress
-	List<Proceso> procesosDisponibles
-	List<ResultadoDeProceso> resultadosDeEjecucion
+	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
+	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
 
 	def correrProceso(Proceso unProceso){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
@@ -22,6 +23,20 @@ class Administrador{
 	
 	def registrarResultado(ResultadoDeProceso resultado){
 		resultadosDeEjecucion.add(resultado)
+	}
+	
+	new(ServidorCentral servidor){
+		servidorCentral = servidor
+	}
+	
+	def agregarProceso(Proceso unProceso){
+		unProceso.servidor = servidorCentral
+		unProceso.usuarioAdministrador = this
+		procesosDisponibles.add(unProceso)
+	}
+	
+	def quitarProceso(Proceso unProceso){
+		procesosDisponibles.remove(unProceso)
 	}
 
 }
