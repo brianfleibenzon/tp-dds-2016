@@ -19,11 +19,12 @@ class Terminal{
 	Point ubicacion
 	LocalDateTime fechaActual
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
+	
 /**
-	 * Constructor para una Terminal. La creo con su nombre (ej.: "terminalAbasto")
+	 * Constructor para una Terminal (léase Usuario). La creo con su nombre (ej.: "terminalAbasto")
 	 * y le indico quién es el Servidor Central (que es único).
 	 * 
-	 * @param ubicación, nombre, servidor central 
+	 * @param
 	 * @return una terminal
 	 */
 
@@ -34,6 +35,13 @@ class Terminal{
 		fechaActual = new LocalDateTime
 	}
 
+/**
+	 * Constructor para una Terminal (léase Usuario). La creo con su nombre (ej.: "terminalAbasto")
+	 * y le indico quién es el Servidor Central (que es único). Le tengo que indicar también la fecha actual.
+	 * 
+	 * @param
+	 * @return una terminal con fecha actual parametrizable
+	 */
 	new(Point _ubicacion, String terminal, ServidorCentral servidor, LocalDateTime _fecha) {
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
@@ -48,8 +56,6 @@ class Terminal{
 	def quitarObserver(BusquedaObserver observador){
 		busquedaObservers.remove(observador)
 	}
-
-	// ACCIONES DE USUARIO:
 
 	def boolean consultarCercania(POI unPoi) {
 		unPoi.estaCercaA(ubicacion)

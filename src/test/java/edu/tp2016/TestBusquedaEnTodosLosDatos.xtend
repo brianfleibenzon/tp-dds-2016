@@ -73,10 +73,6 @@ class TestBusquedaEnTodosLosDatos {
 		rubro(rubroLibreria).
 		rango(rangoX).build
 	
-	
-	
-	
-	
 		servidorCentral = new ServidorCentral(Arrays.asList())
 		unServidorLocal = new Terminal(ubicacionX,"servidorLocal",servidorCentral, fechaX)
 

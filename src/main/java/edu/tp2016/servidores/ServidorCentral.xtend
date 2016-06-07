@@ -18,7 +18,7 @@ class ServidorCentral {
 
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
-	List<Terminal> servidoresLocales = new ArrayList<Terminal>
+	List<Terminal> terminales = new ArrayList<Terminal>
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Administrador administrador // Para Entrega 3 (único administrador)

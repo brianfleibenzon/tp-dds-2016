@@ -2,19 +2,36 @@ package edu.tp2016.procesos
 
 import edu.tp2016.procesos.Proceso
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.List
+import edu.tp2016.usuarios.Terminal
+import edu.tp2016.servidores.ServidorCentral
+import edu.tp2016.observersBusqueda.BusquedaObserver
 
 @Accessors
 class AgregarAccionesParaTodosLosUsuarios extends Proceso{
+	
+	List<AccionAdministrativa> accionesAdministrativas // Lista de acciones a generar para todos los usuarios del sistema
+	List<Terminal> usuarios // Lista de todos los usuarios del sistema
+	List<BusquedaObserver> accionesDeUsuario
 
-/**
-	 * Constructor para el resultado de ejecución de un proceso que incluye un mensaje de error.
-	 * 
-	 * @param inicio y fin de ejecución, proceso ejecutado, usuario que lo ejecutó, resultado, mensaje de error
-	 * @return resultado de la ejecuión de un proceso con mensaje de error
-	 */
-	override String correr() {
-		
+	new(ServidorCentral _servidor, List<BusquedaObserver> _acciones){
+		servidor = _servidor
+		accionesDeUsuario.addAll(_acciones)		
+	}	
+
+	override correr() {
+		usuarios.addAll(servidor.terminales)
+		usuarios.forEach [ usuario | ]
+	
+		return "ok"
 	}
 	
+	def agregarAccionDeUsuario(BusquedaObserver accion){
+		accionesDeUsuario.add(accion)
+	}
+	
+	def agregarAccionAdministrativa(AccionAdministrativa accion){
+		accionesAdministrativas.add(accion)
+	}
 	
 }

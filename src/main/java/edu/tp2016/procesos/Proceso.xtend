@@ -11,8 +11,8 @@ abstract class Proceso {
 	Proceso accionEnCasoDeError = null
 	int reintentos = 1
 	LocalDateTime inicio = new LocalDateTime
-	Administrador usuario
-	ServidorCentral servidor	
+	Administrador usuarioAdministrador
+	ServidorCentral servidor
 	
 	def void iniciar(){
 		if (reintentos == 0){
@@ -34,6 +34,7 @@ abstract class Proceso {
 	 * @return String resultado de la ejecución
 	 */
 	def String correr(){
+		
 	}
 	
 	def void manejarError(Exception e){
@@ -44,10 +45,10 @@ abstract class Proceso {
 	}
 	
 	def void registrarExito(){
-		usuario.registrarResultado(new ResultadoDeProceso(inicio, new LocalDateTime, this, usuario, "exito"))
+		usuarioAdministrador.registrarResultado(new ResultadoDeProceso(inicio, new LocalDateTime, this, usuarioAdministrador, "exito"))
 	}
 	
 	def void registrarError(Exception e){
-		usuario.registrarResultado(new ResultadoDeProceso(inicio, new LocalDateTime, this, usuario, "error", e.message))
+		usuarioAdministrador.registrarResultado(new ResultadoDeProceso(inicio, new LocalDateTime, this, usuarioAdministrador, "error", e.message))
 	}
 }
