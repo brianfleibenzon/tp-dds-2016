@@ -32,8 +32,6 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 		usuarios.forEach [ usuario | usuariosBefore.add(usuario.clone() as Terminal) ]
 		
 		usuarios.forEach [ usuario | asignarleAccionesA(usuario) ]
-	
-		return OK
 	}
 	
 	def asignarleAccionesA(Terminal usuario){

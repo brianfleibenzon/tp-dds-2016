@@ -8,8 +8,6 @@ class EnviarMail extends Proceso {
 
 	override correr() {
 		servidor.mailSender.sendMail(new Mail(usuarioAdministrador.mailAdress, "un mensaje", "un asunto"))
-		
-		return OK
 	}
 	
 	new(ServidorCentral _servidor, Administrador admin){

@@ -17,7 +17,7 @@ class Administrador{
 	def correrProceso(Proceso unProceso){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
 		
-		procesoAEjecutar.ejecutarProceso()
+		procesoAEjecutar.iniciar()
 		
 	}
 	
