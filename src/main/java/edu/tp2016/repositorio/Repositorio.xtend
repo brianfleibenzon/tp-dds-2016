@@ -56,8 +56,6 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		this.create(poi)
 	}
 	
-	def void actualizaPOI (Iterable<POI> unPOI,String textoParaFiltrarPalabrasClave){
-		
-	}
+	
 	
 }
