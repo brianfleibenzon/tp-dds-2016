@@ -1,4 +1,4 @@
-package edu.tp2016.serviciosExternos.REST
+package edu.tp2016.serviciosExternos
 
 import com.eclipsesource.json.JsonObject
 import org.eclipse.xtend.lib.annotations.Accessors

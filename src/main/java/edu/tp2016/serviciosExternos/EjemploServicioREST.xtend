@@ -1,4 +1,4 @@
-package edu.tp2016.serviciosExternos.REST
+package edu.tp2016.serviciosExternos
 
 import edu.tp2016.serviciosExternos.cgp.ServicioREST
 import java.util.List
