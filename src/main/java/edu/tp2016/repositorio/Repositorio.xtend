@@ -52,4 +52,8 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		pois.forEach[poi | this.create(poi)]
 	}
 	
+	def agregarPoi(POI poi){
+		this.create(poi)
+	}
+	
 }

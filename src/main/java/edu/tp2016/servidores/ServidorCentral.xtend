@@ -27,6 +27,10 @@ class ServidorCentral {
 	new(List<POI> listaPois) {
 		repo.agregarPois(listaPois)
 	}
+	
+	def registrarPOI(POI poi){
+		repo.agregarPoi(poi)
+	}
 
 	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
 		interfacesExternas.forEach [ unaInterfaz |

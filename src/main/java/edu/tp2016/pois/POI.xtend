@@ -11,6 +11,7 @@ import org.uqbar.commons.model.Entity
 @Accessors
 abstract class POI extends Entity {
 	String nombre
+	double ID
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	String direccion
