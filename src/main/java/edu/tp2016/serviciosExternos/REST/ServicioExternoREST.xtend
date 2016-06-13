@@ -1,10 +1,10 @@
-package serviciosExternos.REST
+package edu.tp2016.serviciosExternos.REST
 
 import java.util.List
 
 interface ServicioExternoREST {
 	
-	def List<unPOI> obtenerPoisInactivos()
+	def List<InactivePOI> obtenerPoisInactivos()
 		
 		
 }
