@@ -17,6 +17,10 @@ abstract class Proceso {
 	public static final boolean OK = true
 	public static final boolean ERROR = false
 	
+	/**
+	 * Llama a correr() adentro de un try catch.
+	 * 
+	 */
 	def void iniciar(){
 		if (reintentos == 0){
 			fin = new LocalDateTime()
@@ -33,34 +37,16 @@ abstract class Proceso {
 	}
 	
 	/**
-	 * Realiza la ejecución de un proceso y retorna su resultado (ok, error).
+	 * Realiza la ejecución de un proceso. Esta función es privada, para ejecutar
+	 * un proceso se debe llamar a iniciar()
 	 * 
-	 * @param Ninguno
-	 * @return OK o ERROR
 	 */
-	 def ejecutarProceso(){
-	 	inicio = new LocalDateTime()
-		val resultado = this.correr()
-		fin = new LocalDateTime()
-		
-		if(resultado.equals(OK)){
-			// OK: Ejecución correcta
-			this.registrarExito(inicio, fin)
-		}
-		else{
-			// ERROR: Ejecución fallida
-			iniciar() // TODO: Revisar/adaptar
-		}
-		
-	 }
+	def void correr(){}
 	 
-	def correr(){
-	}
-	
 	def void manejarError(Exception e){
 		registrarError(inicio, fin, e)
 		if (accionEnCasoDeError != null){
-			accionEnCasoDeError.iniciar()
+			accionEnCasoDeError.correr()
 		}		
 	}
 	
