@@ -7,7 +7,7 @@ class DefinicionDeUnProcesoMultiple extends Proceso{
 	List<Proceso> procesosAnidados = new ArrayList<Proceso>
 	
 	override correr(){
-		procesosAnidados.forEach[ proceso | proceso.iniciar() ]
+		procesosAnidados.forEach[ proceso | proceso.iniciar(usuarioAdministrador, servidor) ]
 	}
 	
 }

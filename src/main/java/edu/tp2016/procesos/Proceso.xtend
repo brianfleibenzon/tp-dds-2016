@@ -9,25 +9,24 @@ import edu.tp2016.servidores.ServidorCentral
 abstract class Proceso {
 	
 	Proceso accionEnCasoDeError = null
-	int reintentos = 1
-	LocalDateTime inicio = new LocalDateTime
-	LocalDateTime fin = new LocalDateTime
+	int reintentos = 0
+	LocalDateTime inicio
+	LocalDateTime fin
 	Administrador usuarioAdministrador
 	ServidorCentral servidor
 	public static final boolean OK = true
 	public static final boolean ERROR = false
 	
+	
 	/**
 	 * Llama a correr() adentro de un try catch.
 	 * 
 	 */
-	def void iniciar(){
-		if (reintentos == 0){
-			fin = new LocalDateTime()
-			registrarError(inicio, fin, new Exception("Reintentos excedidos"))
-		}
-		reintentos --
+	def void iniciar(Administrador _usuarioAdministrador, ServidorCentral _servidor){
+		usuarioAdministrador = _usuarioAdministrador
+		servidor = _servidor
 		try{
+			inicio = new LocalDateTime()
 			this.correr()
 			fin = new LocalDateTime()
 			registrarExito(inicio, fin)
@@ -44,9 +43,15 @@ abstract class Proceso {
 	def void correr(){}
 	 
 	def void manejarError(Exception e){
-		registrarError(inicio, fin, e)
-		if (accionEnCasoDeError != null){
-			accionEnCasoDeError.correr()
+		if (reintentos == 0){
+			if (accionEnCasoDeError != null){
+				accionEnCasoDeError.iniciar(usuarioAdministrador, servidor);
+			}
+			fin = new LocalDateTime()
+				registrarError(inicio, fin, e)
+		}else{
+			reintentos --
+			this.iniciar(usuarioAdministrador, servidor)
 		}		
 	}
 	
