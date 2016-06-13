@@ -69,5 +69,8 @@ abstract class POI extends Entity {
 	def boolean coincide(String texto) {
 		texto.equalsIgnoreCase(nombre)
 	}
+	def void agregarPalabrasClave(String unaPalabra){
+		palabrasClave.add(unaPalabra)
+	}
 
 }

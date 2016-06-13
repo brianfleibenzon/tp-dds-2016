@@ -1,4 +1,4 @@
-package serviciosExternos.REST
+package edu.tp2016.serviciosExternos.REST
 
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import java.util.List
@@ -9,9 +9,9 @@ import com.eclipsesource.json.JsonValue
 
 class AdapterRest extends ExternalServiceAdapter {
 	
-	ServicioExternoREST servicio
+	serviciosExternos.REST.ServicioExternoREST servicio
 	
-	new(ServicioExternoREST _servicio){
+	new(serviciosExternos.REST.ServicioExternoREST _servicio){
 		servicio = _servicio
 }
 
@@ -27,7 +27,7 @@ class AdapterRest extends ExternalServiceAdapter {
 	}
 	
 
-	def double parsearPOI(unPOI _POI){
+	def double parsearPOI(serviciosExternos.REST.unPOI _POI){
 		val IDPoi = _POI.get("ID").asDouble()
 			
 		IDPoi
@@ -35,5 +35,4 @@ class AdapterRest extends ExternalServiceAdapter {
 	
 	def String parsearFecha()
 	
-	}
 	}

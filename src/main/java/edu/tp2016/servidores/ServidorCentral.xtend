@@ -110,5 +110,8 @@ class ServidorCentral {
 		]
 		reporte
 	}
+	def void actualizaPOI (List<POI> POIS){
+		POIS.forEach[unPoi| repo.update(unPoi) ]
+	}
 
 }
