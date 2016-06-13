@@ -11,11 +11,11 @@ import org.uqbar.commons.model.Entity
 @Accessors
 abstract class POI extends Entity {
 	String nombre
-	double ID
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	String direccion
 	List<String> palabrasClave = new ArrayList<String>
+	// Hereda de Entity: private Integer id
 
 	/**
 	 * Constructor de POI, será redefinido en las subclases, por lo que hay que llamar a 'super'
@@ -57,7 +57,6 @@ abstract class POI extends Entity {
 	 */
 	def boolean tienePalabraClave(String texto) {
 		palabrasClave.contains(texto)
-
 	}
 
 	/**

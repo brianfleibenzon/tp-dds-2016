@@ -12,6 +12,7 @@ import java.util.Date
 import edu.tp2016.usuarios.Administrador
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.serviciosExternos.MailSender
+import com.google.common.collect.Lists
 
 @Accessors
 class ServidorCentral {
@@ -38,6 +39,7 @@ class ServidorCentral {
 		]
 	}
 
+// BÚSQUEDA EN EL REPOSITORIO:
 	def Iterable<POI> buscarPor(String texto) {
 		val poisBusqueda = new ArrayList<POI>
 		poisBusqueda.addAll(repo.allInstances)
@@ -45,6 +47,20 @@ class ServidorCentral {
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
 		poisBusqueda.filter[poi|!texto.equals("") && (poi.tienePalabraClave(texto) || poi.coincide(texto))]
+	}
+	
+	/**
+	 * Devuelve el POI cuyo id se pasó como parámetro de búsqueda.
+	 * Obs.: Busca en el repopsitorio de pois
+	 * 
+	 * @params id de un POI
+	 * @return un POI
+	 */
+	def List<POI> buscarPorId(int _id) {
+		val poisBusqueda = new ArrayList<POI>
+		
+		poisBusqueda.addAll(repo.allInstances)
+		Lists.newArrayList( poisBusqueda.filter [poi | poi.id.equals(_id) ] )
 	}
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){
