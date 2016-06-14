@@ -5,11 +5,11 @@ import edu.tp2016.pois.POI
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
-import edu.tp2016.serviciosExternos.EjemploServicioREST
 import edu.tp2016.serviciosExternos.InactivePOI
+import edu.tp2016.serviciosExternos.StubServicioREST
 
 class DarDeBajaUnPOI extends Proceso{
-	EjemploServicioREST servicioREST = new EjemploServicioREST()
+	StubServicioREST servicioREST = new StubServicioREST()
 	ObjectMapper parser = new ObjectMapper()
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 	
@@ -31,11 +31,11 @@ class DarDeBajaUnPOI extends Proceso{
 	 	if(!busquedaPOI.isEmpty){
 	 		eliminarPOI(busquedaPOI.get(0), poi.fecha)
 	 	}
-	 	// else... no hacer nada.
+	 	// else... no hacer nada
 	 }
 	 
 	def eliminarPOI(POI poi, Date fecha){
-	servidor.repo.eliminarPoi(poi)
+		servidor.repo.eliminarPoi(poi)
 		
 		}
 	

@@ -1,12 +1,11 @@
 package edu.tp2016.serviciosExternos
 
-import edu.tp2016.serviciosExternos.cgp.ServicioREST
 import java.util.List
 import java.util.ArrayList
 
-class EjemploServicioREST implements ServicioREST{
+class StubServicioREST implements ServicioREST{
 	
-	override def List<String> obtenerPoisInactivos(){
+		override List<String> obtenerPoisInactivos(){
 		val listaPoisInactivos = new ArrayList<String>
 		
 		// AGREGAR MÁS POIS DE EJEMPLO (PARA TESTS)

@@ -4,9 +4,11 @@ import org.uqbar.commons.model.CollectionBasedRepo
 import edu.tp2016.pois.POI
 import org.apache.commons.collections15.Predicate
 import org.apache.commons.collections15.functors.AndPredicate
-import java.util.List
+import java.util.Random
 
 class Repositorio extends CollectionBasedRepo<POI> {
+
+	Random rand = new Random()
 
 	override createExample() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
@@ -48,19 +50,21 @@ class Repositorio extends CollectionBasedRepo<POI> {
 //		[POI poi|poi.coincide(rubro)] as Predicate<POI>
 //	}
 	
-	def agregarPois(List<POI> pois){
-		pois.forEach[poi | this.create(poi)]
+	def agregarPoi(POI poi){
+		var nuevoId = rand.nextInt(100)
+			while(idEnUso(nuevoId)){
+				nuevoId = rand.nextInt(100)
+			}
+		poi.id = nuevoId
+		this.create(poi)
 	}
 	
-	def agregarPoi(POI poi){
-		this.create(poi)
+	def boolean idEnUso(int id){
+		!((allInstances.filter [ poi | poi.id.equals(id)]).isEmpty)
 	}
 	
 	def eliminarPoi(POI poi){
 		this.effectiveDelete(poi)
 	}
-
-	
-	
 	
 }

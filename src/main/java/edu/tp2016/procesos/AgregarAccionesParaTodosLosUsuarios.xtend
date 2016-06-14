@@ -11,7 +11,7 @@ import java.util.ArrayList
 class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	// Lista de acciones a generar para todos los usuarios del sistema:
 	List<AccionAdministrativa> accionesAdministrativas = new ArrayList<AccionAdministrativa>
-	// Lista de todos los usuarios del sistema:
+	// Usuarios del sistema:
 	List<Terminal> usuarios = new ArrayList<Terminal>
 	// Lista de las clonaciones de los usuarios antes de la ejecución:
 	List<Terminal> usuariosBefore = new ArrayList<Terminal>
@@ -25,41 +25,53 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 * Recorre la lista de usuarios y le aplica las acciones administrativas que haya
 	 * actualmente definidas.
 	 * 
-	 * @param Ninguno
-	 * @return String resultado de la ejecución
+	 * @param ninguno
+	 * @return vacío
 	 */
 	override correr() {
-		usuarios.forEach [ usuario | usuariosBefore.add(usuario.clone() as Terminal) ]
+		usuarios.forEach [ usuario |
 		
-		usuarios.forEach [ usuario | asignarleAccionesA(usuario) ]
+			usuariosBefore.add( usuario.clonar() ) // clono el estado actual del usuario
+			
+			asignarleAccionesA(usuario)
+		]
 	}
 	
-	def asignarleAccionesA(Terminal usuario){
-		accionesAdministrativas.map [ accion | accion.doAction(usuario) ]
-	}
-	
-	def deshacerAsignacionDeAcciones(Terminal usuario){
-		accionesAdministrativas.map [ accion | accion.undoAction(usuario) ]
+	/**
+	 * Le aplica todas las acciones de la lista de acciones del administrador a un
+	 * determinado usuario.
+	 * 
+	 * @return vacío
+	 */
+	def void asignarleAccionesA(Terminal usuario){
+		accionesAdministrativas.forEach [ accion | accion.doActionOn(usuario) ]
 	}
 	
 	def agregarAccionAdministrativa(AccionAdministrativa accion){
 		accionesAdministrativas.add(accion)
 	}
 	
-	def deshacerAccionesEnUsuario(Terminal usuarioBefore){
-		usuarios.map [ usuario | usuario.copyFrom(usuarioBefore) ]
+	def agregarAccionesAdministrativas(List<AccionAdministrativa> acciones){
+		accionesAdministrativas.addAll(acciones)
 	}
 	
 	/**
 	 * Deshace la asignación de acciones en los usuarios. Requiere una clonación del estado
-	 * anterior de los usuarios, previa a la ejecución del proceso. Luego, para cada usuario
+	 * anterior de los usuarios previa a la ejecución del proceso. Luego, para cada usuario
 	 * se realiza una copia del estado estado anterior clonado en su estado actual. 
 	 * 
-	 * @param Ninguno
-	 * @return Vacío
+	 * @param ninguno
+	 * @return vacío
 	 */
-	def undo_version1(){
-		usuariosBefore.forEach [ usuarioBefore | deshacerAccionesEnUsuario(usuarioBefore) ]
+	def undo(){
+		usuarios.forEach [ usuario |
+			val usuarioBefore = obtenerUsuarioBefore(usuario)
+			usuario.copyFrom(usuarioBefore)
+		]
+	}
+	
+	def Terminal obtenerUsuarioBefore(Terminal usuario){
+		(usuariosBefore.filter [ usuarioBefore | usuarioBefore.nombreTerminal.equals(usuario.nombreTerminal)]).get(0)
 	}
 	
 	/**
@@ -68,11 +80,15 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 * aplicada:
 	 * activar->desactivar, y, desactivar->activar
 	 * 
-	 * @param Ninguno
-	 * @return Vacío
+	 * @param ninguno
+	 * @return vacío
 	 */
-	def undo_version2(){
+	/*def undo_version2(){
 		usuarios.forEach [ usuario | deshacerAsignacionDeAcciones(usuario) ]
 	}
+	
+	def deshacerAsignacionDeAcciones(Terminal usuario){
+		accionesAdministrativas.map [ accion | accion.undoAction(usuario) ]
+	}*/
 	
 }

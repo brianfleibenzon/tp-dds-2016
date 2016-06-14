@@ -26,7 +26,12 @@ class ServidorCentral {
 	MailSender mailSender
 
 	new(List<POI> listaPois) {
-		repo.agregarPois(listaPois)
+		listaPois.forEach [ poi | repo.agregarPoi(poi)]
+	}
+	
+	def agregarTerminales(List<Terminal> _terminales){
+		_terminales.forEach [ terminal | terminal.servidorCentral = this ]
+		terminales.addAll(_terminales)
 	}
 	
 	def registrarPOI(POI poi){
@@ -57,10 +62,10 @@ class ServidorCentral {
 	 * @return un POI
 	 */
 	def List<POI> buscarPorId(int _id) {
-		val poisBusqueda = new ArrayList<POI>
+		val repoDePois = new ArrayList<POI>
 		
-		poisBusqueda.addAll(repo.allInstances)
-		Lists.newArrayList( poisBusqueda.filter [poi | poi.id.equals(_id) ] )
+		repoDePois.addAll(repo.allInstances)
+		Lists.newArrayList( repoDePois.filter [poi | poi.id.equals(_id) ] )
 	}
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){
