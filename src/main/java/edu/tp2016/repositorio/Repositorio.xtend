@@ -56,6 +56,11 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		this.create(poi)
 	}
 	
+	def eliminarPoi(POI poi){
+		this.effectiveDelete(poi)
+	}
+
+	
 	
 	
 }

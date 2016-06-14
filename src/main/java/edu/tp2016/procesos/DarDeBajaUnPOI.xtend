@@ -1,12 +1,12 @@
 package edu.tp2016.procesos
 
-import edu.tp2016.serviciosExternos.REST.EjemploServicioREST
 import com.fasterxml.jackson.databind.ObjectMapper
-import edu.tp2016.serviciosExternos.REST.InactivePOI
 import edu.tp2016.pois.POI
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
+import edu.tp2016.serviciosExternos.EjemploServicioREST
+import edu.tp2016.serviciosExternos.InactivePOI
 
 class DarDeBajaUnPOI extends Proceso{
 	EjemploServicioREST servicioREST = new EjemploServicioREST()
@@ -31,12 +31,12 @@ class DarDeBajaUnPOI extends Proceso{
 	 	if(!busquedaPOI.isEmpty){
 	 		eliminarPOI(busquedaPOI.get(0), poi.fecha)
 	 	}
-	 	// else... no hacer nada, jaja :P
+	 	// else... no hacer nada.
 	 }
 	 
 	def eliminarPOI(POI poi, Date fecha){
-
-		// COMPLETAR ELIMINAR, tenés la fecha y el poi encontrado en el repo (borrarlo)
-	}
+	servidor.repo.eliminarPoi(poi)
+		
+		}
 	
 }
