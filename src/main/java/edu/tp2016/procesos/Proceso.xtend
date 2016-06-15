@@ -10,8 +10,8 @@ abstract class Proceso {
 	
 	Proceso accionEnCasoDeError = null
 	int reintentos = 1
-	LocalDateTime inicio = new LocalDateTime
-	LocalDateTime fin = new LocalDateTime
+	LocalDateTime inicio
+	LocalDateTime fin 
 	Administrador usuarioAdministrador
 	ServidorCentral servidor
 	public static final boolean OK = true
@@ -49,7 +49,7 @@ abstract class Proceso {
 		}
 		else{
 			// ERROR: Ejecución fallida
-			iniciar() // TODO: Revisar/adaptar
+			iniciar()
 		}
 		
 	 }
