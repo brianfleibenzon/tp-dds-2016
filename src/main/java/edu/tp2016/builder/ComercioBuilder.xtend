@@ -28,7 +28,7 @@ class ComercioBuilder {
 	}
 	
 	def claves(List<String> claves){
-		unPoi.palabrasClave= claves
+		unPoi.palabrasClave.addAll(claves)
 		this
 		}
 		
@@ -38,7 +38,7 @@ class ComercioBuilder {
 		}
 	
 	def rango(List<DiaDeAtencion> unRango){
-		unPoi.rangoDeAtencion= unRango
+		unPoi.rangoDeAtencion.addAll(unRango)
 		this
 	}
 	}
