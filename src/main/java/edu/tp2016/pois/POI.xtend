@@ -15,6 +15,7 @@ abstract class POI extends Entity {
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	String direccion
 	List<String> palabrasClave = new ArrayList<String>
+	// Hereda de Entity: private Integer id
 
 	/**
 	 * Constructor de POI, será redefinido en las subclases, por lo que hay que llamar a 'super'
@@ -56,7 +57,6 @@ abstract class POI extends Entity {
 	 */
 	def boolean tienePalabraClave(String texto) {
 		palabrasClave.contains(texto)
-
 	}
 
 	/**
@@ -67,6 +67,9 @@ abstract class POI extends Entity {
 	 */
 	def boolean coincide(String texto) {
 		texto.equalsIgnoreCase(nombre)
+	}
+	def void agregarPalabraClave(String unaPalabra){
+		palabrasClave.add(unaPalabra)
 	}
 
 }

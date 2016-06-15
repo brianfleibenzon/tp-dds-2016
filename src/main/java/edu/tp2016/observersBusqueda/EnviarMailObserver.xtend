@@ -3,7 +3,6 @@ package edu.tp2016.observersBusqueda
 import edu.tp2016.servidores.ServidorCentral
 import java.util.List
 import edu.tp2016.pois.POI
-import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.Mail
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.usuarios.Terminal
@@ -12,6 +11,7 @@ import edu.tp2016.usuarios.Terminal
 class EnviarMailObserver implements BusquedaObserver {
 	String administradorMailAdress
 	long timeout
+	ServidorCentral servidorCentral
 
 	new(long _timeout) {
 		timeout = _timeout
@@ -19,19 +19,16 @@ class EnviarMailObserver implements BusquedaObserver {
 
 	override def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, Terminal terminal,
 		ServidorCentral servidor) {
-		verificarTiempoDeConsulta(demora, servidor.mailSender)
-	}
-
-	def verificarTiempoDeConsulta(long demora, MailSender mailSender) {
-
+		servidorCentral = servidor
+		
 		if (demora >= timeout) {
-			enviarMail(mailSender)
+			enviarMailAlAdministrador()
 		}
 	}
+	
+	def boolean enviarMailAlAdministrador() {
 
-	def boolean enviarMail(MailSender mailSender) {
-
-		mailSender.sendMail(new Mail(administradorMailAdress, "un mensaje", "un asunto"))
+		(servidorCentral.mailSender).sendMail(new Mail(administradorMailAdress, "un mensaje", "un asunto"))
 	}
 
 }

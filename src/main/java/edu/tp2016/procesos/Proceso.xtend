@@ -9,21 +9,24 @@ import edu.tp2016.servidores.ServidorCentral
 abstract class Proceso {
 	
 	Proceso accionEnCasoDeError = null
-	int reintentos = 1
+	int reintentos = 0
 	LocalDateTime inicio
-	LocalDateTime fin 
+	LocalDateTime fin
 	Administrador usuarioAdministrador
 	ServidorCentral servidor
 	public static final boolean OK = true
 	public static final boolean ERROR = false
 	
-	def void iniciar(){
-		if (reintentos == 0){
-			fin = new LocalDateTime()
-			registrarError(inicio, fin, new Exception("Reintentos excedidos"))
-		}
-		reintentos --
+	
+	/**
+	 * Llama a correr() adentro de un try catch.
+	 * 
+	 */
+	def void iniciar(Administrador _usuarioAdministrador, ServidorCentral _servidor){
+		usuarioAdministrador = _usuarioAdministrador
+		servidor = _servidor
 		try{
+			inicio = new LocalDateTime()
 			this.correr()
 			fin = new LocalDateTime()
 			registrarExito(inicio, fin)
@@ -33,34 +36,22 @@ abstract class Proceso {
 	}
 	
 	/**
-	 * Realiza la ejecución de un proceso y retorna su resultado (ok, error).
+	 * Realiza la ejecución de un proceso. Esta función es privada, para ejecutar
+	 * un proceso se debe llamar a iniciar()
 	 * 
-	 * @param Ninguno
-	 * @return OK o ERROR
 	 */
-	 def ejecutarProceso(){
-	 	inicio = new LocalDateTime()
-		val resultado = this.correr()
-		fin = new LocalDateTime()
-		
-		if(resultado.equals(OK)){
-			// OK: Ejecución correcta
-			this.registrarExito(inicio, fin)
-		}
-		else{
-			// ERROR: Ejecución fallida
-			iniciar()
-		}
-		
-	 }
+	def void correr(){}
 	 
-	def correr(){
-	}
-	
 	def void manejarError(Exception e){
-		registrarError(inicio, fin, e)
-		if (accionEnCasoDeError != null){
-			accionEnCasoDeError.iniciar()
+		if (reintentos == 0){
+			if (accionEnCasoDeError != null){
+				accionEnCasoDeError.iniciar(usuarioAdministrador, servidor);
+			}
+			fin = new LocalDateTime()
+				registrarError(inicio, fin, e)
+		}else{
+			reintentos --
+			this.iniciar(usuarioAdministrador, servidor)
 		}		
 	}
 	

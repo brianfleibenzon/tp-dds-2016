@@ -6,6 +6,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
 import edu.tp2016.servidores.ServidorCentral
 import java.util.ArrayList
+import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
 
 @Accessors
 class Administrador{
@@ -17,7 +18,7 @@ class Administrador{
 	def correrProceso(Proceso unProceso){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
 		
-		procesoAEjecutar.ejecutarProceso()
+		procesoAEjecutar.iniciar(this, servidorCentral)
 		
 	}
 	
@@ -37,6 +38,20 @@ class Administrador{
 	
 	def quitarProceso(Proceso unProceso){
 		procesosDisponibles.remove(unProceso)
+	}
+	
+	/**
+	 * Busca el proceso correspondiente a la asignación de acciones a los usuarios dentro de la lista
+	 * de procesos del administrador. Luego le indica al proceso deshacer sus acciones.
+	 * 
+	 * @param ninguno
+	 * @return vacío
+	 */
+	def deshacerEfectoDeLaAsignacionDeAcciones(){
+		val procesoAEjecutar = procesosDisponibles.filter [ p |
+			p.class.equals(AgregarAccionesParaTodosLosUsuarios)].get(0) as AgregarAccionesParaTodosLosUsuarios
+		
+		procesoAEjecutar.undo()
 	}
 
 }

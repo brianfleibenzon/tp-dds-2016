@@ -32,6 +32,7 @@ class Terminal implements Cloneable{
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
 		servidorCentral = servidor
+		servidor.terminales.add(this)
 		fechaActual = new LocalDateTime
 	}
 
@@ -46,8 +47,15 @@ class Terminal implements Cloneable{
 		ubicacion = _ubicacion
 		nombreTerminal = terminal
 		servidorCentral = servidor
+		servidor.terminales.add(this)
 		fechaActual = _fecha
 	} // Constructor con fecha parametrizable (solo para test de Disponibilidad)
+	
+	new(String name, List<BusquedaObserver> observers) {
+		nombreTerminal = name
+		busquedaObservers.clear
+		busquedaObservers.addAll(observers)
+	} // constructor clon
 	
 	def adscribirObserver(BusquedaObserver observador){
 		busquedaObservers.add(observador)
@@ -79,17 +87,24 @@ class Terminal implements Cloneable{
 		listaDePoisDevueltos
 	}
 	
-	@Override
+	/* @Override
     override clone() throws CloneNotSupportedException {
-        return super.clone();
+        return super.clone()
+    }
+    * override public Object clone(){
+    	 return super.clone()
+    }
+    * TODO: NO FUNCIONÓ CON ESTO. CONSULTAR
+    */
+    
+    def clonar(){
+    	val usuarioClon = new Terminal(nombreTerminal, busquedaObservers)
+	    
+	    return usuarioClon
     }
     
     def copyFrom(Terminal usuarioBefore){
-    	servidorCentral = usuarioBefore.servidorCentral
-		nombreTerminal = usuarioBefore.nombreTerminal
-		ubicacion = usuarioBefore.ubicacion
-		fechaActual = usuarioBefore.fechaActual
-		busquedaObservers.removeAll()
+		busquedaObservers.clear
 		busquedaObservers.addAll(usuarioBefore.busquedaObservers)
     }
 }
