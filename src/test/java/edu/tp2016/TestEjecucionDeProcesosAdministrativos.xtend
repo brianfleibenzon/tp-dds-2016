@@ -136,6 +136,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		procesoMultiple = new DefinicionDeUnProcesoMultiple => [
 			anidarProceso(procesoDarDeBaja)
 			anidarProceso(procesoActualizarLocalComercial)
+			anidarProceso(procesoAgregarAcciones)
 		]
 		
 		procesoConError = new StubProceso
@@ -297,14 +298,32 @@ class TestEjecucionDeProcesosAdministrativos {
 
 	@Test
 	def void testEjecutarProcesoMultiple() {
+		/* Acciones previas al testeo de proceso DarDeBajaUnPOI */
 		utn114parada.id = 2
+		/* Acciones previas al testeo de proceso AtualizacionDeLocalesComerciales  */
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
+		/* Acciones previas al testeo de proceso AgregarAccionesParaTodosLosUsuarios */
+		busquedasEnVariasTerminalesYEnDistintasFechas()
+		Assert.assertEquals(12, servidorCentral.busquedas.size)
+		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
+		servidorCentral.busquedas.clear	
 
-		administrador.correrProceso(procesoMultiple)
+		administrador.correrProceso(procesoMultiple) // EJECUCION PROCESO MULTIPLE
 
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
 		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
+
+		/* Continuación de chequeos para proceso AgregarAccionesParaTodosLosUsuarios */
+		busquedasEnVariasTerminalesYEnDistintasFechas()
+		Assert.assertTrue(servidorCentral.busquedas.isEmpty)
+		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 0 veces (12 de la anterior prueba)
+		servidorCentral.busquedas.clear
+		administrador.deshacerEfectoDeLaAsignacionDeAcciones()
+		busquedasEnVariasTerminalesYEnDistintasFechas()
+		Assert.assertEquals(12, servidorCentral.busquedas.size)
+		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 12 veces (12 de la anterior prueba)
+
 	}
 	
 	@Test
