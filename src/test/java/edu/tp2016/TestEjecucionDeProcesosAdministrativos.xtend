@@ -318,12 +318,6 @@ class TestEjecucionDeProcesosAdministrativos {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		Assert.assertTrue(servidorCentral.busquedas.isEmpty)
 		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 0 veces (12 de la anterior prueba)
-		servidorCentral.busquedas.clear
-		administrador.deshacerEfectoDeLaAsignacionDeAcciones()
-		busquedasEnVariasTerminalesYEnDistintasFechas()
-		Assert.assertEquals(12, servidorCentral.busquedas.size)
-		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 12 veces (12 de la anterior prueba)
-
 	}
 	
 	@Test
