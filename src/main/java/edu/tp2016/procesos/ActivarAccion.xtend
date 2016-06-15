@@ -10,11 +10,11 @@ class ActivarAccion extends AccionAdministrativa{
 	}
 	
 	override doActionOn(Terminal usuario){
-		if( usuario.busquedaObservers.contains(accionAsociada) ){
-			throw new Exception("Se intenta activar una acción que ya está activada.")
+		if( !(usuario.busquedaObservers.contains(accionAsociada)) ){
+			usuario.adscribirObserver(accionAsociada) // la activa
 		}
 		else{
-			usuario.adscribirObserver(accionAsociada) // lo activa
+			// la deja activada
 		}
 	}
 	

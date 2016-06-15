@@ -29,6 +29,9 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 * @return vacío
 	 */
 	override correr() {
+		
+		usuariosBefore.clear
+		
 		usuarios.forEach [ usuario |
 		
 			usuariosBefore.add( usuario.clonar() ) // clono el estado actual del usuario
@@ -51,8 +54,8 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 		accionesAdministrativas.add(accion)
 	}
 	
-	def agregarAccionesAdministrativas(List<AccionAdministrativa> acciones){
-		accionesAdministrativas.addAll(acciones)
+	def quitarAccionAdministrativa(AccionAdministrativa accion){
+		accionesAdministrativas.remove(accion)
 	}
 	
 	/**
@@ -73,22 +76,5 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	def Terminal obtenerUsuarioBefore(Terminal usuario){
 		(usuariosBefore.filter [ usuarioBefore | usuarioBefore.nombreTerminal.equals(usuario.nombreTerminal)]).get(0)
 	}
-	
-	/**
-	 *Deshace la asignación de acciones en los usuarios. No requiere una clonación del estado
-	 * anterior de los usuarios, sino que aplica la operación inversa de la acción administrativa
-	 * aplicada:
-	 * activar->desactivar, y, desactivar->activar
-	 * 
-	 * @param ninguno
-	 * @return vacío
-	 */
-	/*def undo_version2(){
-		usuarios.forEach [ usuario | deshacerAsignacionDeAcciones(usuario) ]
-	}
-	
-	def deshacerAsignacionDeAcciones(Terminal usuario){
-		accionesAdministrativas.map [ accion | accion.undoAction(usuario) ]
-	}*/
 	
 }
