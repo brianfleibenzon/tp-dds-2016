@@ -30,6 +30,7 @@ import edu.tp2016.procesos.ActivarAccion
 import edu.tp2016.procesos.DesactivarAccion
 import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.Mail
+import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -60,7 +61,9 @@ class TestEjecucionDeProcesosAdministrativos {
 	ActivarAccion activarNotificacionAlAdministrador
 	DesactivarAccion desactivarNotificacionAlAdministrador
 	MailSender mockedMailSender
-
+	//Seteos Para Locales Comerciales
+	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
+	
 	@Before
 	def void setUp() {
 		// ¡IMPORTANTE! NO CAMBIAR EL ORDEN DEL SET UP PORQUE SE ROMPE TODO :)
@@ -142,6 +145,11 @@ class TestEjecucionDeProcesosAdministrativos {
 		terminalTeatroColon.buscar("Atencion ciudadana") // encuentra
 		terminalTeatroColon.buscar("cine") // no encuentra
 		// En total 12 terminales
+		
+		//Set Up Local Comercial
+		procesoActualizarLocalComercial= new ActualizacionDeLocalesComerciales =>[
+			servidor=servidorCentral
+		]
 	}
 
 	@Test
@@ -211,5 +219,14 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 12 veces (12 de la anterior prueba)
 	}
+	@Test
+	def void actualizacionDeLocalComercial(){
+		procesoActualizarLocalComercial.actualizarComercio(" Libreria Juan;fotocopias utiles borrador")
+		
+		Assert.assertTrue( comercioLoDeJuan.palabrasClave.contains("fotocopias"))
+
+	}
+	
+	
 
 }
