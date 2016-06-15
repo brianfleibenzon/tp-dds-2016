@@ -255,7 +255,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void actualizacionDeLocalComercial(){
 		procesoActualizarLocalComercial.actualizarComercio(" Libreria Juan;fotocopias utiles borrador")
 		
-		Assert.assertTrue( comercioLoDeJuan.palabrasClave.contains("fotocopias"))
+		Assert.assertTrue( comercioLoDeJuan.palabrasClave.contains("fotocopias utilez borrador"))
 
 	}
 	
