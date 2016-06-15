@@ -32,6 +32,7 @@ import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
 import edu.tp2016.procesos.DarDeBajaUnPOI
+import edu.tp2016.procesos.DefinicionDeUnProcesoMultiple
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -61,6 +62,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	DesactivarAccion desactivarNotificacionAlAdministrador
 	MailSender mockedMailSender
 	DarDeBajaUnPOI procesoDarDeBaja
+	DefinicionDeUnProcesoMultiple procesoMultiple
 	//Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
 	
@@ -125,10 +127,16 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		procesoActualizarLocalComercial= new ActualizacionDeLocalesComerciales
 		
+		procesoMultiple = new DefinicionDeUnProcesoMultiple => [
+			anidarProceso(procesoDarDeBaja)
+			anidarProceso(procesoActualizarLocalComercial)
+		]
+		
 		administrador = new Administrador(servidorCentral) => [
 			agregarProceso(procesoAgregarAcciones)
 			agregarProceso(procesoDarDeBaja)
 			agregarProceso(procesoActualizarLocalComercial)
+			agregarProceso(procesoMultiple)
 			
 		]		
 		
@@ -282,7 +290,20 @@ class TestEjecucionDeProcesosAdministrativos {
 		    
 		    administrador.correrProceso(procesoDarDeBaja)
 			Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
-}
+	}
+	@Test
+	def void testEjecutarProcesoMultiple(){
+		utn114parada.id=2
+		procesoActualizarLocalComercial.actualizarComercio(" Libreria Juan;  borrador")
+		
+		administrador.correrProceso(procesoMultiple)
+		
+		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
+		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
+
+	}
+
+
 
 }
 	
