@@ -7,55 +7,54 @@ import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.Servicio
 
 class CGPBuilder {
-	
-		CGP unPoi
-	
-	new(){
-		unPoi= new CGP
+
+	CGP unPoi
+
+	new() {
+		unPoi = new CGP
 	}
-	
-	def build(){
+
+	def build() {
 		unPoi
 	}
-	
-	def nombre(String nombre){
-		unPoi.nombre= nombre
+
+	def nombre(String nombre) {
+		unPoi.nombre = nombre
 		this
 	}
-	
-	def ubicacion(Point ubicado){
-		unPoi.ubicacion= ubicado
+
+	def ubicacion(Point ubicado) {
+		unPoi.ubicacion = ubicado
 		this
 	}
-	
-	def claves(List<String> claves){
-		unPoi.palabrasClave= claves
-		this
-		}
-		
-	def comuna(Comuna _comuna){
-		unPoi.comuna= _comuna
-		this
-		}
-	
-	def servicio(List<Servicio> _servicio){
-		unPoi.servicios= _servicio
+
+	def claves(List<String> claves) {
+		unPoi.palabrasClave.addAll(claves)
 		this
 	}
-	
-	def zonasIncluidas(String _zonasIncluidas){
-		unPoi.zonasIncluidas= _zonasIncluidas
+
+	def comuna(Comuna _comuna) {
+		unPoi.comuna = _comuna
 		this
 	}
-	
-	def nombreDirector( String _nombreDirector){
-		unPoi.nombreDirector= _nombreDirector
+
+	def servicio(List<Servicio> _servicio) {
+		unPoi.servicios.addAll(_servicio)
 		this
 	}
-	
-	def telefono(String numTelefono){
-		unPoi.telefono= numTelefono
+
+	def zonasIncluidas(String _zonasIncluidas) {
+		unPoi.zonasIncluidas = _zonasIncluidas
 		this
-	}	
 	}
-	
+
+	def nombreDirector(String _nombreDirector) {
+		unPoi.nombreDirector = _nombreDirector
+		this
+	}
+
+	def telefono(String numTelefono) {
+		unPoi.telefono = numTelefono
+		this
+	}
+}
