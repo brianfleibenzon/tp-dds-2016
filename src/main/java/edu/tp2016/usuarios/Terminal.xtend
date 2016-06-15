@@ -55,7 +55,7 @@ class Terminal implements Cloneable{
 		nombreTerminal = name
 		busquedaObservers.clear
 		busquedaObservers.addAll(observers)
-	} // constructor clon
+	} // Constructor para la clonación de una Terminal
 	
 	def adscribirObserver(BusquedaObserver observador){
 		busquedaObservers.add(observador)
@@ -86,16 +86,6 @@ class Terminal implements Cloneable{
 
 		listaDePoisDevueltos
 	}
-	
-	/* @Override
-    override clone() throws CloneNotSupportedException {
-        return super.clone()
-    }
-    * override public Object clone(){
-    	 return super.clone()
-    }
-    * TODO: NO FUNCIONÓ CON ESTO. CONSULTAR
-    */
     
     def clonar(){
     	val usuarioClon = new Terminal(nombreTerminal, busquedaObservers)
