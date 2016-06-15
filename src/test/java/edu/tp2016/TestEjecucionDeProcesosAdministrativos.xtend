@@ -31,6 +31,7 @@ import edu.tp2016.procesos.DesactivarAccion
 import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
+import edu.tp2016.procesos.DarDeBajaUnPOI
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -59,6 +60,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	ActivarAccion activarNotificacionAlAdministrador
 	DesactivarAccion desactivarNotificacionAlAdministrador
 	MailSender mockedMailSender
+	DarDeBajaUnPOI procesoDarDeBaja
 	//Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
 	
@@ -119,8 +121,15 @@ class TestEjecucionDeProcesosAdministrativos {
 			agregarAccionAdministrativa(desactivarNotificacionAlAdministrador)
 		]
 		
+		procesoDarDeBaja = new DarDeBajaUnPOI
+		
+		procesoActualizarLocalComercial= new ActualizacionDeLocalesComerciales
+		
 		administrador = new Administrador(servidorCentral) => [
 			agregarProceso(procesoAgregarAcciones)
+			agregarProceso(procesoDarDeBaja)
+			agregarProceso(procesoActualizarLocalComercial)
+			
 		]		
 		
 		servidorCentral.administradores.add(administrador)
@@ -258,7 +267,23 @@ class TestEjecucionDeProcesosAdministrativos {
 		Assert.assertTrue( comercioLoDeJuan.palabrasClave.contains("fotocopias"))
 
 	}
+	@Test
+	def void testDarDeBajaUTN7Parada(){
+		    utn7parada.id=1
+		    
+		    administrador.correrProceso(procesoDarDeBaja)
+			Assert.assertTrue(servidorCentral.buscarPorId(1).isEmpty())
+			
 	
-	
+	}
+	@Test
+		def void testDarDeBajaUTN114Parada(){
+		    utn114parada.id=2
+		    
+		    administrador.correrProceso(procesoDarDeBaja)
+			Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
+}
 
 }
+	
+
