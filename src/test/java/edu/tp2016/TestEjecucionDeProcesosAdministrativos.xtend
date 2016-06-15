@@ -34,6 +34,8 @@ import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
 import edu.tp2016.procesos.DarDeBajaUnPOI
 import edu.tp2016.procesos.DefinicionDeUnProcesoMultiple
 import edu.tp2016.serviciosExternos.StubServicioREST
+import edu.tp2016.procesos.StubProceso
+import edu.tp2016.procesos.EnviarMail
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -64,6 +66,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	MailSender mockedMailSender
 	DarDeBajaUnPOI procesoDarDeBaja
 	DefinicionDeUnProcesoMultiple procesoMultiple
+	StubProceso procesoConError
 	// Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
 
@@ -134,13 +137,15 @@ class TestEjecucionDeProcesosAdministrativos {
 			anidarProceso(procesoDarDeBaja)
 			anidarProceso(procesoActualizarLocalComercial)
 		]
+		
+		procesoConError = new StubProceso
 
 		administrador = new Administrador(servidorCentral) => [
 			agregarProceso(procesoAgregarAcciones)
 			agregarProceso(procesoDarDeBaja)
 			agregarProceso(procesoActualizarLocalComercial)
 			agregarProceso(procesoMultiple)
-
+			agregarProceso(procesoConError)
 		]
 
 		servidorCentral.administradores.add(administrador)
@@ -178,7 +183,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	}
 
 	@Test
-	def void ejecutarAsignacionDeAccionesYDesahecerEfectos() {
+	def void testEjecutarAsignacionDeAccionesYDesahecerEfectos() {
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
@@ -217,7 +222,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	}
 
 	@Test
-	def void ejecutarAsignacionDeAccionesYDeshacerEfectosPruebaMasCompleja() {
+	def void testEjecutarAsignacionDeAccionesYDeshacerEfectosPruebaMasCompleja() {
 
 		setUpParaPruebaCompleja()
 		/* Ahora dos terminales tienen desactivada la acción de registrar las búsquedas
@@ -262,7 +267,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	}
 
 	@Test
-	def void actualizacionDeLocalComercial() {
+	def void testActualizacionDeLocalComercial() {
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
 		administrador.correrProceso(procesoActualizarLocalComercial)
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
@@ -301,6 +306,24 @@ class TestEjecucionDeProcesosAdministrativos {
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
 		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
 
+	}
+	
+	@Test
+	def void testReintentarEjecucionDeProcesoYRegistrarError(){
+		procesoConError.reintentos = 3
+		administrador.correrProceso(procesoConError)
+		Assert.assertEquals(4, procesoConError.vecesEjecutado)
+		Assert.assertEquals(false, administrador.resultadosDeEjecucion.get(0).resultadoEjecucion)
+	}
+	
+	@Test
+	def void testEnviarMailYRegistrarError(){
+		procesoConError.reintentos = 0
+		procesoConError.accionEnCasoDeError = new EnviarMail
+		administrador.correrProceso(procesoConError)
+		Assert.assertEquals(1, procesoConError.vecesEjecutado)
+		verify(mockedMailSender, times(1)).sendMail(any(typeof(Mail)))	
+		Assert.assertEquals(false, administrador.resultadosDeEjecucion.get(0).resultadoEjecucion)	
 	}
 
 }
