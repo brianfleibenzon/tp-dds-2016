@@ -49,7 +49,7 @@ class Administrador{
 	 */
 	def deshacerEfectoDeLaAsignacionDeAcciones(){
 		val procesoAEjecutar = procesosDisponibles.filter [ p |
-			p.class.equals(AgregarAccionesParaTodosLosUsuarios)].get(0) as AgregarAccionesParaTodosLosUsuarios
+			p instanceof AgregarAccionesParaTodosLosUsuarios ].get(0) as AgregarAccionesParaTodosLosUsuarios
 		
 		procesoAEjecutar.undo()
 	}
