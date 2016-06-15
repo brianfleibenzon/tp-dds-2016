@@ -4,7 +4,6 @@ import edu.tp2016.procesos.Proceso
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 import edu.tp2016.usuarios.Terminal
-import edu.tp2016.servidores.ServidorCentral
 import java.util.ArrayList
 
 @Accessors
@@ -16,11 +15,6 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	// Lista de las clonaciones de los usuarios antes de la ejecución:
 	List<Terminal> usuariosBefore = new ArrayList<Terminal>
 
-	/*new(ServidorCentral _servidor){
-		servidor = _servidor
-		usuarios.addAll(servidor.terminales)
-	}*/
-
 	/**
 	 * Recorre la lista de usuarios y le aplica las acciones administrativas que haya
 	 * actualmente definidas.
@@ -31,16 +25,16 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	override correr() {
 		usuarios.clear
 		
-		usuarios.addAll(servidor.terminales)
+			usuarios.addAll(servidor.terminales)
 
 		usuariosBefore.clear
 		
-		usuarios.forEach [ usuario |
+			usuarios.forEach [ usuario |
 		
-			usuariosBefore.add( usuario.clonar() ) // clono el estado actual del usuario
+				usuariosBefore.add( usuario.clonar() ) // clono el estado actual del usuario
 			
-			asignarleAccionesA(usuario)
-		]
+				asignarleAccionesA(usuario)
+			]
 	}
 	
 	/**

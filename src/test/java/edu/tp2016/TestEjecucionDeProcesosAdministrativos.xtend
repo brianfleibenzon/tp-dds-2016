@@ -149,7 +149,6 @@ class TestEjecucionDeProcesosAdministrativos {
 		]
 
 		servidorCentral.administradores.add(administrador)
-
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
@@ -233,7 +232,6 @@ class TestEjecucionDeProcesosAdministrativos {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
 		Assert.assertEquals(4, servidorCentral.busquedas.size)
-
 		verify(mockedMailSender, times(8)).sendMail(any(typeof(Mail)))
 
 		servidorCentral.busquedas.clear
@@ -250,8 +248,8 @@ class TestEjecucionDeProcesosAdministrativos {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
 		Assert.assertEquals(12, servidorCentral.busquedas.size)
-
 		verify(mockedMailSender, times(20)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 12 veces (8 de la anterior prueba)
+		
 		servidorCentral.busquedas.clear
 
 		/*  Ahora, el administrador anula los efectos de la asignación de acciones a los usuarios y
@@ -262,14 +260,16 @@ class TestEjecucionDeProcesosAdministrativos {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
 		Assert.assertEquals(4, servidorCentral.busquedas.size)
-
 		verify(servidorCentral.mailSender, times(28)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 8 veces (20 de la anterior prueba)
 	}
 
 	@Test
 	def void testActualizacionDeLocalComercial() {
+		
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
+		
 		administrador.correrProceso(procesoActualizarLocalComercial)
+		
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("fotocopias"))
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("utiles"))
@@ -305,7 +305,6 @@ class TestEjecucionDeProcesosAdministrativos {
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
 		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
-
 	}
 	
 	@Test

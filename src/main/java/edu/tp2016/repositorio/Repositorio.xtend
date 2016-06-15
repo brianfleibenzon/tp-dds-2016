@@ -51,9 +51,9 @@ class Repositorio extends CollectionBasedRepo<POI> {
 //	}
 	
 	def agregarPoi(POI poi){
-		var nuevoId = rand.nextInt(100)
+		var nuevoId = rand.nextInt(1000) // le asigna un id aleatorio entre 0 y 999
 			while(idEnUso(nuevoId)){
-				nuevoId = rand.nextInt(100)
+				nuevoId = rand.nextInt(1000)
 			}
 		poi.id = nuevoId
 		this.create(poi)
