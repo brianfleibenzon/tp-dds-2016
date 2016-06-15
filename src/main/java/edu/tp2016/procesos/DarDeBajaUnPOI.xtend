@@ -14,6 +14,7 @@ class DarDeBajaUnPOI extends Proceso {
 	ServicioREST servicioREST
 	ObjectMapper parser = new ObjectMapper()
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+	ResultadoDeDarDeBajaUnPoi resultado
 
 	override correr() {
 		parser.setDateFormat(df)
@@ -28,10 +29,14 @@ class DarDeBajaUnPOI extends Proceso {
 
 	def buscarPoiEnRepo(InactivePOI poi) {
 
+         resultado = new  ResultadoDeDarDeBajaUnPoi(poi.fecha,poi.id)
+		
 		val busquedaPOI = servidor.buscarPorId(poi.id)
 
 		if (!busquedaPOI.isEmpty) {
 			eliminarPOI(busquedaPOI.get(0), poi.fecha)
+			servidor.registrarResultadoDeBaja( resultado)
+			
 		}
 	// else... no hacer nada
 	}

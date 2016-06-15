@@ -12,6 +12,7 @@ class ResultadoDeProceso {
 	Administrador idUsuario
 	boolean resultadoEjecucion // OK o ERROR
 	String mensajeDeError // opcional
+
 	
 	/**
 	 * Construye el resultado de ejecución de un proceso incluyendo un mensaje de error.
@@ -43,4 +44,6 @@ class ResultadoDeProceso {
 		idUsuario = usuario
 		resultadoEjecucion = resultado
 	}
+	
+	
 }
