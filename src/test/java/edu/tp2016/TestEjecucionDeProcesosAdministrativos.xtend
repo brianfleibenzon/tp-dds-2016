@@ -33,6 +33,7 @@ import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
 import edu.tp2016.procesos.DarDeBajaUnPOI
 import edu.tp2016.procesos.DefinicionDeUnProcesoMultiple
+import edu.tp2016.serviciosExternos.StubServicioREST
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -63,7 +64,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	MailSender mockedMailSender
 	DarDeBajaUnPOI procesoDarDeBaja
 	DefinicionDeUnProcesoMultiple procesoMultiple
-	//Seteos Para Locales Comerciales
+	// Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
 
 	@Before
@@ -123,7 +124,9 @@ class TestEjecucionDeProcesosAdministrativos {
 			agregarAccionAdministrativa(desactivarNotificacionAlAdministrador)
 		]
 
-		procesoDarDeBaja = new DarDeBajaUnPOI
+		procesoDarDeBaja = new DarDeBajaUnPOI => [
+			servicioREST = new StubServicioREST()
+		]
 
 		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales
 
@@ -131,14 +134,14 @@ class TestEjecucionDeProcesosAdministrativos {
 			anidarProceso(procesoDarDeBaja)
 			anidarProceso(procesoActualizarLocalComercial)
 		]
-		
+
 		administrador = new Administrador(servidorCentral) => [
 			agregarProceso(procesoAgregarAcciones)
 			agregarProceso(procesoDarDeBaja)
 			agregarProceso(procesoActualizarLocalComercial)
 			agregarProceso(procesoMultiple)
-			
-		]		
+
+		]
 
 		servidorCentral.administradores.add(administrador)
 
@@ -266,37 +269,37 @@ class TestEjecucionDeProcesosAdministrativos {
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("fotocopias"))
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("utiles"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("libros"))
-		Assert.assertEquals (3,comercioLoDeJuan.palabrasClave.size)
+		Assert.assertEquals(3, comercioLoDeJuan.palabrasClave.size)
 	}
 
 	@Test
 	def void testDarDeBajaUTN7Parada() {
 		utn7parada.id = 1
 
+		Assert.assertFalse(servidorCentral.buscarPorId(1).isEmpty())
 		administrador.correrProceso(procesoDarDeBaja)
 		Assert.assertTrue(servidorCentral.buscarPorId(1).isEmpty())
-
 	}
 
 	@Test
-		def void testDarDeBajaUTN114Parada(){
-		    utn114parada.id=2
-		    
-		    administrador.correrProceso(procesoDarDeBaja)
-			Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
+	def void testDarDeBajaUTN114Parada() {
+		utn114parada.id = 2
+		
+		Assert.assertFalse(servidorCentral.buscarPor("114").isEmpty())
+		administrador.correrProceso(procesoDarDeBaja)
+		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
 	}
+
 	@Test
-	def void testEjecutarProcesoMultiple(){
-		utn114parada.id=2
+	def void testEjecutarProcesoMultiple() {
+		utn114parada.id = 2
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
-		
+
 		administrador.correrProceso(procesoMultiple)
-		
 
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
-		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))		
+		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
 		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
-
 
 	}
 
