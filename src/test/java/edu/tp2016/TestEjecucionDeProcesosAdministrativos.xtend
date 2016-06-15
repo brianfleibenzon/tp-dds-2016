@@ -49,8 +49,6 @@ class TestEjecucionDeProcesosAdministrativos {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
-	
-	// Nuevos seteos para la Entrega 4:
 	EnviarMailObserver notificacionAlAdministradorAnteDemora
 	RegistrarBusquedaObserver registroDeBusqueda
 	Administrador administrador
@@ -63,7 +61,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 	@Before
 	def void setUp() {
-		// ¡IMPORTANTE! NO CAMBIAR EL ORDEN DEL SET UP PORQUE SE ROMPE TODO :)
+		// ¡IMPORTANTE! NO CAMBIAR EL ORDEN DEL SET UP PORQUE SE ROMPEN LOS TESTS
 		ubicacionX = new Point(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaDeHoy = new LocalDateTime()
@@ -143,13 +141,26 @@ class TestEjecucionDeProcesosAdministrativos {
 		terminalTeatroColon.buscar("cine") // no encuentra
 		// En total 12 terminales
 	}
+	
+	def setUpParaPruebaCompleja(){
+		terminalAbasto.quitarObserver(registroDeBusqueda)
+		terminalTeatroColon.quitarObserver(registroDeBusqueda)
+		terminalFlorida.quitarObserver(notificacionAlAdministradorAnteDemora)
+		
+		procesoAgregarAcciones.quitarAccionAdministrativa(desactivarRegistroDeBusqueda)
+		procesoAgregarAcciones.quitarAccionAdministrativa(desactivarNotificacionAlAdministrador)
+		procesoAgregarAcciones.agregarAccionAdministrativa(activarRegistroDeBusqueda)
+		procesoAgregarAcciones.agregarAccionAdministrativa(activarNotificacionAlAdministrador)
+	}
 
 	@Test
-	def void ejecutarAsignacionDeAccionesPruebaParaRegistroDeBusquedas() {
+	def void ejecutarAsignacionDeAccionesYDesahecerEfectos() {
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
 		Assert.assertEquals( 12, servidorCentral.busquedas.size )
+		
+		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
 		
 		servidorCentral.busquedas.clear
 		
@@ -167,10 +178,12 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		Assert.assertTrue( servidorCentral.busquedas.isEmpty )
 		
+		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 0 veces (12 de la anterior prueba)
+		
 		servidorCentral.busquedas.clear
 		
 		/*  Ahora, el administrador anula los efectos de la asignación de acciones a los usuarios y
-		 * 	se verifica que los usuarios vuelvan a poder registrar sus búsquedas.
+		 * 	se verifica que los usuarios vuelvan a poder registrar sus búsquedas  y enviar mails al administrador.
 		 */
 		 
 		administrador.deshacerEfectoDeLaAsignacionDeAcciones()
@@ -178,38 +191,57 @@ class TestEjecucionDeProcesosAdministrativos {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
 		Assert.assertEquals( 12, servidorCentral.busquedas.size )
+		
+		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 12 veces (12 de la anterior prueba)
 	}
 	
 	@Test
-	def void ejecutarAsignacionDeAccionesPruebaParaNotificacionPorMail() {
+	def void ejecutarAsignacionDeAccionesYDeshacerEfectosPruebaMasCompleja() {
+		
+		setUpParaPruebaCompleja()
+		/* Ahora dos terminales tienen desactivada la acción de registrar las búsquedas
+		 * y una terminal la de notificar por mail.
+		 * Resultado esperado: de las 12 búsquedas solo se registran las 4 de terminalFlorida
+		 * y se envían 8 mails correspondientes a las búsquedas de terminalAbasto y terminalTeatroColon.
+		 * */
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
+		Assert.assertEquals( 4, servidorCentral.busquedas.size )
+		
+		verify(mockedMailSender, times(8)).sendMail(any(typeof(Mail)))
+		
+		servidorCentral.busquedas.clear
 		
 		/*  La lista de acciones para los usuarios del administrador contiene:
-		 * 			- Desactivar registro de búsquedas
-		 * 		y	- Desactivar notificación por mail durante búsquedas
+		 * 			- Activar registro de búsquedas
+		 * 		y	- Activar notificación por mail durante búsquedas
 		 * 
 		 * 	El administrador corre el proceso y luego se realizan nuevas búsquedas en las terminales.
-		 * 	Resultado esperado: no se registra ninguna búsqueda y no se envía ningún mail (por más que haya demora).
+		 * 	Resultado esperado: ahora se registran todas las búsquedas y todas las terminales envían mails.
 		 */
 		
 		administrador.correrProceso(procesoAgregarAcciones)
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 0 veces (12 de la anterior prueba)
+		Assert.assertEquals( 12, servidorCentral.busquedas.size )
+		
+		verify(mockedMailSender, times(20)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 12 veces (8 de la anterior prueba)
+		
+		servidorCentral.busquedas.clear
 		
 		/*  Ahora, el administrador anula los efectos de la asignación de acciones a los usuarios y
-		 * 	se verifica que los usuarios vuelvan a poder registrar sus búsquedas y enviar mails al administrador.
+		 * 	se verifica que los usuarios vuelvan a su estado anterior.
 		 */
 		 
 		administrador.deshacerEfectoDeLaAsignacionDeAcciones()
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 12 veces (12 de la anterior prueba)
+		Assert.assertEquals( 4, servidorCentral.busquedas.size )
+		
+		verify(servidorCentral.mailSender, times(28)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 8 veces (20 de la anterior prueba)
 	}
 
 }
