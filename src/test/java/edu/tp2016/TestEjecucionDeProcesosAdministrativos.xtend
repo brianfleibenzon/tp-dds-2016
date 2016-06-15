@@ -185,7 +185,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		verify(servidorCentral.mailSender, times(12)).sendMail(any(typeof(Mail)))
+		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
 		
 		/*  La lista de acciones para los usuarios del administrador contiene:
 		 * 			- Desactivar registro de búsquedas
@@ -199,7 +199,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		verify(servidorCentral.mailSender, times(0)).sendMail(any(typeof(Mail)))
+		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 0 veces (12 de la anterior prueba)
 		
 		/*  Ahora, el administrador anula los efectos de la asignación de acciones a los usuarios y
 		 * 	se verifica que los usuarios vuelvan a poder registrar sus búsquedas y enviar mails al administrador.
@@ -209,7 +209,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 		
-		verify(servidorCentral.mailSender, times(12)).sendMail(any(typeof(Mail)))
+		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) //Verifico que se haya corrido 12 veces (12 de la anterior prueba)
 	}
 
 }
