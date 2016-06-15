@@ -6,44 +6,44 @@ import java.util.List
 
 class BancoBuilder {
 	Banco unPoi
-	
-	new(){
-		unPoi= new Banco
+
+	new() {
+		unPoi = new Banco
 	}
-	
-	def build(){
+
+	def build() {
 		unPoi
 	}
-	
-	def nombre(String nombre){
-		unPoi.nombre= nombre
+
+	def nombre(String nombre) {
+		unPoi.nombre = nombre
 		this
 	}
-	
-	def ubicacion(Point ubicado){
-		unPoi.ubicacion= ubicado
+
+	def ubicacion(Point ubicado) {
+		unPoi.ubicacion = ubicado
 		this
 	}
-	
-	def claves(List<String> claves){
-		unPoi.palabrasClave= claves
-		this
-		}
-		
-	def nombreGerente(String nombre){
-		unPoi.nombreGerente= nombre
-		this
-		}
-	
-	def sucursal(String sucursal){
-		unPoi.sucursal= sucursal
+
+	def claves(List<String> claves) {
+		unPoi.palabrasClave.addAll(claves)
 		this
 	}
-	def setearHorarios(){
+
+	def nombreGerente(String nombre) {
+		unPoi.nombreGerente = nombre
+		this
+	}
+
+	def sucursal(String sucursal) {
+		unPoi.sucursal = sucursal
+		this
+	}
+
+	def setearHorarios() {
 		unPoi.setRangoDeAtencionBancario
 		this
-		
+
 	}
-	
-	
-	}
+
+}

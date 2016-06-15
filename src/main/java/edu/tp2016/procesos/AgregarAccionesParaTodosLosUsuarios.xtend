@@ -16,10 +16,10 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	// Lista de las clonaciones de los usuarios antes de la ejecución:
 	List<Terminal> usuariosBefore = new ArrayList<Terminal>
 
-	new(ServidorCentral _servidor){
+	/*new(ServidorCentral _servidor){
 		servidor = _servidor
 		usuarios.addAll(servidor.terminales)
-	}
+	}*/
 
 	/**
 	 * Recorre la lista de usuarios y le aplica las acciones administrativas que haya
@@ -29,7 +29,10 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 * @return vacío
 	 */
 	override correr() {
+		usuarios.clear
 		
+		usuarios.addAll(servidor.terminales)
+
 		usuariosBefore.clear
 		
 		usuarios.forEach [ usuario |
