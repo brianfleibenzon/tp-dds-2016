@@ -1,19 +1,17 @@
 package edu.tp2016.procesos
 
-
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.Date
+import org.joda.time.LocalDateTime
 
 class ResultadoDeDarDeBajaUnPoi {
 
-@Accessors
-Date fechaDeBaja
-int ID
+	@Accessors
+	LocalDateTime fechaDeBaja
+	int ID
 
-new (Date fecha, int PoiID){
-	fechaDeBaja = fecha
-	ID= PoiID
-}
+	new(LocalDateTime fecha, int PoiID) {
+		fechaDeBaja = fecha
+		ID = PoiID
+	}
 
-	
 }

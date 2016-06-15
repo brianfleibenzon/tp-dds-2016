@@ -27,7 +27,7 @@ class ServidorCentral {
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Administrador administrador // Para Entrega 3 (único administrador)
 	MailSender mailSender
-	List< ResultadoDeDarDeBajaUnPoi> resultadosDeEjecucion = new ArrayList< ResultadoDeDarDeBajaUnPoi>
+	List<ResultadoDeDarDeBajaUnPoi> poisDadosDeBaja = new ArrayList<ResultadoDeDarDeBajaUnPoi>
 
 	
 
@@ -140,8 +140,8 @@ class ServidorCentral {
 	def void actualizaPOI (List<POI> POIS){
 		POIS.forEach[unPoi| repo.update(unPoi) ]
 	}
-	def registrarResultadoDeBaja( ResultadoDeDarDeBajaUnPoi resultado){
-		resultadosDeEjecucion.add(resultado)
+	def registrarResultadoDeBaja(ResultadoDeDarDeBajaUnPoi resultado){
+		poisDadosDeBaja.add(resultado)
 	}
 
 }

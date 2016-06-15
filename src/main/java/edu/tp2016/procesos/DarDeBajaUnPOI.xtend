@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import edu.tp2016.pois.POI
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Date
 import edu.tp2016.serviciosExternos.InactivePOI
 import edu.tp2016.serviciosExternos.ServicioREST
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.joda.time.LocalDateTime
 
 @Accessors
 class DarDeBajaUnPOI extends Proceso {
@@ -28,20 +28,22 @@ class DarDeBajaUnPOI extends Proceso {
 	}
 
 	def buscarPoiEnRepo(InactivePOI poi) {
-
-         resultado = new  ResultadoDeDarDeBajaUnPoi(poi.fecha,poi.id)
 		
+		var LocalDateTime fecha = new LocalDateTime(poi.fecha)
+
+		resultado = new ResultadoDeDarDeBajaUnPoi(fecha, poi.id)
+
 		val busquedaPOI = servidor.buscarPorId(poi.id)
 
 		if (!busquedaPOI.isEmpty) {
-			eliminarPOI(busquedaPOI.get(0), poi.fecha)
-			servidor.registrarResultadoDeBaja( resultado)
-			
+			eliminarPOI(busquedaPOI.get(0), fecha)
+			servidor.registrarResultadoDeBaja(resultado)
+
 		}
 	// else... no hacer nada
 	}
 
-	def eliminarPOI(POI poi, Date fecha) {
+	def eliminarPOI(POI poi, LocalDateTime fecha) {
 		servidor.repo.eliminarPoi(poi)
 
 	}
