@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/tp-dds-2016/ej3"/>
+<listEntry value="/tp-dds-2016"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.tp2016.ConvertorWindow"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="ej3"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="tp-dds-2016"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.system.class.loader=org.uqbar.apo.APOClassLoader -Duser.language=es -Duser.region=AR"/>
 </launchConfiguration>
