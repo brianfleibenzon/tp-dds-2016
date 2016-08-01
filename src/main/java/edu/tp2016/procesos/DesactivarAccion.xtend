@@ -9,13 +9,9 @@ class DesactivarAccion extends AccionAdministrativa{
 		accionAsociada = accion
 	}
 
-	override doActionOn(Terminal usuario){
+	override execute(Terminal usuario){
 		if(usuario.busquedaObservers.contains(accionAsociada)){
-			
 			usuario.quitarObserver(accionAsociada) // la desactiva
-		}
-		else{
-			// ya estaba desactivada
 		}
 	}
 

@@ -40,7 +40,6 @@ class DarDeBajaUnPOI extends Proceso {
 			servidor.registrarResultadoDeBaja(resultado)
 
 		}
-	// else... no hacer nada
 	}
 
 	def eliminarPOI(POI poi, LocalDateTime fecha) {

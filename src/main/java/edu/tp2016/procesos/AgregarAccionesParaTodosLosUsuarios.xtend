@@ -44,7 +44,7 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 * @return vacío
 	 */
 	def void asignarleAccionesA(Terminal usuario){
-		accionesAdministrativas.forEach [ accion | accion.doActionOn(usuario) ]
+		accionesAdministrativas.forEach [ accion | accion.execute(usuario) ]
 	}
 	
 	def agregarAccionAdministrativa(AccionAdministrativa accion){

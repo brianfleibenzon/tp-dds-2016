@@ -25,12 +25,6 @@ class ActualizacionDeLocalesComerciales extends Proceso {
 			unPoi.palabrasClave.addAll(textoParaFiltrarPalabrasClave)
 
 		]
-	// servidor.actualizaPOI(POIS)
-	/*for (String textoParaFiltrarPalabrasClave : textoParaFiltrarPalabrasClave) {
 
-	 * 	POIS.forEach[unPOI|unPOI.agregarPalabraClave(textoParaFiltrarPalabrasClave)]
-
-	 * 	servidor.actualizaPOI(POIS)
-	 }*/
 	}
 }

@@ -32,7 +32,7 @@ import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
 import edu.tp2016.procesos.DarDeBajaUnPOI
-import edu.tp2016.procesos.DefinicionDeUnProcesoMultiple
+import edu.tp2016.procesos.ProcesoMultiple
 import edu.tp2016.serviciosExternos.StubServicioREST
 import edu.tp2016.procesos.StubProceso
 import edu.tp2016.procesos.EnviarMail
@@ -65,7 +65,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	DesactivarAccion desactivarNotificacionAlAdministrador
 	MailSender mockedMailSender
 	DarDeBajaUnPOI procesoDarDeBaja
-	DefinicionDeUnProcesoMultiple procesoMultiple
+	ProcesoMultiple procesoMultiple
 	StubProceso procesoConError
 	// Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
@@ -133,7 +133,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales
 
-		procesoMultiple = new DefinicionDeUnProcesoMultiple => [
+		procesoMultiple = new ProcesoMultiple => [
 			anidarProceso(procesoDarDeBaja)
 			anidarProceso(procesoActualizarLocalComercial)
 			anidarProceso(procesoAgregarAcciones)

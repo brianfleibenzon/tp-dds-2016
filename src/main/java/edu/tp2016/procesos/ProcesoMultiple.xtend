@@ -3,7 +3,7 @@ package edu.tp2016.procesos
 import java.util.List
 import java.util.ArrayList
 
-class DefinicionDeUnProcesoMultiple extends Proceso{
+class ProcesoMultiple extends Proceso{
 	List<Proceso> procesosAnidados = new ArrayList<Proceso>
 	
 	def void anidarProceso(Proceso unProceso){

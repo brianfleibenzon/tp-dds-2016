@@ -9,12 +9,9 @@ class ActivarAccion extends AccionAdministrativa{
 		accionAsociada = accion
 	}
 	
-	override doActionOn(Terminal usuario){
+	override execute(Terminal usuario){
 		if( !(usuario.busquedaObservers.contains(accionAsociada)) ){
 			usuario.adscribirObserver(accionAsociada) // la activa
-		}
-		else{
-			// la deja activada
 		}
 	}
 	
