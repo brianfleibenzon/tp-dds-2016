@@ -15,4 +15,7 @@
 	<dependencyManagement>
 
 	</dependencyManagement>
+ <build>
+    <defaultGoal>install</defaultGoal>
+  </build>
 </project>
