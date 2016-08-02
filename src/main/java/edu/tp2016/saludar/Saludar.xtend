@@ -9,13 +9,13 @@ import org.uqbar.commons.utils.Observable
 class Saludar {
 	String nombre
 	String apellido
-	String saludo
+	String mensaje
 	
 	
 	def void saludoCompleto(String nomb,String apell){
 		
 		nombre = nomb
 		apellido= apell
-		saludo= "Hola" + " " + nombre + " " + apellido
+		mensaje= "Hola"+" "+nombre + " " + apellido
 	}
 }

@@ -26,6 +26,8 @@ class SaludarWindow extends MainWindow<Saludar>{
 		new Label(mainPanel).text = "Apellido"
 		new TextBox(mainPanel) => [ value <=> "apellido"]
 		
+		new Label(mainPanel)=> [value <=> "mensaje" ]
+		
 	}
 	
 	
