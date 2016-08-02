@@ -1,9 +1,11 @@
-#Instrucciones para clonar:
+#Ejercicio N° 2 de Binding
 
-1. git clone https://github.com/dds-utn/2016-mn-group-12.git workspace/tp-dds-2016
-2. cd workspace/tp-dds-2016
-3. git checkout postEntrega
+Alumna: Camila Sabino
 
-#Generar documentación con Javadocs
-
-Ver: http://www.myjavazone.com/2013/06/generar-javadoc-usando-eclipse-ide.html
+Consigna:
+La pantalla tiene
+- un label Operando1 acompañado de un campo editable numérico
+- un label Operando2 acompañado de un campo editable numérico
+- un botón que puede ser "+", "-", "*" ó "/"
+- un label resultado
+Cuando el usuario presione el botón debe calcularse el resultado y mostrarse en el label.
