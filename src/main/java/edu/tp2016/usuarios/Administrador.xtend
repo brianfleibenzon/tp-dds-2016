@@ -4,21 +4,19 @@ import edu.tp2016.procesos.ResultadoDeProceso
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
-import edu.tp2016.servidores.ServidorCentral
 import java.util.ArrayList
 import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
 
 @Accessors
 class Administrador{
-	ServidorCentral servidorCentral
 	String mailAdress
 	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
 	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
 
-	def correrProceso(Proceso unProceso){
+	def correrProceso(Proceso unProceso, Terminal unaTerminal){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
 		
-		procesoAEjecutar.iniciar(this, servidorCentral)
+		procesoAEjecutar.iniciar(this, unaTerminal)
 		
 	}
 	
@@ -26,12 +24,7 @@ class Administrador{
 		resultadosDeEjecucion.add(resultado)
 	}
 	
-	new(ServidorCentral servidor){
-		servidorCentral = servidor
-	}
-	
 	def agregarProceso(Proceso unProceso){
-		unProceso.servidor = servidorCentral
 		unProceso.usuarioAdministrador = this
 		procesosDisponibles.add(unProceso)
 	}

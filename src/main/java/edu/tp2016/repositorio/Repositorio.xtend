@@ -5,6 +5,7 @@ import edu.tp2016.pois.POI
 import org.apache.commons.collections15.Predicate
 import org.apache.commons.collections15.functors.AndPredicate
 import java.util.Random
+import java.util.ArrayList
 
 class Repositorio extends CollectionBasedRepo<POI> {
 
@@ -57,6 +58,10 @@ class Repositorio extends CollectionBasedRepo<POI> {
 			}
 		poi.id = nuevoId
 		this.create(poi)
+	}
+	
+	def agregarVariosPois(ArrayList<POI> pois){
+		pois.forEach [ poi | this.agregarPoi(poi)]
 	}
 	
 	def boolean idEnUso(int id){

@@ -11,7 +11,7 @@ class ProcesoMultiple extends Proceso{
 	}
 	
 	override correr(){
-		procesosAnidados.forEach[ proceso | proceso.iniciar(usuarioAdministrador, servidor) ]
+		procesosAnidados.forEach[ proceso | proceso.iniciar(usuarioAdministrador, terminal) ]
 	}
 	
 }

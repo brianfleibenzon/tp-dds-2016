@@ -33,17 +33,17 @@ class DarDeBajaUnPOI extends Proceso {
 
 		resultado = new ResultadoDeDarDeBajaUnPoi(fecha, poi.id)
 
-		val busquedaPOI = servidor.buscarPorId(poi.id)
+		val busquedaPOI = terminal.buscarPorId(poi.id)
 
 		if (!busquedaPOI.isEmpty) {
 			eliminarPOI(busquedaPOI.get(0), fecha)
-			servidor.registrarResultadoDeBaja(resultado)
+			terminal.registrarResultadoDeBaja(resultado)
 
 		}
 	}
 
 	def eliminarPOI(POI poi, LocalDateTime fecha) {
-		servidor.repo.eliminarPoi(poi)
+		terminal.repo.eliminarPoi(poi)
 
 	}
 

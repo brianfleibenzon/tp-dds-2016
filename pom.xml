@@ -11,13 +11,13 @@
    </parent>
 	<dependencies>
 		<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+			</dependency>
+		<dependency>
 			<groupId>org.uqbar-project</groupId>
 			<artifactId>geodds-xtend</artifactId>
 			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
 		</dependency>
 		<dependency>
   			<groupId>com.google.guava</groupId>

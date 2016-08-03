@@ -24,8 +24,6 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 */
 	override correr() {
 		usuarios.clear
-		
-			usuarios.addAll(servidor.terminales)
 
 		usuariosBefore.clear
 		

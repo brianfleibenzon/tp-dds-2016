@@ -7,7 +7,6 @@ import org.junit.Assert
 import edu.tp2016.pois.Banco
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
-import edu.tp2016.servidores.ServidorCentral
 import java.util.Arrays
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
@@ -15,8 +14,7 @@ import com.google.common.collect.Lists
 import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaBanco {
-	Terminal unServidorLocal
-	ServidorCentral servidorCentral
+	Terminal unaTerminal
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
@@ -25,17 +23,13 @@ class TestBusquedaBanco {
 	def void setUp() {
 		ubicacionX = new Point(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
-		
-		servidorCentral = new ServidorCentral(Arrays.asList())
-		unServidorLocal = new Terminal(ubicacionX,"servidorLocal",servidorCentral)
-		
-		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-
+		unaTerminal = new Terminal(ubicacionX,"servidorLocal")
+		unaTerminal.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 	}
 	
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unServidorLocal.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (unaTerminal.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -43,7 +37,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unServidorLocal.buscar("Banco de la Plaza")
+		val resultadoBusqueda = unaTerminal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -52,7 +46,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unServidorLocal.buscar("Banco de la Plaza")
+		val resultadoBusqueda = unaTerminal.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -61,7 +55,7 @@ class TestBusquedaBanco {
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unServidorLocal.buscar("Galicia")
+		val resultadoBusqueda = unaTerminal.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}

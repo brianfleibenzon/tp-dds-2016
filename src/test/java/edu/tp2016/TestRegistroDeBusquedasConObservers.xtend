@@ -74,8 +74,6 @@ class TestRegistroDeBusquedasConObservers {
 		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").ubicacion(ubicacionX).claves(
 			Arrays.asList("fotocopias", "utiles", "libros")).rubro(rubroLibreria).rango(rangoX).build
 
-		servidorCentral = new ServidorCentral(Arrays.asList())
-
 		servidorCentral.repo.create(utn7parada)
 		servidorCentral.repo.create(utn114parada)
 		servidorCentral.repo.create(miserere7parada)

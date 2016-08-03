@@ -18,7 +18,7 @@ class ActualizacionDeLocalesComerciales extends Proceso {
 		textoParaFiltrarNombre = textoParaActualizarComercios.split(";")
 		textoParaFiltrarPalabrasClave = textoParaFiltrarNombre.get(1).split(" ")
 
-		POIS.addAll(servidor.buscarPor(textoParaFiltrarNombre.get(0).toString()))
+		POIS.addAll(terminal.buscarPor(textoParaFiltrarNombre.get(0).toString()))
 
 		POIS.forEach [ unPoi |
 			unPoi.palabrasClave.clear()

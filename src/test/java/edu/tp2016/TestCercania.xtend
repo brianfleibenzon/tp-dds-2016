@@ -7,7 +7,6 @@ import edu.tp2016.mod.Servicio
 import edu.tp2016.pois.Banco
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Comercio
-import edu.tp2016.pois.POI
 import edu.tp2016.pois.ParadaDeColectivo
 import java.util.Arrays
 import java.util.List
@@ -17,16 +16,16 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
-import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.usuarios.Terminal
+import com.google.common.collect.Lists
+
 class TestCercania {
 
-	Terminal unServidorLocal
-	ServidorCentral servidorCentral
+	Terminal unaTerminal
 	ParadaDeColectivo paradaCerca
 	ParadaDeColectivo paradaLejos
 	Banco bancoCerca
@@ -42,7 +41,6 @@ class TestCercania {
 	List<DiaDeAtencion> rangoX
 	LocalDateTime fechaX
 	List<String> clavesX
-	List<POI> poisX
 	List<Servicio> serviciosX
 
 	@Before
@@ -131,51 +129,51 @@ class TestCercania {
 		rango(rangoX).
 		build
 
-		poisX = Arrays.asList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
-			paradaLejos)
-		servidorCentral = new ServidorCentral(poisX)
-		unServidorLocal = new Terminal(new Point(-34.598574, -58.420280), "unServidorLocal", servidorCentral)
+		unaTerminal = new Terminal(new Point(-34.598574, -58.420280), "terminal")
+		
+		unaTerminal.repo.agregarVariosPois(Lists.newArrayList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
+			paradaLejos))
 
 	}
 
 	@Test
 	def void paradaEstaCerca() {
-		Assert.assertTrue(unServidorLocal.consultarCercania(paradaCerca))
+		Assert.assertTrue(unaTerminal.consultarCercania(paradaCerca))
 	}
 
 	@Test
 	def void paradaEstaLejos() {
-		Assert.assertFalse(unServidorLocal.consultarCercania(paradaLejos))
+		Assert.assertFalse(unaTerminal.consultarCercania(paradaLejos))
 	}
 
 	@Test
 	def void bancoEstaCerca() {
-		Assert.assertTrue(unServidorLocal.consultarCercania(bancoCerca))
+		Assert.assertTrue(unaTerminal.consultarCercania(bancoCerca))
 	}
 
 	@Test
 	def void bancoEstaLejos() {
-		Assert.assertFalse(unServidorLocal.consultarCercania(bancoLejos))
+		Assert.assertFalse(unaTerminal.consultarCercania(bancoLejos))
 	}
 
 	@Test
 	def void CGPEstaCerca() {
-		Assert.assertTrue(unServidorLocal.consultarCercania(CGPCerca))
+		Assert.assertTrue(unaTerminal.consultarCercania(CGPCerca))
 	}
 
 	@Test
 	def void CGPEstaLejos() {
-		Assert.assertFalse(unServidorLocal.consultarCercania(CGPLejos))
+		Assert.assertFalse(unaTerminal.consultarCercania(CGPLejos))
 	}
 
 	@Test
 	def void comercioEstaCerca() {
-		Assert.assertTrue(unServidorLocal.consultarCercania(comercioCerca))
+		Assert.assertTrue(unaTerminal.consultarCercania(comercioCerca))
 	}
 
 	@Test
 	def void comercioEstaLejos() {
-		Assert.assertFalse(unServidorLocal.consultarCercania(comercioLejos))
+		Assert.assertFalse(unaTerminal.consultarCercania(comercioLejos))
 	}
 
 }
