@@ -24,5 +24,11 @@ class testSaludoCompleto {
 		
 		Assert.assertEquals("Hola Camila Sabino", saludo.mensaje)
 	}
-	
+	def void testSaludoCompleto2(){
+		
+		saludo.nombre=""
+		saludo.apellido ="Sabino"
+		
+		Assert.assertEquals("", saludo.mensaje)
+	}
 }

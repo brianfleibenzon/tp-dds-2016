@@ -7,8 +7,8 @@ import org.uqbar.commons.utils.Observable
 @Observable
 
 class Saludar {
-	String nombre
-	String apellido
+	String nombre = ""
+	String apellido = ""
 	String mensaje
 	
 	def void setNombre(String nomb){
@@ -23,7 +23,7 @@ class Saludar {
 	
 	def void saludoCompleto(){
 		
-		if(nombre.equals("")&& apellido.equals("")){
+		if((nombre.equals(""))|| apellido.equals("")){
 		mensaje= ""
 	    }else{
 	    	mensaje = "Hola"+" "+nombre + " " + apellido
