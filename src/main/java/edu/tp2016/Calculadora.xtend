@@ -6,21 +6,24 @@ import org.uqbar.commons.utils.Observable
 @Accessors
 @Observable
 class Calculadora {
-	long operando1
-	long operando2
-	long resultado 
+	double operando1
+	double operando2
+	double resultado 
 	
-	def void setOperando1(long op1) {
+	def void setOperando1(double op1) {
 		this.operando1 = op1
 		this.resultado = operando2 * operando1
 	}
 	
-	def void setOperando2(long op2) {
+	def void setOperando2(double op2) {
 		this.operando2 = op2
 		this.resultado = operando1 * operando2
 	}
 	
-	/*def calcular() {
-		resultado = operando1 * operando2
-	}*/
+	def limpiarNumericFields(){
+		this.operando1 = 0
+		this.operando2 = 0
+		this.resultado = 0
+	}
+
 }

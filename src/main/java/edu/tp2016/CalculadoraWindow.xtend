@@ -4,11 +4,11 @@ import org.uqbar.arena.windows.MainWindow
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.NumericField
-//import org.uqbar.arena.widgets.Button
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import java.awt.Color
-import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.windows.ErrorsPanel
+import org.uqbar.arena.layout.ColumnLayout
+import org.uqbar.arena.widgets.Button
 
 class CalculadoraWindow extends MainWindow<Calculadora>{
 	
@@ -21,29 +21,42 @@ class CalculadoraWindow extends MainWindow<Calculadora>{
 	}
 	
 	override createContents(Panel mainPanel) {
-		this.title = "Calculadora Multiplicadora"
-		mainPanel.layout = new VerticalLayout
 		
-		new ErrorsPanel(mainPanel, "Ingrese valores enteros positivos")	
+		this.title = "Multiplicadora"
+		new ErrorsPanel(mainPanel, "Ingrese valores enteros positivos")
 		
-		new Label(mainPanel).text = "Operando 1:"
-		new NumericField(mainPanel).value <=> "operando1"
+		val editorPanel = new Panel(mainPanel)
+		editorPanel.layout = new ColumnLayout(2)
+	
+		new Label(editorPanel).text = "Operando 1:"
+		new NumericField(editorPanel, true) => [
+			background = Color.PINK
+			width = 110
+			value <=> "operando1"
+		]
 		
-		new Label(mainPanel).text = "Operando 2:"
-		new NumericField(mainPanel).value <=> "operando2"
-		/*new Button(mainPanel) => [
-			caption = "Multiplicar"
-			onClick [ | this.modelObject.calcular ]
-			]*/
-		new Label(mainPanel).text = "Producto:"
-		/*new Label(mainPanel) => [
-			background = Color.ORANGE
-			value <=> "resultado"
-			]*/
-		new NumericField(mainPanel) => [
+		new Label(editorPanel).text = "Operando 2:"
+		new NumericField(editorPanel, true) => [
+			background = Color.PINK
+			width = 110
+			value <=> "operando2"
+		]
+		
+		new Label(editorPanel) => [
+			foreground = Color.RED
+			text = "Producto:"
+		]
+		new NumericField(editorPanel, true) => [
 			background = Color.GREEN
+			width = 110
 			value <=> "resultado"
-			]
+		]
+		
+		new Button(mainPanel) => [
+			caption = "Clean All"
+			onClick [ | this.modelObject.limpiarNumericFields ]
+		]
+		
 	}
 	
 }

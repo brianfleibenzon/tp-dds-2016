@@ -13,22 +13,38 @@ class TestCalculadora {
 	}
 
 	@Test
-	def void calcularCalculadoraConValores() {
+	def void calcularConValoresSincronicamente() {
 		// Simula el ingreso del primer operando:
 		calculadora.operando1 = 7
+		
 		// Simula que el ingreso del segundo operando:
 		calculadora.operando2 = 3
+		
 		// Simula que el usuario presiona el botón multiplicar:
 		// --> calculadora.calcular()
-		Assert.assertEquals(21, calculadora.resultado)
+		Assert.assertEquals(21, calculadora.resultado, 0)
 	}
-
-	/*@Test
-	def void testMultiplicacion() {
-		calculadora.operando1 = 7
-		calculadora.operando2 = 3
-		calculadora.calcular()
+	
+	@Test
+	def void calcularConValoresDecimales() {
+		calculadora.operando1 = 0.25
+		calculadora.operando2 = 6.99
 		
-		Assert.assertEquals(21, calculadora.resultado)
-	}*/
+		// --> calculadora.calcular()
+		Assert.assertEquals(1.7475, calculadora.resultado, 0)
+	}
+	
+	@Test
+	def void limpiarInputsYOutput() {
+		calculadora.operando1 = 100
+		calculadora.operando2 = 200
+		calculadora.resultado = 20000
+		
+		calculadora.limpiarNumericFields
+		
+		Assert.assertEquals(0, calculadora.operando1, 0)
+		Assert.assertEquals(0, calculadora.operando2, 0)
+		Assert.assertEquals(0, calculadora.resultado, 0)
+	}
+	
 }
