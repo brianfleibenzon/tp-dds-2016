@@ -23,10 +23,10 @@ class Saludar {
 	
 	def void saludoCompleto(){
 		
-		if(nombre != "" && apellido!= ""){
-		mensaje= "Hola"+" "+nombre + " " + apellido
+		if(nombre.equals("")&& apellido.equals("")){
+		mensaje= ""
 	    }else{
-	    	mensaje = ""
+	    	mensaje = "Hola"+" "+nombre + " " + apellido
 	    }
 	}
 	
