@@ -1,11 +1,7 @@
 import org.uqbar.arena.windows.MainWindow
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.widgets.NumericField
-//import org.uqbar.arena.widgets.Button
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import java.awt.Color
-import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.TextBox
 
 class TweetWindow extends MainWindow<Tweet> {
