@@ -13,7 +13,7 @@ class TestCalculadora {
 	}
 
 	@Test
-	def void calcularConValoresSincronicamente() {
+	def void calcularSincronizadoConValoresEnteros() {
 		// Simula el ingreso del primer operando:
 		calculadora.operando1 = 7
 		
@@ -26,7 +26,7 @@ class TestCalculadora {
 	}
 	
 	@Test
-	def void calcularConValoresDecimales() {
+	def void calcularSincronizadoConValoresDecimales() {
 		calculadora.operando1 = 0.25
 		calculadora.operando2 = 6.99
 		
@@ -35,7 +35,7 @@ class TestCalculadora {
 	}
 	
 	@Test
-	def void limpiarInputsYOutput() {
+	def void limpiarInputsYOutputDeLaVista() {
 		calculadora.operando1 = 100
 		calculadora.operando2 = 200
 		calculadora.resultado = 20000
