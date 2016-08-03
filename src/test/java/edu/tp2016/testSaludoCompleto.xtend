@@ -7,28 +7,28 @@ import org.junit.Assert
 
 class testSaludoCompleto {
 	Saludar saludo
-	
+
 	@Before
-	
-	def void setUp(){
-		
+	def void setUp() {
+
 		saludo = new Saludar
 	}
-	
+
 	@Test
-	
-	def void testSaludoCompleto(){
-		
-		saludo.nombre="Camila"
-		saludo.apellido ="Sabino"
-		
+	def void testSaludoCompleto() {
+
+		saludo.nombre = "Camila"
+		saludo.apellido = "Sabino"
+
 		Assert.assertEquals("Hola Camila Sabino", saludo.mensaje)
 	}
-	def void testSaludoCompleto2(){
-		
-		saludo.nombre=""
-		saludo.apellido ="Sabino"
-		
+
+	@Test
+	def void testSaludoCompleto2() {
+
+		saludo.nombre = ""
+		saludo.apellido = "Sabino"
+
 		Assert.assertEquals("", saludo.mensaje)
 	}
 }
