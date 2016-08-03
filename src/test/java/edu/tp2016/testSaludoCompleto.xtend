@@ -19,7 +19,8 @@ class testSaludoCompleto {
 	
 	def void testSaludoCompleto(){
 		
-		saludo.saludoCompleto("Camila","Sabino")
+		saludo.nombre="Camila"
+		saludo.apellido ="Sabino"
 		
 		Assert.assertEquals("Hola Camila Sabino", saludo.mensaje)
 	}

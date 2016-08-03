@@ -11,11 +11,19 @@ class Saludar {
 	String apellido
 	String mensaje
 	
-	
-	def void saludoCompleto(String nomb,String apell){
-		
+	def void setNombre(String nomb){
 		nombre = nomb
-		apellido= apell
+		saludoCompleto()
+		
+	}
+	def void setApellido(String apell){
+		apellido = apell
+		saludoCompleto()
+	}
+	
+	def void saludoCompleto(){
+		
+		
 		mensaje= "Hola"+" "+nombre + " " + apellido
 	}
 }
