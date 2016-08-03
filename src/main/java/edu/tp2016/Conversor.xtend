@@ -1,13 +1,13 @@
 package edu.tp2016
 
-import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 @Observable
 class Conversor {
-	long celsius
-	long fahrenheit
+	double celsius
+	double fahrenheit
 	
 	def void setCelsius(double celsius){
 		this.celsius = celsius
