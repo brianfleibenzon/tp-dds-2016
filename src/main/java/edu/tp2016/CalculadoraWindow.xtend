@@ -23,7 +23,7 @@ class CalculadoraWindow extends MainWindow<Calculadora>{
 	override createContents(Panel mainPanel) {
 		
 		this.title = "Multiplicadora"
-		new ErrorsPanel(mainPanel, "Ingrese valores enteros positivos")
+		new ErrorsPanel(mainPanel, "Ingrese valores positivos (enteros o decimales)")
 		
 		val editorPanel = new Panel(mainPanel)
 		editorPanel.layout = new ColumnLayout(2)
@@ -53,6 +53,7 @@ class CalculadoraWindow extends MainWindow<Calculadora>{
 		]
 		
 		new Button(mainPanel) => [
+			width = 120
 			caption = "Clean All"
 			onClick [ | this.modelObject.limpiarNumericFields ]
 		]
