@@ -1,22 +1,32 @@
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
+import java.awt.Color
 
 @Accessors
 @Observable
 class Tweet {
-	int longitudMaxima=140
+	static int longitudMaxima=140
 	int caracteresEscritos
-	int caracteresQueQuedan
+	int caracteresRestantes
 	String textoEscrito
+	Color color 
 	
-	def int caracteresQueQuedan(String texto){
+	def void setTextoEscrito(String texto){
 		
-		textoEscrito=texto
-		caracteresEscritos=textoEscrito.length
+		this.textoEscrito = texto
+		this.caracteresEscritos = textoEscrito.length
+		
 	
-		caracteresQueQuedan=longitudMaxima-caracteresEscritos
-		
+			
+		this.caracteresRestantes = longitudMaxima-caracteresEscritos
+		if(caracteresRestantes<=5){
+			color= Color.RED
+			}else
+			{
+			color= Color.BLACK
+			}
 		}
-	
+		
+
 	
 }

@@ -3,6 +3,8 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Label
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.widgets.TextBox
+import org.uqbar.arena.windows.ErrorsPanel
+import org.uqbar.arena.widgets.Control
 
 class TweetWindow extends MainWindow<Tweet> {
 
@@ -17,17 +19,20 @@ class TweetWindow extends MainWindow<Tweet> {
 	}
 	
 	override createContents(Panel mainPanel) {
-		val panel1= new Panel(mainPanel)
-		new Label(panel1).text = "Tweetee Aquí:"
 		
-		new TextBox(panel1)=>[
+		new Label(mainPanel).text = "Tweetee Aquí:"
+		new ErrorsPanel(mainPanel, "Ingrese hasta 140 caracteres.")
+		
+		new TextBox(mainPanel)=>[
 			value <=> "textoEscrito"
 			width = 210
+			
+	
 			]
 		
 		new Label(mainPanel)=>[
-			value <=> "caracteresQueQuedan"
-			
+			value <=> "caracteresRestantes"
+			foreground<=>"color"
 		]
 			
 	}
