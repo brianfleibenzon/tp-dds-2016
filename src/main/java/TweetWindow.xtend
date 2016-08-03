@@ -21,15 +21,15 @@ class TweetWindow extends MainWindow<Tweet> {
 		new Label(panel1).text = "Tweetee Aquí:"
 		
 		new TextBox(panel1)=>[
-			value <=> "tweet"
-			width = 200
+			value <=> "textoEscrito"
+			width = 210
 			]
 		
-		new TextBox(panel1)=>[
-			value <=> "caracteresRestantes"
-			width = 200
-			title = "Caracteres Restantes"
-					]
+		new Label(mainPanel)=>[
+			value <=> "caracteresQueQuedan"
+			
+		]
+			
 	}
 	
 }

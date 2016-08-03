@@ -4,17 +4,19 @@
 	<groupId>edu.dds</groupId>
 	<artifactId>tp-dds-2016</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<parent>
-		<groupId>org.uqbar-project</groupId>
-		<artifactId>arena-xtend-parent</artifactId>
-		<version>3.6.2</version>
-	</parent>
-	<dependencies>
-		
-	</dependencies>
-	<dependencyManagement>
+		<parent>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>arena-xtend-parent</artifactId>
+			<version>3.6.2</version>			
+		</parent>
+			<dependencies>	
+				
+			</dependencies>
+				<dependencyManagement>
+				</dependencyManagement>
+	
 
-	</dependencyManagement>
+			
  <build>
     <defaultGoal>install</defaultGoal>
   </build>

@@ -6,13 +6,15 @@ import org.uqbar.commons.utils.Observable
 class Tweet {
 	int longitudMaxima=140
 	int caracteresEscritos
-		
+	int caracteresQueQuedan
+	String textoEscrito
+	
 	def int caracteresQueQuedan(String texto){
 		
-				
-		caracteresEscritos=texto.length
-		
-		longitudMaxima-caracteresEscritos
+		textoEscrito=texto
+		caracteresEscritos=textoEscrito.length
+	
+		caracteresQueQuedan=longitudMaxima-caracteresEscritos
 		
 		}
 	
