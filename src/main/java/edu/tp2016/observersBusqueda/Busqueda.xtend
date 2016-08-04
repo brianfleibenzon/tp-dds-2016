@@ -7,7 +7,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class Busqueda {
 
 	LocalDateTime fecha
-	String nombreTerminal
+	String nombreUsuario
 	String textoBuscado
 	int cantidadDeResultados
 	long demoraConsulta

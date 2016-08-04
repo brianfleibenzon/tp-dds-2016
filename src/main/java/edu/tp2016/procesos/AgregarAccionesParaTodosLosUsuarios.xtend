@@ -69,7 +69,7 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	}
 	
 	def Terminal obtenerUsuarioBefore(Terminal usuario){
-		(usuariosBefore.filter [ usuarioBefore | usuarioBefore.nombreTerminal.equals(usuario.nombreTerminal)]).get(0)
+		(usuariosBefore.filter [ usuarioBefore | usuarioBefore.userName.equals(usuario.userName)]).get(0)
 	}
 	
 }

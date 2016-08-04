@@ -17,7 +17,6 @@ abstract class Proceso {
 	public static final boolean ERROR = false
 	Terminal terminal
 	
-	
 	/**
 	 * Llama a correr() adentro de un try catch.
 	 * 

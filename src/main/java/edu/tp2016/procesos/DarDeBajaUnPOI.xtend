@@ -1,6 +1,5 @@
 package edu.tp2016.procesos
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import edu.tp2016.pois.POI
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -8,6 +7,8 @@ import edu.tp2016.serviciosExternos.InactivePOI
 import edu.tp2016.serviciosExternos.ServicioREST
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
+import edu.tp2016.applicationModel.Buscador
+import org.codehaus.jackson.map.ObjectMapper
 
 @Accessors
 class DarDeBajaUnPOI extends Proceso {
@@ -15,6 +16,11 @@ class DarDeBajaUnPOI extends Proceso {
 	ObjectMapper parser = new ObjectMapper()
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 	ResultadoDeDarDeBajaUnPoi resultado
+	Buscador buscador
+	
+	new(Buscador nuevo_buscador){
+		buscador = nuevo_buscador
+	}
 
 	override correr() {
 		parser.setDateFormat(df)
@@ -33,17 +39,17 @@ class DarDeBajaUnPOI extends Proceso {
 
 		resultado = new ResultadoDeDarDeBajaUnPoi(fecha, poi.id)
 
-		val busquedaPOI = terminal.buscarPorId(poi.id)
+		val busquedaPOI = buscador.buscarPorId(poi.id)
 
 		if (!busquedaPOI.isEmpty) {
 			eliminarPOI(busquedaPOI.get(0), fecha)
-			terminal.registrarResultadoDeBaja(resultado)
+			buscador.repo.registrarResultadoDeBaja(resultado)
 
 		}
 	}
 
 	def eliminarPOI(POI poi, LocalDateTime fecha) {
-		terminal.repo.eliminarPoi(poi)
+		buscador.repo.eliminarPoi(poi)
 
 	}
 

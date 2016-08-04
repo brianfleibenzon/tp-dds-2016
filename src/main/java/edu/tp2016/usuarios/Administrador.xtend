@@ -8,8 +8,7 @@ import java.util.ArrayList
 import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
 
 @Accessors
-class Administrador{
-	String mailAdress
+class Administrador extends Usuario {
 	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
 	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
 

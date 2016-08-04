@@ -30,9 +30,7 @@ abstract class POI extends Entity {
 		palabrasClave = claves
 	}
 	
-	new(){
-		
-	}
+	new(){} // default
 
 	def boolean estaDisponible(LocalDateTime unaFecha, String nombre)
 

@@ -6,8 +6,13 @@ import org.apache.commons.collections15.Predicate
 import org.apache.commons.collections15.functors.AndPredicate
 import java.util.Random
 import java.util.ArrayList
+import edu.tp2016.procesos.ResultadoDeDarDeBajaUnPoi
+import java.util.List
+import org.eclipse.xtend.lib.annotations.Accessors
 
+@Accessors
 class Repositorio extends CollectionBasedRepo<POI> {
+	List<ResultadoDeDarDeBajaUnPoi> poisDadosDeBaja = new ArrayList<ResultadoDeDarDeBajaUnPoi>
 
 	Random rand = new Random()
 
@@ -70,6 +75,14 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	
 	def eliminarPoi(POI poi){
 		this.effectiveDelete(poi)
+	}
+	
+	def void actualizaPOI (List<POI> POIS){
+		POIS.forEach[unPoi| this.update(unPoi) ]
+	}
+	
+	def registrarResultadoDeBaja(ResultadoDeDarDeBajaUnPoi resultado){
+		this.poisDadosDeBaja.add(resultado)
 	}
 	
 }
