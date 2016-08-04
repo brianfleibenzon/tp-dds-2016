@@ -20,10 +20,12 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.usuarios.Terminal
+import edu.tp2016.applicationModel.Buscador
+import java.util.ArrayList
+import edu.tp2016.pois.POI
 
 class TestBusquedaEnTodosLosDatos {
-	Terminal unaTerminal
+	Buscador buscador
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -35,6 +37,7 @@ class TestBusquedaEnTodosLosDatos {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
+	ArrayList<POI> pois
 
 	@Before
 	def void setUp() {
@@ -71,79 +74,79 @@ class TestBusquedaEnTodosLosDatos {
 		rubro(rubroLibreria).
 		rango(rangoX).build
 	
-		unaTerminal = new Terminal(ubicacionX, "terminalX", fechaX)
-
-		unaTerminal.repo.create(utn7parada)
-		unaTerminal.repo.create(utn114parada)
-		unaTerminal.repo.create(miserere7parada)
-		unaTerminal.repo.create(comercioFarmacity)
-		unaTerminal.repo.create(comercioLoDeJuan)
-		
-		unaTerminal.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-		unaTerminal.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-
+		pois = Lists.newArrayList(utn7parada,
+								  utn114parada,
+								  miserere7parada,
+								  comercioFarmacity,
+								  comercioLoDeJuan)
+								  
+		buscador = new Buscador() => [
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
+			repo.agregarVariosPois(pois)
+		]
 	}
 
 	@Test
 	def void buscarConUnStringVacíoYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unaTerminal.buscar("")
+		val resultadoBusqueda = buscador.buscar("")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unaTerminal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unaTerminal.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(buscador.buscar("114"), Arrays.asList(utn114parada))
 	}
 	
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unaTerminal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(buscador.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unaTerminal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(buscador.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unaTerminal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unaTerminal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPConRentas() {
-		val resultado = unaTerminal.buscar("Rentas")
+		val resultado = buscador.buscar("Rentas")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(2, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConAtencionCiudadana() {
-		val resultado = unaTerminal.buscar("Atencion ciudadana")
+		val resultado = buscador.buscar("Atencion ciudadana")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(3, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConVeterinaria() {
-		val resultado = unaTerminal.buscar("Veterinaria")
+		val resultado = buscador.buscar("Veterinaria")
 		Assert.assertEquals(0, resultado.size)
 	}
 
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unaTerminal.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (buscador.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -151,7 +154,7 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unaTerminal.buscar("Banco de la Plaza")
+		val resultadoBusqueda = buscador.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map [ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists [ banco |
@@ -160,7 +163,7 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unaTerminal.buscar("Banco de la Plaza")
+		val resultadoBusqueda = buscador.buscar("Banco de la Plaza")
 		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
 		
 		Assert.assertTrue(bancosEncontrados.exists[ banco |
@@ -169,7 +172,7 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unaTerminal.buscar("Galicia")
+		val resultadoBusqueda = buscador.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}

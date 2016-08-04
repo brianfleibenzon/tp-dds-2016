@@ -38,6 +38,7 @@ import edu.tp2016.procesos.StubProceso
 import edu.tp2016.procesos.EnviarMail
 import java.util.ArrayList
 import edu.tp2016.pois.POI
+import edu.tp2016.applicationModel.Buscador
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -69,6 +70,10 @@ class TestEjecucionDeProcesosAdministrativos {
 	DarDeBajaUnPOI procesoDarDeBaja
 	ProcesoMultiple procesoMultiple
 	StubProceso procesoConError
+	Buscador buscador
+	Buscador buscadorAbasto
+	Buscador buscadorFlorida
+	Buscador buscadorTeatroColon
 	// Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
 
@@ -106,31 +111,42 @@ class TestEjecucionDeProcesosAdministrativos {
 		pois = Lists.newArrayList(utn7parada, utn114parada, miserere7parada, comercioFarmacity, comercioLoDeJuan)
 
 		// Set up de Terminales:
-		terminalAbasto = new Terminal(ubicacionX, "terminalAbasto", fechaDeHoy) => [
-			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-			interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
+		terminalAbasto = new Terminal("terminalAbasto") => [
 			mailSender = mockedMailSender
+			adscribirObserver(registroDeBusqueda)
+			adscribirObserver(notificacionAlAdministradorAnteDemora)
+		]
+		terminalFlorida = new Terminal("terminalFlorida") => [
+			mailSender = mockedMailSender
+			adscribirObserver(registroDeBusqueda)
+			adscribirObserver(notificacionAlAdministradorAnteDemora)
+		]
+		terminalTeatroColon = new Terminal("terminalTeatroColon") => [
+			mailSender = mockedMailSender
+			adscribirObserver(registroDeBusqueda)
+			adscribirObserver(notificacionAlAdministradorAnteDemora)
+		]
+		
+		buscador = new Buscador() => [
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
 			repo.agregarVariosPois(pois)
 		]
-		terminalFlorida = new Terminal(ubicacionX, "terminalFlorida", fechaDeHoy) => [
-			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-			interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-			mailSender = mockedMailSender
+		buscadorAbasto = new Buscador() => [
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
 			repo.agregarVariosPois(pois)
 		]
-		terminalTeatroColon = new Terminal(ubicacionX, "terminalTeatroColon", fechaDeHoy) => [
-			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-			interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-			mailSender = mockedMailSender
+		buscadorFlorida = new Buscador() => [
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
 			repo.agregarVariosPois(pois)
 		]
-
-		terminalAbasto.adscribirObserver(registroDeBusqueda)
-		terminalAbasto.adscribirObserver(notificacionAlAdministradorAnteDemora)
-		terminalTeatroColon.adscribirObserver(registroDeBusqueda)
-		terminalTeatroColon.adscribirObserver(notificacionAlAdministradorAnteDemora)
-		terminalFlorida.adscribirObserver(registroDeBusqueda)
-		terminalFlorida.adscribirObserver(notificacionAlAdministradorAnteDemora)
+		buscadorTeatroColon = new Buscador() => [
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
+			repo.agregarVariosPois(pois)
+		]
 
 		procesoAgregarAcciones = new AgregarAccionesParaTodosLosUsuarios() => [
 			// agregarAccionAdministrativa(activarRegistroDeBusqueda)
@@ -139,11 +155,11 @@ class TestEjecucionDeProcesosAdministrativos {
 			agregarAccionAdministrativa(desactivarNotificacionAlAdministrador)
 		]
 
-		procesoDarDeBaja = new DarDeBajaUnPOI => [
+		procesoDarDeBaja = new DarDeBajaUnPOI(buscador) => [
 			servicioREST = new StubServicioREST()
 		]
 
-		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales
+		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscador)
 
 		procesoMultiple = new ProcesoMultiple => [
 			anidarProceso(procesoDarDeBaja)
@@ -153,7 +169,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		procesoConError = new StubProceso
 
-		administrador = new Administrador() => [
+		administrador = new Administrador("admin name") => [
 			agregarProceso(procesoAgregarAcciones)
 			agregarProceso(procesoDarDeBaja)
 			agregarProceso(procesoActualizarLocalComercial)
@@ -164,21 +180,21 @@ class TestEjecucionDeProcesosAdministrativos {
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
-		terminalAbasto.buscar("114") // encuentra
-		terminalAbasto.buscar("Banco Nacion") // no encuentra
-		terminalFlorida.buscar("plaza miserere") // encuentra
-		terminalFlorida.buscar("Libreria Juan") // encuentra
-		terminalTeatroColon.buscar("seguros") // encuentra
-		terminalTeatroColon.buscar("plaza miserere") // encuentra
-		terminalAbasto.fechaActual = unaFechaPasada
-		terminalFlorida.fechaActual = unaFechaPasada
-		terminalTeatroColon.fechaActual = unaFechaPasada
-		terminalAbasto.buscar("Banco de la Plaza") // encuentra
-		terminalAbasto.buscar("utn") // encuentra
-		terminalFlorida.buscar("Farmacity") // encuentra
-		terminalFlorida.buscar("facultad de medicina") // no encuentra 
-		terminalTeatroColon.buscar("Atencion ciudadana") // encuentra
-		terminalTeatroColon.buscar("cine") // no encuentra
+		buscadorAbasto.buscar("114") // encuentra
+		buscadorAbasto.buscar("Banco Nacion") // no encuentra
+		buscadorFlorida.buscar("plaza miserere") // encuentra
+		buscadorFlorida.buscar("Libreria Juan") // encuentra
+		buscadorTeatroColon.buscar("seguros") // encuentra
+		buscadorTeatroColon.buscar("plaza miserere") // encuentra
+		buscadorAbasto.fechaActual = unaFechaPasada
+		buscadorFlorida.fechaActual = unaFechaPasada
+		buscadorTeatroColon.fechaActual = unaFechaPasada
+		buscadorAbasto.buscar("Banco de la Plaza") // encuentra
+		buscadorAbasto.buscar("utn") // encuentra
+		buscadorFlorida.buscar("Farmacity") // encuentra
+		buscadorFlorida.buscar("facultad de medicina") // no encuentra 
+		buscadorTeatroColon.buscar("Atencion ciudadana") // encuentra
+		buscadorTeatroColon.buscar("cine") // no encuentra
 		// En total 12 terminales
 	}
 
@@ -293,19 +309,20 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void testDarDeBajaUTN7Parada() {
 		utn7parada.id = 1
 
-		Assert.assertFalse(terminalAbasto.buscarPorId(1).isEmpty())
+		Assert.assertFalse(buscadorAbasto.buscarPorId(1).isEmpty())
 		administrador.correrProceso(procesoDarDeBaja, terminalAbasto)
-		Assert.assertTrue(terminalAbasto.buscarPorId(1).isEmpty())
+		Assert.assertTrue(buscadorAbasto.buscarPorId(1).isEmpty())
 	}
 
 	@Test
 	def void testDarDeBajaUTN114Parada() {
 		utn114parada.id = 2
 		
-		Assert.assertFalse(terminalAbasto.buscarPor("114").isEmpty())
+		Assert.assertFalse(buscadorAbasto.buscarPor("114").isEmpty())
 		administrador.correrProceso(procesoDarDeBaja, terminalAbasto)
-		Assert.assertTrue(terminalAbasto.buscarPor("114").isEmpty())
+		Assert.assertTrue(buscadorAbasto.buscarPor("114").isEmpty())
 	}
+	// TODO
 /* 
 	@Test
 	def void testEjecutarProcesoMultiple() {

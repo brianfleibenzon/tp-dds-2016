@@ -21,16 +21,16 @@ import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.BancoBuilder
-import edu.tp2016.usuarios.Terminal
 import com.google.common.collect.Lists
 import java.util.ArrayList
+import edu.tp2016.applicationModel.Buscador
 
 class TestDisponibilidad {
 
-	Terminal unaTerminalConFechaDisponible
-	Terminal unaTerminalConFechaNoDisponible
-	Terminal unaTerminalConFechaDisponibleParaRentas
-	Terminal unaTerminalConFechaNODisponibleParaRentas
+	Buscador busquedaConFechaDisponible
+	Buscador busquedaConFechaNoDisponible
+	Buscador busquedaConFechaDisponibleParaRentas
+	Buscador busquedaConFechaNODisponibleParaRentas
 	Banco unBanco
 	Comercio unComercio
 	DiaDeAtencion lunesMan
@@ -118,68 +118,69 @@ class TestDisponibilidad {
 
 		pois = Lists.newArrayList(unBanco, unCGP, unComercio, unaParada)
 		
-		unaTerminalConFechaDisponible = new Terminal(ubicacionX, "t1",
-			new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0))
+		busquedaConFechaDisponible = new Buscador() => [
+			repo.agregarVariosPois(pois)
+			fechaActual = new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0)
+		]
 
-		unaTerminalConFechaNoDisponible = new Terminal(ubicacionX, "t2",
-			new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0))
-			
-		unaTerminalConFechaDisponibleParaRentas = new Terminal(ubicacionX, "t3",
-			new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
-		)
+		busquedaConFechaNoDisponible = new Buscador() => [
+			repo.agregarVariosPois(pois)
+			fechaActual = new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0)
+		]
 
-		unaTerminalConFechaNODisponibleParaRentas = new Terminal(ubicacionX, "servidorLocal",
-			new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0))
-			
-		unaTerminalConFechaDisponible.repo.agregarVariosPois(pois)
-		unaTerminalConFechaNoDisponible.repo.agregarVariosPois(pois)
-		unaTerminalConFechaDisponibleParaRentas.repo.agregarVariosPois(pois)
-		unaTerminalConFechaNODisponibleParaRentas.repo.agregarVariosPois(pois)
+		busquedaConFechaDisponibleParaRentas = new Buscador() => [
+			repo.agregarVariosPois(pois)
+			fechaActual = new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
+		]
 
+		busquedaConFechaNODisponibleParaRentas = new Buscador() => [
+			repo.agregarVariosPois(pois)
+			fechaActual = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
+		]
 	}
 
 	@Test
 	def void paradaDeColectivoEstaDisponible() {
-		Assert.assertTrue(unaTerminalConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(busquedaConFechaDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void paradaDeColectivoTambienEstaDisponible() {
-		Assert.assertTrue(unaTerminalConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
+		Assert.assertTrue(busquedaConFechaNoDisponible.consultarDisponibilidad(unaParada, "114"))
 	}
 
 	@Test
 	def void CGPEstaDisponible() {
-		Assert.assertTrue(unaTerminalConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
+		Assert.assertTrue(busquedaConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, "Rentas"))
 	}
 
 	@Test
 	def void CGPEstaDisponibleParaAlgunServicio() {
-		Assert.assertTrue(unaTerminalConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertTrue(busquedaConFechaDisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void CGPNoEstaDisponible() {
-		Assert.assertFalse(unaTerminalConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
+		Assert.assertFalse(busquedaConFechaNODisponibleParaRentas.consultarDisponibilidad(unCGP, ""))
 	}
 
 	@Test
 	def void bancoEstaDisponible() {
-		Assert.assertTrue(unaTerminalConFechaDisponible.consultarDisponibilidad(unBanco, ""))
+		Assert.assertTrue(busquedaConFechaDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void bancoNoEstaDisponible() {
-		Assert.assertFalse(unaTerminalConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
+		Assert.assertFalse(busquedaConFechaNoDisponible.consultarDisponibilidad(unBanco, ""))
 	}
 
 	@Test
 	def void comercioEstaDisponible() {
-		Assert.assertTrue(unaTerminalConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
+		Assert.assertTrue(busquedaConFechaDisponible.consultarDisponibilidad(unComercio, "Jugueteria"))
 	}
 
 	@Test
 	def void comercioNoEstaDisponible() {
-		Assert.assertFalse(unaTerminalConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
+		Assert.assertFalse(busquedaConFechaNoDisponible.consultarDisponibilidad(unBanco, "Jugueteria"))
 	}
 }

@@ -62,6 +62,7 @@ class Repositorio extends CollectionBasedRepo<POI> {
 				nuevoId = rand.nextInt(1000)
 			}
 		poi.id = nuevoId
+		
 		this.create(poi)
 	}
 	

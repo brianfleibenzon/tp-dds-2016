@@ -20,12 +20,14 @@ import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.usuarios.Terminal
 import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import java.util.ArrayList
+import edu.tp2016.pois.POI
 
 class TestCercania {
 
-	Terminal unaTerminal
+	Buscador buscador
 	ParadaDeColectivo paradaCerca
 	ParadaDeColectivo paradaLejos
 	Banco bancoCerca
@@ -42,6 +44,8 @@ class TestCercania {
 	LocalDateTime fechaX
 	List<String> clavesX
 	List<Servicio> serviciosX
+	ArrayList<POI> pois
+	Banco poiReferencia
 
 	@Before
 	def void setUp() {
@@ -49,6 +53,9 @@ class TestCercania {
 		rangoX = Arrays.asList(unDiaX)
 		fechaX = new LocalDateTime()
 		clavesX = Arrays.asList("algunas", "palabras", "clave")
+		poiReferencia = new Banco() => [
+			ubicacion = new Point(-34.598574, -58.420280)
+		]
 
 		serviciosX = Arrays.asList(new Servicio("x", rangoX))
 
@@ -129,51 +136,58 @@ class TestCercania {
 		rango(rangoX).
 		build
 
-		unaTerminal = new Terminal(new Point(-34.598574, -58.420280), "terminal")
-		
-		unaTerminal.repo.agregarVariosPois(Lists.newArrayList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,
-			paradaLejos))
-
+		pois = Lists.newArrayList(bancoCerca,
+								  bancoLejos,
+								  CGPCerca,
+								  CGPLejos,
+								  comercioCerca,
+								  comercioLejos,
+								  paradaCerca,
+								  paradaLejos)
+								  
+		buscador = new Buscador() => [
+			repo.agregarVariosPois(pois)
+		]
 	}
 
 	@Test
 	def void paradaEstaCerca() {
-		Assert.assertTrue(unaTerminal.consultarCercania(paradaCerca))
+		Assert.assertTrue(buscador.consultarCercania(paradaCerca, poiReferencia))
 	}
 
 	@Test
 	def void paradaEstaLejos() {
-		Assert.assertFalse(unaTerminal.consultarCercania(paradaLejos))
+		Assert.assertFalse(buscador.consultarCercania(paradaLejos, poiReferencia))
 	}
 
 	@Test
 	def void bancoEstaCerca() {
-		Assert.assertTrue(unaTerminal.consultarCercania(bancoCerca))
+		Assert.assertTrue(buscador.consultarCercania(bancoCerca, poiReferencia))
 	}
 
 	@Test
 	def void bancoEstaLejos() {
-		Assert.assertFalse(unaTerminal.consultarCercania(bancoLejos))
+		Assert.assertFalse(buscador.consultarCercania(bancoLejos, poiReferencia))
 	}
 
 	@Test
 	def void CGPEstaCerca() {
-		Assert.assertTrue(unaTerminal.consultarCercania(CGPCerca))
+		Assert.assertTrue(buscador.consultarCercania(CGPCerca, poiReferencia))
 	}
 
 	@Test
 	def void CGPEstaLejos() {
-		Assert.assertFalse(unaTerminal.consultarCercania(CGPLejos))
+		Assert.assertFalse(buscador.consultarCercania(CGPLejos, poiReferencia))
 	}
 
 	@Test
 	def void comercioEstaCerca() {
-		Assert.assertTrue(unaTerminal.consultarCercania(comercioCerca))
+		Assert.assertTrue(buscador.consultarCercania(comercioCerca, poiReferencia))
 	}
 
 	@Test
 	def void comercioEstaLejos() {
-		Assert.assertFalse(unaTerminal.consultarCercania(comercioLejos))
+		Assert.assertFalse(buscador.consultarCercania(comercioLejos, poiReferencia))
 	}
 
 }
