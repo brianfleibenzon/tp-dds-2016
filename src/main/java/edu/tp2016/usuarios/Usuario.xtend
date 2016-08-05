@@ -5,7 +5,7 @@ import edu.tp2016.observersBusqueda.BusquedaObserver
 import java.util.List
 import java.util.ArrayList
 import edu.tp2016.pois.POI
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 
 @Accessors
 abstract class Usuario implements Cloneable {

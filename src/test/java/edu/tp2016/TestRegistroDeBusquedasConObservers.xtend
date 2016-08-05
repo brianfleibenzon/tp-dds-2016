@@ -25,7 +25,7 @@ import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
 import edu.tp2016.observersBusqueda.EnviarMailObserver
 import edu.tp2016.usuarios.Terminal
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.Busqueda

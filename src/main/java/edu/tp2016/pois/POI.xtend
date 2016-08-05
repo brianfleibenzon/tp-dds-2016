@@ -7,7 +7,9 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
 import org.uqbar.commons.model.Entity
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
 abstract class POI extends Entity {
 	String nombre

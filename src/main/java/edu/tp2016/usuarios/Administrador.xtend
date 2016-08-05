@@ -6,7 +6,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
 import java.util.ArrayList
 import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 
 @Accessors
 class Administrador extends Usuario {

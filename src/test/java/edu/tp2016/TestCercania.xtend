@@ -21,7 +21,7 @@ import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.builder.ComercioBuilder
 import com.google.common.collect.Lists
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 import java.util.ArrayList
 import edu.tp2016.pois.POI
 

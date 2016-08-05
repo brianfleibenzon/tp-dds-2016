@@ -23,7 +23,7 @@ import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.BancoBuilder
 import com.google.common.collect.Lists
 import java.util.ArrayList
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 
 class TestDisponibilidad {
 

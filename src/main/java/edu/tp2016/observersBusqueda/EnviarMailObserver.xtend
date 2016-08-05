@@ -5,7 +5,7 @@ import edu.tp2016.pois.POI
 import edu.tp2016.serviciosExternos.Mail
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.usuarios.Usuario
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 import edu.tp2016.serviciosExternos.MailSender
 
 @Accessors

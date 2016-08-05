@@ -7,7 +7,7 @@ import edu.tp2016.serviciosExternos.InactivePOI
 import edu.tp2016.serviciosExternos.ServicioREST
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 import org.codehaus.jackson.map.ObjectMapper
 
 @Accessors

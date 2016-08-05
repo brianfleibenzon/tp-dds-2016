@@ -4,7 +4,7 @@ import edu.tp2016.pois.POI
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 
 @Accessors
 class ActualizacionDeLocalesComerciales extends Proceso {

@@ -20,7 +20,7 @@ import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.CGPBuilder
-import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.buscador.Buscador
 import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaLibre {

@@ -1,4 +1,4 @@
-package edu.tp2016.applicationModel
+package edu.tp2016.buscador
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
@@ -15,9 +15,11 @@ import edu.tp2016.usuarios.Administrador
 import edu.tp2016.usuarios.Usuario
 import org.joda.time.LocalDate
 import edu.tp2016.serviciosExternos.MailSender
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
-class Buscador implements Cloneable {
+class Buscador{
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
@@ -144,5 +146,6 @@ class Buscador implements Cloneable {
 		]
 		reporte
 	}
+	
 
 }
