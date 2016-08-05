@@ -11,27 +11,27 @@ import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import edu.tp2016.repositorio.Repositorio
 import edu.tp2016.observersBusqueda.Busqueda
 import java.util.HashMap
-import java.util.Date
 import edu.tp2016.usuarios.Administrador
-import edu.tp2016.usuarios.Terminal
 import edu.tp2016.usuarios.Usuario
+import org.joda.time.LocalDate
+import edu.tp2016.serviciosExternos.MailSender
 
 @Accessors
 class Buscador implements Cloneable {
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	Repositorio repo = Repositorio.newInstance
-	List<Terminal> terminales = new ArrayList<Terminal>
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Usuario usuarioActual
 	LocalDateTime fechaActual
+	MailSender mailSender
 	
 	new(){
 		fechaActual = new LocalDateTime()
 	}
 
 	def boolean consultarCercania(POI unPoi, POI otroPoi) {
-		unPoi.estaCercaA(unPoi.ubicacion)
+		unPoi.estaCercaA(otroPoi.ubicacion)
 	}
 
 	def boolean consultarDisponibilidad(POI unPoi, String textoX) {
@@ -46,8 +46,7 @@ class Buscador implements Cloneable {
 		
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
 		
-		usuarioActual.busquedaObservers.forEach [ observer |
-			observer.registrarBusqueda(texto, listaDePoisDevueltos, demora, usuarioActual) ]
+		usuarioActual.registrarBusqueda(texto, listaDePoisDevueltos, demora, this)
 
 		listaDePoisDevueltos
 	}
@@ -94,11 +93,11 @@ class Buscador implements Cloneable {
 	 * @return reporte de búsquedas por fecha
 	 */
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
-		val reporte = new HashMap<Date, Integer>()
+		val reporte = new HashMap<LocalDate, Integer>()
 
 		busquedas.forEach [ busqueda |
 
-			val date = (busqueda.fecha).toDate
+			val date = busqueda.fecha.toLocalDate
 
 			if (reporte.containsKey(date)) {
 				reporte.put(date, reporte.get(date) + 1)

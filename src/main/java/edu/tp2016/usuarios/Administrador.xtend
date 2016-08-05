@@ -6,16 +6,17 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
 import java.util.ArrayList
 import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
+import edu.tp2016.applicationModel.Buscador
 
 @Accessors
 class Administrador extends Usuario {
 	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
 	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
 
-	def correrProceso(Proceso unProceso, Terminal unaTerminal){
+	def correrProceso(Proceso unProceso, Buscador buscador){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
 		
-		procesoAEjecutar.iniciar(this, unaTerminal)
+		procesoAEjecutar.iniciar(this, buscador)
 		
 	}
 	

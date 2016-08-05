@@ -39,6 +39,7 @@ import edu.tp2016.procesos.EnviarMail
 import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.observersBusqueda.Busqueda
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -70,12 +71,12 @@ class TestEjecucionDeProcesosAdministrativos {
 	DarDeBajaUnPOI procesoDarDeBaja
 	ProcesoMultiple procesoMultiple
 	StubProceso procesoConError
-	Buscador buscador
 	Buscador buscadorAbasto
 	Buscador buscadorFlorida
 	Buscador buscadorTeatroColon
 	// Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
+	ArrayList<Busqueda> busquedasRepo
 
 	@Before
 	def void setUp() {
@@ -112,54 +113,58 @@ class TestEjecucionDeProcesosAdministrativos {
 
 		// Set up de Terminales:
 		terminalAbasto = new Terminal("terminalAbasto") => [
-			mailSender = mockedMailSender
 			adscribirObserver(registroDeBusqueda)
 			adscribirObserver(notificacionAlAdministradorAnteDemora)
 		]
 		terminalFlorida = new Terminal("terminalFlorida") => [
-			mailSender = mockedMailSender
 			adscribirObserver(registroDeBusqueda)
 			adscribirObserver(notificacionAlAdministradorAnteDemora)
 		]
 		terminalTeatroColon = new Terminal("terminalTeatroColon") => [
-			mailSender = mockedMailSender
 			adscribirObserver(registroDeBusqueda)
 			adscribirObserver(notificacionAlAdministradorAnteDemora)
 		]
 		
-		buscador = new Buscador() => [
-			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
-									  new AdapterCGP(new StubInterfazCGP))
-			repo.agregarVariosPois(pois)
-		]
+		busquedasRepo = new ArrayList<Busqueda>
+		
 		buscadorAbasto = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			repo.agregarVariosPois(pois)
+			mailSender = mockedMailSender
+			busquedas = busquedasRepo
+			usuarioActual = terminalAbasto
 		]
 		buscadorFlorida = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			repo.agregarVariosPois(pois)
+			mailSender = mockedMailSender
+			busquedas = busquedasRepo
+			usuarioActual = terminalFlorida
 		]
 		buscadorTeatroColon = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			repo.agregarVariosPois(pois)
+			mailSender = mockedMailSender
+			busquedas = busquedasRepo
+			usuarioActual = terminalTeatroColon
 		]
 
 		procesoAgregarAcciones = new AgregarAccionesParaTodosLosUsuarios() => [
+			usuarios.addAll(terminalAbasto, terminalFlorida, terminalTeatroColon)
 			// agregarAccionAdministrativa(activarRegistroDeBusqueda)
 			agregarAccionAdministrativa(desactivarRegistroDeBusqueda)
 			// agregarAccionAdministrativa(activarNotificacionAlAdministrador)
 			agregarAccionAdministrativa(desactivarNotificacionAlAdministrador)
 		]
 
-		procesoDarDeBaja = new DarDeBajaUnPOI(buscador) => [
+		procesoDarDeBaja = new DarDeBajaUnPOI(buscadorAbasto) => [
 			servicioREST = new StubServicioREST()
 		]
 
-		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscador)
+		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscadorAbasto)
 
 		procesoMultiple = new ProcesoMultiple => [
 			anidarProceso(procesoDarDeBaja)
@@ -209,16 +214,16 @@ class TestEjecucionDeProcesosAdministrativos {
 		procesoAgregarAcciones.agregarAccionAdministrativa(activarNotificacionAlAdministrador)
 	}
 
-	/*@Test
+	@Test
 	def void testEjecutarAsignacionDeAccionesYDesahecerEfectos() {
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		Assert.assertEquals(12, servidorCentral.busquedas.size)
+		Assert.assertEquals(12, busquedasRepo.size)
 
 		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
 
-		servidorCentral.busquedas.clear*/
+		busquedasRepo.clear
 
 		/*  La lista de acciones para los usuarios del administrador contiene:
 		 * 			- Desactivar registro de búsquedas
@@ -227,42 +232,42 @@ class TestEjecucionDeProcesosAdministrativos {
 		 * 	El administrador corre el proceso y luego se realizan nuevas búsquedas en las terminales.
 		 * 	Resultado esperado: no se registra ninguna búsqueda y no se envía ningún mail (por más que haya demora).
 		 */
-		/*administrador.correrProceso(procesoAgregarAcciones)
+		administrador.correrProceso(procesoAgregarAcciones, buscadorAbasto)
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		Assert.assertTrue(servidorCentral.busquedas.isEmpty)
+		Assert.assertTrue(busquedasRepo.isEmpty)
 
 		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 0 veces (12 de la anterior prueba)
-		servidorCentral.busquedas.clear*/
+		busquedasRepo.clear
 
 		/*  Ahora, el administrador anula los efectos de la asignación de acciones a los usuarios y
 		 * 	se verifica que los usuarios vuelvan a poder registrar sus búsquedas  y enviar mails al administrador.
 		 */
-		/*administrador.deshacerEfectoDeLaAsignacionDeAcciones()
+		administrador.deshacerEfectoDeLaAsignacionDeAcciones()
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		Assert.assertEquals(12, servidorCentral.busquedas.size)
+		Assert.assertEquals(12, busquedasRepo.size)
 
-		verify(servidorCentral.mailSender, times(24)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 12 veces (12 de la anterior prueba)
-	}*/
+		verify(mockedMailSender, times(24)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 12 veces (12 de la anterior prueba)
+	}
 
-	/*@Test
+	@Test
 	def void testEjecutarAsignacionDeAccionesYDeshacerEfectosPruebaMasCompleja() {
 
-		setUpParaPruebaCompleja()*/
+		setUpParaPruebaCompleja()
 		/* Ahora dos terminales tienen desactivada la acción de registrar las búsquedas
 		 * y una terminal la de notificar por mail.
 		 * Resultado esperado: de las 12 búsquedas solo se registran las 4 de terminalFlorida
 		 * y se envían 8 mails correspondientes a las búsquedas de terminalAbasto y terminalTeatroColon.
 		 * */
-		/*busquedasEnVariasTerminalesYEnDistintasFechas()
+		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		Assert.assertEquals(4, servidorCentral.busquedas.size)
+		Assert.assertEquals(4, busquedasRepo.size)
 		verify(mockedMailSender, times(8)).sendMail(any(typeof(Mail)))
 
-		servidorCentral.busquedas.clear*/
+		busquedasRepo.clear
 
 		/*  La lista de acciones para los usuarios del administrador contiene:
 		 * 			- Activar registro de búsquedas
@@ -271,32 +276,32 @@ class TestEjecucionDeProcesosAdministrativos {
 		 * 	El administrador corre el proceso y luego se realizan nuevas búsquedas en las terminales.
 		 * 	Resultado esperado: ahora se registran todas las búsquedas y todas las terminales envían mails.
 		 */
-		/*administrador.correrProceso(procesoAgregarAcciones)
+		administrador.correrProceso(procesoAgregarAcciones, buscadorAbasto)
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		Assert.assertEquals(12, servidorCentral.busquedas.size)
+		Assert.assertEquals(12, busquedasRepo.size)
 		verify(mockedMailSender, times(20)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 12 veces (8 de la anterior prueba)
 		
-		servidorCentral.busquedas.clear*/
+		busquedasRepo.clear
 
 		/*  Ahora, el administrador anula los efectos de la asignación de acciones a los usuarios y
 		 * 	se verifica que los usuarios vuelvan a su estado anterior.
 		 */
-		/*administrador.deshacerEfectoDeLaAsignacionDeAcciones()
+		administrador.deshacerEfectoDeLaAsignacionDeAcciones()
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		Assert.assertEquals(4, servidorCentral.busquedas.size)
-		verify(servidorCentral.mailSender, times(28)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 8 veces (20 de la anterior prueba)
-	}*/
+		Assert.assertEquals(4, busquedasRepo.size)
+		verify(mockedMailSender, times(28)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 8 veces (20 de la anterior prueba)
+	}
 
 	@Test
 	def void testActualizacionDeLocalComercial() {
 		
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
 		
-		administrador.correrProceso(procesoActualizarLocalComercial, terminalAbasto) //TODO: VER!
+		administrador.correrProceso(procesoActualizarLocalComercial, buscadorAbasto)
 		
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("fotocopias"))
@@ -310,7 +315,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		utn7parada.id = 1
 
 		Assert.assertFalse(buscadorAbasto.buscarPorId(1).isEmpty())
-		administrador.correrProceso(procesoDarDeBaja, terminalAbasto)
+		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
 		Assert.assertTrue(buscadorAbasto.buscarPorId(1).isEmpty())
 	}
 
@@ -319,11 +324,10 @@ class TestEjecucionDeProcesosAdministrativos {
 		utn114parada.id = 2
 		
 		Assert.assertFalse(buscadorAbasto.buscarPor("114").isEmpty())
-		administrador.correrProceso(procesoDarDeBaja, terminalAbasto)
+		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
 		Assert.assertTrue(buscadorAbasto.buscarPor("114").isEmpty())
 	}
-	// TODO
-/* 
+
 	@Test
 	def void testEjecutarProcesoMultiple() {
 		// Acciones previas al testeo de proceso DarDeBajaUnPOI
@@ -332,26 +336,27 @@ class TestEjecucionDeProcesosAdministrativos {
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
 		//Acciones previas al testeo de proceso AgregarAccionesParaTodosLosUsuarios
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		Assert.assertEquals(12, servidorCentral.busquedas.size)
+		Assert.assertEquals(12, busquedasRepo.size)
 		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
-		servidorCentral.busquedas.clear	
+		busquedasRepo.clear	
 
-		administrador.correrProceso(procesoMultiple) // EJECUCION PROCESO MULTIPLE
+		administrador.correrProceso(procesoMultiple, buscadorAbasto) // EJECUCION PROCESO MULTIPLE
 
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
-		Assert.assertTrue(servidorCentral.buscarPor("114").isEmpty())
+		Assert.assertTrue(buscadorAbasto.buscarPor("114").isEmpty())
 
 		// Continuación de chequeos para proceso AgregarAccionesParaTodosLosUsuarios
-		busquedasEnVariasTerminalesYEnDistintasFechas()
-		Assert.assertTrue(servidorCentral.busquedas.isEmpty)
-		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 0 veces (12 de la anterior prueba)
+        busquedasEnVariasTerminalesYEnDistintasFechas()
+        Assert.assertTrue(busquedasRepo.isEmpty)
+        verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 0 veces (12 de la anterior prueba)
+		
 	}
 	
 	@Test
 	def void testReintentarEjecucionDeProcesoYRegistrarError(){
 		procesoConError.reintentos = 3
-		administrador.correrProceso(procesoConError)
+		administrador.correrProceso(procesoConError, buscadorAbasto)
 		Assert.assertEquals(4, procesoConError.vecesEjecutado)
 		Assert.assertEquals(false, administrador.resultadosDeEjecucion.get(0).resultadoEjecucion)
 	}
@@ -360,10 +365,10 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void testEnviarMailYRegistrarError(){
 		procesoConError.reintentos = 0
 		procesoConError.accionEnCasoDeError = new EnviarMail
-		administrador.correrProceso(procesoConError)
+		administrador.correrProceso(procesoConError, buscadorAbasto)
 		Assert.assertEquals(1, procesoConError.vecesEjecutado)
 		verify(mockedMailSender, times(1)).sendMail(any(typeof(Mail)))	
 		Assert.assertEquals(false, administrador.resultadosDeEjecucion.get(0).resultadoEjecucion)	
-	}*/
+	}
 
 }

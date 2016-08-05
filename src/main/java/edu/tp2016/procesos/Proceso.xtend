@@ -3,7 +3,7 @@ package edu.tp2016.procesos
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.usuarios.Administrador
 import org.joda.time.LocalDateTime
-import edu.tp2016.usuarios.Terminal
+import edu.tp2016.applicationModel.Buscador
 
 @Accessors
 abstract class Proceso {
@@ -15,15 +15,15 @@ abstract class Proceso {
 	Administrador usuarioAdministrador
 	public static final boolean OK = true
 	public static final boolean ERROR = false
-	Terminal terminal
+	Buscador buscador
 	
 	/**
 	 * Llama a correr() adentro de un try catch.
 	 * 
 	 */
-	def void iniciar(Administrador _usuarioAdministrador, Terminal unaTerminal){
+	def void iniciar(Administrador _usuarioAdministrador, Buscador _buscador){
 		usuarioAdministrador = _usuarioAdministrador
-		terminal = unaTerminal
+		buscador = _buscador
 		try{
 			inicio = new LocalDateTime()
 			this.correr()
@@ -44,13 +44,13 @@ abstract class Proceso {
 	def void manejarError(Exception e){
 		if (reintentos == 0){
 			if (accionEnCasoDeError != null){
-				accionEnCasoDeError.iniciar(usuarioAdministrador, terminal);
+				accionEnCasoDeError.iniciar(usuarioAdministrador, buscador);
 			}
 			fin = new LocalDateTime()
 				registrarError(inicio, fin, e)
 		}else{
 			reintentos --
-			this.iniciar(usuarioAdministrador, terminal)
+			this.iniciar(usuarioAdministrador, buscador)
 		}		
 	}
 	

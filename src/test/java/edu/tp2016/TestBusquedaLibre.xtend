@@ -21,6 +21,7 @@ import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaLibre {
 
@@ -46,7 +47,9 @@ class TestBusquedaLibre {
 
 	@Before
 	def void setUp() {
-
+		
+		rangoX = Lists.newArrayList()
+		
 		comunaX = new Comuna => [
 			poligono = new Polygon()
 			poligono.add(new Point(-1, 1))
@@ -55,25 +58,17 @@ class TestBusquedaLibre {
 			poligono.add(new Point(-4, 4))
 		]
 
-		utn7parada = new ParadaBuilder().nombre("7").
-		ubicacion(ubicacionX).
-		claves( Arrays.asList("utn", "campus")).build
+		utn7parada = new ParadaBuilder().nombre("7").ubicacion(ubicacionX).claves(Arrays.asList("utn", "campus")).build
 
-		miserere7parada = new ParadaBuilder().nombre("7").
-		ubicacion(ubicacionX).
-		 claves(Arrays.asList("utn", "plaza miserere", "once")).build
+		miserere7parada = new ParadaBuilder().nombre("7").ubicacion(ubicacionX).claves(
+			Arrays.asList("utn", "plaza miserere", "once")).build
 
-		utn114parada = new ParadaBuilder().nombre("114").
-		ubicacion(ubicacionX).
-		claves(Arrays.asList("utn", "campus")).build
+		utn114parada = new ParadaBuilder().nombre("114").ubicacion(ubicacionX).claves(Arrays.asList("utn", "campus")).
+			build
 
-		bancoGalicia = new BancoBuilder().nombre("Banco Galicia Callao").
-		ubicacion(ubicacionX).
-		claves(Arrays.asList("cajero", "sucursal galicia", "banco")).
-		sucursal("Almagro").
-		nombreGerente("Juan Perez").
-		setearHorarios.
-		build
+		bancoGalicia = new BancoBuilder().nombre("Banco Galicia Callao").ubicacion(ubicacionX).claves(
+			Arrays.asList("cajero", "sucursal galicia", "banco")).sucursal("Almagro").nombreGerente("Juan Perez").
+			setearHorarios.build
 
 		cultura = new Servicio("cultura", rangoX)
 
@@ -85,53 +80,33 @@ class TestBusquedaLibre {
 
 		salud = new Servicio("salud", rangoX)
 
-		CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").
-		ubicacion(ubicacionX).
-		claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).
-		comuna(comunaX).
-		servicio(Arrays.asList(asesoramientoLegal, cultura, deportes)).
-		zonasIncluidas("").
-		nombreDirector("").
-		telefono( "").
-		build
+		CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").ubicacion(ubicacionX).claves(
+			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).comuna(comunaX).servicio(
+			Arrays.asList(asesoramientoLegal, cultura, deportes)).zonasIncluidas("").nombreDirector("").telefono("").
+			build
 
-		CGPComuna2 = new CGPBuilder().nombre("CGP Comuna 2").
-		ubicacion(ubicacionX).
-		claves(Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2")).
-		comuna(comunaX).
-		servicio(Arrays.asList(turismo, cultura, salud)).
-		zonasIncluidas("").
-	    nombreDirector("").
-	    telefono("").
-	    build
+		CGPComuna2 = new CGPBuilder().nombre("CGP Comuna 2").ubicacion(ubicacionX).claves(
+			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2")).comuna(comunaX).servicio(
+			Arrays.asList(turismo, cultura, salud)).zonasIncluidas("").nombreDirector("").telefono("").build
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
 		rubroLibreria = new Rubro("Libreria", 2)
 
-		comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
-		ubicacion(ubicacionX).
-		claves(Arrays.asList("medicamentos", "salud")).
-		rubro(rubroFarmacia).
-		rango(rangoX).build
+		comercioFarmacity = new ComercioBuilder().nombre("Farmacity").ubicacion(ubicacionX).claves(
+			Arrays.asList("medicamentos", "salud")).rubro(rubroFarmacia).rango(rangoX).build
 
-		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
-		ubicacion(ubicacionX).
-		claves(Arrays.asList("fotocopias", "utiles", "libros")).
-		rubro(rubroLibreria).
-		rango(rangoX).build
+		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").ubicacion(ubicacionX).claves(
+			Arrays.asList("fotocopias", "utiles", "libros")).rubro(rubroLibreria).rango(rangoX).build
 
-	buscador = new Buscador() => [
-		repo.agregarVariosPois(Lists.newArrayList(
-			utn7parada,
-			miserere7parada,
-			utn114parada,
-			CGPComuna1,
-			CGPComuna2,
-			comercioFarmacity,
-			comercioLoDeJuan,
-			bancoGalicia))
-		]
+		buscador = new Buscador() =>
+			[
+				repo.agregarVariosPois(
+					Lists.newArrayList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2,
+						comercioFarmacity, comercioLoDeJuan, bancoGalicia))
+				usuarioActual = new Terminal("terminal")
+			]
+
 	}
 
 	@Test

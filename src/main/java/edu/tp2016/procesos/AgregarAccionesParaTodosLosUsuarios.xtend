@@ -23,7 +23,6 @@ class AgregarAccionesParaTodosLosUsuarios extends Proceso{
 	 * @return vacío
 	 */
 	override correr() {
-		usuarios.clear
 
 		usuariosBefore.clear
 		

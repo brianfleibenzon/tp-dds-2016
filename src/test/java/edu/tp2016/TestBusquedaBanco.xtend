@@ -7,6 +7,7 @@ import edu.tp2016.pois.Banco
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.usuarios.Terminal
 
 class TestBusquedaBanco {
 	Buscador buscador
@@ -15,6 +16,7 @@ class TestBusquedaBanco {
 	def void setUp() {
 		buscador = new Buscador() => [
 			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
+			usuarioActual = new Terminal("terminal")
 		]
 	}
 	

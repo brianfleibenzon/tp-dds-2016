@@ -28,6 +28,7 @@ import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
 import java.util.ArrayList
 import edu.tp2016.pois.POI
+import edu.tp2016.observersBusqueda.Busqueda
 
 class TestRegistroDeBusquedasConObservers {
 
@@ -52,6 +53,7 @@ class TestRegistroDeBusquedasConObservers {
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
 	ArrayList<POI> pois
+	ArrayList<Busqueda> busquedasRepo
 	
 	MailSender mockedMailSender
 
@@ -87,49 +89,54 @@ class TestRegistroDeBusquedasConObservers {
 
 		mockedMailSender = mock(typeof(MailSender))
 
-		terminalAbasto = new Terminal("terminalAbasto") => [
-			mailSender = mockedMailSender
+		terminalAbasto = new Terminal("terminalAbasto") => [			
 			adscribirObserver(new RegistrarBusquedaObserver)
 			adscribirObserver(new EnviarMailObserver(5))
 		]
 		terminalFlorida = new Terminal("terminalFlorida") => [
-			mailSender = mockedMailSender
 			adscribirObserver(new RegistrarBusquedaObserver)
 			adscribirObserver(new EnviarMailObserver(5))
 		]
 		terminalTeatroColon = new Terminal("terminalTeatroColon") => [
-			mailSender = mockedMailSender
 			adscribirObserver(new RegistrarBusquedaObserver)
 			adscribirObserver(new EnviarMailObserver(5))
 		]
+		
+		busquedasRepo = new ArrayList<Busqueda>
 		
 		buscadorFlorida = new Buscador() => [
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			usuarioActual = terminalFlorida
+			busquedas = busquedasRepo
+			mailSender = mockedMailSender
 		]
 		buscadorAbasto = new Buscador() => [
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			usuarioActual = terminalAbasto
+			busquedas = busquedasRepo
+			mailSender = mockedMailSender
 		]
 		buscadorTeatroColon = new Buscador() => [
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			usuarioActual = terminalTeatroColon
+			busquedas = busquedasRepo
+			mailSender = mockedMailSender
 		]
 
 		// Setup para mockear demora excedida y envío de mail al administrador:
 		mockTerminal = new Terminal("mockTerminal") => [
-			mailSender = mockedMailSender
 			adscribirObserver(new EnviarMailObserver(0))
 		]
 		mockBuscador = new Buscador() => [
 			repo.create(utn7parada)
 			usuarioActual = mockTerminal
+			mailSender = mockedMailSender
 		]
 	}
 
@@ -186,7 +193,7 @@ class TestRegistroDeBusquedasConObservers {
 	@Test
 	def void testRegistroDeDemoraDeConsulta() {
 		buscadorAbasto.buscar("7")
-		val demoraRegistrada = (buscadorAbasto.busquedas.head).demoraConsulta
+		val demoraRegistrada = (busquedasRepo.head).demoraConsulta
 
 		Assert.assertTrue(demoraRegistrada < (1).longValue())
 	}
@@ -198,22 +205,21 @@ class TestRegistroDeBusquedasConObservers {
 		verify(mockedMailSender, times(1)).sendMail(any(typeof(Mail)))
 	}
 
-	// TODO: Hay que ver estas búsquedas y sus reportes
-	/*@Test
+	@Test
 	def void testReporteDeBusquedasPorFecha() {
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		val reporteGenerado = buscador.generarReporteCantidadTotalDeBusquedasPorFecha()
+		val reporteGenerado = buscadorAbasto.generarReporteCantidadTotalDeBusquedasPorFecha()
 
-		Assert.assertEquals(6, reporteGenerado.get(fechaDeHoy.toDate))
-		Assert.assertEquals(6, reporteGenerado.get(unaFechaPasada.toDate))
+		Assert.assertEquals(6, reporteGenerado.get(fechaDeHoy.toLocalDate))
+		Assert.assertEquals(6, reporteGenerado.get(unaFechaPasada.toLocalDate))
 	}
-
+ 
 	@Test
 	def void testReporteDeResultadosParcialesPorTerminal() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = buscador.generarReporteCantidadDeResultadosParcialesPorTerminal()
+		val reporteGenerado = buscadorAbasto.generarReporteCantidadDeResultadosParcialesPorTerminal()
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(Arrays.asList(1, 1, 1, 0), reporteGenerado.get("terminalFlorida"))
@@ -224,7 +230,7 @@ class TestRegistroDeBusquedasConObservers {
 	@Test
 	def void testReporteDeResultadosParcialesDeTerminalEspecifica() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = buscador.
+		val reporteGenerado = buscadorAbasto.
 			generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica("terminalAbasto")
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado)
@@ -234,11 +240,11 @@ class TestRegistroDeBusquedasConObservers {
 	@Test
 	def void testReporteDeResultadosTotalesPorTerminal() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = buscador.generarReporteCantidadTotalDeResultadosPorTerminal()
+		val reporteGenerado = buscadorAbasto.generarReporteCantidadTotalDeResultadosPorTerminal()
 
 		Assert.assertEquals(6, reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(3, reporteGenerado.get("terminalFlorida"))
 		Assert.assertEquals(5, reporteGenerado.get("terminalTeatroColon"))
 
-	}*/
+	}
 }
