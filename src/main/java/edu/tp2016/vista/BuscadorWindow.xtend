@@ -13,31 +13,45 @@ import org.uqbar.arena.widgets.tables.Table
 import edu.tp2016.applicationModel.BuscadorApplication
 import edu.tp2016.pois.POI
 import org.uqbar.arena.widgets.tables.Column
+import org.uqbar.arena.layout.ColumnLayout
+import org.uqbar.arena.windows.ErrorsPanel
+import java.awt.Color
 
 class BuscadorWindow extends MainWindow<BuscadorApplication>{
 	
 	new() {
 		super(new BuscadorApplication)
-		title = "Busqueda"
+		title = "Búsqueda"
 	}
 	
 	override createContents(Panel mainPanel) {
-		new Label(mainPanel) => [
-			text = "Criterio de busqueda"
-			fontSize = 12
-		]		
+		
+		val panelIzquierdo1 = new Panel(mainPanel)
+		panelIzquierdo1.layout = new ColumnLayout(2)
+		new Label(panelIzquierdo1) => [
+			text = "Criterio de búsqueda"
+			fontSize = 10
+		]
+		
 		new Panel(mainPanel) => [
 			layout = new HorizontalLayout
+
 			new Panel(it) => [
-				new Label(it) => [
+				val subPanelIzquierdo1 = new Panel(it)
+				subPanelIzquierdo1.layout = new ColumnLayout(2)
+				new Label(subPanelIzquierdo1) => [
 					text = "Nombre"
 				]
 				new TextBox(it) => [
 					width = 200
 					value <=> "busqueda"	
 				]
-			]		
+			]
+			
 			new Panel(it) => [
+				layout = new ColumnLayout(2)
+				new Label(it) => [ text = "" ]
+				new Label(it) => [ text = "" ]
 				new Button(it) => [
 					caption = "Agregar"	
 				]
@@ -47,10 +61,14 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 				]
 			]
 		]
-		new Label(mainPanel) => [
+		
+		val panelIzquierdo2 = new Panel(mainPanel)
+		panelIzquierdo2.layout = new ColumnLayout(2)
+		new Label(panelIzquierdo2) => [
 			text = "Resultado"
-			fontSize = 12
+			fontSize = 10
 		]
+		
 		var table = new Table<POI>(mainPanel, typeof(POI)) => [
 			items <=> "resultados"
 			value <=> "poiSeleccionado"
@@ -62,7 +80,7 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 			bindContentsToProperty("nombre")
 		]
 		new Column<POI>(table) => [
-			title = "Direccion"
+			title = "Dirección"
 			fixedSize = 150
 			bindContentsToProperty("direccion")
 		]
