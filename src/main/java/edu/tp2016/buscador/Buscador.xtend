@@ -66,7 +66,7 @@ class Buscador{
 
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
-		poisBusqueda.filter[poi|!texto.equals("") && (poi.tienePalabraClave(texto) || poi.coincide(texto))]
+		poisBusqueda.filter[poi|/*TODO:!texto.equals("") && */(poi.tienePalabraClave(texto) || poi.coincide(texto))]
 	}
 	
 	/**

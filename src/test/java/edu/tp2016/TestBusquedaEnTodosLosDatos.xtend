@@ -90,13 +90,6 @@ class TestBusquedaEnTodosLosDatos {
 	}
 
 	@Test
-	def void buscarConUnStringVacíoYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = buscador.buscar("")
-		
-		Assert.assertTrue(resultadoBusqueda.empty)
-	}
-
-	@Test
 	def void buscarParadaDeColectivo7() {
 		Assert.assertEquals(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}

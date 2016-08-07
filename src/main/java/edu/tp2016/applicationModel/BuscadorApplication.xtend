@@ -25,7 +25,7 @@ class BuscadorApplication {
 	]
 	List<POI> resultados
 	POI poiSeleccionado
-	String busqueda
+	String busqueda = ""
 	
 	def crearJuegoDeDatos(){
 		val ubicacionX = new Point(-1, 1)

@@ -110,11 +110,6 @@ class TestBusquedaLibre {
 	}
 
 	@Test
-	def void buscarCadenaVaciaQueDevuelveListaVacia() {
-		Assert.assertEquals(Arrays.asList(), buscador.buscar(""))
-	}
-
-	@Test
 	def void buscarParadaDeColectivo7() {
 		Assert.assertEquals(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}

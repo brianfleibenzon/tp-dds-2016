@@ -14,8 +14,13 @@ import edu.tp2016.applicationModel.BuscadorApplication
 import edu.tp2016.pois.POI
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.layout.ColumnLayout
-import org.uqbar.arena.windows.ErrorsPanel
-import java.awt.Color
+import org.uqbar.arena.bindings.NotNullObservable
+import java.util.HashMap
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.CGP
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.ParadaDeColectivo
+import org.uqbar.arena.windows.Dialog
 
 class BuscadorWindow extends MainWindow<BuscadorApplication>{
 	
@@ -25,22 +30,19 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 	}
 	
 	override createContents(Panel mainPanel) {
-		
-		val panelIzquierdo1 = new Panel(mainPanel)
-		panelIzquierdo1.layout = new ColumnLayout(2)
-		new Label(panelIzquierdo1) => [
-			text = "Criterio de búsqueda"
-			fontSize = 10
-		]
-		
 		new Panel(mainPanel) => [
-			layout = new HorizontalLayout
-
+			new Label(it) => [			
+				text = "Criterio de búsqueda"
+				fontSize = 10
+			]
+		]
+		new Panel(mainPanel) => [
+			it.layout = new ColumnLayout(2)
 			new Panel(it) => [
-				val subPanelIzquierdo1 = new Panel(it)
-				subPanelIzquierdo1.layout = new ColumnLayout(2)
-				new Label(subPanelIzquierdo1) => [
-					text = "Nombre"
+				new Panel(it)=> [
+					new Label(it) => [			
+						text = "Nombre"
+					]
 				]
 				new TextBox(it) => [
 					width = 200
@@ -49,41 +51,70 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 			]
 			
 			new Panel(it) => [
-				layout = new ColumnLayout(2)
-				new Label(it) => [ text = "" ]
-				new Label(it) => [ text = "" ]
+				it.layout = new ColumnLayout(2)
 				new Button(it) => [
 					caption = "Agregar"	
+					onClick[|]					
 				]
 				new Button(it) => [
 					caption = "Buscar"	
 					onClick[| modelObject.buscar ]
 				]
 			]
+				
 		]
 		
-		val panelIzquierdo2 = new Panel(mainPanel)
-		panelIzquierdo2.layout = new ColumnLayout(2)
-		new Label(panelIzquierdo2) => [
-			text = "Resultado"
-			fontSize = 10
+		new Panel(mainPanel)=>[
+			new Label(it) => [			
+				text = "Resultado"
+				fontSize = 10
+			]
 		]
-		
+
 		var table = new Table<POI>(mainPanel, typeof(POI)) => [
 			items <=> "resultados"
 			value <=> "poiSeleccionado"
-			
+		
+				
 		]
 		new Column<POI>(table) => [
 			title = "Nombre"
 			fixedSize = 150
 			bindContentsToProperty("nombre")
+			
 		]
 		new Column<POI>(table) => [
 			title = "Dirección"
 			fixedSize = 150
 			bindContentsToProperty("direccion")
 		]
+		new Button(mainPanel) => [
+			caption = "Editar"	
+			onClick[| this.editarPoi ]
+			bindEnabled(new NotNullObservable("poiSeleccionado"))
+		]
+		
+	}
+	
+	def editarPoi(){
+	
+		val bloqueQueConstruyeVentana = mapaVentanas.get(modelObject.poiSeleccionado.class)
+		this.openDialog(bloqueQueConstruyeVentana.apply)
+	
+	}
+	
+	def getMapaVentanas() {
+		return new HashMap<Class<? extends POI>, () => EditarPoiWindow> => [
+			put(typeof(Banco), [ | new EditarBancoWindow(this, modelObject.poiSeleccionado) ] )
+			put(typeof(CGP), [ | new EditarCGPWindow(this, modelObject.poiSeleccionado) ] )
+			put(typeof(Comercio), [ | new EditarComercioWindow(this, modelObject.poiSeleccionado)] )
+			put(typeof(ParadaDeColectivo), [ | new EditarParadaWindow(this, modelObject.poiSeleccionado)] )
+		]
+	}
+	
+	def openDialog(Dialog<?> dialog) {
+		dialog.onAccept[ |	modelObject.buscar ]
+		dialog.open
 	}
 	
 	def static void main(String[] args){

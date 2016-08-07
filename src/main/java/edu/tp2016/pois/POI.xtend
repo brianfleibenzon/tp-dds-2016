@@ -66,8 +66,10 @@ abstract class POI extends Entity {
 	 * @return valor de verdad si el nombre coincide con el texto
 	 */
 	def boolean coincide(String texto) {
-		texto.equalsIgnoreCase(nombre)
+		//TODO: texto.equalsIgnoreCase(nombre)
+		nombre.toLowerCase.contains(texto.toLowerCase)
 	}
+	
 	def void agregarPalabraClave(String unaPalabra){
 		palabrasClave.add(unaPalabra)
 	}
