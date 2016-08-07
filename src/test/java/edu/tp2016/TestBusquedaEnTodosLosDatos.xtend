@@ -159,9 +159,9 @@ class TestBusquedaEnTodosLosDatos {
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
 		val resultadoBusqueda = buscador.buscar("Banco de la Plaza")
-		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
+		val bancosEncontrados = resultadoBusqueda.map [ banco | banco as Banco ]
 		
-		Assert.assertTrue(bancosEncontrados.exists[ banco |
+		Assert.assertTrue(bancosEncontrados.exists [ banco |
 			(banco.sucursal.equals("Caballito")) && (banco.palabrasClave.contains("transferencias")) ] )
 	}
 
@@ -170,6 +170,11 @@ class TestBusquedaEnTodosLosDatos {
 		val resultadoBusqueda = buscador.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
+	}
+	
+	@Test
+	def void buscarCadenaVacia() {
+		Assert.assertTrue(buscador.buscar("").isEmpty)
 	}
 	
 }

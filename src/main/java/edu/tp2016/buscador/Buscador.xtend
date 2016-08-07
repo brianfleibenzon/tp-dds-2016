@@ -36,12 +36,11 @@ class Buscador{
 		unPoi.estaCercaA(otroPoi.ubicacion)
 	}
 
-	def boolean consultarDisponibilidad(POI unPoi, String textoX) {
-		unPoi.estaDisponible(fechaActual, textoX)
+	def boolean consultarDisponibilidad(POI unPoi, String texto) {
+		unPoi.estaDisponible(fechaActual, texto)
 	}
 	
 	def List<POI> buscar(String texto){
-		
 		val t1 = new LocalDateTime()
 		val listaDePoisDevueltos = Lists.newArrayList(this.buscarPor(texto))
 		val t2 = new LocalDateTime()
@@ -66,7 +65,9 @@ class Buscador{
 
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
-		poisBusqueda.filter[poi|/*TODO:!texto.equals("") && */(poi.tienePalabraClave(texto) || poi.coincide(texto))]
+		poisBusqueda.filter [poi | texto != null && !texto.isEmpty() &&
+			(poi.tienePalabraClave(texto) || poi.coincide(texto))
+		]
 	}
 	
 	/**
@@ -88,12 +89,7 @@ class Buscador{
 	}
 
 // REPORTES DE BÚSQUEDAS:
-	/**
-	 * Observación. Date es una fecha con el siguiente formato:
-	 * public Date(int year, int month, int date)
-	 * 
-	 * @return reporte de búsquedas por fecha
-	 */
+
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
 		val reporte = new HashMap<LocalDate, Integer>()
 

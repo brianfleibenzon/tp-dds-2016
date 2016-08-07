@@ -4,7 +4,6 @@ import org.uqbar.arena.widgets.Panel
 
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.windows.MainWindow
-import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.TextBox
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
@@ -52,6 +51,8 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 			
 			new Panel(it) => [
 				it.layout = new ColumnLayout(2)
+				new Label(it) => [ text = "" ] // (Dejarlo porque alinea)
+				new Label(it) => [ text = "" ] // (Dejarlo porque alinea)
 				new Button(it) => [
 					caption = "Agregar"	
 					onClick[|]					
@@ -97,10 +98,8 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 	}
 	
 	def editarPoi(){
-	
 		val bloqueQueConstruyeVentana = mapaVentanas.get(modelObject.poiSeleccionado.class)
 		this.openDialog(bloqueQueConstruyeVentana.apply)
-	
 	}
 	
 	def getMapaVentanas() {

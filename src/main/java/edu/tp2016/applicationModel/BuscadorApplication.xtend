@@ -23,7 +23,7 @@ class BuscadorApplication {
 		usuarioActual = new Terminal("terminal")
 		repo.agregarVariosPois(crearJuegoDeDatos())
 	]
-	List<POI> resultados
+	List<POI> resultados = new ArrayList<POI>
 	POI poiSeleccionado
 	String busqueda = ""
 	
@@ -37,7 +37,7 @@ class BuscadorApplication {
 
 		val miserere7parada = new ParadaBuilder().nombre("7").
 		ubicacion(ubicacionX).
-		 claves(Arrays.asList("utn", "plaza miserere", "once")).build
+		claves(Arrays.asList("utn", "plaza miserere", "once")).build
 
 		val utn114parada = new ParadaBuilder().nombre("114").
 		ubicacion(ubicacionX).
@@ -46,7 +46,6 @@ class BuscadorApplication {
 		val rubroFarmacia = new Rubro("Farmacia", 1)
 
 		val rubroLibreria = new Rubro("Libreria", 2)
-		
 	
 	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
 		ubicacion(ubicacionX).
