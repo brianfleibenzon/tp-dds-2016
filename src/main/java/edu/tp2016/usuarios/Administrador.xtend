@@ -12,6 +12,15 @@ import edu.tp2016.buscador.Buscador
 class Administrador extends Usuario {
 	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
 	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
+	
+	new(String nombre) {
+		userName = nombre
+	}
+	
+	new(String nombre, String contraseña) {
+		userName = nombre
+		password = contraseña
+	} // Constructor para el Login
 
 	def correrProceso(Proceso unProceso, Buscador buscador){
 		val procesoAEjecutar = procesosDisponibles.filter [ proceso | proceso.equals(unProceso)].get(0)
@@ -36,9 +45,6 @@ class Administrador extends Usuario {
 	/**
 	 * Busca el proceso correspondiente a la asignación de acciones a los usuarios dentro de la lista
 	 * de procesos del administrador. Luego le indica al proceso deshacer sus acciones.
-	 * 
-	 * @param ninguno
-	 * @return vacío
 	 */
 	def deshacerEfectoDeLaAsignacionDeAcciones(){
 		val procesoAEjecutar = procesosDisponibles.filter [ p |

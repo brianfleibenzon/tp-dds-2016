@@ -14,24 +14,9 @@ abstract class Usuario implements Cloneable {
 	String mailAdress
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
 	
-	/**
-	 * Construyo una Usuario con su nombre.
-	 * 
-	 * @param
-	 * @return un usuario
-	 */
-	new(String nombre) {
-		userName = nombre
-	}
-	
 	new(){
 		
-	}
-	
-	new(List<BusquedaObserver> observers){
-		busquedaObservers.clear
-		busquedaObservers.addAll(observers)
-	} // Constructor para la clonación
+	} // Constructor default de la superclase
 	
 	def adscribirObserver(BusquedaObserver observador){
 		busquedaObservers.add(observador)
@@ -45,9 +30,5 @@ abstract class Usuario implements Cloneable {
 		busquedaObservers.forEach [ observer |
 			observer.registrarBusqueda(texto, poisDevueltos, demora, this, buscador) ]
 	}
-	
-	def login(String name, String pass){
-		userName = name
-		password = pass
-	}
+
 }
