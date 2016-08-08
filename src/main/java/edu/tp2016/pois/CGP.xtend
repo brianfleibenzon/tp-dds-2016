@@ -18,7 +18,7 @@ class CGP extends POI {
 	String zonasIncluidas
 	String nombreDirector
 	String telefono
-
+    Servicio servicioSeleccionado
 
 
 	new(CentroDTO unCentro) {
