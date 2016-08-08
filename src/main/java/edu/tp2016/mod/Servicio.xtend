@@ -4,7 +4,9 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
 class Servicio {
 	String nombre

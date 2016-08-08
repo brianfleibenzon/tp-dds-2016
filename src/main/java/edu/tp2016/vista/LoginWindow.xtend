@@ -1,6 +1,5 @@
 package edu.tp2016.vista
 
-import java.awt.Color
 import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
@@ -9,16 +8,14 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.ErrorsPanel
 import org.uqbar.arena.windows.MainWindow
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.bindings.ValueTransformer
 import edu.tp2016.applicationModel.UserLogin
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.windows.Dialog
 import edu.tp2016.buscador.Buscador
+import java.awt.Color
 
 class LoginWindow extends MainWindow<UserLogin>{
-	
-	public boolean busquedaHabilitada = false
 	
 	new() {
 		super(new UserLogin())
@@ -50,41 +47,31 @@ class LoginWindow extends MainWindow<UserLogin>{
 			it.layout = new ColumnLayout(4)
 			
 			new Label(it).text = ""
-			new Button(it) => [ 
+			new Button(it) => [
 				caption = "Login"
 				onClick [ |
-					busquedaHabilitada = false
-					modelObject.validarLogin
+					if (modelObject.validarLogin) {
+						new Label(mainPanel) => [
+							foreground = Color.GREEN
+							value <=> "resultadoLogin"
+						]
+						this.openDialog(new BuscadorWindow(this, new Buscador()))
+					}
+					else{
+						new Label(mainPanel)  => [
+							foreground = Color.RED
+							value <=> "resultadoLogin"
+						]
+					}
 				]
+				setAsDefault
 			]
 			new Button(it) => [ 
-				caption = "Cancel"
-				onClick [ | busquedaHabilitada = false
-							modelObject.cancelarLogin
-				]
+				caption = "Cancelar"
+				onClick [ | modelObject.cancelarLogin ]
 			]
-		]
-
-		new Label(mainPanel) => [
-			(foreground <=> "loginOk").transformer = new LoginOkTransformer(this)
-			value <=> "loginOk"
 		]
 		
-		new Panel(mainPanel) => [
-			it.layout = new ColumnLayout(3)
-			new Label(it).text = ""
-			new Button(it) =>  [
-			setCaption("Ingresar a Búsqueda")
-			onClick [ | 
-				if(busquedaHabilitada){
-					this.openDialog(new BuscadorWindow(this, new Buscador())) }
-				]
-			]
-		]
-		new Label(mainPanel) => [
-			foreground = Color.BLUE
-			text = "(El botón se habilitará cuando el Login sea válido)"	
-		]
 	}
 	
 	def openDialog(Dialog<?> dialog) {
@@ -95,34 +82,4 @@ class LoginWindow extends MainWindow<UserLogin>{
 		new LoginWindow().startApplication
 	}
 	
-}
-
-class LoginOkTransformer implements ValueTransformer<String, Object> {
-	
-	LoginWindow ventanaPrincipal
-	
-	new(LoginWindow window){
-		ventanaPrincipal = window
-	}
-	
-	override getModelType() {
-		typeof(String)
-	}
-	
-	override getViewType() {
-		typeof(Object)
-	}
-	
-	override modelToView(String valorDelModelo) {
-		
-		if(valorDelModelo.equalsIgnoreCase("<< Login exitoso >>"))
-			ventanaPrincipal.busquedaHabilitada = true	
-		
-		if(valorDelModelo.equalsIgnoreCase("<< Login exitoso >>")) Color.GREEN.darker
-			else Color.RED
-	}
-	
-	override viewToModel(Object valorDeLaVista) {
-		null	
-	}
 }

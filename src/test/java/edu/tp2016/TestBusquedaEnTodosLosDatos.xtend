@@ -172,9 +172,5 @@ class TestBusquedaEnTodosLosDatos {
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
 	
-	@Test
-	def void buscarCadenaVacia() {
-		Assert.assertTrue(buscador.buscar("").isEmpty)
-	}
 	
 }
