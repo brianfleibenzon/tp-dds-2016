@@ -33,10 +33,11 @@ class UserLogin {
 		return false
 	}
 	
-	def cancelarLogin(){
+	def limpiarLogin(){
 		usuariosDelSistema.clear
-		this.usuario = ""
-		this.password = ""
+		usuario = ""
+		password = ""
+		resultadoLogin = ""
 	}
 	
 	def boolean inputsNotNull(){

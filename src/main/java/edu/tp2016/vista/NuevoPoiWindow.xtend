@@ -11,7 +11,7 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.widgets.Button
 import edu.tp2016.buscador.Buscador
 
-class AgregarWindow extends Dialog<POI>{
+class NuevoPoiWindow extends Dialog<POI>{
 	
 	Buscador parentBuscador
 	
@@ -19,17 +19,17 @@ class AgregarWindow extends Dialog<POI>{
 		super(owner, model)
 		parentBuscador = buscador
 		this.delegate.errorViewer = this
-		title = "Agregar POI"
+		title = "Agregar nuevo POI"
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
 		val form = new Panel(mainPanel)
 		form.layout = new ColumnLayout(2)
 		
-		new Label(form).text = "Nombre"
+		new Label(form).text = "Nombre:"
 		new TextBox(form).value <=> "nombre"
 
-		new Label(form).text = "Dirección"
+		new Label(form).text = "Dirección:"
 		new TextBox(form) => [
 			width = 200
 			value <=> "direccion"

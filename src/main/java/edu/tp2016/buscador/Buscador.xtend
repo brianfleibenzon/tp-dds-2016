@@ -76,10 +76,6 @@ class Buscador implements IModel<Buscador>{
 
 		listaDePoisDevueltos
 	}
-	
-	def agregarPoi(POI unPoi){
-		repo.agregarPoi(unPoi)
-	}
 
 	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
 		interfacesExternas.forEach [ unaInterfaz |
@@ -94,7 +90,7 @@ class Buscador implements IModel<Buscador>{
 
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
-		poisBusqueda.filter [poi |/* texto != null && !texto.isEmpty &&*/
+		poisBusqueda.filter [poi | texto != null && !texto.isEmpty &&
 			(poi.tienePalabraClave(texto) || poi.coincide(texto))
 		]
 	}

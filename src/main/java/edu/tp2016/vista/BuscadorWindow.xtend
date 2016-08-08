@@ -26,7 +26,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 	new(WindowOwner owner, Buscador model) {
 		super(owner, model)
 		this.delegate.errorViewer = this
-		title = "Búsqueda"
+		title = "Búsqueda de POIs"
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
@@ -42,7 +42,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 			new Panel(it) => [
 				new Panel(it)=> [
 					new Label(it) => [			
-						text = "Nombre"
+						text = "Nombre:"
 					]
 				]
 				new TextBox(it) => [
@@ -50,18 +50,22 @@ class BuscadorWindow extends Dialog<Buscador>{
 					value <=> "busqueda"	
 				]
 			]
-			
 			new Panel(it) => [
-				it.layout = new ColumnLayout(2)
-				new Label(it) => [ text = "" ] // (Dejarlo porque alinea)
-				new Label(it) => [ text = "" ] // (Dejarlo porque alinea)
+				it.layout = new ColumnLayout(3)
+				new Label(it) => [ text = "" ] // (Dejarlos porque alinean)
+				new Label(it) => [ text = "" ]
+				new Label(it) => [ text = "" ]
 				new Button(it) => [
 					caption = "Agregar"	
-					onClick[| this.openDialogEditar(new AgregarWindow(this, new POI(), model.getSource)) ]		
+					onClick[|  ]		
 				]
 				new Button(it) => [
 					caption = "Buscar"	
 					onClick[| modelObject.buscar ]
+				]
+				new Button(it) => [
+					caption = "Nuevo POI"	
+					onClick[| this.openDialogEditar(new NuevoPoiWindow(this, new POI(), model.getSource)) ]	
 				]
 			]
 				
@@ -82,7 +86,6 @@ class BuscadorWindow extends Dialog<Buscador>{
 			title = "Nombre"
 			fixedSize = 150
 			bindContentsToProperty("nombre")
-			
 		]
 		new Column<POI>(table) => [
 			title = "Dirección"
@@ -94,7 +97,6 @@ class BuscadorWindow extends Dialog<Buscador>{
 			onClick[ | this.editarPoi ]
 			bindEnabled(new NotNullObservable("poiSeleccionado"))
 		]
-		
 	}
 	
 	def editarPoi(){

@@ -14,6 +14,7 @@ import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.windows.Dialog
 import edu.tp2016.buscador.Buscador
 import java.awt.Color
+import org.uqbar.arena.bindings.ValueTransformer
 
 class LoginWindow extends MainWindow<UserLogin>{
 	
@@ -50,27 +51,21 @@ class LoginWindow extends MainWindow<UserLogin>{
 			new Button(it) => [
 				caption = "Login"
 				onClick [ |
-					if (modelObject.validarLogin) {
-						new Label(mainPanel) => [
-							foreground = Color.GREEN
-							value <=> "resultadoLogin"
-						]
+					if (modelObject.validarLogin)
 						this.openDialog(new BuscadorWindow(this, new Buscador()))
-					}
-					else{
-						new Label(mainPanel)  => [
-							foreground = Color.RED
-							value <=> "resultadoLogin"
-						]
-					}
 				]
 				setAsDefault
 			]
 			new Button(it) => [ 
-				caption = "Cancelar"
-				onClick [ | modelObject.cancelarLogin ]
+				caption = "Limpiar"
+				onClick [ | modelObject.limpiarLogin ]
 			]
 		]
+		
+		new Label(mainPanel) => [
+ 			(foreground <=> "resultadoLogin").transformer = new LoginOkTransformer 
+ 			value <=> "resultadoLogin"	
+ 		]
 		
 	}
 	
@@ -82,4 +77,24 @@ class LoginWindow extends MainWindow<UserLogin>{
 		new LoginWindow().startApplication
 	}
 	
+}
+
+class LoginOkTransformer implements ValueTransformer<String, Object> {
+ 	
+ 	override getModelType() {
+ 		typeof(String)
+ 	}
+ 	
+ 	override getViewType() {
+ 		typeof(Object)
+ 	}
+ 	
+ 	override modelToView(String valorDelModelo) {
+ 		if(valorDelModelo.equalsIgnoreCase("<< Acceso exitoso >>")) Color.GREEN.darker
+ 			else Color.RED
+ 	}
+ 	
+ 	override viewToModel(Object valorDeLaVista) {
+ 		null	
+ 	}
 }
