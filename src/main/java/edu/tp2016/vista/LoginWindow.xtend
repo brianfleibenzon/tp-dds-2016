@@ -13,8 +13,12 @@ import org.uqbar.arena.bindings.ValueTransformer
 import edu.tp2016.applicationModel.UserLogin
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Button
+import edu.tp2016.applicationModel.BuscadorApplication
+import org.uqbar.arena.windows.Dialog
 
 class LoginWindow extends MainWindow<UserLogin>{
+	
+	public boolean busquedaHabilitada = false
 	
 	new() {
 		super(new UserLogin())
@@ -48,18 +52,41 @@ class LoginWindow extends MainWindow<UserLogin>{
 			new Label(it).text = ""
 			new Button(it) => [ 
 				caption = "Login"
-				onClick [ | modelObject.validarLogin ]
+				onClick [ |
+					busquedaHabilitada = false
+					modelObject.validarLogin
+				]
 			]
 			new Button(it) => [ 
 				caption = "Cancel"
-				onClick [ | modelObject.cancelarLogin ]
+				onClick [ |
+					busquedaHabilitada = false
+					modelObject.cancelarLogin
+				]
 			]
 		]
 
 		new Label(mainPanel) => [
-			(foreground <=> "loginOk").transformer = new LoginOkTransformer 
-			value <=> "loginOk"	
+			(foreground <=> "loginOk").transformer = new LoginOkTransformer(this)
+			value <=> "loginOk"
 		]
+		
+		new Panel(mainPanel) => [
+			it.layout = new ColumnLayout(3)
+			new Label(it).text = ""
+			new Button(it) =>  [
+			setCaption("Ingresar a Búsqueda")
+			onClick [ | 
+				if(busquedaHabilitada){
+					this.openDialog(new BuscadorWindow(this, new BuscadorApplication())) }
+				]
+			]
+		]
+		new ErrorsPanel(mainPanel, "                (El botón se habilitará cuando el Login sea válido)")
+	}
+	
+	def openDialog(Dialog<?> dialog) {
+		dialog.open
 	}
 
 	def static main(String[] args) {
@@ -70,6 +97,12 @@ class LoginWindow extends MainWindow<UserLogin>{
 
 class LoginOkTransformer implements ValueTransformer<String, Object> {
 	
+	LoginWindow ventanaPrincipal
+	
+	new(LoginWindow window){
+		ventanaPrincipal = window
+	}
+	
 	override getModelType() {
 		typeof(String)
 	}
@@ -79,8 +112,12 @@ class LoginOkTransformer implements ValueTransformer<String, Object> {
 	}
 	
 	override modelToView(String valorDelModelo) {
-		if(valorDelModelo.equals("Login exitoso.")) Color.GREEN.darker
-			else Color.RED
+		if(valorDelModelo.equals("<< Login exitoso >>")){
+			//Color.GREEN.darker
+			ventanaPrincipal.busquedaHabilitada = true
+			
+		}// else Color.RED
+		// TODO: VER COLORES DE VALIDACIÓN
 	}
 	
 	override viewToModel(Object valorDeLaVista) {

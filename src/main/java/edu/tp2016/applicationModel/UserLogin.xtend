@@ -25,9 +25,9 @@ class UserLogin {
 		if(loginStatus.equals(VACIO)){
 			return ""
 		} else if(loginStatus.equals(OK)){
-			return "Login exitoso."
+			return "<< Login exitoso >>"
 		} else{
-			return "Login inválido."
+			return "<< Login inválido >>"
 		}
 	}
 	
@@ -43,7 +43,7 @@ class UserLogin {
 					else loginStatus = INVALIDO
 		}
 		else{
-			loginStatus = VACIO
+			loginStatus = INVALIDO
 		}
 	}
 	

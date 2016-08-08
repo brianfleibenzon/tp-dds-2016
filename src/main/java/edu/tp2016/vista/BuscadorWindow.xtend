@@ -3,7 +3,6 @@ package edu.tp2016.vista
 import org.uqbar.arena.widgets.Panel
 
 import org.uqbar.arena.widgets.Label
-import org.uqbar.arena.windows.MainWindow
 import org.uqbar.arena.widgets.TextBox
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
@@ -20,15 +19,18 @@ import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
 import org.uqbar.arena.windows.Dialog
+import org.uqbar.arena.windows.WindowOwner
 
-class BuscadorWindow extends MainWindow<BuscadorApplication>{
+class BuscadorWindow extends Dialog<BuscadorApplication>{
 	
-	new() {
-		super(new BuscadorApplication)
+	new(WindowOwner owner, BuscadorApplication model) {
+		super(owner, model)
+		this.delegate.errorViewer = this
 		title = "Búsqueda"
 	}
 	
-	override createContents(Panel mainPanel) {
+	override protected createFormPanel(Panel mainPanel) {
+
 		new Panel(mainPanel) => [
 			new Label(it) => [			
 				text = "Criterio de búsqueda"
@@ -114,10 +116,6 @@ class BuscadorWindow extends MainWindow<BuscadorApplication>{
 	def openDialog(Dialog<?> dialog) {
 		dialog.onAccept[ |	modelObject.buscar ]
 		dialog.open
-	}
-	
-	def static void main(String[] args){
-		new BuscadorWindow().startApplication
 	}
 	
 }
