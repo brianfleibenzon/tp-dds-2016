@@ -54,7 +54,7 @@ class EditarBancoWindow extends EditarPoiWindow {
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
 		title = "Editar Banco"
-		iconImage = "C:/Users/celeste/workspace/tp-dds-2016/imagenes/banco1.ico"
+		iconImage = "imagenes/banco1.ico"
 	}
 	
 	override addFormPanel(Panel panel) {
@@ -75,7 +75,7 @@ class EditarCGPWindow extends EditarPoiWindow {
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
 		title = "Editar CGP"
-		iconImage = "C:/Users/celeste/workspace/tp-dds-2016/imagenes/cgp.jpg"
+		iconImage = "imagenes/cgp.jpg"
 	}
 	
 	override addFormPanel(Panel panel) {
@@ -112,7 +112,7 @@ class EditarComercioWindow extends EditarPoiWindow {
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
 		title = "Editar comercio"
-	    iconImage = "C:/Users/celeste/workspace/tp-dds-2016/imagenes/comercio.jpg"
+	    iconImage = "imagenes/comercio.jpg"
 	}
 	
 	override addFormPanel(Panel panel) {
@@ -132,7 +132,7 @@ class EditarParadaWindow extends EditarPoiWindow {
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
 		title = "Editar parada de colectivo"
-	    iconImage = "C:/Users/celeste/workspace/tp-dds-2016/imagenes/coletivo.ico"
+	    iconImage = "imagenes/coletivo.ico"
 	}
 	
 	override addFormPanel(Panel panel) {
