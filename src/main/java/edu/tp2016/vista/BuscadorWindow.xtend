@@ -8,7 +8,6 @@ import org.uqbar.arena.widgets.TextBox
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.tables.Table
-import edu.tp2016.applicationModel.BuscadorApplication
 import edu.tp2016.pois.POI
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.layout.ColumnLayout
@@ -20,10 +19,11 @@ import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
+import edu.tp2016.buscador.Buscador
 
-class BuscadorWindow extends Dialog<BuscadorApplication>{
+class BuscadorWindow extends Dialog<Buscador>{
 	
-	new(WindowOwner owner, BuscadorApplication model) {
+	new(WindowOwner owner, Buscador model) {
 		super(owner, model)
 		this.delegate.errorViewer = this
 		title = "Búsqueda"
@@ -57,7 +57,7 @@ class BuscadorWindow extends Dialog<BuscadorApplication>{
 				new Label(it) => [ text = "" ] // (Dejarlo porque alinea)
 				new Button(it) => [
 					caption = "Agregar"	
-					onClick[|]					
+					onClick[| this.openDialogEditar(new AgregarWindow(this, new POI(), model.getSource)) ]		
 				]
 				new Button(it) => [
 					caption = "Buscar"	
@@ -77,8 +77,6 @@ class BuscadorWindow extends Dialog<BuscadorApplication>{
 		var table = new Table<POI>(mainPanel, typeof(POI)) => [
 			items <=> "resultados"
 			value <=> "poiSeleccionado"
-		
-				
 		]
 		new Column<POI>(table) => [
 			title = "Nombre"
@@ -93,7 +91,7 @@ class BuscadorWindow extends Dialog<BuscadorApplication>{
 		]
 		new Button(mainPanel) => [
 			caption = "Editar"	
-			onClick[| this.editarPoi ]
+			onClick[ | this.editarPoi ]
 			bindEnabled(new NotNullObservable("poiSeleccionado"))
 		]
 		
@@ -101,7 +99,7 @@ class BuscadorWindow extends Dialog<BuscadorApplication>{
 	
 	def editarPoi(){
 		val bloqueQueConstruyeVentana = mapaVentanas.get(modelObject.poiSeleccionado.class)
-		this.openDialog(bloqueQueConstruyeVentana.apply)
+		this.openDialogEditar(bloqueQueConstruyeVentana.apply)
 	}
 	
 	def getMapaVentanas() {
@@ -113,9 +111,13 @@ class BuscadorWindow extends Dialog<BuscadorApplication>{
 		]
 	}
 	
-	def openDialog(Dialog<?> dialog) {
-		dialog.onAccept[ |	modelObject.buscar ]
+	def openDialogEditar(Dialog<?> dialog) {
+		dialog.onAccept[ | modelObject.buscar ]
 		dialog.open
 	}
 	
+	def openDialogAgregar(Dialog<?> dialog) {
+		dialog.open
+	}
+
 }

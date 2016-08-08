@@ -41,8 +41,7 @@ class CGP extends POI {
 
 	}
 
-    new(){}
-    
+    new(){ } // default
     
 	override boolean estaCercaA(Point ubicacionDispositivo) {
 		comuna.pertenecePunto(ubicacionDispositivo)

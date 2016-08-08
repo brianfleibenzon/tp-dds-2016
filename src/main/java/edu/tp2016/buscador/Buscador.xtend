@@ -16,12 +16,25 @@ import edu.tp2016.usuarios.Usuario
 import org.joda.time.LocalDate
 import edu.tp2016.serviciosExternos.MailSender
 import org.uqbar.commons.utils.Observable
+import edu.tp2016.usuarios.Terminal
+import edu.tp2016.builder.ParadaBuilder
+import java.util.Arrays
+import edu.tp2016.mod.DiaDeAtencion
+import org.uqbar.geodds.Point
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.mod.Rubro
+import org.uqbar.commons.model.IModel
 
 @Observable
 @Accessors
-class Buscador{
+class Buscador implements IModel<Buscador>{
+	List<POI> resultados = new ArrayList<POI> // para UI
+	POI poiSeleccionado // para UI
+	String busqueda // para UI
+	boolean initStatus = false // para UI
+	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
-	Repositorio repo = Repositorio.newInstance
+	public Repositorio repo = Repositorio.newInstance
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Usuario usuarioActual
@@ -30,6 +43,18 @@ class Buscador{
 	
 	new(){
 		fechaActual = new LocalDateTime()
+	}
+	
+	override Buscador getSource(){
+		this
+	}
+	
+	def init(){
+		if(!initStatus){
+			usuarioActual = new Terminal("terminal")
+			repo.agregarVariosPois(crearJuegoDeDatos())
+			initStatus = true
+		}
 	}
 
 	def boolean consultarCercania(POI unPoi, POI otroPoi) {
@@ -50,6 +75,10 @@ class Buscador{
 		usuarioActual.registrarBusqueda(texto, listaDePoisDevueltos, demora, this)
 
 		listaDePoisDevueltos
+	}
+	
+	def agregarPoi(POI unPoi){
+		repo.agregarPoi(unPoi)
 	}
 
 	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
@@ -89,7 +118,6 @@ class Buscador{
 	}
 
 // REPORTES DE BÚSQUEDAS:
-
 	def generarReporteCantidadTotalDeBusquedasPorFecha() {
 		val reporte = new HashMap<LocalDate, Integer>()
 
@@ -142,6 +170,51 @@ class Buscador{
 		]
 		reporte
 	}
+	
+	def crearJuegoDeDatos(){
+		val ubicacionX = new Point(-1, 1)
+		val rangoX = new ArrayList<DiaDeAtencion>
+
+		val utn7parada = new ParadaBuilder().nombre("7_utn").
+		ubicacion(ubicacionX).
+		claves( Arrays.asList("utn", "campus", "coletivo", "parada")).build
+
+		val miserere7parada = new ParadaBuilder().nombre("7_once").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("utn", "plaza miserere", "once", "coletivo", "parada")).build
+
+		val utn114parada = new ParadaBuilder().nombre("114_utn").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("utn", "campus", "coletivo", "parada")).build
+
+		val rubroFarmacia = new Rubro("Farmacia", 1)
+
+		val rubroLibreria = new Rubro("Libreria", 2)
+	
+	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("medicamentos", "salud")).
+		rubro(rubroFarmacia).
+		rango(rangoX).build
+
+		val comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
+		ubicacion(ubicacionX).
+		claves(Arrays.asList("fotocopias", "utiles", "libros")).
+		rubro(rubroLibreria).
+		rango(rangoX).build
+	
+		val pois = Lists.newArrayList(utn7parada,
+								  utn114parada,
+								  miserere7parada,
+								  comercioFarmacity,
+								  comercioLoDeJuan)
+		pois
+	} // para UI
+	
+	def buscar(){
+		init
+		resultados = buscar(busqueda)
+	} // para UI
 	
 
 }

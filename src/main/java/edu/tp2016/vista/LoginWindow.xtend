@@ -13,8 +13,8 @@ import org.uqbar.arena.bindings.ValueTransformer
 import edu.tp2016.applicationModel.UserLogin
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Button
-import edu.tp2016.applicationModel.BuscadorApplication
 import org.uqbar.arena.windows.Dialog
+import edu.tp2016.buscador.Buscador
 
 class LoginWindow extends MainWindow<UserLogin>{
 	
@@ -59,9 +59,8 @@ class LoginWindow extends MainWindow<UserLogin>{
 			]
 			new Button(it) => [ 
 				caption = "Cancel"
-				onClick [ |
-					busquedaHabilitada = false
-					modelObject.cancelarLogin
+				onClick [ | busquedaHabilitada = false
+							modelObject.cancelarLogin
 				]
 			]
 		]
@@ -78,11 +77,14 @@ class LoginWindow extends MainWindow<UserLogin>{
 			setCaption("Ingresar a Búsqueda")
 			onClick [ | 
 				if(busquedaHabilitada){
-					this.openDialog(new BuscadorWindow(this, new BuscadorApplication())) }
+					this.openDialog(new BuscadorWindow(this, new Buscador())) }
 				]
 			]
 		]
-		new ErrorsPanel(mainPanel, "                (El botón se habilitará cuando el Login sea válido)")
+		new Label(mainPanel) => [
+			foreground = Color.BLUE
+			text = "(El botón se habilitará cuando el Login sea válido)"	
+		]
 	}
 	
 	def openDialog(Dialog<?> dialog) {
@@ -112,12 +114,12 @@ class LoginOkTransformer implements ValueTransformer<String, Object> {
 	}
 	
 	override modelToView(String valorDelModelo) {
-		if(valorDelModelo.equals("<< Login exitoso >>")){
-			//Color.GREEN.darker
-			ventanaPrincipal.busquedaHabilitada = true
-			
-		}// else Color.RED
-		// TODO: VER COLORES DE VALIDACIÓN
+		
+		if(valorDelModelo.equalsIgnoreCase("<< Login exitoso >>"))
+			ventanaPrincipal.busquedaHabilitada = true	
+		
+		if(valorDelModelo.equalsIgnoreCase("<< Login exitoso >>")) Color.GREEN.darker
+			else Color.RED
 	}
 	
 	override viewToModel(Object valorDeLaVista) {

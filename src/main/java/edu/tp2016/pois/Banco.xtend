@@ -39,9 +39,7 @@ String nombreGerente
 		setRangoDeAtencionBancario
 	}
 	
-	new(){
-		
-	}
+	new(){ } // default
 
 	override boolean estaDisponible(LocalDateTime fecha, String nombre) {
 		this.tieneRangoDeAtencionDisponibleEn(fecha)

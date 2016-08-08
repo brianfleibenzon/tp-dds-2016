@@ -11,7 +11,7 @@ import edu.tp2016.mod.Rubro
 class Comercio extends POI{
 	Rubro rubro
 	
-	new(){}
+	new(){ } // default
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < rubro.radioDeCercania

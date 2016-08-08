@@ -9,11 +9,15 @@ import java.util.ArrayList
 import edu.tp2016.procesos.ResultadoDeDarDeBajaUnPoi
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import edu.tp2016.pois.CGP
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.Comercio
 
 @Accessors
 class Repositorio extends CollectionBasedRepo<POI> {
+	private static Repositorio instance = null
 	List<ResultadoDeDarDeBajaUnPoi> poisDadosDeBaja = new ArrayList<ResultadoDeDarDeBajaUnPoi>
-
 	Random rand = new Random()
 
 	override createExample() {
@@ -70,20 +74,86 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		pois.forEach [ poi | this.agregarPoi(poi)]
 	}
 	
-	def boolean idEnUso(int id){
-		!((allInstances.filter [ poi | poi.id.equals(id)]).isEmpty)
+	def idEnUso(int id){
+		!((objects.filter [ poi | poi.id.equals(id)]).isEmpty)
 	}
 	
 	def eliminarPoi(POI poi){
 		this.effectiveDelete(poi)
 	}
 	
-	def void actualizaPOI (List<POI> POIS){
-		POIS.forEach[unPoi| this.update(unPoi) ]
+	def actualizarPoi(POI poi){
+		poi.validar
+		if (poi.isNew) { // es un alta
+			agregarPoi(poi)
+		} else { // es una modificación
+			this.update(poi)
+		}
 	}
 	
 	def registrarResultadoDeBaja(ResultadoDeDarDeBajaUnPoi resultado){
-		this.poisDadosDeBaja.add(resultado)
+		poisDadosDeBaja.add(resultado)
+	}
+	
+	static def getInstance() {
+		if (instance == null) {
+			instance = new Repositorio
+		}
+		instance
+	}
+	
+	def doGetPoi(POI unPoi) {
+		objects.findFirst [ it.id.equals(unPoi.id)]
+	}
+
+	/** Genero una copia del objeto para no actualizar el que referencia el repo **/
+	def getPoi(POI unPoi) {
+		val result = doGetPoi(unPoi)
+		if (result == null) {
+			null
+		} else {
+			result.copy
+		} 
+	}
+
+	/** ***************************************
+	 *  MÉTODOS CREACIONALES
+	 *  ***************************************
+	 */
+	def createCGP(String unNombre, String unaDireccion) {
+		new CGP => [
+			nombre = unNombre
+			direccion = unaDireccion 
+		]
+	}
+
+	def createBanco(String unNombre, String unaDireccion) {
+		new Banco => [
+			nombre = unNombre
+			direccion = unaDireccion 
+		]
+	}
+	
+	def createParadaDeColectivo(String unNombre, String unaDireccion) {
+		new ParadaDeColectivo => [
+			nombre = unNombre
+			direccion = unaDireccion 
+		]
+	}
+	
+	def createComercio(String unNombre, String unaDireccion) {
+		new Comercio => [
+			nombre = unNombre
+			direccion = unaDireccion 
+		]
+	}
+
+	def createIfNotExists(POI poi) {
+		val existe = getPoi(poi) != null
+		if (!existe) {
+			actualizarPoi(poi)
+		}
+		existe
 	}
 	
 }
