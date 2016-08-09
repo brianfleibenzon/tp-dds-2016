@@ -10,12 +10,12 @@ class TestTweet {
 	
 	def void setUp(){
 		frase = new Tweet
+		frase.setTextoEscrito("Hola que tal")
 	}
 	@Test
 	
-	def void testFrase(){
-		
-		
-		Assert.assertEquals(128,frase.caracteresQueQuedan("Hola que tal"))
+	def void testCaracteresQueQuedan(){
+			
+		Assert.assertEquals(128,frase.caracteresRestantes)
 	}
 }

@@ -15,18 +15,13 @@ class Tweet {
 		
 		this.textoEscrito = texto
 		this.caracteresEscritos = textoEscrito.length
-		
-	
-			
 		this.caracteresRestantes = longitudMaxima-caracteresEscritos
-		if(caracteresRestantes<=5){
-			color= Color.RED
-			}else
-			{
-			color= Color.BLACK
-			}
-		}
 		
+		if(caracteresRestantes <= 5){
+			color = Color.RED
+		} else {
+			color= Color.BLACK
+		}
+	}
 
-	
 }
