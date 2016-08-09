@@ -9,10 +9,6 @@ import java.util.ArrayList
 import edu.tp2016.procesos.ResultadoDeDarDeBajaUnPoi
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import edu.tp2016.pois.CGP
-import edu.tp2016.pois.ParadaDeColectivo
-import edu.tp2016.pois.Banco
-import edu.tp2016.pois.Comercio
 
 @Accessors
 class Repositorio extends CollectionBasedRepo<POI> {
@@ -114,38 +110,6 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		} else {
 			result.copy
 		} 
-	}
-
-	/** ***************************************
-	 * 			 MÉTODOS CREACIONALES
-	 *  ***************************************
-	 */
-	def actualizarCGP(String unNombre, String unaDireccion) {
-		new CGP => [
-			nombre = unNombre
-			direccion = unaDireccion 
-		]
-	}
-
-	def createBanco(String unNombre, String unaDireccion) {
-		new Banco => [
-			nombre = unNombre
-			direccion = unaDireccion 
-		]
-	}
-	
-	def createParadaDeColectivo(String unNombre, String unaDireccion) {
-		new ParadaDeColectivo => [
-			nombre = unNombre
-			direccion = unaDireccion 
-		]
-	}
-	
-	def createComercio(String unNombre, String unaDireccion) {
-		new Comercio => [
-			nombre = unNombre
-			direccion = unaDireccion 
-		]
 	}
 
 	def createIfNotExists(POI poi) {

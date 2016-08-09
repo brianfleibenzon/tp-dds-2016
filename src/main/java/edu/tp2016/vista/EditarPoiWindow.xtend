@@ -24,7 +24,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 		val form = new Panel(mainPanel)
 		form.layout = new ColumnLayout(2)
 		
-		new Label(form).text = "Nombre"
+		new Label(form).text = "Nombre:"
 		new TextBox(form) => [
 			value <=> "nombre"
 			width = 200
@@ -42,7 +42,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 			.setAsDefault
 			.disableOnError
 
-		new Button(actions) //
+		new Button(actions)
 			.setCaption("Cancelar")
 			.onClick[|this.cancel]
 	}
@@ -58,7 +58,7 @@ class EditarBancoWindow extends EditarPoiWindow {
 	
 	override addFormPanel(Panel panel) {
 		
-		new Label(panel).text = "Direccion"
+		new Label(panel).text = "Dirección:"
 		new TextBox(panel) => [
 			value <=> "direccion"
 			width = 200
@@ -76,18 +76,18 @@ class EditarCGPWindow extends EditarPoiWindow {
 	}
 	
 	override addFormPanel(Panel panel) {
-		new Label(panel).text = "Direccion"
+		new Label(panel).text = "Dirección"
 		new TextBox(panel) => [
 			value <=> "direccion"
 			width = 200
 		]
 		
-		new Label(panel).text = "Zona"
+		new Label(panel).text = "Barrios:"
 		new TextBox(panel) => [
-			value <=> "zonasIncluidas"
+			value <=> "barriosIncluidos"
 			width = 200
 		]
-        new Label(panel).text = "Lista De Servicios"
+        new Label(panel).text = "Lista de Servicios:"
         new Panel(panel)=> [
 		var table = new Table<Servicio>(it,typeof(Servicio)) => [
 			value <=> "servicioSeleccionado"
@@ -106,12 +106,12 @@ class EditarComercioWindow extends EditarPoiWindow {
 	
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
-		title = "Editar comercio"
+		title = "Editar Comercio"
 	    iconImage = "imagenes/comercio.jpg"
 	}
 	
 	override addFormPanel(Panel panel) {
-		new Label(panel).text = "Direccion"
+		new Label(panel).text = "Dirección:"
 		new TextBox(panel) => [
 			value <=> "direccion"
 			width = 200
@@ -124,7 +124,7 @@ class EditarParadaWindow extends EditarPoiWindow {
 	
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
-		title = "Editar parada de colectivo"
+		title = "Editar Parada de Colectivo"
 	    iconImage = "imagenes/coletivo.ico"
 	}
 	

@@ -14,6 +14,9 @@ import edu.tp2016.pois.Banco
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
 import edu.tp2016.applicationModel.Buscador
+import org.uqbar.arena.widgets.tables.Table
+import edu.tp2016.mod.Servicio
+import org.uqbar.arena.widgets.tables.Column
 
 abstract class NuevoPoiWindow extends Dialog<POI>{
 	
@@ -83,14 +86,21 @@ class NuevoCGPWindow extends NuevoPoiWindow {
 			width = 170
 		]
 		new Label(panel).text = "Servicios:"
-		new TextBox(panel) => [
-			// TODO: Binding correspondiente
-			width = 170
+        new Panel(panel)=> [
+		var table = new Table<Servicio>(it, typeof(Servicio)) => [
+			value <=> "servicioSeleccionado"
+			items <=> "servicios"
+			width = 200
 		]
+		new Column<Servicio>(table) => [
+			title = "Servicios"
+			bindContentsToProperty("nombre")
+		]
+	]
 	}
 	
 	override actualizarPoiSegunTipo(){
-		parentBuscador.repo.actualizarPoi(this.modelObject)
+		parentBuscador.repo.actualizarPoi(modelObject as CGP)
 	}
 }
 
@@ -116,7 +126,7 @@ class NuevoBancoWindow extends NuevoPoiWindow {
 	}
 	
 	override actualizarPoiSegunTipo() {
-		parentBuscador.repo.actualizarPoi(this.modelObject)
+		parentBuscador.repo.actualizarPoi(modelObject as Banco)
 	}
 	
 }
@@ -143,7 +153,7 @@ class NuevoComercioWindow extends NuevoPoiWindow {
 	}
 	
 	override actualizarPoiSegunTipo() {
-		parentBuscador.repo.actualizarPoi(this.modelObject)
+		parentBuscador.repo.actualizarPoi(modelObject as Comercio)
 	}
 	
 }
@@ -165,7 +175,7 @@ class NuevaParadaWindow extends NuevoPoiWindow {
 	}
 	
 	override actualizarPoiSegunTipo() {
-		parentBuscador.repo.actualizarPoi(this.modelObject)
+		parentBuscador.repo.actualizarPoi(modelObject as ParadaDeColectivo)
 	}
 	
 }
