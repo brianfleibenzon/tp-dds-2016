@@ -26,6 +26,10 @@ import edu.tp2016.mod.Rubro
 import org.uqbar.commons.model.IModel
 import java.util.HashSet
 import java.util.Set
+import edu.tp2016.builder.CGPBuilder
+import org.uqbar.geodds.Polygon
+import edu.tp2016.mod.Comuna
+import edu.tp2016.mod.Servicio
 
 @Observable
 @Accessors
@@ -202,12 +206,32 @@ class Buscador implements IModel<Buscador>{
 		claves(Arrays.asList("fotocopias", "utiles", "libros")).
 		rubro(rubroLibreria).
 		rango(rangoX).build
+		
+		val cultura = new Servicio("cultura", rangoX)
+
+		val deportes = new Servicio("deportes", rangoX)
+
+        val asesoramientoLegal = new Servicio("asesoramiento legal", rangoX)
+	 
+	    val comunaX = new Comuna => [
+			poligono = new Polygon()
+			poligono.add(new Point(-1, 1))
+			poligono.add(new Point(-2, 2))
+			poligono.add(new Point(-3, 3))
+			poligono.add(new Point(-4, 4))
+		]
+	
+	    val CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").ubicacion(ubicacionX).claves(
+			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).comuna(comunaX).servicio(
+			Arrays.asList(asesoramientoLegal, cultura, deportes)).zonasIncluidas("").nombreDirector("").telefono("").
+			build
 	
 		val pois = Lists.newArrayList(utn7parada,
 								  utn114parada,
 								  miserere7parada,
 								  comercioFarmacity,
-								  comercioLoDeJuan)
+								  comercioLoDeJuan,
+								  CGPComuna1)
 		pois
 	} // para UI	
 	

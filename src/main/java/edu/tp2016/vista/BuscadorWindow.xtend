@@ -43,6 +43,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 			it.layout = new ColumnLayout(2)
 			new List<String>(it) => [
 				items <=> "criteriosBusqueda"	
+				width = 200
 			]				
 			new Panel(it)=> [
 				new Label(it) => [			
