@@ -117,10 +117,10 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	}
 
 	/** ***************************************
-	 *  MÉTODOS CREACIONALES
+	 * 			 MÉTODOS CREACIONALES
 	 *  ***************************************
 	 */
-	def createCGP(String unNombre, String unaDireccion) {
+	def actualizarCGP(String unNombre, String unaDireccion) {
 		new CGP => [
 			nombre = unNombre
 			direccion = unaDireccion 

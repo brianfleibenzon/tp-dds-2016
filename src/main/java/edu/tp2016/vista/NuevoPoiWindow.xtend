@@ -17,7 +17,7 @@ import edu.tp2016.applicationModel.Buscador
 
 abstract class NuevoPoiWindow extends Dialog<POI>{
 	
-	Buscador parentBuscador
+	public Buscador parentBuscador
 	
 	new(WindowOwner owner, POI model, Buscador buscador) {
 		super(owner, model)
@@ -47,21 +47,23 @@ abstract class NuevoPoiWindow extends Dialog<POI>{
 		
 		addFormPanel(form) // aquí las subclases agregan funcionalidad
 		
-		new Button(form) 
+		new Button(mainPanel) 
 			.setCaption("Aceptar")
 			.onClick [ | this.accept ]
 			.setAsDefault
 			.disableOnError
 
-		new Button(form)
+		new Button(mainPanel)
 			.setCaption("Cancelar")
 			.onClick[ | this.cancel ]
 	}
 	
 	abstract def void addFormPanel(Panel panel)
+	
+	abstract def void actualizarPoiSegunTipo()
 
 	override accept() {
-		parentBuscador.repo.actualizarPoi(this.modelObject)
+		actualizarPoiSegunTipo
 		super.accept
 	}
 }
@@ -86,6 +88,10 @@ class NuevoCGPWindow extends NuevoPoiWindow {
 			width = 170
 		]
 	}
+	
+	override actualizarPoiSegunTipo(){
+		parentBuscador.repo.actualizarPoi(this.modelObject)
+	}
 }
 
 class NuevoBancoWindow extends NuevoPoiWindow {
@@ -108,6 +114,11 @@ class NuevoBancoWindow extends NuevoPoiWindow {
 			width = 170
 		]
 	}
+	
+	override actualizarPoiSegunTipo() {
+		parentBuscador.repo.actualizarPoi(this.modelObject)
+	}
+	
 }
 
 class NuevoComercioWindow extends NuevoPoiWindow {
@@ -130,6 +141,11 @@ class NuevoComercioWindow extends NuevoPoiWindow {
 			width = 170
 		]
 	}
+	
+	override actualizarPoiSegunTipo() {
+		parentBuscador.repo.actualizarPoi(this.modelObject)
+	}
+	
 }
 
 class NuevaParadaWindow extends NuevoPoiWindow {
@@ -147,4 +163,9 @@ class NuevaParadaWindow extends NuevoPoiWindow {
 			width = 170
 		]
 	}
+	
+	override actualizarPoiSegunTipo() {
+		parentBuscador.repo.actualizarPoi(this.modelObject)
+	}
+	
 }
