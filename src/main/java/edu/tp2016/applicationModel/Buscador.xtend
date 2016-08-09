@@ -173,15 +173,15 @@ class Buscador implements IModel<Buscador>{
 
 		val utn7parada = new ParadaBuilder().nombre("7_utn").
 		ubicacion(ubicacionX).
-		claves( Arrays.asList("utn", "campus", "coletivo", "parada")).build
+		claves( Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
 		val miserere7parada = new ParadaBuilder().nombre("7_once").
 		ubicacion(ubicacionX).
-		claves(Arrays.asList("utn", "plaza miserere", "once", "coletivo", "parada")).build
+		claves(Arrays.asList("utn", "plaza miserere", "once", "colectivo", "parada")).build
 
 		val utn114parada = new ParadaBuilder().nombre("114_utn").
 		ubicacion(ubicacionX).
-		claves(Arrays.asList("utn", "campus", "coletivo", "parada")).build
+		claves(Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
 		val rubroFarmacia = new Rubro("Farmacia", 1)
 
