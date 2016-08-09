@@ -12,6 +12,7 @@ class Banco extends POI {
 String sucursal
 String nombreGerente
 
+
 	def void setRangoDeAtencionBancario(){
 		val lunes = new DiaDeAtencion(1, 10, 15, 0, 0)
 		val martes = new DiaDeAtencion(2, 10, 15, 0, 0)

@@ -14,6 +14,7 @@ import edu.tp2016.mod.Servicio
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 
+
 abstract class EditarPoiWindow extends Dialog<POI> {
 	
 	new(WindowOwner owner, POI model) {
@@ -98,8 +99,8 @@ class EditarCGPWindow extends EditarPoiWindow {
 			title = "Servicios"
 			bindContentsToProperty("nombre")
 		]
-	]
-	}
+]
+}
 }
 
 class EditarComercioWindow extends EditarPoiWindow {
@@ -116,10 +117,15 @@ class EditarComercioWindow extends EditarPoiWindow {
 			value <=> "direccion"
 			width = 200
 		]
-	}
 	
-}
 
+    new Label(panel).text = "Rubro:"
+		new TextBox(panel) => [
+			value <=> "rubro.nombre"
+			width = 200
+		]   
+}
+}
 class EditarParadaWindow extends EditarPoiWindow {
 	
 	new(WindowOwner owner, POI model) {
