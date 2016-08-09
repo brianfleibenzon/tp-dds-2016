@@ -60,7 +60,7 @@ class LoginWindow extends MainWindow<UserLogin>{
 				onClick [ | modelObject.limpiarLogin ]
 			]
 			new Button(it) => [ 
-				caption = "Cancelar"
+				caption = "Salir"
 				onClick [ |this.close ]
 			]
 		]

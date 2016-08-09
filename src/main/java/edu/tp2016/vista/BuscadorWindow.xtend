@@ -98,7 +98,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 			bindEnabled(new NotNullObservable("poiSeleccionado"))
 		]
 		new Button(mainPanel)
-			.setCaption("Cancelar")
+			.setCaption("Salir")
 			.onClick[ | this.cancel ]
 	}
 	

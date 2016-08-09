@@ -5,7 +5,6 @@ import edu.tp2016.pois.POI
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Button
-import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Label
 import edu.tp2016.pois.Banco
 import edu.tp2016.pois.ParadaDeColectivo
@@ -26,9 +25,6 @@ class MenuNuevoPoiWindow extends Dialog<POI> {
 	
 	override protected createFormPanel(Panel mainPanel) {
 		new Panel(mainPanel) => [
-			it.layout = new ColumnLayout(2)
-			new Label(mainPanel)
-				.text = ""
 			new Label(mainPanel)
 				.text = ""
 			new Button(mainPanel)
@@ -49,7 +45,7 @@ class MenuNuevoPoiWindow extends Dialog<POI> {
 		
 			new Label(mainPanel) => [ text = "" ]
 			new Button(mainPanel)
-				.setCaption("Cancelar")
+				.setCaption("Salir")
 				.onClick[ | this.cancel ]
 		]
 	}
