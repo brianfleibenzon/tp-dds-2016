@@ -24,13 +24,16 @@ import org.uqbar.geodds.Point
 import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.mod.Rubro
 import org.uqbar.commons.model.IModel
+import java.util.HashSet
+import java.util.Set
 
 @Observable
 @Accessors
 class Buscador implements IModel<Buscador>{
 	List<POI> resultados = new ArrayList<POI> // para UI
 	public POI poiSeleccionado // para UI
-	String busqueda // para UI
+	String nuevoCriterio = "" // para UI
+	List<String> criteriosBusqueda = new ArrayList<String> // para UI
 	boolean initStatus = false // para UI
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
@@ -82,7 +85,7 @@ class Buscador implements IModel<Buscador>{
 			poisBusqueda.addAll(unaInterfaz.buscar(texto))
 		]
 	}
-
+	
 // BÚSQUEDA EN EL REPOSITORIO:
 	def Iterable<POI> buscarPor(String texto) {
 		val poisBusqueda = new ArrayList<POI>
@@ -95,6 +98,7 @@ class Buscador implements IModel<Buscador>{
 		]
 	}
 	
+
 	/**
 	 * Devuelve el POI cuyo id se pasó como parámetro de búsqueda.
 	 * Obs.: Busca en el repopsitorio de pois
@@ -205,11 +209,26 @@ class Buscador implements IModel<Buscador>{
 								  comercioFarmacity,
 								  comercioLoDeJuan)
 		pois
-	} // para UI
+	} // para UI	
 	
 	def buscar(){
 		init
-		resultados = buscar(busqueda)
+		resultados.clear()
+		val Set<POI> s = new HashSet<POI>(resultados)
+		criteriosBusqueda.forEach[criterio| s.addAll(this.buscar(criterio))]
+		resultados.addAll(s)		
+	} // para UI
+	
+	def eliminarCriterios(){
+		criteriosBusqueda.clear()
+	} // para UI
+	
+	def agregarCriterio(){
+		if (nuevoCriterio!=""){
+			criteriosBusqueda.add(nuevoCriterio)
+			nuevoCriterio = ""
+			
+		}
 	} // para UI
 	
 

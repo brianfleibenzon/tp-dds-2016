@@ -20,6 +20,7 @@ import edu.tp2016.pois.ParadaDeColectivo
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
 import edu.tp2016.applicationModel.Buscador
+import org.uqbar.arena.widgets.List
 
 class BuscadorWindow extends Dialog<Buscador>{
 	
@@ -33,32 +34,39 @@ class BuscadorWindow extends Dialog<Buscador>{
 
 		new Panel(mainPanel) => [
 			new Label(it) => [			
-				text = "Criterio de búsqueda"
+				text = "Criterios de búsqueda"
 				fontSize = 10
 			]
 		]
 		new Panel(mainPanel) => [
+			
 			it.layout = new ColumnLayout(2)
-			new Panel(it) => [
-				new Panel(it)=> [
-					new Label(it) => [			
-						text = "Nombre:"
-					]
+			new List<String>(it) => [
+				items <=> "criteriosBusqueda"	
+			]				
+			new Panel(it)=> [
+				new Label(it) => [			
+					text = "Nombre:"
 				]
 				new TextBox(it) => [
 					width = 200
-					value <=> "busqueda"	
+					value <=> "nuevoCriterio"
+				]
+				new Button(it) => [
+					caption = "Agregar criterio"	
+					onClick[| modelObject.agregarCriterio ]		
+				]
+				new Button(it) => [
+					caption = "Borrar criterios"	
+					onClick[| modelObject.eliminarCriterios ]
 				]
 			]
+				
 			new Panel(it) => [
 				it.layout = new ColumnLayout(3)
 				new Label(it) => [ text = "" ] // (Dejarlos porque alinean)
 				new Label(it) => [ text = "" ]
-				new Label(it) => [ text = "" ]
-				new Button(it) => [
-					caption = "Agregar"	
-					onClick[|  ]		
-				]
+				new Label(it) => [ text = "" ]				
 				new Button(it) => [
 					caption = "Buscar"	
 					onClick[| modelObject.buscar ]
