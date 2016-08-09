@@ -189,7 +189,7 @@ class Buscador implements IModel<Buscador>{
 	
 	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
 		ubicacion(ubicacionX).
-		claves(Arrays.asList("medicamentos", "salud")).
+		claves(Arrays.asList("medicamentos", "salud", "farmacia")).
 		rubro(rubroFarmacia).
 		rango(rangoX).build
 
