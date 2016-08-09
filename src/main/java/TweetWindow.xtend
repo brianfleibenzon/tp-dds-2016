@@ -23,6 +23,7 @@ class TweetWindow extends MainWindow<Tweet> {
 		new TextBox(mainPanel)=>[
 			value <=> "textoEscrito"
 			width = 210
+			
 			]
 		new Label(mainPanel)=>[
 			value <=> "caracteresRestantes"
