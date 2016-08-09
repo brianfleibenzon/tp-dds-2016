@@ -15,6 +15,7 @@ import org.uqbar.commons.model.UserException
 class POI extends Entity implements Cloneable {
 	String nombre
 	String direccion
+	String icono
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	List<String> palabrasClave = new ArrayList<String>

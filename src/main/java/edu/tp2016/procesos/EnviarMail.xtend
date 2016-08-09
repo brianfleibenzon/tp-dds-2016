@@ -2,7 +2,7 @@ package edu.tp2016.procesos
 
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.usuarios.Administrador
-import edu.tp2016.buscador.Buscador
+import edu.tp2016.applicationModel.Buscador
 
 class EnviarMail extends Proceso {
 	

@@ -6,8 +6,8 @@ import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import org.junit.Test
 import org.junit.Assert
 import edu.tp2016.pois.CGP
-import edu.tp2016.buscador.Buscador
 import edu.tp2016.usuarios.Terminal
+import edu.tp2016.applicationModel.Buscador
 
 class TestBusquedaCGP {
 	Buscador buscador

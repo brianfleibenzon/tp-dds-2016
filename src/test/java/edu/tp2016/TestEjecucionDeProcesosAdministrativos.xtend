@@ -38,8 +38,8 @@ import edu.tp2016.procesos.StubProceso
 import edu.tp2016.procesos.EnviarMail
 import java.util.ArrayList
 import edu.tp2016.pois.POI
-import edu.tp2016.buscador.Buscador
 import edu.tp2016.observersBusqueda.Busqueda
+import edu.tp2016.applicationModel.Buscador
 
 class TestEjecucionDeProcesosAdministrativos {
 

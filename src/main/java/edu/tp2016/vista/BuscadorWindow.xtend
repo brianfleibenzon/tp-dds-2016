@@ -19,7 +19,7 @@ import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
-import edu.tp2016.buscador.Buscador
+import edu.tp2016.applicationModel.Buscador
 
 class BuscadorWindow extends Dialog<Buscador>{
 	
@@ -65,7 +65,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 				]
 				new Button(it) => [
 					caption = "Nuevo POI"	
-					onClick[| this.openDialogEditar(new NuevoPoiWindow(this, new POI(), model.getSource)) ]	
+					onClick[| this.openDialogEditar(new MenuNuevoPoiWindow(this, new POI(), model.getSource)) ]	
 				]
 			]
 				
@@ -97,6 +97,9 @@ class BuscadorWindow extends Dialog<Buscador>{
 			onClick[ | this.editarPoi ]
 			bindEnabled(new NotNullObservable("poiSeleccionado"))
 		]
+		new Button(mainPanel)
+			.setCaption("Cancelar")
+			.onClick[ | this.cancel ]
 	}
 	
 	def editarPoi(){

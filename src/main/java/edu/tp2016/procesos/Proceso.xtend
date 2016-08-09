@@ -3,7 +3,7 @@ package edu.tp2016.procesos
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.usuarios.Administrador
 import org.joda.time.LocalDateTime
-import edu.tp2016.buscador.Buscador
+import edu.tp2016.applicationModel.Buscador
 
 @Accessors
 abstract class Proceso {

@@ -43,8 +43,8 @@ class CGPBuilder {
 		this
 	}
 
-	def zonasIncluidas(String _zonasIncluidas) {
-		unPoi.zonasIncluidas = _zonasIncluidas
+	def zonasIncluidas(String barrios) {
+		unPoi.barriosIncluidos = barrios
 		this
 	}
 

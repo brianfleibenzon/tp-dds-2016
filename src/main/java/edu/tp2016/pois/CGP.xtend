@@ -15,7 +15,7 @@ import edu.tp2016.mod.DiaDeAtencion
 class CGP extends POI {
 	List<Servicio> servicios = new ArrayList<Servicio>
 	Comuna comuna
-	String zonasIncluidas
+	String barriosIncluidos
 	String nombreDirector
 	String telefono
     Servicio servicioSeleccionado

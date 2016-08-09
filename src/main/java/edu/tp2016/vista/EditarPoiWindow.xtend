@@ -63,8 +63,6 @@ class EditarBancoWindow extends EditarPoiWindow {
 			value <=> "direccion"
 			width = 200
 		]
-
-		
 	}
 	
 }
@@ -100,8 +98,6 @@ class EditarCGPWindow extends EditarPoiWindow {
 			title = "Servicios"
 			bindContentsToProperty("nombre")
 		]
-	
-	
 	]
 	}
 }
@@ -120,8 +116,6 @@ class EditarComercioWindow extends EditarPoiWindow {
 			value <=> "direccion"
 			width = 200
 		]
-
-		
 	}
 	
 }

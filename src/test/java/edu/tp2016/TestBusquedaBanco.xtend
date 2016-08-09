@@ -6,8 +6,8 @@ import org.junit.Assert
 import edu.tp2016.pois.Banco
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
-import edu.tp2016.buscador.Buscador
 import edu.tp2016.usuarios.Terminal
+import edu.tp2016.applicationModel.Buscador
 
 class TestBusquedaBanco {
 	Buscador buscador

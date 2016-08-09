@@ -12,9 +12,9 @@ import edu.tp2016.applicationModel.UserLogin
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.windows.Dialog
-import edu.tp2016.buscador.Buscador
 import java.awt.Color
 import org.uqbar.arena.bindings.ValueTransformer
+import edu.tp2016.applicationModel.Buscador
 
 class LoginWindow extends MainWindow<UserLogin>{
 	
@@ -45,20 +45,23 @@ class LoginWindow extends MainWindow<UserLogin>{
 		]
 		
 		new Panel(mainPanel) => [
-			it.layout = new ColumnLayout(4)
+			it.layout = new ColumnLayout(3)
 			
-			new Label(it).text = ""
 			new Button(it) => [
-				caption = "Login"
+				caption = "Acceder"
 				onClick [ |
 					if (modelObject.validarLogin)
-						this.openDialog(new BuscadorWindow(this, new Buscador()))
+						openDialog(new BuscadorWindow(this, new Buscador()))
 				]
 				setAsDefault
 			]
 			new Button(it) => [ 
 				caption = "Limpiar"
 				onClick [ | modelObject.limpiarLogin ]
+			]
+			new Button(it) => [ 
+				caption = "Cancelar"
+				onClick [ |this.close ]
 			]
 		]
 		

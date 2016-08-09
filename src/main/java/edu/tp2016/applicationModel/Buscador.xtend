@@ -1,4 +1,4 @@
-package edu.tp2016.buscador
+package edu.tp2016.applicationModel
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
@@ -29,7 +29,7 @@ import org.uqbar.commons.model.IModel
 @Accessors
 class Buscador implements IModel<Buscador>{
 	List<POI> resultados = new ArrayList<POI> // para UI
-	POI poiSeleccionado // para UI
+	public POI poiSeleccionado // para UI
 	String busqueda // para UI
 	boolean initStatus = false // para UI
 	/*-----------------------------------------------------------------------------------*/
