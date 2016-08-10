@@ -6,13 +6,13 @@ import org.uqbar.geodds.Point
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
 import java.util.Arrays
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
 class Banco extends POI {
 String sucursal
 String nombreGerente
-String zona
-
 
 	def void setRangoDeAtencionBancario(){
 		val lunes = new DiaDeAtencion(1, 10, 15, 0, 0)

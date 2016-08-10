@@ -20,7 +20,7 @@ class POI extends Entity implements Cloneable {
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	List<String> palabrasClave = new ArrayList<String>
 	
-	Servicio servicioSeleccionado // para UI
+	Servicio servicioSeleccionado  // para UI
 	// Hereda de Entity: private Integer id
 
 	/**

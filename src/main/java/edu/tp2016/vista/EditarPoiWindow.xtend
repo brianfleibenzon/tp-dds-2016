@@ -14,6 +14,7 @@ import edu.tp2016.mod.Servicio
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import edu.tp2016.mod.DiaDeAtencion
+import org.uqbar.arena.widgets.List
 
 abstract class EditarPoiWindow extends Dialog<POI> {
 	
@@ -64,11 +65,19 @@ class EditarBancoWindow extends EditarPoiWindow {
 			value <=> "direccion"
 			width = 200
 		]
-		new Label(panel).text = "Zona:"
+		new Label(panel).text = "Sucursal:"
 		new TextBox(panel) => [
-			value <=> "zona"
+			value <=> "sucursal"
 			width = 200
 		]
+		new Label(panel).text = "Servicios:"
+        new Panel(panel)=> [
+        	new List(it) => [
+        		bindItemsToProperty("palabrasClave")
+        		width = 150
+        		height = 100		
+        	]
+       ]
 	}
 	
 }
@@ -126,7 +135,7 @@ class EditarCGPWindow extends EditarPoiWindow {
 			new Column<DiaDeAtencion>(table2) => [
 				title = "Dia"
 				bindContentsToProperty("diaString")
-				fixedSize = 70
+				fixedSize = 90
 			]
 			new Column<DiaDeAtencion>(table2) => [
 				title = "Inicio"
@@ -179,6 +188,13 @@ class EditarParadaWindow extends EditarPoiWindow {
 	}
 	
 	override addFormPanel(Panel panel) {		
+		new Label(panel).text = "Línea:"
+		new TextBox(panel) => [
+			value <=> "linea"
+			width = 200
+		]   
+
+
 	}
 	
 }

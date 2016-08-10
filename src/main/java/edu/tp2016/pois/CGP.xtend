@@ -10,7 +10,9 @@ import org.uqbar.geodds.Point
 import edu.tp2016.serviciosExternos.cgp.CentroDTO
 import java.util.Arrays
 import edu.tp2016.mod.DiaDeAtencion
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
 class CGP extends POI {
 	List<Servicio> servicios = new ArrayList<Servicio>

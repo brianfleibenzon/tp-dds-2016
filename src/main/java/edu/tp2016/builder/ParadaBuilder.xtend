@@ -20,9 +20,19 @@ class ParadaBuilder {
 		unPoi.nombre = nombre
 		this
 	}
+	
+	def lineaColectivo(String unaLinea){
+		unPoi.linea = unaLinea
+		this
+	}
 
 	def ubicacion(Point ubicacion) {
 		unPoi.ubicacion = ubicacion
+		this
+	}
+	
+	def direccion(String unaDireccion){
+		unPoi.direccion = unaDireccion
 		this
 	}
 

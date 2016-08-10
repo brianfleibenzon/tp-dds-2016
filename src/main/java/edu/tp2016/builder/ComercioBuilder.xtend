@@ -26,6 +26,11 @@ class ComercioBuilder {
 		unPoi.ubicacion= ubicado
 		this
 	}
+
+	def direccion(String unaDireccion){
+		unPoi.direccion = unaDireccion
+		this
+	}
 	
 	def claves(List<String> claves){
 		unPoi.palabrasClave.addAll(claves)
