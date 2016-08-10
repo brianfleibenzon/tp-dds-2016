@@ -7,7 +7,7 @@ import edu.tp2016.applicationModel.Buscador
 
 interface BusquedaObserver {
 
-	def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora,
+	def void registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora,
 		Usuario usuario, Buscador buscador)
-
+		
 }

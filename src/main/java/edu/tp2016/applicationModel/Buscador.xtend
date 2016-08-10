@@ -37,9 +37,10 @@ import edu.tp2016.builder.BancoBuilder
 class Buscador implements IModel<Buscador>{
 	List<POI> resultados = new ArrayList<POI> // para UI
 	public POI poiSeleccionado // para UI
-	String nuevoCriterio = "" // para UI
+	String nuevoCriterio // para UI
 	List<String> criteriosBusqueda = new ArrayList<String> // para UI
 	boolean initStatus = false // para UI
+	String mensajeInvalido
 	
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
@@ -60,12 +61,15 @@ class Buscador implements IModel<Buscador>{
 	
 	def init(){
 		if(!initStatus){
+			resultados.clear
+			mensajeInvalido = ""
 			usuarioActual = new Terminal("terminal")
-			repo.agregarVariosPois(crearJuegoDeDatos())
+			repo.agregarVariosPois(crearJuegoDeDatos)
 			initStatus = true
 		}
 	}
 
+// CONSULTAS:
 	def boolean consultarCercania(POI unPoi, POI otroPoi) {
 		unPoi.estaCercaA(otroPoi.ubicacion)
 	}
@@ -74,14 +78,15 @@ class Buscador implements IModel<Buscador>{
 		unPoi.estaDisponible(fechaActual, texto)
 	}
 	
+// BÚSQUEDA EN EL REPOSITORIO:
 	def List<POI> buscar(String texto){
 		val t1 = new LocalDateTime()
-		val listaDePoisDevueltos = Lists.newArrayList(this.buscarPor(texto))
+		
+		val listaDePoisDevueltos = buscarPor(texto).toList
+		
 		val t2 = new LocalDateTime()
-		
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
-		
-		usuarioActual.registrarBusqueda(texto, listaDePoisDevueltos, demora, this)
+		usuarioActual.registrarBusqueda(Arrays.asList(texto), listaDePoisDevueltos, demora, this)
 
 		listaDePoisDevueltos
 	}
@@ -92,19 +97,17 @@ class Buscador implements IModel<Buscador>{
 		]
 	}
 	
-// BÚSQUEDA EN EL REPOSITORIO:
 	def Iterable<POI> buscarPor(String texto) {
 		val poisBusqueda = new ArrayList<POI>
 		poisBusqueda.addAll(repo.allInstances)
 
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
 
-		poisBusqueda.filter [poi | texto != null && !texto.isEmpty &&
+		poisBusqueda.filter [ poi | texto != null && !texto.isEmpty &&
 			(poi.tienePalabraClave(texto) || poi.coincide(texto))
 		]
 	}
 	
-
 	/**
 	 * Devuelve el POI cuyo id se pasó como parámetro de búsqueda.
 	 * Obs.: Busca en el repopsitorio de pois
@@ -114,9 +117,9 @@ class Buscador implements IModel<Buscador>{
 	 */
 	def List<POI> buscarPorId(int _id) {
 		val repoDePois = new ArrayList<POI>
-		
 		repoDePois.addAll(repo.allInstances)
-		Lists.newArrayList( repoDePois.filter [poi | poi.id.equals(_id) ] )
+		
+		Lists.newArrayList( repoDePois.filter [ poi | poi.id.equals(_id)] )
 	}
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){
@@ -177,6 +180,7 @@ class Buscador implements IModel<Buscador>{
 		reporte
 	}
 	
+// VISTA - USER INTERFACE:	
 	def crearJuegoDeDatos(){
 		val ubicacionX = new Point(-1, 1)
 		val rangoX = new ArrayList<DiaDeAtencion>
@@ -195,7 +199,6 @@ class Buscador implements IModel<Buscador>{
 		claves(Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
 		val rubroFarmacia = new Rubro("Farmacia", 1)
-
 		val rubroLibreria = new Rubro("Libreria", 2)
 	
 	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
@@ -211,9 +214,7 @@ class Buscador implements IModel<Buscador>{
 		rango(rangoX).build
 		
 		val cultura = new Servicio("Cultura", Lists.newArrayList(new DiaDeAtencion(2,8,16,0,0)))
-
 		val deportes = new Servicio("Deportes", Lists.newArrayList(new DiaDeAtencion(3,10,12,0,0), new DiaDeAtencion(3,14,19,30,0)))
-
         val asesoramientoLegal = new Servicio("Asesoramiento legal", rangoX)
 	 
 	    val comunaX = new Comuna => [
@@ -240,28 +241,41 @@ class Buscador implements IModel<Buscador>{
 								  comercioLoDeJuan,
 								  CGPComuna1,
 								  BancoPatagonia)
-		pois
-	} // para UI	
+								  
+		return pois
+	}
 	
 	def buscar(){
 		init
-		resultados.clear()
-		val Set<POI> s = new HashSet<POI>(resultados)
-		criteriosBusqueda.forEach[criterio| s.addAll(this.buscar(criterio))]
-		resultados.addAll(s)		
-	} // para UI
+		resultados.clear
+		mensajeInvalido = ""
+		val Set<POI> search = new HashSet<POI>(resultados)
+		val t1 = new LocalDateTime()
+		
+		if(criteriosBusqueda.isEmpty) mensajeInvalido = "<< Debe ingresar un criterio de búsqueda >>"
+		criteriosBusqueda.forEach [ criterio | search.addAll(buscarPor(criterio).toList) ]
+		
+		val t2 = new LocalDateTime()
+		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
+		usuarioActual.registrarBusqueda(criteriosBusqueda, new ArrayList(search), demora, this)
+		
+		resultados.addAll(search)		
+	} // Búsqueda adaptada para la UI
 	
 	def eliminarCriterios(){
 		criteriosBusqueda.clear()
-	} // para UI
+		mensajeInvalido = ""
+	}
 	
 	def agregarCriterio(){
-		if (nuevoCriterio!=""){
+		mensajeInvalido = ""
+		if (nuevoCriterio != ""){
 			criteriosBusqueda.add(nuevoCriterio)
 			nuevoCriterio = ""
-			
 		}
-	} // para UI
+		else{
+			mensajeInvalido = "<< Debe ingresar un criterio de búsqueda >>"
+		}
+	}
 	
-
 }

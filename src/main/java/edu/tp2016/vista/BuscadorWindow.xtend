@@ -21,6 +21,8 @@ import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
 import edu.tp2016.applicationModel.Buscador
 import org.uqbar.arena.widgets.List
+import org.uqbar.arena.bindings.ValueTransformer
+import java.awt.Color
 
 class BuscadorWindow extends Dialog<Buscador>{
 	
@@ -34,7 +36,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 
 		new Panel(mainPanel) => [
 			new Label(it) => [			
-				text = "Criterios de búsqueda"
+				text = "Criterios de Búsqueda"
 				fontSize = 10
 			]
 		]
@@ -47,7 +49,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 			]				
 			new Panel(it)=> [
 				new Label(it) => [			
-					text = "Nombre:"
+					text = "Ingrese nuevo criterio:"
 				]
 				new TextBox(it) => [
 					width = 200
@@ -58,7 +60,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 					onClick[| modelObject.agregarCriterio ]		
 				]
 				new Button(it) => [
-					caption = "Borrar criterios"	
+					caption = "Borrar todos los criterios"	
 					onClick[| modelObject.eliminarCriterios ]
 				]
 			]
@@ -76,13 +78,17 @@ class BuscadorWindow extends Dialog<Buscador>{
 					caption = "Nuevo POI"	
 					onClick[| this.openDialogEditar(new MenuNuevoPoiWindow(this, new POI(), model.getSource)) ]	
 				]
+				new Label(mainPanel) => [
+ 					(foreground <=> "mensajeInvalido").transformer = new BusquedaInvalidaTransformer 
+ 					value <=> "mensajeInvalido"	
+ 				]
 			]
 				
 		]
 		
 		new Panel(mainPanel)=>[
 			new Label(it) => [			
-				text = "Resultado"
+				text = "Resultados de Búsqueda"
 				fontSize = 10
 			]
 		]
@@ -134,4 +140,23 @@ class BuscadorWindow extends Dialog<Buscador>{
 		dialog.open
 	}
 
+}
+
+class BusquedaInvalidaTransformer implements ValueTransformer<String, Object> {
+ 	
+ 	override getModelType() {
+ 		typeof(String)
+ 	}
+ 	
+ 	override getViewType() {
+ 		typeof(Object)
+ 	}
+ 	
+ 	override modelToView(String valorDelModelo) {
+ 		if(valorDelModelo.equalsIgnoreCase("<< Debe ingresar un criterio de búsqueda >>")) Color.RED
+ 	}
+ 	
+ 	override viewToModel(Object valorDeLaVista) {
+ 		null	
+ 	}
 }

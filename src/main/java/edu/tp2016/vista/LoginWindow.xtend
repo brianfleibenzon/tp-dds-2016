@@ -56,7 +56,7 @@ class LoginWindow extends MainWindow<UserLogin>{
 				setAsDefault
 			]
 			new Button(it) => [ 
-				caption = "Limpiar"
+				caption = "Borrar"
 				onClick [ | modelObject.limpiarLogin ]
 			]
 			new Button(it) => [ 

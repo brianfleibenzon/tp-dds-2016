@@ -166,17 +166,16 @@ class TestRegistroDeBusquedasConObservers {
 		buscadorFlorida.buscar("plaza miserere")
 		buscadorFlorida.buscar("Libreria Juan")
 		
-		val frasesBuscadasDeAbasto = buscadorAbasto.busquedas
-			.filter[ registro | registro.nombreUsuario == terminalAbasto.userName]
-			.map[registro | registro.textoBuscado].toList
+		val frasesBuscadasDeAbasto = new ArrayList()
+		val frases1 = buscadorAbasto.busquedas.filter [ reg | reg.nombreUsuario == terminalAbasto.userName ]
+		frases1.forEach [ reg | frasesBuscadasDeAbasto.addAll(reg.palabrasBuscadas) ]
 			
-		val frasesBuscadasDeFlorida = buscadorFlorida.busquedas
-			.filter[ registro | registro.nombreUsuario == terminalFlorida.userName]
-			.map[registro | registro.textoBuscado].toList
+		val frasesBuscadasDeFlorida = new ArrayList()
+		val frases2 = buscadorFlorida.busquedas.filter [ reg | reg.nombreUsuario == terminalFlorida.userName ]
+		frases2.forEach [ reg | frasesBuscadasDeFlorida.addAll(reg.palabrasBuscadas) ]
 			
-		Assert.assertTrue(frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
-			&& frasesBuscadasDeFlorida.containsAll(Arrays.asList("plaza miserere","Libreria Juan"))
-		)
+		Assert.assertTrue( frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
+			&& frasesBuscadasDeFlorida.containsAll(Arrays.asList("plaza miserere","Libreria Juan")) )
 	}
 
 	@Test
@@ -184,8 +183,8 @@ class TestRegistroDeBusquedasConObservers {
 		buscadorAbasto.buscar("utn")
 
 		val cantResultadosRegistrada = buscadorAbasto.busquedas
-			.filter[ registro | registro.nombreUsuario == terminalAbasto.userName]
-			.map[registro | registro.cantidadDeResultados].toList.get(0)
+			.filter [ registro | registro.nombreUsuario == terminalAbasto.userName]
+			.map [ registro | registro.cantidadDeResultados].toList.get(0)
 		
 		Assert.assertEquals( 3, cantResultadosRegistrada)	
 	}
@@ -224,7 +223,6 @@ class TestRegistroDeBusquedasConObservers {
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(Arrays.asList(1, 1, 1, 0), reporteGenerado.get("terminalFlorida"))
 		Assert.assertEquals(Arrays.asList(3, 1, 1, 0), reporteGenerado.get("terminalTeatroColon"))
-
 	}
 
 	@Test
@@ -234,7 +232,6 @@ class TestRegistroDeBusquedasConObservers {
 			generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica("terminalAbasto")
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado)
-
 	}
 
 	@Test
@@ -245,6 +242,5 @@ class TestRegistroDeBusquedasConObservers {
 		Assert.assertEquals(6, reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(3, reporteGenerado.get("terminalFlorida"))
 		Assert.assertEquals(5, reporteGenerado.get("terminalTeatroColon"))
-
 	}
 }

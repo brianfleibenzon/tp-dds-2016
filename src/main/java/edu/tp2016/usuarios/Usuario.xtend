@@ -14,9 +14,7 @@ abstract class Usuario implements Cloneable {
 	String mailAdress
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
 	
-	new(){
-		
-	} // Constructor default de la superclase
+	new(){ } // Constructor default de la superclase
 	
 	def adscribirObserver(BusquedaObserver observador){
 		busquedaObservers.add(observador)
@@ -26,9 +24,9 @@ abstract class Usuario implements Cloneable {
 		busquedaObservers.remove(observador)
 	}
 	
-	def registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, Buscador buscador){
+	def registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora, Buscador buscador){
 		busquedaObservers.forEach [ observer |
-			observer.registrarBusqueda(texto, poisDevueltos, demora, this, buscador) ]
+			observer.registrarBusqueda(criterios, poisDevueltos, demora, this, buscador) ]
 	}
 
 }
