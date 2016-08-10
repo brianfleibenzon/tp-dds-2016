@@ -11,6 +11,7 @@ import java.util.Arrays
 class Banco extends POI {
 String sucursal
 String nombreGerente
+String zona
 
 
 	def void setRangoDeAtencionBancario(){

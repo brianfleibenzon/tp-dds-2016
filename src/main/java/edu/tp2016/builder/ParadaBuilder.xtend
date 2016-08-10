@@ -15,7 +15,7 @@ class ParadaBuilder {
 	def build() {
 		unPoi
 	}
-
+	
 	def nombre(String nombre) {
 		unPoi.nombre = nombre
 		this

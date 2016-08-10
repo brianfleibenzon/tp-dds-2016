@@ -2,7 +2,9 @@ package edu.tp2016.mod
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
 class DiaDeAtencion {
 	int dia

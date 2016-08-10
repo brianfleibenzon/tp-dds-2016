@@ -13,7 +13,7 @@ import org.uqbar.arena.widgets.Button
 import edu.tp2016.mod.Servicio
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
-
+import edu.tp2016.mod.DiaDeAtencion
 
 abstract class EditarPoiWindow extends Dialog<POI> {
 	
@@ -54,7 +54,7 @@ class EditarBancoWindow extends EditarPoiWindow {
 	new(WindowOwner owner, POI model) {
 		super(owner, model)
 		title = "Editar Banco"
-		iconImage = "imagenes/banco1.ico"
+		iconImage = "imagenes/banco1.jpg"
 	}
 	
 	override addFormPanel(Panel panel) {
@@ -62,6 +62,11 @@ class EditarBancoWindow extends EditarPoiWindow {
 		new Label(panel).text = "Dirección:"
 		new TextBox(panel) => [
 			value <=> "direccion"
+			width = 200
+		]
+		new Label(panel).text = "Zona:"
+		new TextBox(panel) => [
+			value <=> "zona"
 			width = 200
 		]
 	}
@@ -88,19 +93,35 @@ class EditarCGPWindow extends EditarPoiWindow {
 			value <=> "barriosIncluidos"
 			width = 200
 		]
+				
         new Label(panel).text = "Lista de Servicios:"
         new Panel(panel)=> [
-		var table = new Table<Servicio>(it,typeof(Servicio)) => [
-			value <=> "servicioSeleccionado"
-			items <=> "servicios"
-			width = 200
+        	
+			var table = new Table<Servicio>(it,typeof(Servicio)) => [
+				value <=> "servicioSeleccionado"
+				items <=> "servicios"
+				width = 300
 		]
 		new Column<Servicio>(table) => [
 			title = "Servicios"
 			bindContentsToProperty("nombre")
 		]
-]
-}
+		]
+		
+		new Label(panel).text = "Horarios de atención:"
+        new Panel(panel)=> [
+        	
+			var table2 = new Table<Servicio/*DiaDeAtencion*/>(it,typeof(Servicio/*DiaDeAtencion*/)) => [
+				value <=> "servicioSeleccionado"
+				items <=> "servicios"
+				width = 300
+		]
+		new Column<Servicio/*DiaDeAtencion*/>(table2) => [
+			title = "Horarios"
+			bindContentsToProperty("nombre")
+		]
+		]
+	}
 }
 
 class EditarComercioWindow extends EditarPoiWindow {
@@ -134,8 +155,7 @@ class EditarParadaWindow extends EditarPoiWindow {
 	    iconImage = "imagenes/coletivo.ico"
 	}
 	
-	override addFormPanel(Panel panel) {
-		
+	override addFormPanel(Panel panel) {		
 	}
 	
 }

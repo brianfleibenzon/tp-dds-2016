@@ -30,6 +30,7 @@ import edu.tp2016.builder.CGPBuilder
 import org.uqbar.geodds.Polygon
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.Servicio
+import edu.tp2016.builder.BancoBuilder
 
 @Observable
 @Accessors
@@ -225,13 +226,18 @@ class Buscador implements IModel<Buscador>{
 			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).comuna(comunaX).servicio(
 			Arrays.asList(asesoramientoLegal, cultura, deportes)).zonasIncluidas("").nombreDirector("").telefono("").
 			build
+			
+		val BancoPatagonia = new BancoBuilder().nombre("Banco Patagonia").ubicacion(ubicacionX).claves(
+			Arrays.asList("Banco", "Sucursal", "cajero", "cambiar dolares", "Patagonia")).nombreGerente("Armando Lopez").
+			sucursal("Lugano").setearHorarios().build
 	
 		val pois = Lists.newArrayList(utn7parada,
 								  utn114parada,
 								  miserere7parada,
 								  comercioFarmacity,
 								  comercioLoDeJuan,
-								  CGPComuna1)
+								  CGPComuna1,
+								  BancoPatagonia)
 		pois
 	} // para UI	
 	
