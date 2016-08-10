@@ -186,35 +186,36 @@ class Buscador implements IModel<Buscador>{
 		val rangoX = new ArrayList<DiaDeAtencion>
 		rangoX.addAll(new DiaDeAtencion(2,10,19,0,0), new DiaDeAtencion(3,10,19,0,0))
 
-		val utn7parada = new ParadaBuilder().nombre("7_utn").
-		ubicacion(ubicacionX).
+		val utn7parada = new ParadaBuilder().nombre("7_utn").lineaColectivo("7").
+		ubicacion(ubicacionX).direccion("Mozart 2300").
 		claves( Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
-		val miserere7parada = new ParadaBuilder().nombre("7_once").
-		ubicacion(ubicacionX).
+		val miserere7parada = new ParadaBuilder().nombre("7_once").lineaColectivo("7").
+		ubicacion(ubicacionX).direccion("Pueyrredón 1600").
 		claves(Arrays.asList("utn", "plaza miserere", "once", "colectivo", "parada")).build
 
-		val utn114parada = new ParadaBuilder().nombre("114_utn").
-		ubicacion(ubicacionX).
+		val utn114parada = new ParadaBuilder().nombre("114_utn").lineaColectivo("114").
+		ubicacion(ubicacionX).direccion("Mozart 2300").
 		claves(Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
 		val rubroFarmacia = new Rubro("Farmacia", 1)
 		val rubroLibreria = new Rubro("Libreria", 2)
 	
-	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").
+	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").direccion("Corrientes 5081").
 		ubicacion(ubicacionX).
-		claves(Arrays.asList("medicamentos", "salud", "farmacia")).
+		claves(Arrays.asList("comercio","medicamentos", "salud", "farmacia")).
 		rubro(rubroFarmacia).
 		rango(rangoX).build
 
-		val comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
+		val comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").direccion("Medrano 850").
 		ubicacion(ubicacionX).
-		claves(Arrays.asList("fotocopias", "utiles", "libros")).
+		claves(Arrays.asList("comercio","fotocopias", "utiles", "libros")).
 		rubro(rubroLibreria).
 		rango(rangoX).build
 		
 		val cultura = new Servicio("Cultura", Lists.newArrayList(new DiaDeAtencion(2,8,16,0,0)))
-		val deportes = new Servicio("Deportes", Lists.newArrayList(new DiaDeAtencion(3,10,12,0,0), new DiaDeAtencion(3,14,19,30,0)))
+		val deportes = new Servicio("Deportes", Lists.newArrayList(
+			new DiaDeAtencion(2,10,12,0,0), new DiaDeAtencion(4,14,19,30,0),new DiaDeAtencion(6,15,20,30,0)))
         val asesoramientoLegal = new Servicio("Asesoramiento legal", rangoX)
 	 
 	    val comunaX = new Comuna => [
@@ -225,13 +226,13 @@ class Buscador implements IModel<Buscador>{
 			poligono.add(new Point(-4, 4))
 		]
 	
-	    val CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").ubicacion(ubicacionX).claves(
-			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 1")).comuna(comunaX).servicio(
-			Arrays.asList(asesoramientoLegal, cultura, deportes)).zonasIncluidas("").nombreDirector("").telefono("").
-			build
+	    val CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").
+	    	ubicacion(ubicacionX).direccion("Balcarce 52").zonasIncluidas("Puerto Madero-Retiro-San Nicolás").claves(
+			Arrays.asList("CGP", "centro de atención", "servicios sociales", "comuna 1")).comuna(comunaX).servicio(
+			Arrays.asList(asesoramientoLegal, cultura, deportes)).nombreDirector("").telefono("").build
 			
-		val BancoPatagonia = new BancoBuilder().nombre("Banco Patagonia").ubicacion(ubicacionX).claves(
-			Arrays.asList("Banco", "Sucursal", "cajero", "cambiar dolares", "Patagonia")).nombreGerente("Armando Lopez").
+		val BancoPatagonia = new BancoBuilder().nombre("Banco Patagonia").ubicacion(ubicacionX).direccion("Mozart 2100").claves(
+			Arrays.asList("Cobro cheques", "Cajero automático", "Seguros", "Créditos", "Depósitos","Extracciones")).nombreGerente("Armando Lopez").
 			sucursal("Lugano").setearHorarios().build
 	
 		val pois = Lists.newArrayList(utn7parada,

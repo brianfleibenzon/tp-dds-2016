@@ -10,6 +10,7 @@ import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
 import org.uqbar.commons.model.UserException
 import edu.tp2016.mod.Servicio
+import org.apache.commons.lang.StringUtils
 
 @Observable
 @Accessors
@@ -20,7 +21,7 @@ class POI extends Entity implements Cloneable {
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	List<String> palabrasClave = new ArrayList<String>
 	
-	Servicio servicioSeleccionado // para UI
+	Servicio servicioSeleccionado  // para UI
 	// Hereda de Entity: private Integer id
 
 	/**
@@ -76,7 +77,7 @@ class POI extends Entity implements Cloneable {
 	 * @return valor de verdad si el nombre coincide con el texto
 	 */
 	def boolean coincide(String texto) {
-		nombre.toLowerCase.contains(texto.toLowerCase)
+		StringUtils.containsIgnoreCase(nombre, texto)
 	}
 	
 	def void agregarPalabraClave(String unaPalabra){

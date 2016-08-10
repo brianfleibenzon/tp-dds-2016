@@ -14,6 +14,7 @@ import edu.tp2016.mod.Servicio
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import edu.tp2016.mod.DiaDeAtencion
+import org.uqbar.arena.widgets.List
 
 abstract class EditarPoiWindow extends Dialog<POI> {
 	
@@ -32,21 +33,20 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 		]
 
 		this.addFormPanel(form)
-	}
-	
-	abstract def void addFormPanel(Panel panel)
-	
-	override protected void addActions(Panel actions) {
-		new Button(actions)
+		
+		new Button(mainPanel)
 			.setCaption("Aceptar")
 			.onClick [ | this.accept ]
 			.setAsDefault
 			.disableOnError
 
-		new Button(actions)
+		new Button(mainPanel)
 			.setCaption("Cancelar")
 			.onClick[|this.cancel]
 	}
+	
+	abstract def void addFormPanel(Panel panel)
+	
 }
 
 class EditarBancoWindow extends EditarPoiWindow {
@@ -64,11 +64,19 @@ class EditarBancoWindow extends EditarPoiWindow {
 			value <=> "direccion"
 			width = 200
 		]
-		new Label(panel).text = "Zona:"
+		new Label(panel).text = "Sucursal:"
 		new TextBox(panel) => [
-			value <=> "zona"
+			value <=> "sucursal"
 			width = 200
 		]
+		new Label(panel).text = "Servicios:"
+        new Panel(panel)=> [
+        	new List(it) => [
+        		bindItemsToProperty("palabrasClave")
+        		width = 150
+        		height = 100		
+        	]
+       ]
 	}
 	
 }
@@ -93,11 +101,8 @@ class EditarCGPWindow extends EditarPoiWindow {
 			value <=> "barriosIncluidos"
 			width = 200
 		]
-
-		/* Agrego Labels nulos para alinear */
+		new Label(panel).text = "" /* Labels nulos para alinear */
 		new Label(panel).text = ""
-		new Label(panel).text = ""
-				
         new Label(panel).text = "Lista de Servicios:"
         
         new Panel(panel)=> [
@@ -112,21 +117,18 @@ class EditarCGPWindow extends EditarPoiWindow {
 				fixedSize = 350
 			]
 		]
-		
-		/* Agrego Labels nulos para alinear */
+		new Label(panel).text = "" /* Labels nulos para alinear */
 		new Label(panel).text = ""
-		new Label(panel).text = ""
-		
-		new Label(panel).text = "Horarios de atención:"
+		new Label(panel).text = "Horarios de Atención:"
 		
         new Panel(panel)=> [        	
 			var table2 = new Table<DiaDeAtencion>(it,typeof(DiaDeAtencion)) => [
 				items <=> "servicioSeleccionado.rangoDeAtencion"
 			]
 			new Column<DiaDeAtencion>(table2) => [
-				title = "Dia"
+				title = "Día"
 				bindContentsToProperty("diaString")
-				fixedSize = 70
+				fixedSize = 90
 			]
 			new Column<DiaDeAtencion>(table2) => [
 				title = "Inicio"
@@ -139,11 +141,8 @@ class EditarCGPWindow extends EditarPoiWindow {
 				fixedSize = 60
 			]
 		]
-		
-		/* Agrego Labels nulos para alinear */
+		new Label(panel).text = "" /* Labels nulos para alinear */
 		new Label(panel).text = ""
-		new Label(panel).text = ""
-		
 	}
 }
 
@@ -168,8 +167,9 @@ class EditarComercioWindow extends EditarPoiWindow {
 			value <=> "rubro.nombre"
 			width = 200
 		]   
+	}
 }
-}
+
 class EditarParadaWindow extends EditarPoiWindow {
 	
 	new(WindowOwner owner, POI model) {
@@ -179,6 +179,10 @@ class EditarParadaWindow extends EditarPoiWindow {
 	}
 	
 	override addFormPanel(Panel panel) {		
+		new Label(panel).text = "Línea:"
+		new TextBox(panel) => [
+			value <=> "linea"
+			width = 200
+		]   
 	}
-	
 }
