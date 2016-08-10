@@ -93,6 +93,10 @@ class EditarCGPWindow extends EditarPoiWindow {
 			value <=> "barriosIncluidos"
 			width = 200
 		]
+
+		/* Agrego Labels nulos para alinear */
+		new Label(panel).text = ""
+		new Label(panel).text = ""
 				
         new Label(panel).text = "Lista de Servicios:"
         
@@ -105,9 +109,13 @@ class EditarCGPWindow extends EditarPoiWindow {
 			new Column<Servicio>(table) => [
 				title = "Servicios"
 				bindContentsToProperty("nombre")
-				fixedSize = 250
+				fixedSize = 350
 			]
 		]
+		
+		/* Agrego Labels nulos para alinear */
+		new Label(panel).text = ""
+		new Label(panel).text = ""
 		
 		new Label(panel).text = "Horarios de atención:"
 		
@@ -118,19 +126,24 @@ class EditarCGPWindow extends EditarPoiWindow {
 			new Column<DiaDeAtencion>(table2) => [
 				title = "Dia"
 				bindContentsToProperty("diaString")
-				fixedSize = 100
+				fixedSize = 70
 			]
 			new Column<DiaDeAtencion>(table2) => [
 				title = "Inicio"
 				bindContentsToProperty("fechaInicio")
-				fixedSize = 50
+				fixedSize = 60
 			]
 			new Column<DiaDeAtencion>(table2) => [
 				title = "Fin"
 				bindContentsToProperty("fechaFin")				
-				fixedSize = 50
+				fixedSize = 60
 			]
 		]
+		
+		/* Agrego Labels nulos para alinear */
+		new Label(panel).text = ""
+		new Label(panel).text = ""
+		
 	}
 }
 

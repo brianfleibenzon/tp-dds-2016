@@ -38,19 +38,19 @@ class DiaDeAtencion {
     def getDiaString(){
     	switch (dia) {
     		case 1:
-    			return "Do"
+    			return "Domingo"
     		case 2:
-    			return "Lu"
+    			return "Lunes"
     		case 3:
-    			return "Ma"
+    			return "Martes"
     		case 4:
-    			return "Mi"
+    			return "Miércoles"
     		case 5:
-    			return "Ju"
+    			return "Jueves"
     		case 6:
-    			return "Vi"
+    			return "Viernes"
     		case 7:
-    			return "Sa"
+    			return "Sábado"
     	}
     }
 	

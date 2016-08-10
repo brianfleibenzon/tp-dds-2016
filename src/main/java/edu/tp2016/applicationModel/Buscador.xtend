@@ -210,11 +210,11 @@ class Buscador implements IModel<Buscador>{
 		rubro(rubroLibreria).
 		rango(rangoX).build
 		
-		val cultura = new Servicio("cultura", Lists.newArrayList(new DiaDeAtencion(2,8,16,0,0)))
+		val cultura = new Servicio("Cultura", Lists.newArrayList(new DiaDeAtencion(2,8,16,0,0)))
 
-		val deportes = new Servicio("deportes", Lists.newArrayList(new DiaDeAtencion(3,10,12,0,0), new DiaDeAtencion(3,14,19,30,0)))
+		val deportes = new Servicio("Deportes", Lists.newArrayList(new DiaDeAtencion(3,10,12,0,0), new DiaDeAtencion(3,14,19,30,0)))
 
-        val asesoramientoLegal = new Servicio("asesoramiento legal", rangoX)
+        val asesoramientoLegal = new Servicio("Asesoramiento legal", rangoX)
 	 
 	    val comunaX = new Comuna => [
 			poligono = new Polygon()
