@@ -42,11 +42,6 @@ abstract class NuevoPoiWindow extends Dialog<POI>{
 			width = 170
 			value <=> "direccion"
 		]
-		new Label(form).text = "Ícono:"
-		new TextBox(form) => [
-			width = 170
-			value <=> "icono"
-		]
 		
 		addFormPanel(form) // aquí las subclases agregan funcionalidad
 		
@@ -140,11 +135,6 @@ class NuevoComercioWindow extends NuevoPoiWindow {
 	
 	override addFormPanel(Panel panel) {
 		
-		new Label(panel).text = "Nombre:"
-		new TextBox(panel) => [
-			value <=> "nombre"
-			width = 170
-		]
 		new Label(panel).text = "Rubro:"
 		new TextBox(panel) => [
 			value <=> "rubro.nombre"

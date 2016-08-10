@@ -18,8 +18,7 @@ class CGP extends POI {
 	String barriosIncluidos
 	String nombreDirector
 	String telefono
-    Servicio servicioSeleccionado
-
+	
 
 	new(CentroDTO unCentro) {
 		super("CGP " + unCentro.numeroComuna, new Point(unCentro.x, unCentro.y), Arrays.asList())

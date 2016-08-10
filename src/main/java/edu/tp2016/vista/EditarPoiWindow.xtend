@@ -95,31 +95,41 @@ class EditarCGPWindow extends EditarPoiWindow {
 		]
 				
         new Label(panel).text = "Lista de Servicios:"
+        
         new Panel(panel)=> [
         	
-			var table = new Table<Servicio>(it,typeof(Servicio)) => [
+			var table = new Table<Servicio>(it, typeof(Servicio)) => [
 				value <=> "servicioSeleccionado"
 				items <=> "servicios"
-				width = 300
-		]
-		new Column<Servicio>(table) => [
-			title = "Servicios"
-			bindContentsToProperty("nombre")
-		]
+			]
+			new Column<Servicio>(table) => [
+				title = "Servicios"
+				bindContentsToProperty("nombre")
+				fixedSize = 250
+			]
 		]
 		
 		new Label(panel).text = "Horarios de atención:"
-        new Panel(panel)=> [
-        	
-			var table2 = new Table<Servicio/*DiaDeAtencion*/>(it,typeof(Servicio/*DiaDeAtencion*/)) => [
-				value <=> "servicioSeleccionado"
-				items <=> "servicios"
-				width = 300
-		]
-		new Column<Servicio/*DiaDeAtencion*/>(table2) => [
-			title = "Horarios"
-			bindContentsToProperty("nombre")
-		]
+		
+        new Panel(panel)=> [        	
+			var table2 = new Table<DiaDeAtencion>(it,typeof(DiaDeAtencion)) => [
+				items <=> "servicioSeleccionado.rangoDeAtencion"
+			]
+			new Column<DiaDeAtencion>(table2) => [
+				title = "Dia"
+				bindContentsToProperty("diaString")
+				fixedSize = 100
+			]
+			new Column<DiaDeAtencion>(table2) => [
+				title = "Inicio"
+				bindContentsToProperty("fechaInicio")
+				fixedSize = 50
+			]
+			new Column<DiaDeAtencion>(table2) => [
+				title = "Fin"
+				bindContentsToProperty("fechaFin")				
+				fixedSize = 50
+			]
 		]
 	}
 }

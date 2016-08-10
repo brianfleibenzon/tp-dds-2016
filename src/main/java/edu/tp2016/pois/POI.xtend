@@ -9,16 +9,18 @@ import org.uqbar.geodds.Point
 import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
 import org.uqbar.commons.model.UserException
+import edu.tp2016.mod.Servicio
 
 @Observable
 @Accessors
 class POI extends Entity implements Cloneable {
 	String nombre
 	String direccion
-	String icono
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	List<String> palabrasClave = new ArrayList<String>
+	
+	Servicio servicioSeleccionado // para UI
 	// Hereda de Entity: private Integer id
 
 	/**
@@ -83,10 +85,10 @@ class POI extends Entity implements Cloneable {
 	
 	def void validar() {
 		if (nombre == null) {
-			throw new UserException("Debe ingresar número")
+			throw new UserException("Debe ingresar nombre")
 		}
 		if (direccion == null) {
-			throw new UserException("Debe ingresar nombre")
+			throw new UserException("Debe ingresar dirección")
 		}	
 	}
 

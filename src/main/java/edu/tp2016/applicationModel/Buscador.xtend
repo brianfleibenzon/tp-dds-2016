@@ -40,6 +40,7 @@ class Buscador implements IModel<Buscador>{
 	String nuevoCriterio = "" // para UI
 	List<String> criteriosBusqueda = new ArrayList<String> // para UI
 	boolean initStatus = false // para UI
+	
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	public Repositorio repo = Repositorio.newInstance
@@ -179,6 +180,7 @@ class Buscador implements IModel<Buscador>{
 	def crearJuegoDeDatos(){
 		val ubicacionX = new Point(-1, 1)
 		val rangoX = new ArrayList<DiaDeAtencion>
+		rangoX.addAll(new DiaDeAtencion(2,10,19,0,0), new DiaDeAtencion(3,10,19,0,0))
 
 		val utn7parada = new ParadaBuilder().nombre("7_utn").
 		ubicacion(ubicacionX).
@@ -208,9 +210,9 @@ class Buscador implements IModel<Buscador>{
 		rubro(rubroLibreria).
 		rango(rangoX).build
 		
-		val cultura = new Servicio("cultura", rangoX)
+		val cultura = new Servicio("cultura", Lists.newArrayList(new DiaDeAtencion(2,8,16,0,0)))
 
-		val deportes = new Servicio("deportes", rangoX)
+		val deportes = new Servicio("deportes", Lists.newArrayList(new DiaDeAtencion(3,10,12,0,0), new DiaDeAtencion(3,14,19,30,0)))
 
         val asesoramientoLegal = new Servicio("asesoramiento legal", rangoX)
 	 
