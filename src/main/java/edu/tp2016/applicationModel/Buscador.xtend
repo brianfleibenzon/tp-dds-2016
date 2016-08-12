@@ -41,6 +41,7 @@ class Buscador implements IModel<Buscador>{
 	List<String> criteriosBusqueda = new ArrayList<String> // para UI
 	boolean initStatus = false // para UI
 	String mensajeInvalido
+	String criterioSeleccionado // para UI
 	
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
@@ -263,7 +264,7 @@ class Buscador implements IModel<Buscador>{
 		resultados.addAll(search)		
 	} // Búsqueda adaptada para la UI
 	
-	def eliminarCriterios(){
+	def eliminarTodosLosCriterios(){
 		criteriosBusqueda.clear()
 		mensajeInvalido = ""
 	}
@@ -277,6 +278,10 @@ class Buscador implements IModel<Buscador>{
 		else{
 			mensajeInvalido = "<< Debe ingresar un criterio de búsqueda >>"
 		}
+	}
+	
+	def eliminarCriterio(){
+		criteriosBusqueda.remove(criterioSeleccionado)
 	}
 	
 }

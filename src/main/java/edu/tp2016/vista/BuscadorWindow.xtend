@@ -45,7 +45,9 @@ class BuscadorWindow extends Dialog<Buscador>{
 			it.layout = new ColumnLayout(2)
 			new List<String>(it) => [
 				items <=> "criteriosBusqueda"	
+				value <=> "criterioSeleccionado"
 				width = 200
+				height = 100
 			]				
 			new Panel(it)=> [
 				new Label(it) => [			
@@ -60,8 +62,13 @@ class BuscadorWindow extends Dialog<Buscador>{
 					onClick[| modelObject.agregarCriterio ]		
 				]
 				new Button(it) => [
+					bindEnabled(new NotNullObservable("criterioSeleccionado"))
+					caption = "Borrar criterio"	
+					onClick[| modelObject.eliminarCriterio ]		
+				]
+				new Button(it) => [
 					caption = "Borrar todos los criterios"	
-					onClick[| modelObject.eliminarCriterios ]
+					onClick[| modelObject.eliminarTodosLosCriterios ]
 				]
 			]
 				
