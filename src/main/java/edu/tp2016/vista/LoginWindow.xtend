@@ -16,7 +16,7 @@ import java.awt.Color
 import org.uqbar.arena.bindings.ValueTransformer
 import edu.tp2016.applicationModel.Buscador
 
-class LoginWindow extends MainWindow<UserLogin>{
+class LoginWindow extends MainWindow<UserLogin> {
 	
 	new() {
 		super(new UserLogin())
