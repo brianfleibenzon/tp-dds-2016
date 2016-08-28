@@ -1,7 +1,1 @@
-target
-bin
-xtend-gen
-.settings
-.classpath
-.project
-generated*
+/bin/
