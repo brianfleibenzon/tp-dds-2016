@@ -1,0 +1,35 @@
+<h2 align="center"><img src="imagenes/poi_icon.ico" height="60px;" width="60px;">Búsqueda de POIs</h2>
+<div class="card">
+    <div class="card-block">
+        <!--Header-->
+        <div class="text-xs-center">
+            <h3><i class="fa fa-lock"></i> Login:</h3>
+            <hr class="m-t-2 m-b-2">
+        </div>
+		<div ui-view="resultado-login"></div>
+        <!--Body-->
+        <div class="md-form">
+            <i class="fa fa-envelope prefix"></i>
+            <input type="text" id="form2" class="form-control" ng-model="loginCtrl.usuario">
+            <label for="form2">Usuario</label>
+        </div>
+
+        <div class="md-form">
+            <i class="fa fa-lock prefix"></i>
+            <input type="password" id="form4" class="form-control" ng-model="loginCtrl.clave">
+            <label for="form4">Contraseña</label>
+        </div>
+
+        <div class="text-xs-center">
+		<th><button class="btn btn-deep-purple" ng-click="loginCtrl.login()">Login</button></th>
+        </div>
+ <!--Footer-->
+    <div class="modal-footer">
+        <div class="options">
+            <p>Aún no estoy registrado <a href="#">Sign Up</a></p>
+            <p>He olvidado mi contraseña <a href="#">Recuperar</a></p>
+        </div>
+    </div>
+	</div>
+
+</div>

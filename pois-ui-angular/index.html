@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="poisApp">
+<html>
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+    <base href="/">
 	<title>Búsqueda de POIs</title>
 	
 	<!-- Font Awesome -->
@@ -15,25 +17,25 @@
     <!-- Material Design Bootstrap -->
     <link href="css/mdb.min.css" rel="stylesheet">
 </head>
-<body>
-	<!-- SCRIPTS -->
-	
-	<!-- Librería de Angular  -->
-    <script src="node_modules/angular/angular.js"></script>
-	
-	<!-- Nuestro jsscript -->
-	<script src="js/app.js"></script>
-	
-    <!-- JQuery -->
-    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+<body ng-app="pois-app">
+	<div ui-view="layout"></div>
 
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="js/tether.min.js"></script>
-
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script src="js/angular.js"></script>  
+    <script src="js/lodash.js"></script>  
+    <script src="js/angular-ui-router.js"></script>  
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>  
+    <script src="js/mdb.min.js"></script>      
+    
+	<!-- Nuestros jsscript -->
+	<script src="app/app.js"></script>   
+    
+  	<script src="app/modules/login/controllers/loginCtrl.js"></script>
+    <script src="app/modules/login/routes/login.js"></script>
+	<script src="app/modules/pois/controllers/listadoPoisCtrl.js"></script>
+	<script src="app/modules/pois/controllers/poiCtrl.js"></script>
+	<script src="app/modules/pois/pois.js"></script>
+	<script src="app/services/poisHome.js"></script>
 </body>
 </html>
