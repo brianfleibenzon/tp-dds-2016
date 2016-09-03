@@ -1,8 +1,3 @@
 # Carpetas:
 /bin/
 node_modules/
-.idea/
-
-# Otros de JetBrains:
-*.iws
-*.iml
