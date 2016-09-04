@@ -21,17 +21,16 @@ function LoginCtrl($state) {
 		var usuarioEncontrado = _.find(self.usuarios, { usuario: this.usuario });
 		if (usuarioEncontrado){
 			if (usuarioEncontrado.clave == this.clave){
-				
 				$state.go("main.busqueda_pois");
 			}else{
 				this.clave = "";
-				this.resultadoLogin = "La clave es incorrecta (intente con 1234)";
+				this.resultadoLogin = "La clave ingresada es incorrecta (intente con 1234).";
 				$state.go("main.login.incorrecto");
 			}
 		}else{
 			this.usuario = "";
 			this.clave = "";
-			this.resultadoLogin = "El usuario no existe (intente con juanPerez)";
+			this.resultadoLogin = "El usuario ingresado no existe (intente con juanPerez).";
 			$state.go("main.login.incorrecto");
 		}
 	};

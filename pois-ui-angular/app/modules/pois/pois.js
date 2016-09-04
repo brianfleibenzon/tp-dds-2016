@@ -1,4 +1,4 @@
-angular.module('pois-app')
+angular.module('poisApp')
 .config(function($stateProvider) {
   return $stateProvider
   .state('main.busqueda_pois', {
@@ -11,7 +11,7 @@ angular.module('pois-app')
     		return PoisHome.getAll()
     	}
     }
-  })/* SEGUIR DESDE ACA*/
+  })/* SEGUIR DESDE ACÁ */
   .state('main.editar_pois', {
     url: "/pois/editar/:id",
     templateUrl: "app/modules/pois/views/form.html",
