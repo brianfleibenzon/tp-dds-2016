@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/bin/pois-ui-angular" libraries="{2016-mn-group-12/bin/pois-ui-angular/node_modules}" />
-    <file url="file://$PROJECT_DIR$/pois-ui-angular" libraries="{2016-mn-group-12/pois-ui-angular/node_modules}" />
-  </component>
-</project>
