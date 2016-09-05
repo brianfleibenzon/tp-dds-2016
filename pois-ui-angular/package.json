@@ -1,15 +1,18 @@
 {
-	"name": "pois-ui-angular",
-	"version": "1.0.0",
-	"description": "Búsquedas de POIs",
-	"dependencies": {
-	"express": "^4.14.0"
-	},
-	  "devDependencies": {},
-	  "engines": {
-		"node": "4.2.2"
-	},
-	  "scripts": {
-		"start": "node server.js"
-	}
+  "name": "pois-ui-angular",
+  "version": "1.0.0",
+  "description": "Búsquedas de POIs",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.4.0",
+    "eslint-config-google": "^0.6.0"
+  },
+  "engines": {
+    "node": "4.2.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
 }
