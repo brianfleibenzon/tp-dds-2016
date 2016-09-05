@@ -1,8 +1,11 @@
 # Carpetas:
-/bin/
-node_modules/
-.idea/
+bin/*
+pois-ui-angular/node_modules/*
+.eslintrc
 
-# Otros de JetBrains:
+# JetBrains .idea directory:
+.idea/*
+
+# File-based project format:
 *.iws
 *.iml
