@@ -10,7 +10,7 @@ self.abrirTipoPoi = function () {
 	};
 };
 
-var pois_app = angular.module("poisApp")
+var pois_app = angular.module("pois-app")
 pois_app.controller("PoiCtrl", PoiCtrl);
 
 PoiCtrl.$inject = [ "PoisHome", "poi", "$state", "nombreController" ];

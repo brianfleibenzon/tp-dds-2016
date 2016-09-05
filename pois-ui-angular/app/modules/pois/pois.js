@@ -1,4 +1,4 @@
-angular.module('poisApp')
+angular.module('pois-app')
 .config(function($stateProvider) {
   return $stateProvider
   .state('main.busqueda_pois', {

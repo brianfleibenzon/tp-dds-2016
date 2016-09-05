@@ -60,7 +60,7 @@ this.quitarCriterio = function() {
 };
 }
 
-var pois_app = angular.module("poisApp")
+var pois_app = angular.module("pois-app")
 pois_app.controller("BusquedaPoisCtrl", BusquedaPoisCtrl);
 
 BusquedaPoisCtrl.$inject = [ "pois" ];
