@@ -7,12 +7,12 @@ angular.module('pois-app')
     controller: "BusquedaPoisCtrl",
     controllerAs: "busquedaCtrl",
     resolve: {
-    	poi: function (PoisHome) {
-    		return PoisHome.getAll()
+    	pois: function (PoisHome) {
+    		return PoisHome.getAll();
     	}
     }
-  })/* SEGUIR DESDE ACÁ */
-  .state('main.editar_pois', {
+  })
+  .state('main.editar_poi', {
     url: "/pois/editar/:id",
     templateUrl: "app/modules/pois/views/form.html",
     controller: "PoisCtrl",
@@ -24,10 +24,16 @@ angular.module('pois-app')
       nombreController: function () { return "editar"; }
     }
   })
-  .state('main.editar_propiedades.hotel', {
-    views : { "tipo-poi": { templateUrl: "app/modules/propiedades/views/hotelForm.html" } }
+  .state('main.editar_poi.parada', {
+    views : { "tipo-poi": { templateUrl: "app/modules/pois/views/paradaForm.html" } }
   })
-  .state('main.editar_propiedades.particular', {
-    views : { "tipo-poi": { templateUrl: "app/modules/propiedades/views/particularForm.html" } }
+  .state('main.editar_poi.banco', {
+    views : { "tipo-poi": { templateUrl: "app/modules/pois/views/bancoForm.html" } }
+  })
+  .state('main.editar_poi.comercio', {
+    views : { "tipo-poi": { templateUrl: "app/modules/pois/views/comercioForm.html" } }
+  })
+  .state('main.editar_poi.cgp', {
+    views : { "tipo-poi": { templateUrl: "app/modules/pois/views/cgpForm.html" } }
   })
 });
