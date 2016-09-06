@@ -26,9 +26,10 @@ function BusquedaPoisCtrl(pois, PoisHome) {
 	
 	self.agregarCriterio = function() {
 		if(self.nuevoCriterio != "" &&  !(_.includes(self.criteriosDeBusqueda, self.nuevoCriterio))){			
-			self.criteriosDeBusqueda.push(self.nuevoCriterio);			
+			self.criteriosDeBusqueda.push(self.nuevoCriterio);		
+			self.criterioSeleccionado = self.criteriosDeBusqueda[self.criteriosDeBusqueda.length - 1];	
 		}
-		self.nuevoCriterio = "";
+		self.nuevoCriterio = "";		
 	};
 	
 	self.quitarCriterio = function() {
@@ -40,7 +41,7 @@ function BusquedaPoisCtrl(pois, PoisHome) {
 			 }
 		}
 		remove(self.criteriosDeBusqueda, self.criterioSeleccionado);
-		self.criterioSeleccionado = "";
+		self.criterioSeleccionado = self.criteriosDeBusqueda[0];
 	};
 }
 

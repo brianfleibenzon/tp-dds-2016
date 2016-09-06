@@ -10,7 +10,7 @@
                     	<div class="col-sm-12">Nombre</div>
                     	<div class="col-sm-8">
                         	<input type="text" name="nuevoCriterio" ng-model="busquedaCtrl.nuevoCriterio" autofocus placeholder="Nuevo criterio">
-                            <select class="form-control" ng-model="busquedaCtrl.criterioSeleccionado"><option value="">Criterios aplicados</option><option ng-repeat="criterio in busquedaCtrl.criteriosDeBusqueda" value="{{criterio}}">{{criterio}}</option></select>
+                            <select size="4" class="form-control" ng-model="busquedaCtrl.criterioSeleccionado"><option ng-repeat="criterio in busquedaCtrl.criteriosDeBusqueda" value="{{criterio}}">{{criterio}}</option></select>
                         </div>
                         <div class="col-sm-4">
                         	<button type="submit" class="btn btn-primary" ng-click="busquedaCtrl.agregarCriterio()"><i class="fa fa-plus" aria-hidden="true"></i>   Agregar</button>
