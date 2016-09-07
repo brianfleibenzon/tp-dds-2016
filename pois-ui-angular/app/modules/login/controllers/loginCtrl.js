@@ -13,8 +13,6 @@ function LoginCtrl($state) {
 
     var usuario;
     var clave;
-    var resultadoLogin;
-
     var resultadoLogin = "";
 
     self.login = function() {

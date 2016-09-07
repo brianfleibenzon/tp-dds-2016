@@ -13,22 +13,23 @@ function BusquedaPoisCtrl(pois, PoisHome, criteriosDeBusqueda) {
 
         self.errorMessage = "";
         self.nothingFoundMessage = "";
-		
-		self.poisBusqueda = [];
-		
+
+        self.poisBusqueda = [];
+
         if (self.criteriosDeBusqueda.length === 0) {
 
             self.errorMessage = "No ha ingresado ningún criterio de búsqueda.";
-        } else {           
+        } else {
 
             _(self.pois).forEach(function(poi) {
                 var self2 = this;
                 self2.poi = poi;
-				self2.poiIncluido = false;
+                self2.poiIncluido = false;
                 _(self.criteriosDeBusqueda).forEach(function(criterio) {
-                    if (!poiIncluido && (_.includes(self2.poi.nombre, criterio) || _.includes(self2.poi.palabrasClave, criterio))) {
-						self.poisBusqueda.push(self2.poi);
-						self2.poiIncluido = true;
+                    if (!poiIncluido && (_.includes(self2.poi.nombre.toUpperCase(), criterio.toUpperCase()) ||
+                            _.includes(self2.poi.palabrasClave, criterio.toLowerCase()))) {
+                        self.poisBusqueda.push(self2.poi);
+                        self2.poiIncluido = true;
                     }
                 });
             });
@@ -55,10 +56,10 @@ function BusquedaPoisCtrl(pois, PoisHome, criteriosDeBusqueda) {
         remove(self.criteriosDeBusqueda, self.criterioSeleccionado);
         self.criterioSeleccionado = self.criteriosDeBusqueda[0];
     };
-	
-	if (self.criteriosDeBusqueda.length !== 0) {
-		self.buscar();
-	}
+
+    if (self.criteriosDeBusqueda.length !== 0) {
+        self.buscar();
+    }
 }
 
 angular.module("pois-app")
