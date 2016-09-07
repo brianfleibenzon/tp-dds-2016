@@ -13,7 +13,16 @@ var pois = [
 			tipo:"banco",
 			sucursal:"Avellaneda",
 			rangoAtencion:"Lun a Vier 10.00hs a 15.00hs",
-			palabrasClave:["cobro cheques"," depósitos"," extracciones"," transferencias"," créditos"]
+			palabrasClave:["cobro cheques","depósitos","extracciones","transferencias","créditos"]
+		},
+		{
+			id:poiIdActual++,
+			nombre:"Banco Santander Rio",
+			direccion:"Av. Corrientes 2682",
+			tipo:"banco",
+			sucursal:"Caballito",
+			rangoAtencion:"Lun a Vier 10.00hs a 15.00hs",
+			palabrasClave:["extracciones","transferencias"]
 		},
 		{
 			id:poiIdActual++,
@@ -36,8 +45,25 @@ var pois = [
 		},
 		{
 			id:poiIdActual++,
+			nombre:"El Apunte",
+			direccion:"Yatay 260",
+			tipo:"comercio",
+			rubro:"Libreria",
+			rangoAtencion:"Lun a Vie 8.00hs a 21.00hs",
+			palabrasClave:["comercio","fotocopias","impresiones","libreria"]
+		},
+		{
+			id:poiIdActual++,
 			nombre:"Parada Línea 7",
 			numero:"7",
+			tipo:"parada",
+			direccion:"Mozart 2300",
+			palabrasClave:["utn","colectivo","lugano","parada"]
+		},
+		{
+			id:poiIdActual++,
+			nombre:"Parada Línea 114",
+			numero:"114",
 			tipo:"parada",
 			direccion:"Mozart 2300",
 			palabrasClave:["utn","colectivo","lugano","parada"]

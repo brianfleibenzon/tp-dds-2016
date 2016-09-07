@@ -1,3 +1,5 @@
+var criteriosDeBusqueda = [];
+
 angular.module('pois-app')
 .config(function($stateProvider) {
   return $stateProvider
@@ -9,7 +11,10 @@ angular.module('pois-app')
     resolve: {
     	pois: function (PoisHome) {
     		return PoisHome.getAll();
-    	}
+    	},
+		criteriosDeBusqueda: function(){
+			return criteriosDeBusqueda;
+		}
     }
   })
   .state('main.editar_poi', {
@@ -18,10 +23,9 @@ angular.module('pois-app')
     controller: "PoiCtrl",
     controllerAs: "formCtrl",
     resolve: {
-      poi: function (PoisHome, $stateParams) {
-        return PoisHome.get(parseInt($stateParams.id));
-      },
-      nombreController: function () { return "editar"; }
+		poi: function (PoisHome, $stateParams) {
+			return PoisHome.get(parseInt($stateParams.id));
+		}
     }
   })
   .state('main.editar_poi.parada', {

@@ -1,10 +1,10 @@
-function BusquedaPoisCtrl(pois, PoisHome) {
+function BusquedaPoisCtrl(pois, PoisHome, criteriosDeBusqueda) {
 
     var self = this;
     self.pois = pois;
     self.nuevoCriterio = ""; // String
-    self.criteriosDeBusqueda = []; // Lista de String
-    self.criterioSeleccionado = "";
+    self.criteriosDeBusqueda = criteriosDeBusqueda; // Lista de String
+    self.criterioSeleccionado = criteriosDeBusqueda[0];
     self.errorMessage = "";
     self.nothingFoundMessage = "";
 
@@ -13,20 +13,22 @@ function BusquedaPoisCtrl(pois, PoisHome) {
 
         self.errorMessage = "";
         self.nothingFoundMessage = "";
-
+		
+		self.poisBusqueda = [];
+		
         if (self.criteriosDeBusqueda.length === 0) {
 
             self.errorMessage = "No ha ingresado ningún criterio de búsqueda.";
-        } else {
-
-            self.poisBusqueda = [];
+        } else {           
 
             _(self.pois).forEach(function(poi) {
                 var self2 = this;
                 self2.poi = poi;
+				self2.poiIncluido = false;
                 _(self.criteriosDeBusqueda).forEach(function(criterio) {
-                    if (_.includes(self2.poi.nombre, criterio) || _.includes(self2.poi.palabrasClave, criterio)) {
-                        self.poisBusqueda.push(self2.poi);
+                    if (!poiIncluido && (_.includes(self2.poi.nombre, criterio) || _.includes(self2.poi.palabrasClave, criterio))) {
+						self.poisBusqueda.push(self2.poi);
+						self2.poiIncluido = true;
                     }
                 });
             });
@@ -53,9 +55,13 @@ function BusquedaPoisCtrl(pois, PoisHome) {
         remove(self.criteriosDeBusqueda, self.criterioSeleccionado);
         self.criterioSeleccionado = self.criteriosDeBusqueda[0];
     };
+	
+	if (self.criteriosDeBusqueda.length !== 0) {
+		self.buscar();
+	}
 }
 
 angular.module("pois-app")
     .controller("BusquedaPoisCtrl", BusquedaPoisCtrl);
 
-BusquedaPoisCtrl.$inject = ["pois", "PoisHome"];
+BusquedaPoisCtrl.$inject = ["pois", "PoisHome", "criteriosDeBusqueda"];
