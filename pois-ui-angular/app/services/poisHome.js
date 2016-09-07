@@ -13,7 +13,7 @@ var pois = [
 			tipo:"banco",
 			sucursal:"Avellaneda",
 			rangoAtencion:"Lun a Vier 10.00hs a 15.00hs",
-			palabrasClave:["cobro cheques","depósitos","extracciones","transferencias","créditos"]
+			palabrasClave:["cobro cheques"," depósitos"," extracciones"," transferencias"," créditos"]
 		},
 		{
 			id:poiIdActual++,
@@ -23,20 +23,21 @@ var pois = [
 			barrios:"Puerto Madero-Retiro-San Nicolás",
 			servicios:["cultura","deportes","turismo"],
 			rangoAtencion:"Lun a Sáb 9.00hs a 13.00hs y 16.30hs a 20.30hs",
-			palabrasClave:["centro de atención","comuna","servicios sociales"]
+			palabrasClave:["cgp","centro de atención","comuna","servicios sociales"]
 		},
 		{
 			id:poiIdActual++,
-			nombre:"Farmacia Farmacity",
+			nombre:"Farmacity",
 			direccion:"Corrientes 5081",
 			tipo:"comercio",
-			rubro:"farmacia",
+			rubro:"Farmacia",
 			rangoAtencion:"Lun a Sáb 8.00hs a 21.00hs",
 			palabrasClave:["comercio","medicamentos","salud","farmacia"]
 		},
 		{
 			id:poiIdActual++,
 			nombre:"Parada Línea 7",
+			numero:"7",
 			tipo:"parada",
 			direccion:"Mozart 2300",
 			palabrasClave:["utn","colectivo","lugano","parada"]

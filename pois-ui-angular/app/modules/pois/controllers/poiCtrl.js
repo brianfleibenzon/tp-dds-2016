@@ -3,7 +3,7 @@ function PoiCtrl(PoisHome, poi, $state, nombreController) {
 
 	var self = this;
 	self.poi = poi;
-	self.tiposDePoi = [ /*** COMPLETAR ***/ ];
+	self.tiposDePoi = [{tipo:"CGP"},{tipo:"comercio"},{tipo:"parada"},{tipo:"banco"}]
 	  
 	self.abrirTipoPoi = function () {
 		$state.go("main." + nombreController + "_pois." + self.poi.tipo.nombre.toLowerCase());

@@ -15,7 +15,7 @@ angular.module('pois-app')
   .state('main.editar_poi', {
     url: "/pois/editar/:id",
     templateUrl: "app/modules/pois/views/form.html",
-    controller: "PoisCtrl",
+    controller: "PoiCtrl",
     controllerAs: "formCtrl",
     resolve: {
       poi: function (PoisHome, $stateParams) {
