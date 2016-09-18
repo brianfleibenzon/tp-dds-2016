@@ -40,6 +40,7 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.Busqueda
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -130,6 +131,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscadorAbasto = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo
@@ -138,6 +140,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscadorFlorida = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo
@@ -146,6 +149,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscadorTeatroColon = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo

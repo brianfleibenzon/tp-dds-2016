@@ -24,6 +24,7 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestBusquedaEnTodosLosDatos {
 	Buscador buscador
@@ -84,6 +85,7 @@ class TestBusquedaEnTodosLosDatos {
 		buscador = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			usuarioActual = new Terminal("terminal")
 		]

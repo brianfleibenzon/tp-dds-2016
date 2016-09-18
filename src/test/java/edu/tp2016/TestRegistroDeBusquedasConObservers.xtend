@@ -29,6 +29,7 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.Busqueda
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestRegistroDeBusquedasConObservers {
 
@@ -105,6 +106,7 @@ class TestRegistroDeBusquedasConObservers {
 		busquedasRepo = new ArrayList<Busqueda>
 		
 		buscadorFlorida = new Buscador() => [
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
@@ -113,6 +115,7 @@ class TestRegistroDeBusquedasConObservers {
 			mailSender = mockedMailSender
 		]
 		buscadorAbasto = new Buscador() => [
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
@@ -121,6 +124,7 @@ class TestRegistroDeBusquedasConObservers {
 			mailSender = mockedMailSender
 		]
 		buscadorTeatroColon = new Buscador() => [
+			repo = Repositorio.newInstance
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))

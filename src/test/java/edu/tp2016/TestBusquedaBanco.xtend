@@ -8,6 +8,7 @@ import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestBusquedaBanco {
 	Buscador buscador
@@ -15,6 +16,7 @@ class TestBusquedaBanco {
 	@Before
 	def void setUp() {
 		buscador = new Buscador() => [
+			repo = Repositorio.newInstance
 			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 			usuarioActual = new Terminal("terminal")
 		]

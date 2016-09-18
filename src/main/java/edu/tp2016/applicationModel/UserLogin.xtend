@@ -2,11 +2,11 @@ package edu.tp2016.applicationModel
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
-import java.util.ArrayList
 import edu.tp2016.usuarios.Usuario
-import java.util.List
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.usuarios.Administrador
+import edu.tp2016.repositorio.RepoUsuarios
+import com.google.common.collect.Lists
 
 @Accessors
 @Observable
@@ -14,27 +14,24 @@ class UserLogin {
 	String usuario
 	String password
 	String resultadoLogin
-	List<Usuario> usuariosDelSistema = new ArrayList<Usuario>
+	RepoUsuarios repo = RepoUsuarios.getInstance
+	Usuario usuarioLoggeado
 	
-	def boolean validarLogin(){
-		
-		crearJuegoDeDatos()
+	def boolean validarLogin(){		
 		
 		if(inputsNotNull){
-			val userFiltrado = usuariosDelSistema.filter [ user |
-				user.userName.equalsIgnoreCase(usuario) && user.password.equalsIgnoreCase(password) ]
-				
-				if(!userFiltrado.isEmpty) {
-					resultadoLogin = "<< Acceso exitoso >>"
-					return true					
-				}
+			usuarioLoggeado = repo.buscar(usuario, password)
+			if (usuarioLoggeado != null){
+				resultadoLogin = "<< Acceso exitoso >>"
+				return true	
+			}
+
 		}
 		resultadoLogin = "<< Usuario o contraseña inválidos >>"
 		return false
 	}
 	
 	def limpiarLogin(){
-		usuariosDelSistema.clear
 		usuario = ""
 		password = ""
 		resultadoLogin = ""
@@ -50,6 +47,10 @@ class UserLogin {
 	def crearJuegoDeDatos(){
 		val usuarioTerminal = new Terminal("juanPerez", "1234")
 		val usuarioAdministrador = new Administrador("anaFlores", "hello")
-		usuariosDelSistema.addAll(usuarioTerminal, usuarioAdministrador)
+		repo.agregarVariosUsuarios(Lists.newArrayList(new Terminal("usr", "usr"), usuarioTerminal, usuarioAdministrador))
+	}
+	
+	new(){
+		crearJuegoDeDatos()
 	}
 }

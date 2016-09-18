@@ -29,7 +29,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 	new(WindowOwner owner, Buscador model) {
 		super(owner, model)
 		this.delegate.errorViewer = this
-		title = "Búsqueda de POIs"
+		title = "Búsqueda de POIs - Usuario: " + model.usuarioActual.userName
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
@@ -124,6 +124,8 @@ class BuscadorWindow extends Dialog<Buscador>{
 			.onClick[ | this.cancel ]
 	}
 	
+	
+	
 	def editarPoi(){
 		val bloqueQueConstruyeVentana = mapaVentanas.get(modelObject.poiSeleccionado.class)
 		this.openDialogEditar(bloqueQueConstruyeVentana.apply)
@@ -131,10 +133,10 @@ class BuscadorWindow extends Dialog<Buscador>{
 	
 	def getMapaVentanas() {
 		return new HashMap<Class<? extends POI>, () => EditarPoiWindow> => [
-			put(typeof(Banco), [ | new EditarBancoWindow(this, modelObject.poiSeleccionado) ] )
-			put(typeof(CGP), [ | new EditarCGPWindow(this, modelObject.poiSeleccionado) ] )
-			put(typeof(Comercio), [ | new EditarComercioWindow(this, modelObject.poiSeleccionado)] )
-			put(typeof(ParadaDeColectivo), [ | new EditarParadaWindow(this, modelObject.poiSeleccionado)] )
+			put(typeof(Banco), [ | new EditarBancoWindow(this, modelObject.poiSeleccionado, modelObject.usuarioActual) ] )
+			put(typeof(CGP), [ | new EditarCGPWindow(this, modelObject.poiSeleccionado, modelObject.usuarioActual) ] )
+			put(typeof(Comercio), [ | new EditarComercioWindow(this, modelObject.poiSeleccionado, modelObject.usuarioActual)] )
+			put(typeof(ParadaDeColectivo), [ | new EditarParadaWindow(this, modelObject.poiSeleccionado, modelObject.usuarioActual)] )
 		]
 	}
 	

@@ -16,7 +16,6 @@ import edu.tp2016.usuarios.Usuario
 import org.joda.time.LocalDate
 import edu.tp2016.serviciosExternos.MailSender
 import org.uqbar.commons.utils.Observable
-import edu.tp2016.usuarios.Terminal
 import edu.tp2016.builder.ParadaBuilder
 import java.util.Arrays
 import edu.tp2016.mod.DiaDeAtencion
@@ -37,7 +36,7 @@ import edu.tp2016.builder.BancoBuilder
 class Buscador implements IModel<Buscador>{
 	List<POI> resultados = new ArrayList<POI> // para UI
 	public POI poiSeleccionado // para UI
-	String nuevoCriterio // para UI
+	String nuevoCriterio = "" // para UI
 	List<String> criteriosBusqueda = new ArrayList<String> // para UI
 	boolean initStatus = false // para UI
 	String mensajeInvalido
@@ -45,7 +44,7 @@ class Buscador implements IModel<Buscador>{
 	
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
-	public Repositorio repo = Repositorio.newInstance
+	public Repositorio repo = Repositorio.getInstance
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Usuario usuarioActual
@@ -56,6 +55,10 @@ class Buscador implements IModel<Buscador>{
 		fechaActual = new LocalDateTime()
 	}
 	
+	new(Usuario usuario){
+		this.usuarioActual = usuario
+	}
+	
 	override Buscador getSource(){
 		this
 	}
@@ -64,8 +67,8 @@ class Buscador implements IModel<Buscador>{
 		if(!initStatus){
 			resultados.clear
 			mensajeInvalido = ""
-			usuarioActual = new Terminal("terminal")
-			repo.agregarVariosPois(crearJuegoDeDatos)
+			if (repo.allInstances.size == 0)
+				repo.agregarVariosPois(crearJuegoDeDatos)
 			initStatus = true
 		}
 	}
@@ -260,6 +263,10 @@ class Buscador implements IModel<Buscador>{
 		val t2 = new LocalDateTime()
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
 		usuarioActual.registrarBusqueda(criteriosBusqueda, new ArrayList(search), demora, this)
+		
+		search.forEach[
+			it.favorito = usuarioActual.tienePoiFavorito(it)
+		]
 		
 		resultados.addAll(search)		
 	} // Búsqueda adaptada para la UI

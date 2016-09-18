@@ -50,8 +50,10 @@ class LoginWindow extends MainWindow<UserLogin> {
 			new Button(it) => [
 				caption = "Acceder"
 				onClick [ |
-					if (modelObject.validarLogin)
-						openDialog(new BuscadorWindow(this, new Buscador()))
+					if (modelObject.validarLogin){
+						openDialog(new BuscadorWindow(this, new Buscador(modelObject.usuarioLoggeado)))
+						modelObject.limpiarLogin
+					}
 				]
 				setAsDefault
 			]

@@ -1,6 +1,7 @@
 package edu.tp2016.pois
 
 import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Review
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -11,6 +12,7 @@ import org.uqbar.commons.utils.Observable
 import org.uqbar.commons.model.UserException
 import edu.tp2016.mod.Servicio
 import org.apache.commons.lang.StringUtils
+import edu.tp2016.usuarios.Usuario
 
 @Observable
 @Accessors
@@ -20,8 +22,14 @@ class POI extends Entity implements Cloneable {
 	Point ubicacion
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	List<String> palabrasClave = new ArrayList<String>
+	List<Review> reviews = new ArrayList<Review>
 	
 	Servicio servicioSeleccionado  // para UI
+	String comentario // para UI
+	int calificacion // para UI
+	boolean favorito;
+	float calificacionGeneral; // para UI
+	Usuario usuario; // para UI
 	// Hereda de Entity: private Integer id
 
 	/**
@@ -91,6 +99,46 @@ class POI extends Entity implements Cloneable {
 		if (direccion == null) {
 			throw new UserException("Debe ingresar dirección")
 		}	
+	}
+	
+	def void inicializarDatos(){
+		calificacionGeneral = 0
+		calificacion = 1
+		comentario = null
+		favorito = usuario.tienePoiFavorito(this)
+		reviews.forEach[
+			calificacionGeneral += it.calificacion
+			if (it.usuario.id == usuario.id){
+				calificacion = it.calificacion
+				comentario = it.comentario
+			}
+		]
+		calificacionGeneral = calificacionGeneral / reviews.size	
+		
+	}
+	
+	def getCalificacionGeneral(){		
+		"Calificacion general: " + calificacionGeneral
+	}
+	
+	def guardarCalificacion(){
+		val review = reviews.findFirst[
+			it.usuario == usuario
+		]
+		if (review == null){
+			reviews.add(new Review(calificacion, usuario, comentario))
+		}else{
+			review.calificacion = calificacion
+			review.comentario = comentario
+		}
+		inicializarDatos()
+	}	
+	
+	def void setFavorito(boolean valor){
+		if (usuario!= null){
+			usuario.modificarPoiFavorito(this, valor)
+			favorito = valor
+		}
 	}
 
 }

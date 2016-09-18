@@ -15,11 +15,18 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import edu.tp2016.mod.DiaDeAtencion
 import org.uqbar.arena.widgets.List
+import org.uqbar.arena.layout.HorizontalLayout
+import org.uqbar.arena.widgets.CheckBox
+import org.uqbar.arena.widgets.Spinner
+import edu.tp2016.usuarios.Usuario
+import edu.tp2016.mod.Review
 
 abstract class EditarPoiWindow extends Dialog<POI> {
 	
-	new(WindowOwner owner, POI model) {
+	new(WindowOwner owner, POI model, Usuario usuario) {
 		super(owner, model)
+		model.usuario = usuario
+		model.inicializarDatos()
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
@@ -33,6 +40,59 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 		]
 
 		this.addFormPanel(form)
+		
+		new Panel(mainPanel) => [
+			layout = new ColumnLayout(2)
+			new Label(it).bindValueToProperty("calificacionGeneral")
+			new Panel(it) => [
+				layout = new HorizontalLayout
+				new Label(it).text = "Favorito: "
+				new CheckBox(it).bindValueToProperty("favorito")
+			]
+		]
+		
+		new Panel(mainPanel) => [
+			layout = new ColumnLayout(3)
+			new Label(it).text = "Tu opinion:"
+			new TextBox(it) => [
+				bindValueToProperty("comentario")
+				height = 40
+				width = 140
+			]
+			new Panel(it)=> [
+				new Spinner(it) => [
+					minimumValue = 1
+					maximumValue = 5
+					bindValueToProperty("calificacion")
+				]
+				new Button(it) => [
+					caption = "Enviar"
+					onClick([ | modelObject.guardarCalificacion ])
+				]
+			]			
+		]
+		
+		new Panel(mainPanel) => [
+			new Label(it).text = "Opiniones: "
+			var table = new Table<Review>(mainPanel, typeof(Review)) => [
+				items <=> "reviews"
+			]
+			new Column<Review>(table) => [
+				title = "Usuario"
+				fixedSize = 150
+				bindContentsToProperty("usuario.userName")
+			]
+			new Column<Review>(table) => [
+				title = "Comentario"
+				fixedSize = 150
+				bindContentsToProperty("comentario")
+			]
+			new Column<Review>(table) => [
+				title = "Calificacion"
+				fixedSize = 150
+				bindContentsToProperty("calificacion")
+			]
+		]
 		
 		new Button(mainPanel)
 			.setCaption("Aceptar")
@@ -51,8 +111,8 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 
 class EditarBancoWindow extends EditarPoiWindow {
 	
-	new(WindowOwner owner, POI model) {
-		super(owner, model)
+	new(WindowOwner owner, POI model, Usuario usuario) {
+		super(owner, model, usuario)
 		title = "Editar Banco"
 		iconImage = "imagenes/banco1.jpg"
 	}
@@ -83,8 +143,8 @@ class EditarBancoWindow extends EditarPoiWindow {
 
 class EditarCGPWindow extends EditarPoiWindow {
 	
-	new(WindowOwner owner, POI model) {
-		super(owner, model)
+	new(WindowOwner owner, POI model, Usuario usuario) {
+		super(owner, model, usuario)
 		title = "Editar CGP"
 		iconImage = "imagenes/cgp.jpg"
 	}
@@ -148,8 +208,8 @@ class EditarCGPWindow extends EditarPoiWindow {
 
 class EditarComercioWindow extends EditarPoiWindow {
 	
-	new(WindowOwner owner, POI model) {
-		super(owner, model)
+	new(WindowOwner owner, POI model, Usuario usuario) {
+		super(owner, model, usuario)
 		title = "Editar Comercio"
 	    iconImage = "imagenes/comercio.jpg"
 	}
@@ -172,8 +232,8 @@ class EditarComercioWindow extends EditarPoiWindow {
 
 class EditarParadaWindow extends EditarPoiWindow {
 	
-	new(WindowOwner owner, POI model) {
-		super(owner, model)
+	new(WindowOwner owner, POI model, Usuario usuario) {
+		super(owner, model, usuario)
 		title = "Editar Parada de Colectivo"
 	    iconImage = "imagenes/coletivo.ico"
 	}

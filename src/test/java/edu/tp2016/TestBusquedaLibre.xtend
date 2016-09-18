@@ -22,6 +22,7 @@ import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestBusquedaLibre {
 
@@ -101,6 +102,7 @@ class TestBusquedaLibre {
 
 		buscador = new Buscador() =>
 			[
+				repo = Repositorio.newInstance
 				repo.agregarVariosPois(
 					Lists.newArrayList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2,
 						comercioFarmacity, comercioLoDeJuan, bancoGalicia))
