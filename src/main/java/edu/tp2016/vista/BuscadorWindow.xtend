@@ -114,6 +114,11 @@ class BuscadorWindow extends Dialog<Buscador>{
 			fixedSize = 150
 			bindContentsToProperty("direccion")
 		]
+		new Column<POI>(table) => [
+			title = "Favorito"
+			fixedSize = 150
+			bindContentsToProperty("favorito")
+		]
 		new Button(mainPanel) => [
 			caption = "Editar"	
 			onClick[ | this.editarPoi ]
