@@ -5,3 +5,6 @@ xtend-gen
 .classpath
 .project
 generated*
+
+node_modules/
+.idea/
