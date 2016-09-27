@@ -130,6 +130,7 @@ class EditarBancoWindow extends EditarPoiWindow {
 		]
 		
 		new Label(panel).text = "Distancia:"
+		
 		new Label(panel) => [
 			value <=> "distancia"
 			width = 200

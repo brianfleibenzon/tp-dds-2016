@@ -28,7 +28,7 @@ class POI extends Entity implements Cloneable {
 	int calificacion
 	boolean favorito
 	String cercania
-	double distancia
+	String distancia
 	String favoritoStatus
 	float calificacionGeneral
 	Usuario usuario
@@ -65,7 +65,7 @@ class POI extends Entity implements Cloneable {
 	}
 
 	def double distanciaA(Point unPunto) {
-		unPunto.distance(ubicacion)
+		unPunto.distance(ubicacion) * 10
 	}
 
 	/**
@@ -147,6 +147,6 @@ class POI extends Entity implements Cloneable {
 	}
 	
 	def getDistancia(){
-		distancia = distanciaA(usuario.ubicacionActual)
+		distancia = String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
 	}
 }
