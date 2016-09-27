@@ -38,19 +38,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 			width = 200
 		]
 				
-	
-
-		this.addFormPanel(form)
-		new Panel(mainPanel) =>[
-			layout=new ColumnLayout(2)
-			new Label(it).text="Distancia: "
-			new TextBox(it) => [
-				bindValueToProperty("comentario")
-				height = 40
-				width = 140
-			]
-		]
-	
+		
 		new Panel(mainPanel) => [
 			layout = new ColumnLayout(2)
 			new Label(it).bindValueToProperty("calificacionGeneral")
