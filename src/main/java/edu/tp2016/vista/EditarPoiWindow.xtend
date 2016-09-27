@@ -25,8 +25,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 	
 	new(WindowOwner owner, POI model, Usuario usuario) {
 		super(owner, model)
-		model.usuario = usuario
-		model.inicializarDatos()
+		model.inicializarDatos(usuario)
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
@@ -53,7 +52,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 		
 		new Panel(mainPanel) => [
 			layout = new ColumnLayout(3)
-			new Label(it).text = "Tu opinion:"
+			new Label(it).text = "Tu opinión:"
 			new TextBox(it) => [
 				bindValueToProperty("comentario")
 				height = 40
@@ -88,7 +87,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 				bindContentsToProperty("comentario")
 			]
 			new Column<Review>(table) => [
-				title = "Calificacion"
+				title = "Calificación"
 				fixedSize = 150
 				bindContentsToProperty("calificacion")
 			]

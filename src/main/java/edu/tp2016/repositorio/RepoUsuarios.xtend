@@ -54,7 +54,7 @@ class RepoUsuarios extends CollectionBasedRepo<Usuario>{
 	
 	
 	def Usuario buscar(String username, String clave) {
-	    allInstances.findFirst[it.userName.equalsIgnoreCase(username) && 
+	    allInstances.findFirst [it.userName.equalsIgnoreCase(username) && 
 	        it.password.equalsIgnoreCase(clave)]
 	}
 	

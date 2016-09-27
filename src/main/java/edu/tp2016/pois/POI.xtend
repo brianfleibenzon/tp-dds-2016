@@ -23,14 +23,13 @@ class POI extends Entity implements Cloneable {
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	List<String> palabrasClave = new ArrayList<String>
 	List<Review> reviews = new ArrayList<Review>
-	
-	Servicio servicioSeleccionado  // para UI
-	String comentario // para UI
-	int calificacion // para UI
-	boolean favorito;
-	float calificacionGeneral; // para UI
-	Usuario usuario; // para UI
-	// Hereda de Entity: private Integer id
+	Servicio servicioSeleccionado
+	String comentario
+	int calificacion
+	boolean favorito
+	String favoritoStatus
+	float calificacionGeneral
+	Usuario usuario
 
 	/**
 	 * Constructor de POI, será redefinido en las subclases, por lo que hay que llamar a 'super'
@@ -92,29 +91,24 @@ class POI extends Entity implements Cloneable {
 		palabrasClave.add(unaPalabra)
 	}
 	
-	def void validar() {
-		if (nombre == null) {
-			throw new UserException("Debe ingresar nombre")
-		}
-		if (direccion == null) {
-			throw new UserException("Debe ingresar dirección")
-		}	
-	}
-	
-	def void inicializarDatos(){
+	def inicializarDatos(){
 		calificacionGeneral = 0
 		calificacion = 1
 		comentario = null
 		favorito = usuario.tienePoiFavorito(this)
-		reviews.forEach[
+		reviews.forEach [
 			calificacionGeneral += it.calificacion
 			if (it.usuario.id == usuario.id){
 				calificacion = it.calificacion
 				comentario = it.comentario
 			}
 		]
-		calificacionGeneral = calificacionGeneral / reviews.size	
-		
+		calificacionGeneral = calificacionGeneral / reviews.size
+	}
+	
+	def inicializarDatos(Usuario usuarioActivo){
+		usuario = usuarioActivo
+		inicializarDatos
 	}
 	
 	def getCalificacionGeneral(){		
@@ -122,7 +116,7 @@ class POI extends Entity implements Cloneable {
 	}
 	
 	def guardarCalificacion(){
-		val review = reviews.findFirst[
+		val review = reviews.findFirst [
 			it.usuario == usuario
 		]
 		if (review == null){
@@ -131,14 +125,16 @@ class POI extends Entity implements Cloneable {
 			review.calificacion = calificacion
 			review.comentario = comentario
 		}
-		inicializarDatos()
-	}	
+		inicializarDatos
+	}
 	
-	def void setFavorito(boolean valor){
-		if (usuario!= null){
-			usuario.modificarPoiFavorito(this, valor)
-			favorito = valor
-		}
+	def setFavorito(boolean valor){
+		favorito = valor
+		usuario.modificarPoiFavorito(this, valor)
+	}
+	
+	def getFavoritoStatus(){
+		favoritoStatus = if(favorito) "Favorito" else ""
 	}
 
 }

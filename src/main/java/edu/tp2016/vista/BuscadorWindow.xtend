@@ -117,7 +117,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 		new Column<POI>(table) => [
 			title = "Favorito"
 			fixedSize = 150
-			bindContentsToProperty("favorito")
+			bindContentsToProperty("favoritoStatus")
 		]
 		new Button(mainPanel) => [
 			caption = "Editar"	
@@ -128,7 +128,6 @@ class BuscadorWindow extends Dialog<Buscador>{
 			.setCaption("Salir")
 			.onClick[ | this.cancel ]
 	}
-	
 	
 	
 	def editarPoi(){

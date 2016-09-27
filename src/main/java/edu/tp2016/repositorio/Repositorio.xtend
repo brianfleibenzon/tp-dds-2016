@@ -67,11 +67,10 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	}
 	
 	def actualizarPoi(POI poi){
-		poi.validar
-		if (poi.isNew) { // es un alta
-			agregarPoi(poi)
-		} else { // es una modificación
-			this.update(poi)
+		if (poi.isNew) {
+			agregarPoi(poi) // es un alta
+		} else {
+			this.update(poi) // es una modificación
 		}
 	}
 	
@@ -80,10 +79,7 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	}
 	
 	static def getInstance() {
-		if (instance == null) {
-			instance = new Repositorio
-		}
-		instance
+		instance = if (instance == null) new Repositorio
 	}
 	
 	def doGetPoi(POI unPoi) {

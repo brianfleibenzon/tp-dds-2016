@@ -15,6 +15,8 @@ import org.uqbar.arena.windows.Dialog
 import java.awt.Color
 import org.uqbar.arena.bindings.ValueTransformer
 import edu.tp2016.applicationModel.Buscador
+import org.uqbar.arena.layout.HorizontalLayout
+import org.uqbar.arena.widgets.CheckBox
 
 class LoginWindow extends MainWindow<UserLogin> {
 	
@@ -45,6 +47,12 @@ class LoginWindow extends MainWindow<UserLogin> {
 		]
 		
 		new Panel(mainPanel) => [
+			layout = new HorizontalLayout
+			new Label(it).text = "Recordar cuenta: "
+			new CheckBox(it).bindValueToProperty("recordar")
+		]
+		
+		new Panel(mainPanel) => [
 			it.layout = new ColumnLayout(3)
 			
 			new Button(it) => [
@@ -52,7 +60,7 @@ class LoginWindow extends MainWindow<UserLogin> {
 				onClick [ |
 					if (modelObject.validarLogin){
 						openDialog(new BuscadorWindow(this, new Buscador(modelObject.usuarioLoggeado)))
-						modelObject.limpiarLogin
+						modelObject.salirLogin
 					}
 				]
 				setAsDefault

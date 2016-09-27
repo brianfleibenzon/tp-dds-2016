@@ -33,12 +33,12 @@ abstract class Usuario extends Entity implements Cloneable {
 			observer.registrarBusqueda(criterios, poisDevueltos, demora, this, buscador) ]
 	}
 	
-	def boolean tienePoiFavorito (POI poi){
-		poisFavoritos.exists[unPoi | unPoi.equals(poi)]
+	def tienePoiFavorito(POI poi){
+		poisFavoritos.exists [ unPoi | unPoi.equals(poi) ]
 	}
 	
-	def boolean modificarPoiFavorito (POI poi, Boolean agregar){
-		if (agregar){
+	def modificarPoiFavorito(POI poi, Boolean esFavorito){
+		if (esFavorito){
 			poisFavoritos.add(poi)
 		}else{
 			poisFavoritos.remove(poi)

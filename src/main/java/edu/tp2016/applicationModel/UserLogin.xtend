@@ -16,16 +16,15 @@ class UserLogin {
 	String resultadoLogin
 	RepoUsuarios repo = RepoUsuarios.getInstance
 	Usuario usuarioLoggeado
+	boolean recordar
 	
 	def boolean validarLogin(){		
-		
 		if(inputsNotNull){
 			usuarioLoggeado = repo.buscar(usuario, password)
 			if (usuarioLoggeado != null){
 				resultadoLogin = "<< Acceso exitoso >>"
 				return true	
 			}
-
 		}
 		resultadoLogin = "<< Usuario o contraseña inválidos >>"
 		return false
@@ -37,6 +36,10 @@ class UserLogin {
 		resultadoLogin = ""
 	}
 	
+	def salirLogin(){
+		if(!recordar) limpiarLogin
+	}
+	
 	def boolean inputsNotNull(){
 		val userNotNull = usuario != null && !usuario.isEmpty
 		val passwordNotNull = password != null && !password.isEmpty
@@ -46,11 +49,13 @@ class UserLogin {
 	
 	def crearJuegoDeDatos(){
 		val usuarioTerminal = new Terminal("juanPerez", "1234")
-		val usuarioAdministrador = new Administrador("anaFlores", "hello")
+		val usuarioAdministrador = new Administrador("admin", "helloWorld")
 		repo.agregarVariosUsuarios(Lists.newArrayList(new Terminal("usr", "usr"), usuarioTerminal, usuarioAdministrador))
 	}
 	
 	new(){
 		crearJuegoDeDatos()
+		recordar = false
 	}
+
 }

@@ -34,14 +34,13 @@ import edu.tp2016.builder.BancoBuilder
 @Observable
 @Accessors
 class Buscador implements IModel<Buscador>{
-	List<POI> resultados = new ArrayList<POI> // para UI
-	public POI poiSeleccionado // para UI
-	String nuevoCriterio = "" // para UI
-	List<String> criteriosBusqueda = new ArrayList<String> // para UI
-	boolean initStatus = false // para UI
+	List<POI> resultados = new ArrayList<POI>
+	public POI poiSeleccionado
+	String nuevoCriterio = ""
+	List<String> criteriosBusqueda = new ArrayList<String>
+	boolean initStatus = false 
 	String mensajeInvalido
-	String criterioSeleccionado // para UI
-	
+	String criterioSeleccionado
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
 	public Repositorio repo = Repositorio.getInstance
@@ -161,9 +160,7 @@ class Buscador implements IModel<Buscador>{
 	}
 
 	def generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica(String nombreDeConsulta) {
-		val reporte = generarReporteCantidadDeResultadosParcialesPorTerminal().get(nombreDeConsulta)
-		
-		reporte
+		generarReporteCantidadDeResultadosParcialesPorTerminal().get(nombreDeConsulta)
 	}
 
 	def generarReporteCantidadTotalDeResultadosPorTerminal() {
@@ -239,15 +236,8 @@ class Buscador implements IModel<Buscador>{
 			Arrays.asList("Cobro cheques", "Cajero automático", "Seguros", "Créditos", "Depósitos","Extracciones")).nombreGerente("Armando Lopez").
 			sucursal("Lugano").setearHorarios().build
 	
-		val pois = Lists.newArrayList(utn7parada,
-								  utn114parada,
-								  miserere7parada,
-								  comercioFarmacity,
-								  comercioLoDeJuan,
-								  CGPComuna1,
-								  BancoPatagonia)
-								  
-		return pois
+	Lists.newArrayList(utn7parada, utn114parada, miserere7parada, comercioFarmacity,
+						comercioLoDeJuan, CGPComuna1, BancoPatagonia)
 	}
 	
 	def buscar(){
