@@ -186,31 +186,35 @@ class Buscador implements IModel<Buscador>{
 	def crearJuegoDeDatos(){
 		val ubicacionX = new Point(-1, 1)
 		val rangoX = new ArrayList<DiaDeAtencion>
-		rangoX.addAll(new DiaDeAtencion(2,10,19,0,0), new DiaDeAtencion(3,10,19,0,0))
-
+		rangoX.addAll(new DiaDeAtencion(2,10,19,0,0), new DiaDeAtencion(3,10,19,0,0))		
+		val ubicacionParadasUTN= new Point(-34.659705, -58.468103)
+		
 		val utn7parada = new ParadaBuilder().nombre("7_utn").lineaColectivo("7").
-		ubicacion(ubicacionX).direccion("Mozart 2300").
+		ubicacion(ubicacionParadasUTN).direccion("Mozart 2300").
 		claves( Arrays.asList("utn", "campus", "colectivo", "parada")).build
-
+		
+		val ubicacionColectivoOnce=new Point(-34.653570, -58.549873)
 		val miserere7parada = new ParadaBuilder().nombre("7_once").lineaColectivo("7").
-		ubicacion(ubicacionX).direccion("Pueyrredón 1600").
+		ubicacion(ubicacionColectivoOnce).direccion("Pueyrredón 1600").
 		claves(Arrays.asList("utn", "plaza miserere", "once", "colectivo", "parada")).build
 
 		val utn114parada = new ParadaBuilder().nombre("114_utn").lineaColectivo("114").
-		ubicacion(ubicacionX).direccion("Mozart 2300").
+		ubicacion(ubicacionParadasUTN).direccion("Mozart 2300").
 		claves(Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
 		val rubroFarmacia = new Rubro("Farmacia", 1)
 		val rubroLibreria = new Rubro("Libreria", 2)
 	
+		val ubicacionFarmacity=new Point(-34.600319, -58.437463)
 	    val comercioFarmacity = new ComercioBuilder().nombre("Farmacity").direccion("Corrientes 5081").
-		ubicacion(ubicacionX).
+		ubicacion(ubicacionFarmacity).
 		claves(Arrays.asList("comercio","medicamentos", "salud", "farmacia")).
 		rubro(rubroFarmacia).
 		rango(rangoX).build
 
+		val ubicacionLoDeJuan=new Point(-34.600171, -58.420530)
 		val comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").direccion("Medrano 850").
-		ubicacion(ubicacionX).
+		ubicacion(ubicacionLoDeJuan).
 		claves(Arrays.asList("comercio","fotocopias", "utiles", "libros")).
 		rubro(rubroLibreria).
 		rango(rangoX).build
@@ -228,12 +232,14 @@ class Buscador implements IModel<Buscador>{
 			poligono.add(new Point(-4, 4))
 		]
 	
+		val ubicacionCGPComuna1 = new Point(-34.608365, -58.370973)
 	    val CGPComuna1 = new CGPBuilder().nombre("CGP Comuna 1").
-	    	ubicacion(ubicacionX).direccion("Balcarce 52").zonasIncluidas("Puerto Madero-Retiro-San Nicolás").claves(
+	    	ubicacion(ubicacionCGPComuna1).direccion("Balcarce 52").zonasIncluidas("Puerto Madero-Retiro-San Nicolás").claves(
 			Arrays.asList("CGP", "centro de atención", "servicios sociales", "comuna 1")).comuna(comunaX).servicio(
 			Arrays.asList(asesoramientoLegal, cultura, deportes)).nombreDirector("").telefono("").build
 			
-		val BancoPatagonia = new BancoBuilder().nombre("Banco Patagonia").ubicacion(ubicacionX).direccion("Mozart 2100").claves(
+		val ubicacionBancoPatagonia=new Point (-34.657996, -58.471178)
+		val BancoPatagonia = new BancoBuilder().nombre("Banco Patagonia").ubicacion(ubicacionBancoPatagonia).direccion("Mozart 2100").claves(
 			Arrays.asList("Cobro cheques", "Cajero automático", "Seguros", "Créditos", "Depósitos","Extracciones")).nombreGerente("Armando Lopez").
 			sucursal("Lugano").setearHorarios().build
 	
