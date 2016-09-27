@@ -30,16 +30,27 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 	
 	override protected createFormPanel(Panel mainPanel) {
 		val form = new Panel(mainPanel)
-		form.layout = new ColumnLayout(2)
+		form.layout = new ColumnLayout(3)
 		
 		new Label(form).text = "Nombre:"
 		new TextBox(form) => [
 			value <=> "nombre"
 			width = 200
 		]
+				
+	
 
 		this.addFormPanel(form)
-		
+		new Panel(mainPanel) =>[
+			layout=new ColumnLayout(2)
+			new Label(it).text="Distancia: "
+			new TextBox(it) => [
+				bindValueToProperty("comentario")
+				height = 40
+				width = 140
+			]
+		]
+	
 		new Panel(mainPanel) => [
 			layout = new ColumnLayout(2)
 			new Label(it).bindValueToProperty("calificacionGeneral")
