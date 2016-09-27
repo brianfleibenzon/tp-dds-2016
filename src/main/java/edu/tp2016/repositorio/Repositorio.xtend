@@ -31,13 +31,17 @@ class Repositorio extends CollectionBasedRepo<POI> {
 		}
 		result
 	}
+	
+	def isEmpty(){
+		allInstances.size == 0
+	}
 
 	override getCriterioTodas() {
 		[POI poi|true] as Predicate<POI>
 	}
 
 	def getCriterioPorNombre(String nombre) {
-		[POI poi|poi.coincide(nombre)] as Predicate<POI>
+		[POI poi | poi.coincide(nombre)] as Predicate<POI>
 	}
 
 	def getCriterioPorPalabraClave(String palabraClave) {
@@ -46,9 +50,9 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	
 	def agregarPoi(POI poi){
 		var nuevoId = rand.nextInt(1000) // le asigna un id aleatorio entre 0 y 999
-			while(idEnUso(nuevoId)){
-				nuevoId = rand.nextInt(1000)
-			}
+		while(idEnUso(nuevoId)){
+			nuevoId = rand.nextInt(1000)
+		}
 		poi.id = nuevoId
 		
 		this.create(poi)
@@ -79,7 +83,10 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	}
 	
 	static def getInstance() {
-		instance = if (instance == null) new Repositorio
+		if (instance == null){
+			instance = new Repositorio
+		}
+		instance
 	}
 	
 	def doGetPoi(POI unPoi) {

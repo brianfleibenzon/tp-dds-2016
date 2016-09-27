@@ -68,8 +68,7 @@ class Buscador implements IModel<Buscador>{
 		if(!initStatus){
 			resultados.clear
 			mensajeInvalido = ""
-			if (repo.allInstances.size == 0)
-				repo.agregarVariosPois(crearJuegoDeDatos)
+			if (repo.isEmpty) repo.agregarVariosPois(crearJuegoDeDatos)
 			initStatus = true
 		}
 	}
@@ -257,6 +256,7 @@ class Buscador implements IModel<Buscador>{
 		usuarioActual.registrarBusqueda(criteriosBusqueda, new ArrayList(search), demora, this)
 		
 		search.forEach[
+			it.usuario = usuarioActual
 			it.favorito = usuarioActual.tienePoiFavorito(it)
 		]
 		

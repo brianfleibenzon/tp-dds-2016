@@ -67,7 +67,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 					onClick[| modelObject.eliminarCriterio ]		
 				]
 				new Button(it) => [
-					caption = "Borrar todos los criterios"	
+					caption = "Borrar todos"	
 					onClick[| modelObject.eliminarTodosLosCriterios ]
 				]
 			]
@@ -119,6 +119,13 @@ class BuscadorWindow extends Dialog<Buscador>{
 			fixedSize = 150
 			bindContentsToProperty("favoritoStatus")
 		]
+
+		new Column<POI>(table) => [
+			title = "Cerca"
+			fixedSize = 150
+			bindContentsToProperty("cercania")
+		]
+
 		new Button(mainPanel) => [
 			caption = "Editar"	
 			onClick[ | this.editarPoi ]

@@ -27,7 +27,7 @@ class POI extends Entity implements Cloneable {
 	String comentario
 	int calificacion
 	boolean favorito
-	boolean cerca
+	String cercania
 	double distancia
 	String favoritoStatus
 	float calificacionGeneral
@@ -57,7 +57,7 @@ class POI extends Entity implements Cloneable {
 	}
 
 	def boolean tieneRangoDeAtencionDisponibleEn(LocalDateTime fecha) {
-		rangoDeAtencion.exists[unRango|unRango.fechaEstaEnRango(fecha)]
+		rangoDeAtencion.exists [unRango | unRango.fechaEstaEnRango(fecha)]
 	}
 
 	def boolean estaCercaA(Point ubicacionDispositivo) {
@@ -96,7 +96,8 @@ class POI extends Entity implements Cloneable {
 	def inicializarDatos(){
 		calificacionGeneral = 0
 		calificacion = 1
-		comentario = null
+		comentario = ""
+		
 		favorito = usuario.tienePoiFavorito(this)
 		reviews.forEach [
 			calificacionGeneral += it.calificacion
@@ -108,7 +109,7 @@ class POI extends Entity implements Cloneable {
 		calificacionGeneral = calificacionGeneral / reviews.size
 	}
 	
-	def inicializarDatos(Usuario usuarioActivo){
+	def inicializar(Usuario usuarioActivo){
 		usuario = usuarioActivo
 		inicializarDatos
 	}
@@ -130,17 +131,19 @@ class POI extends Entity implements Cloneable {
 		inicializarDatos
 	}
 	
-	def setFavorito(boolean valor){
+	def void setFavorito(boolean valor){
 		favorito = valor
-		usuario.modificarPoiFavorito(this, valor)
+		if(usuario != null){
+			usuario.modificarPoiFavorito(this, valor)
+		}
 	}
 	
-	def getFavoritoStatus(){
-		favoritoStatus = if(favorito) "Favorito" else ""
+	def String getFavoritoStatus(){
+		favoritoStatus = if(favorito) "     ✓" else ""
 	}
 	
 	def getCercania(){
-		cerca = estaCercaA(usuario.ubicacionActual)
+		cercania = if(this.estaCercaA(usuario.ubicacionActual)) "SI" else "NO"
 	}
 	
 	def getDistancia(){

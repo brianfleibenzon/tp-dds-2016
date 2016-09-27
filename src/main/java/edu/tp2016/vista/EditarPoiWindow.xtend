@@ -25,7 +25,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 	
 	new(WindowOwner owner, POI model, Usuario usuario) {
 		super(owner, model)
-		model.inicializarDatos(usuario)
+		model.inicializar(usuario)
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
