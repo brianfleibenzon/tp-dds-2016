@@ -67,7 +67,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 					onClick[| modelObject.eliminarCriterio ]		
 				]
 				new Button(it) => [
-					caption = "Borrar todos los criterios"	
+					caption = "Borrar todos"	
 					onClick[| modelObject.eliminarTodosLosCriterios ]
 				]
 			]

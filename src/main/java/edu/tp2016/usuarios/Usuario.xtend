@@ -8,6 +8,8 @@ import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
 import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
+import java.util.HashSet
+import java.util.Set
 
 @Observable
 @Accessors
@@ -16,7 +18,8 @@ abstract class Usuario extends Entity implements Cloneable {
 	String password
 	String mailAdress
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
-	List<POI> poisFavoritos = new ArrayList<POI>
+	Set<POI> poisFavoritos = new HashSet<POI>
+	//List<POI> poisFavoritos = new ArrayList<POI>
 	
 	new(){ } // Constructor default de la superclase
 	
@@ -34,7 +37,7 @@ abstract class Usuario extends Entity implements Cloneable {
 	}
 	
 	def tienePoiFavorito(POI poi){
-		poisFavoritos.exists [ unPoi | unPoi.equals(poi) ]
+		poisFavoritos.contains(poi)
 	}
 	
 	def modificarPoiFavorito(POI poi, Boolean esFavorito){
