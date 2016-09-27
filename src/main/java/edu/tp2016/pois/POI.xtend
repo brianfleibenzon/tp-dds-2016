@@ -65,7 +65,7 @@ class POI extends Entity implements Cloneable {
 	}
 
 	def double distanciaA(Point unPunto) {
-		unPunto.distance(ubicacion) * 10
+		unPunto.distance(ubicacion)
 	}
 
 	/**

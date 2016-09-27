@@ -49,7 +49,7 @@ class Buscador implements IModel<Buscador>{
 	Usuario usuarioActual
 	LocalDateTime fechaActual
 	MailSender mailSender
-	Point ubicacion = new Point(1,-1)
+	Point ubicacion = new Point(-34.607984, -58.392070) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
 	
 	new(){
 		fechaActual = new LocalDateTime()
@@ -184,7 +184,6 @@ class Buscador implements IModel<Buscador>{
 	
 // VISTA - USER INTERFACE:	
 	def crearJuegoDeDatos(){
-		val ubicacionX = new Point(-1, 1)
 		val rangoX = new ArrayList<DiaDeAtencion>
 		rangoX.addAll(new DiaDeAtencion(2,10,19,0,0), new DiaDeAtencion(3,10,19,0,0))		
 		val ubicacionParadasUTN= new Point(-34.659705, -58.468103)

@@ -30,15 +30,16 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 	
 	override protected createFormPanel(Panel mainPanel) {
 		val form = new Panel(mainPanel)
-		form.layout = new ColumnLayout(3)
+		form.layout = new ColumnLayout(2)
 		
 		new Label(form).text = "Nombre:"
 		new TextBox(form) => [
 			value <=> "nombre"
 			width = 200
 		]
-				
 		
+		this.addFormPanel(form)
+				
 		new Panel(mainPanel) => [
 			layout = new ColumnLayout(2)
 			new Label(it).bindValueToProperty("calificacionGeneral")
@@ -246,8 +247,6 @@ class EditarComercioWindow extends EditarPoiWindow {
 		]   
 
 	}
-
-
 }
 
 class EditarParadaWindow extends EditarPoiWindow {
@@ -264,7 +263,7 @@ class EditarParadaWindow extends EditarPoiWindow {
 			value <=> "linea"
 			width = 200
 		]   
-	
+			
 	new Label(panel).text = "Distancia:"
 		new Label(panel) => [
 			value <=> "distancia"
