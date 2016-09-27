@@ -8,6 +8,7 @@ import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
 import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
+import org.uqbar.geodds.Point
 
 @Observable
 @Accessors
@@ -17,6 +18,7 @@ abstract class Usuario extends Entity implements Cloneable {
 	String mailAdress
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
 	List<POI> poisFavoritos = new ArrayList<POI>
+	Point ubicacionActual
 	
 	new(){ } // Constructor default de la superclase
 	

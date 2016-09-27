@@ -49,6 +49,7 @@ class Buscador implements IModel<Buscador>{
 	Usuario usuarioActual
 	LocalDateTime fechaActual
 	MailSender mailSender
+	Point ubicacion = new Point(1,-1)
 	
 	new(){
 		fechaActual = new LocalDateTime()
@@ -56,6 +57,7 @@ class Buscador implements IModel<Buscador>{
 	
 	new(Usuario usuario){
 		this.usuarioActual = usuario
+		this.usuarioActual.ubicacionActual = ubicacion
 	}
 	
 	override Buscador getSource(){

@@ -27,6 +27,8 @@ class POI extends Entity implements Cloneable {
 	String comentario
 	int calificacion
 	boolean favorito
+	boolean cerca
+	double distancia
 	String favoritoStatus
 	float calificacionGeneral
 	Usuario usuario
@@ -136,5 +138,12 @@ class POI extends Entity implements Cloneable {
 	def getFavoritoStatus(){
 		favoritoStatus = if(favorito) "Favorito" else ""
 	}
-
+	
+	def getCercania(){
+		cerca = estaCercaA(usuario.ubicacionActual)
+	}
+	
+	def getDistancia(){
+		distancia = distanciaA(usuario.ubicacionActual)
+	}
 }
