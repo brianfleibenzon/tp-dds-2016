@@ -8,6 +8,7 @@ import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
 import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
+import org.uqbar.geodds.Point
 import java.util.HashSet
 import java.util.Set
 
@@ -18,6 +19,7 @@ abstract class Usuario extends Entity implements Cloneable {
 	String password
 	String mailAdress
 	List<BusquedaObserver> busquedaObservers = new ArrayList<BusquedaObserver>
+	Point ubicacionActual
 	Set<POI> poisFavoritos = new HashSet<POI>
 	//List<POI> poisFavoritos = new ArrayList<POI>
 	

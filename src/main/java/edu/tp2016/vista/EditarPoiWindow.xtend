@@ -37,8 +37,9 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 			value <=> "nombre"
 			width = 200
 		]
-				
 		
+		this.addFormPanel(form)
+				
 		new Panel(mainPanel) => [
 			layout = new ColumnLayout(2)
 			new Label(it).bindValueToProperty("calificacionGeneral")
@@ -127,6 +128,14 @@ class EditarBancoWindow extends EditarPoiWindow {
 			value <=> "sucursal"
 			width = 200
 		]
+		
+		new Label(panel).text = "Distancia:"
+		
+		new Label(panel) => [
+			value <=> "distancia"
+			width = 200
+		]   
+		
 		new Label(panel).text = "Servicios:"
         new Panel(panel)=> [
         	new List(it) => [
@@ -153,6 +162,12 @@ class EditarCGPWindow extends EditarPoiWindow {
 			value <=> "direccion"
 			width = 200
 		]
+		
+		new Label(panel).text = "Distancia:"
+		new Label(panel) => [
+			value <=> "distancia"
+			width = 200
+		]   
 		
 		new Label(panel).text = "Barrios:"
 		new TextBox(panel) => [
@@ -225,6 +240,13 @@ class EditarComercioWindow extends EditarPoiWindow {
 			value <=> "rubro.nombre"
 			width = 200
 		]   
+		
+	new Label(panel).text = "Distancia:"
+		new Label(panel) => [
+			value <=> "distancia"
+			width = 200
+		]   
+
 	}
 }
 
@@ -242,5 +264,12 @@ class EditarParadaWindow extends EditarPoiWindow {
 			value <=> "linea"
 			width = 200
 		]   
+			
+	new Label(panel).text = "Distancia:"
+		new Label(panel) => [
+			value <=> "distancia"
+			width = 200
+		]   
+
 	}
 }

@@ -64,14 +64,17 @@ class LoginWindow extends MainWindow<UserLogin> {
 					}
 				]
 				setAsDefault
+				width = 100
 			]
 			new Button(it) => [ 
 				caption = "Borrar"
 				onClick [ | modelObject.limpiarLogin ]
+				width = 100
 			]
 			new Button(it) => [ 
 				caption = "Salir"
 				onClick [ |this.close ]
+				width = 100
 			]
 		]
 		

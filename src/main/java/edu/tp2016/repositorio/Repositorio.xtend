@@ -83,7 +83,10 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	}
 	
 	static def getInstance() {
-		instance = if (instance == null) new Repositorio
+		if (instance == null){
+			instance = new Repositorio
+		}
+		instance
 	}
 	
 	def doGetPoi(POI unPoi) {

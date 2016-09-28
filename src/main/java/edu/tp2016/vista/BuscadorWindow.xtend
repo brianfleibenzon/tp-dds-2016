@@ -119,6 +119,13 @@ class BuscadorWindow extends Dialog<Buscador>{
 			fixedSize = 150
 			bindContentsToProperty("favoritoStatus")
 		]
+
+		new Column<POI>(table) => [
+			title = "Cerca"
+			fixedSize = 150
+			bindContentsToProperty("cercania")
+		]
+
 		new Button(mainPanel) => [
 			caption = "Editar"	
 			onClick[ | this.editarPoi ]
@@ -166,7 +173,7 @@ class BusquedaInvalidaTransformer implements ValueTransformer<String, Object> {
  	}
  	
  	override modelToView(String valorDelModelo) {
- 		if(valorDelModelo.equalsIgnoreCase("<< Debe ingresar un criterio de búsqueda >>")) Color.RED
+ 		Color.RED
  	}
  	
  	override viewToModel(Object valorDeLaVista) {
