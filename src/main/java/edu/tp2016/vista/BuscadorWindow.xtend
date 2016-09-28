@@ -173,7 +173,7 @@ class BusquedaInvalidaTransformer implements ValueTransformer<String, Object> {
  	}
  	
  	override modelToView(String valorDelModelo) {
- 		if(valorDelModelo.equalsIgnoreCase("<< Debe ingresar un criterio de búsqueda >>")) Color.RED
+ 		Color.RED
  	}
  	
  	override viewToModel(Object valorDeLaVista) {

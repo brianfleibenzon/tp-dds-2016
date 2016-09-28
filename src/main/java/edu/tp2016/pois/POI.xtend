@@ -143,7 +143,7 @@ class POI extends Entity implements Cloneable {
 	}
 	
 	def getCercania(){
-		cercania = if(this.estaCercaA(usuario.ubicacionActual)) "SI" else "NO"
+		cercania = if(estaCercaA(usuario.ubicacionActual)) "Sí" else "No"
 	}
 	
 	def getDistancia(){

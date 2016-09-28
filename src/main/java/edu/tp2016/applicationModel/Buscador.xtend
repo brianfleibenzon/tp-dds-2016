@@ -260,6 +260,7 @@ class Buscador implements IModel<Buscador>{
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
 		usuarioActual.registrarBusqueda(criteriosBusqueda, new ArrayList(search), demora, this)
 		
+		if(search.isEmpty && !criteriosBusqueda.isEmpty) mensajeInvalido = "<< No se han encontrado resultados para su búsqueda >>"
 		search.forEach[
 			it.usuario = usuarioActual
 			it.favorito = usuarioActual.tienePoiFavorito(it)
