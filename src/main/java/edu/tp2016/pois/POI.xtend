@@ -149,4 +149,9 @@ class POI extends Entity implements Cloneable {
 	def getDistancia(){
 		distancia = String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
 	}
+	
+	def limpiarReviewInputs(){
+		comentario = ""
+		calificacion = 1
+	}
 }

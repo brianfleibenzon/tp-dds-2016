@@ -49,7 +49,7 @@ class Buscador implements IModel<Buscador>{
 	Usuario usuarioActual
 	LocalDateTime fechaActual
 	MailSender mailSender
-	Point ubicacion = new Point(-34.653573, -58.549875) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
+	Point ubicacion = new Point(-34.6596291, -58.4681825) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
 	
 	new(){
 		fechaActual = new LocalDateTime()
@@ -195,7 +195,7 @@ class Buscador implements IModel<Buscador>{
 		val ubicacionColectivoOnce=new Point(-34.653570, -58.549873)
 		val miserere7parada = new ParadaBuilder().nombre("7_once").lineaColectivo("7").
 		ubicacion(ubicacionColectivoOnce).direccion("Pueyrredón 1600").
-		claves(Arrays.asList("utn", "plaza miserere", "once", "colectivo", "parada")).build
+		claves(Arrays.asList("plaza miserere", "once", "colectivo", "parada")).build
 
 		val utn114parada = new ParadaBuilder().nombre("114_utn").lineaColectivo("114").
 		ubicacion(ubicacionParadasUTN).direccion("Mozart 2300").
