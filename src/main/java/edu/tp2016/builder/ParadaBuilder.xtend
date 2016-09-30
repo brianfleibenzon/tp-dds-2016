@@ -5,33 +5,41 @@ import org.uqbar.geodds.Point
 import java.util.List
 
 class ParadaBuilder {
-	
+
 	ParadaDeColectivo unPoi
-	
-	new(){
-		unPoi= new ParadaDeColectivo
+
+	new() {
+		unPoi = new ParadaDeColectivo
 	}
-	
-	def build(){
+
+	def build() {
 		unPoi
 	}
 	
-	def nombre(String nombre){
-		unPoi.nombre= nombre
+	def nombre(String nombre) {
+		unPoi.nombre = nombre
 		this
 	}
 	
-	def ubicacion(Point ubicacion){
-		unPoi.ubicacion= ubicacion
+	def lineaColectivo(String unaLinea){
+		unPoi.linea = unaLinea
+		this
+	}
+
+	def ubicacion(Point ubicacion) {
+		unPoi.ubicacion = ubicacion
 		this
 	}
 	
-	def claves(List<String> claves){
-		unPoi.palabrasClave= claves
+	def direccion(String unaDireccion){
+		unPoi.direccion = unaDireccion
 		this
-		
-		
 	}
-	
-	
+
+	def claves(List<String> claves) {
+		unPoi.palabrasClave.addAll(claves)
+		this
+
 	}
+
+}

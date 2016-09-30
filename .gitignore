@@ -6,5 +6,5 @@ xtend-gen
 .project
 generated*
 
-node_modules/
 .idea/
+node_modules/

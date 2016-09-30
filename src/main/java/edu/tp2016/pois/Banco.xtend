@@ -6,7 +6,9 @@ import org.uqbar.geodds.Point
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
 import java.util.Arrays
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Accessors
 class Banco extends POI {
 String sucursal
@@ -39,9 +41,7 @@ String nombreGerente
 		setRangoDeAtencionBancario
 	}
 	
-	new(){
-		
-	}
+	new(){ } // default
 
 	override boolean estaDisponible(LocalDateTime fecha, String nombre) {
 		this.tieneRangoDeAtencionDisponibleEn(fecha)

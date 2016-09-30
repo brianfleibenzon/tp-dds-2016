@@ -18,14 +18,16 @@ import org.junit.Assert
 import org.junit.Test
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Banco
-import edu.tp2016.servidores.ServidorLocal
-import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
+import java.util.ArrayList
+import edu.tp2016.pois.POI
+import edu.tp2016.usuarios.Terminal
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestBusquedaEnTodosLosDatos {
-	ServidorLocal unServidorLocal
-	ServidorCentral servidorCentral
+	Buscador buscador
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -37,6 +39,7 @@ class TestBusquedaEnTodosLosDatos {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
+	ArrayList<POI> pois
 
 	@Before
 	def void setUp() {
@@ -73,84 +76,74 @@ class TestBusquedaEnTodosLosDatos {
 		rubro(rubroLibreria).
 		rango(rangoX).build
 	
-	
-	
-	
-	
-		servidorCentral = new ServidorCentral(Arrays.asList())
-		unServidorLocal = new ServidorLocal(ubicacionX,"servidorLocal",servidorCentral, fechaX)
-
-		servidorCentral.repo.create(utn7parada)
-		servidorCentral.repo.create(utn114parada)
-		servidorCentral.repo.create(miserere7parada)
-		servidorCentral.repo.create(comercioFarmacity)
-		servidorCentral.repo.create(comercioLoDeJuan)
-		
-		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-
-	}
-
-	@Test
-	def void buscarConUnStringVacíoYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unServidorLocal.buscar("")
-		
-		Assert.assertTrue(resultadoBusqueda.empty)
+		pois = Lists.newArrayList(utn7parada,
+								  utn114parada,
+								  miserere7parada,
+								  comercioFarmacity,
+								  comercioLoDeJuan)
+								  
+		buscador = new Buscador() => [
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
+			repo = Repositorio.newInstance
+			repo.agregarVariosPois(pois)
+			usuarioActual = new Terminal("terminal")
+		]
 	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(unServidorLocal.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertEquals(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(unServidorLocal.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertEquals(buscador.buscar("114"), Arrays.asList(utn114parada))
 	}
 	
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(unServidorLocal.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertEquals(buscador.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(unServidorLocal.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertEquals(buscador.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(unServidorLocal.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
 	}
 
 	@Test
 	def void buscarCGPConRentas() {
-		val resultado = unServidorLocal.buscar("Rentas")
+		val resultado = buscador.buscar("Rentas")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(2, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConAtencionCiudadana() {
-		val resultado = unServidorLocal.buscar("Atencion ciudadana")
+		val resultado = buscador.buscar("Atencion ciudadana")
 		val unCGP = resultado.get(0) as CGP
 		Assert.assertEquals(3, unCGP.comuna.numero)
 	}
 
 	@Test
 	def void buscarCGPConVeterinaria() {
-		val resultado = unServidorLocal.buscar("Veterinaria")
+		val resultado = buscador.buscar("Veterinaria")
 		Assert.assertEquals(0, resultado.size)
 	}
 
 	@Test
 	def void buscarBancoLlamadoSantanderRío() {
-		val bancoEncontrado = (unServidorLocal.buscar("Santander Rio")).get(0) as Banco
+		val bancoEncontrado = (buscador.buscar("Santander Rio")).get(0) as Banco
 
 		Assert.assertEquals("María Luna", bancoEncontrado.nombreGerente)
 		Assert.assertTrue(bancoEncontrado.palabrasClave.contains("seguros"))
@@ -158,27 +151,28 @@ class TestBusquedaEnTodosLosDatos {
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalAvellaneda() {
-		val resultadoBusqueda = unServidorLocal.buscar("Banco de la Plaza")
-		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
+		val resultadoBusqueda = buscador.buscar("Banco de la Plaza")
+		val bancosEncontrados = resultadoBusqueda.map [ banco | banco as Banco ]
 		
-		Assert.assertTrue(bancosEncontrados.exists[ banco |
+		Assert.assertTrue(bancosEncontrados.exists [ banco |
 			(banco.sucursal.equals("Avellaneda")) && (banco.nombreGerente.equals("Javier Loeschbor")) ] )
 	}
 
 	@Test
 	def void buscarBancoLlamadoBancoDeLaPlazaYVerSiEstáSucursalCaballito() {
-		val resultadoBusqueda = unServidorLocal.buscar("Banco de la Plaza")
-		val bancosEncontrados = resultadoBusqueda.map[ banco | banco as Banco ]
+		val resultadoBusqueda = buscador.buscar("Banco de la Plaza")
+		val bancosEncontrados = resultadoBusqueda.map [ banco | banco as Banco ]
 		
-		Assert.assertTrue(bancosEncontrados.exists[ banco |
+		Assert.assertTrue(bancosEncontrados.exists [ banco |
 			(banco.sucursal.equals("Caballito")) && (banco.palabrasClave.contains("transferencias")) ] )
 	}
 
 	@Test
 	def void buscarBancoLlamadoGaliciaYQueDevuelvaListaVacía() {
-		val resultadoBusqueda = unServidorLocal.buscar("Galicia")
+		val resultadoBusqueda = buscador.buscar("Galicia")
 		
 		Assert.assertTrue(resultadoBusqueda.empty)
 	}
+	
 	
 }

@@ -1,12 +1,13 @@
 package edu.tp2016.observersBusqueda
 
-import edu.tp2016.servidores.ServidorCentral
 import java.util.List
 import edu.tp2016.pois.POI
-import edu.tp2016.servidores.ServidorLocal
+import edu.tp2016.usuarios.Usuario
+import edu.tp2016.applicationModel.Buscador
 
 interface BusquedaObserver {
 
-	def void registrarBusqueda(String texto, List<POI> poisDevueltos, long demora, ServidorLocal terminal, ServidorCentral servidor)
-
+	def void registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora,
+		Usuario usuario, Buscador buscador)
+		
 }

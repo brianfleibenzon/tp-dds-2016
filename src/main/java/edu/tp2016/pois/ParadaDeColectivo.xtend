@@ -7,9 +7,9 @@ import org.joda.time.LocalDateTime
 
 @Accessors
 class ParadaDeColectivo extends POI{
+	String linea
 	    
-    new()
-    {}
+    new(){ } // default
 	
 	override boolean estaCercaA(Point ubicacionDispositivo){
 		 distanciaA(ubicacionDispositivo) < 1

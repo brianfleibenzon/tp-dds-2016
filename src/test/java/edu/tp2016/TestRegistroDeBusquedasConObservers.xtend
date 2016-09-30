@@ -1,8 +1,6 @@
 package edu.tp2016
 
 import org.junit.Before
-import edu.tp2016.servidores.ServidorLocal
-import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.mod.Rubro
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
@@ -26,15 +24,23 @@ import static org.mockito.Mockito.*
 import edu.tp2016.serviciosExternos.Mail
 import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
 import edu.tp2016.observersBusqueda.EnviarMailObserver
+import edu.tp2016.usuarios.Terminal
+import java.util.ArrayList
+import edu.tp2016.pois.POI
+import edu.tp2016.observersBusqueda.Busqueda
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.Repositorio
 
 class TestRegistroDeBusquedasConObservers {
 
-	ServidorLocal terminalAbasto
-	ServidorLocal terminalFlorida
-	ServidorLocal terminalTeatroColon
-	ServidorCentral servidorCentral
-	ServidorCentral mockServidorCentral
-	ServidorLocal mockTerminal
+	Buscador buscadorAbasto
+	Buscador buscadorFlorida
+	Buscador buscadorTeatroColon
+	Buscador mockBuscador
+	Terminal terminalAbasto
+	Terminal terminalFlorida
+	Terminal terminalTeatroColon
+	Terminal mockTerminal
 	Rubro rubroFarmacia
 	Rubro rubroLibreria
 	Comercio comercioFarmacity
@@ -47,6 +53,8 @@ class TestRegistroDeBusquedasConObservers {
 	DiaDeAtencion unDiaX
 	Point ubicacionX
 	List<DiaDeAtencion> rangoX
+	ArrayList<POI> pois
+	ArrayList<Busqueda> busquedasRepo
 	
 	MailSender mockedMailSender
 
@@ -73,101 +81,129 @@ class TestRegistroDeBusquedasConObservers {
 
 		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").ubicacion(ubicacionX).claves(
 			Arrays.asList("fotocopias", "utiles", "libros")).rubro(rubroLibreria).rango(rangoX).build
-
-		servidorCentral = new ServidorCentral(Arrays.asList())
-
-		servidorCentral.repo.create(utn7parada)
-		servidorCentral.repo.create(utn114parada)
-		servidorCentral.repo.create(miserere7parada)
-		servidorCentral.repo.create(comercioFarmacity)
-		servidorCentral.repo.create(comercioLoDeJuan)
-
-		servidorCentral.interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
-		servidorCentral.interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
-
-		terminalAbasto = new ServidorLocal(ubicacionX, "terminalAbasto", servidorCentral, fechaDeHoy)
-		terminalFlorida = new ServidorLocal(ubicacionX, "terminalFlorida", servidorCentral, fechaDeHoy)
-		terminalTeatroColon = new ServidorLocal(ubicacionX, "terminalTeatroColon", servidorCentral, fechaDeHoy)
+			
+		pois = Lists.newArrayList(utn7parada,
+								  utn114parada,
+								  miserere7parada,
+								  comercioFarmacity,
+								  comercioLoDeJuan)
 
 		mockedMailSender = mock(typeof(MailSender))
 
-		terminalAbasto.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalAbasto.adscribirObserver(new EnviarMailObserver(5, mockedMailSender))
-
-		terminalTeatroColon.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalTeatroColon.adscribirObserver(new EnviarMailObserver(5, mockedMailSender))
-
-		terminalFlorida.adscribirObserver(new RegistrarBusquedaObserver)
-		terminalFlorida.adscribirObserver(new EnviarMailObserver(5, mockedMailSender))
+		terminalAbasto = new Terminal("terminalAbasto") => [			
+			adscribirObserver(new RegistrarBusquedaObserver)
+			adscribirObserver(new EnviarMailObserver(5))
+		]
+		terminalFlorida = new Terminal("terminalFlorida") => [
+			adscribirObserver(new RegistrarBusquedaObserver)
+			adscribirObserver(new EnviarMailObserver(5))
+		]
+		terminalTeatroColon = new Terminal("terminalTeatroColon") => [
+			adscribirObserver(new RegistrarBusquedaObserver)
+			adscribirObserver(new EnviarMailObserver(5))
+		]
+		
+		busquedasRepo = new ArrayList<Busqueda>
+		
+		buscadorFlorida = new Buscador() => [
+			repo = Repositorio.newInstance
+			repo.agregarVariosPois(pois)
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
+			usuarioActual = terminalFlorida
+			busquedas = busquedasRepo
+			mailSender = mockedMailSender
+		]
+		buscadorAbasto = new Buscador() => [
+			repo = Repositorio.newInstance
+			repo.agregarVariosPois(pois)
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
+			usuarioActual = terminalAbasto
+			busquedas = busquedasRepo
+			mailSender = mockedMailSender
+		]
+		buscadorTeatroColon = new Buscador() => [
+			repo = Repositorio.newInstance
+			repo.agregarVariosPois(pois)
+			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
+									  new AdapterCGP(new StubInterfazCGP))
+			usuarioActual = terminalTeatroColon
+			busquedas = busquedasRepo
+			mailSender = mockedMailSender
+		]
 
 		// Setup para mockear demora excedida y envío de mail al administrador:
-		mockServidorCentral = new ServidorCentral(Arrays.asList())
-		mockServidorCentral.repo.create(utn7parada)
-		mockTerminal = new ServidorLocal(ubicacionX, "mockTerminal", mockServidorCentral)
-		mockTerminal.adscribirObserver(new EnviarMailObserver(0, mockedMailSender))
+		mockTerminal = new Terminal("mockTerminal") => [
+			adscribirObserver(new EnviarMailObserver(0))
+		]
+		mockBuscador = new Buscador() => [
+			repo.create(utn7parada)
+			usuarioActual = mockTerminal
+			mailSender = mockedMailSender
+		]
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
-		terminalAbasto.buscar("114") // encuentra
-		terminalAbasto.buscar("Banco Nacion") // no encuentra
-		terminalFlorida.buscar("plaza miserere") // encuentra
-		terminalFlorida.buscar("Libreria Juan") // encuentra
-		terminalTeatroColon.buscar("seguros") // encuentra
-		terminalTeatroColon.buscar("plaza miserere") // encuentra
-		terminalAbasto.fechaActual = unaFechaPasada
-		terminalFlorida.fechaActual = unaFechaPasada
-		terminalTeatroColon.fechaActual = unaFechaPasada
-		terminalAbasto.buscar("Banco de la Plaza") // encuentra
-		terminalAbasto.buscar("utn") // encuentra
-		terminalFlorida.buscar("Farmacity") // encuentra
-		terminalFlorida.buscar("facultad de medicina") // no encuentra 
-		terminalTeatroColon.buscar("Atencion ciudadana") // encuentra
-		terminalTeatroColon.buscar("cine") // no encuentra
+		buscadorAbasto.buscar("114") // encuentra
+		buscadorAbasto.buscar("Banco Nacion") // no encuentra
+		buscadorFlorida.buscar("plaza miserere") // encuentra
+		buscadorFlorida.buscar("Libreria Juan") // encuentra
+		buscadorTeatroColon.buscar("seguros") // encuentra
+		buscadorTeatroColon.buscar("plaza miserere") // encuentra
+		buscadorAbasto.fechaActual = unaFechaPasada
+		buscadorFlorida.fechaActual = unaFechaPasada
+		buscadorTeatroColon.fechaActual = unaFechaPasada
+		buscadorAbasto.buscar("Banco de la Plaza") // encuentra
+		buscadorAbasto.buscar("utn") // encuentra
+		buscadorFlorida.buscar("Farmacity") // encuentra
+		buscadorFlorida.buscar("facultad de medicina") // no encuentra 
+		buscadorTeatroColon.buscar("Atencion ciudadana") // encuentra
+		buscadorTeatroColon.buscar("cine") // no encuentra
 		// En total 12 terminales
 	}
 
 	@Test
 	def void testRegistroDeFrasesBuscadas() {
-		terminalAbasto.buscar("114")
-		terminalAbasto.buscar("7")
-		terminalFlorida.buscar("plaza miserere")
-		terminalFlorida.buscar("Libreria Juan")
+		buscadorAbasto.buscar("114")
+		buscadorAbasto.buscar("7")
+		buscadorFlorida.buscar("plaza miserere")
+		buscadorFlorida.buscar("Libreria Juan")
 		
-		val frasesBuscadasDeAbasto = servidorCentral.busquedas
-			.filter[ registro | registro.nombreTerminal == terminalAbasto.nombreTerminal]
-			.map[registro | registro.textoBuscado].toList
+		val frasesBuscadasDeAbasto = new ArrayList()
+		val frases1 = buscadorAbasto.busquedas.filter [ reg | reg.nombreUsuario == terminalAbasto.userName ]
+		frases1.forEach [ reg | frasesBuscadasDeAbasto.addAll(reg.palabrasBuscadas) ]
 			
-		val frasesBuscadasDeFlorida = servidorCentral.busquedas
-			.filter[ registro | registro.nombreTerminal == terminalFlorida.nombreTerminal]
-			.map[registro | registro.textoBuscado].toList
+		val frasesBuscadasDeFlorida = new ArrayList()
+		val frases2 = buscadorFlorida.busquedas.filter [ reg | reg.nombreUsuario == terminalFlorida.userName ]
+		frases2.forEach [ reg | frasesBuscadasDeFlorida.addAll(reg.palabrasBuscadas) ]
 			
-		Assert.assertTrue(frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
-			&& frasesBuscadasDeFlorida.containsAll(Arrays.asList("plaza miserere","Libreria Juan"))
-		)
+		Assert.assertTrue( frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
+			&& frasesBuscadasDeFlorida.containsAll(Arrays.asList("plaza miserere","Libreria Juan")) )
 	}
 
 	@Test
 	def void testRegistroDeCantidadDeResultadosDevueltos() {
-		terminalAbasto.buscar("utn")
+		buscadorAbasto.buscar("utn")
 
-		val cantResultadosRegistrada = servidorCentral.busquedas
-			.filter[ registro | registro.nombreTerminal == terminalAbasto.nombreTerminal]
-			.map[registro | registro.cantidadDeResultados].toList.get(0)
+		val cantResultadosRegistrada = buscadorAbasto.busquedas
+			.filter [ registro | registro.nombreUsuario == terminalAbasto.userName]
+			.map [ registro | registro.cantidadDeResultados].toList.get(0)
 		
 		Assert.assertEquals( 3, cantResultadosRegistrada)	
 	}
 
 	@Test
 	def void testRegistroDeDemoraDeConsulta() {
-		terminalAbasto.buscar("7")
-		val demoraRegistrada = (servidorCentral.busquedas.head).demoraConsulta
+		buscadorAbasto.buscar("7")
+		val demoraRegistrada = (busquedasRepo.head).demoraConsulta
 
 		Assert.assertTrue(demoraRegistrada < (1).longValue())
 	}
 
 	@Test
 	def void testRegistroDeDemoraDeConsultaConMailAlAdministrador() {
-		mockTerminal.buscar("7")
+		mockBuscador.buscar("7")
 
 		verify(mockedMailSender, times(1)).sendMail(any(typeof(Mail)))
 	}
@@ -177,41 +213,38 @@ class TestRegistroDeBusquedasConObservers {
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		val reporteGenerado = servidorCentral.generarReporteCantidadTotalDeBusquedasPorFecha()
+		val reporteGenerado = buscadorAbasto.generarReporteCantidadTotalDeBusquedasPorFecha()
 
-		Assert.assertEquals(6, reporteGenerado.get(fechaDeHoy.toDate))
-		Assert.assertEquals(6, reporteGenerado.get(unaFechaPasada.toDate))
+		Assert.assertEquals(6, reporteGenerado.get(fechaDeHoy.toLocalDate))
+		Assert.assertEquals(6, reporteGenerado.get(unaFechaPasada.toLocalDate))
 	}
-
+ 
 	@Test
 	def void testReporteDeResultadosParcialesPorTerminal() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = servidorCentral.generarReporteCantidadDeResultadosParcialesPorTerminal()
+		val reporteGenerado = buscadorAbasto.generarReporteCantidadDeResultadosParcialesPorTerminal()
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(Arrays.asList(1, 1, 1, 0), reporteGenerado.get("terminalFlorida"))
 		Assert.assertEquals(Arrays.asList(3, 1, 1, 0), reporteGenerado.get("terminalTeatroColon"))
-
 	}
 
 	@Test
 	def void testReporteDeResultadosParcialesDeTerminalEspecifica() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = servidorCentral.
+		val reporteGenerado = buscadorAbasto.
 			generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica("terminalAbasto")
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado)
-
 	}
 
 	@Test
 	def void testReporteDeResultadosTotalesPorTerminal() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = servidorCentral.generarReporteCantidadTotalDeResultadosPorTerminal()
+		val reporteGenerado = buscadorAbasto.generarReporteCantidadTotalDeResultadosPorTerminal()
 
 		Assert.assertEquals(6, reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(3, reporteGenerado.get("terminalFlorida"))
 		Assert.assertEquals(5, reporteGenerado.get("terminalTeatroColon"))
-
 	}
 }

@@ -67,5 +67,5 @@ class StubInterfazBanco implements ServicioExternoBanco{
 			listaSucursalesEncontradas.addAll(sucursal1,sucursal2,sucursal3)
 		
 			listaSucursalesEncontradas
-}
+	}
 }
