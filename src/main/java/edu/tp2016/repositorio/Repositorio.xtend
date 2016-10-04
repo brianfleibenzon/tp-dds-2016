@@ -17,18 +17,10 @@ import java.util.List
 import java.util.Random
 import org.apache.commons.collections15.Predicate
 import org.apache.commons.collections15.functors.AndPredicate
-<<<<<<< HEAD
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.CollectionBasedRepo
 import org.uqbar.geodds.Point
 import org.uqbar.geodds.Polygon
-=======
-import java.util.Random
-import java.util.ArrayList
-import edu.tp2016.procesos.ResultadoDeDarDeBajaUnPoi
-import java.util.List
-import org.eclipse.xtend.lib.annotations.Accessors
->>>>>>> master
 
 @Accessors
 class Repositorio extends CollectionBasedRepo<POI> {
@@ -105,10 +97,7 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	static def getInstance() {
 		if (instance == null){
 			instance = new Repositorio
-<<<<<<< HEAD
 			instance.agregarVariosPois(crearJuegoDeDatos())
-=======
->>>>>>> master
 		}
 		instance
 	}
@@ -133,7 +122,6 @@ class Repositorio extends CollectionBasedRepo<POI> {
 			actualizarPoi(poi)
 		}
 		existe
-<<<<<<< HEAD
 	}
 	
 	static def crearJuegoDeDatos(){
@@ -197,8 +185,6 @@ class Repositorio extends CollectionBasedRepo<POI> {
 	
 		Lists.newArrayList(utn7parada, utn114parada, miserere7parada, comercioFarmacity,
 						comercioLoDeJuan, CGPComuna1, BancoPatagonia)
-=======
->>>>>>> master
 	}
 	
 }
