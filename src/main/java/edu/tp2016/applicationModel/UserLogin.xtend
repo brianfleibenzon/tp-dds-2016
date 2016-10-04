@@ -47,14 +47,8 @@ class UserLogin {
 		userNotNull && passwordNotNull
 	}
 	
-	def crearJuegoDeDatos(){
-		val usuarioTerminal = new Terminal("juanPerez", "1234")
-		val usuarioAdministrador = new Administrador("admin", "helloWorld")
-		repo.agregarVariosUsuarios(Lists.newArrayList(new Terminal("usr", "usr"), usuarioTerminal, usuarioAdministrador))
-	}
-	
+
 	new(){
-		crearJuegoDeDatos()
 		recordar = false
 	}
 
