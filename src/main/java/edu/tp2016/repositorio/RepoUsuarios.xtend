@@ -68,5 +68,4 @@ class RepoUsuarios extends CollectionBasedRepo<Usuario>{
 		Lists.newArrayList(new Terminal("usr", "usr"), usuarioTerminal, usuarioAdministrador)
 	}
 	
-	
 }

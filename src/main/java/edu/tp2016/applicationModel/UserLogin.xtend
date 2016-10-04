@@ -3,10 +3,7 @@ package edu.tp2016.applicationModel
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
 import edu.tp2016.usuarios.Usuario
-import edu.tp2016.usuarios.Terminal
-import edu.tp2016.usuarios.Administrador
 import edu.tp2016.repositorio.RepoUsuarios
-import com.google.common.collect.Lists
 
 @Accessors
 @Observable
@@ -47,7 +44,6 @@ class UserLogin {
 		userNotNull && passwordNotNull
 	}
 	
-
 	new(){
 		recordar = false
 	}

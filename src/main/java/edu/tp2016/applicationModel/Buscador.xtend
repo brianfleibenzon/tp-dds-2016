@@ -16,20 +16,11 @@ import edu.tp2016.usuarios.Usuario
 import org.joda.time.LocalDate
 import edu.tp2016.serviciosExternos.MailSender
 import org.uqbar.commons.utils.Observable
-import edu.tp2016.builder.ParadaBuilder
 import java.util.Arrays
-import edu.tp2016.mod.DiaDeAtencion
 import org.uqbar.geodds.Point
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.mod.Rubro
 import org.uqbar.commons.model.IModel
 import java.util.HashSet
 import java.util.Set
-import edu.tp2016.builder.CGPBuilder
-import org.uqbar.geodds.Polygon
-import edu.tp2016.mod.Comuna
-import edu.tp2016.mod.Servicio
-import edu.tp2016.builder.BancoBuilder
 
 @Observable
 @Accessors
@@ -177,8 +168,7 @@ class Buscador implements IModel<Buscador>{
 		reporte
 	}
 	
-// VISTA - USER INTERFACE:	
-	
+// VISTA - USER INTERFACE:		
 	def buscar(){
 		init
 		resultados.clear
