@@ -29,7 +29,8 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.Busqueda
 import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.mod.Punto
 
 class TestRegistroDeBusquedasConObservers {
 
@@ -51,7 +52,7 @@ class TestRegistroDeBusquedasConObservers {
 	LocalDateTime fechaDeHoy
 	LocalDateTime unaFechaPasada
 	DiaDeAtencion unDiaX
-	Point ubicacionX
+	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	ArrayList<POI> pois
 	ArrayList<Busqueda> busquedasRepo
@@ -60,7 +61,7 @@ class TestRegistroDeBusquedasConObservers {
 
 	@Before
 	def void setUp() {
-		ubicacionX = new Point(-1, 1)
+		ubicacionX = new Punto(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaDeHoy = new LocalDateTime()
 		unaFechaPasada = new LocalDateTime(2016, 5, 11, 12, 0)
@@ -106,7 +107,7 @@ class TestRegistroDeBusquedasConObservers {
 		busquedasRepo = new ArrayList<Busqueda>
 		
 		buscadorFlorida = new Buscador() => [
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
@@ -115,7 +116,7 @@ class TestRegistroDeBusquedasConObservers {
 			mailSender = mockedMailSender
 		]
 		buscadorAbasto = new Buscador() => [
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
@@ -124,7 +125,7 @@ class TestRegistroDeBusquedasConObservers {
 			mailSender = mockedMailSender
 		]
 		buscadorTeatroColon = new Buscador() => [
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))

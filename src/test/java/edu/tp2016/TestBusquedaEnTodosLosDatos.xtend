@@ -24,7 +24,8 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.mod.Punto
 
 class TestBusquedaEnTodosLosDatos {
 	Buscador buscador
@@ -37,13 +38,13 @@ class TestBusquedaEnTodosLosDatos {
 	ParadaDeColectivo utn114parada
 	LocalDateTime fechaX
 	DiaDeAtencion unDiaX
-	Point ubicacionX
+	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	ArrayList<POI> pois
 
 	@Before
 	def void setUp() {
-		ubicacionX = new Point(-1, 1)
+		ubicacionX = new Punto(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
 
@@ -85,7 +86,7 @@ class TestBusquedaEnTodosLosDatos {
 		buscador = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			usuarioActual = new Terminal("terminal")
 		]

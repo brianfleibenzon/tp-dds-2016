@@ -3,6 +3,7 @@ package edu.tp2016.builder
 import edu.tp2016.pois.Banco
 import org.uqbar.geodds.Point
 import java.util.List
+import edu.tp2016.mod.Punto
 
 class BancoBuilder {
 	Banco unPoi
@@ -20,7 +21,7 @@ class BancoBuilder {
 		this
 	}
 
-	def ubicacion(Point ubicado) {
+	def ubicacion(Punto ubicado) {
 		unPoi.ubicacion = ubicado
 		this
 	}

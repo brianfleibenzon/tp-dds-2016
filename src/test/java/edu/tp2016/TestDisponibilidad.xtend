@@ -24,6 +24,7 @@ import edu.tp2016.builder.BancoBuilder
 import com.google.common.collect.Lists
 import java.util.ArrayList
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.mod.Punto
 
 class TestDisponibilidad {
 
@@ -49,7 +50,7 @@ class TestDisponibilidad {
 	DiaDeAtencion lunesRentas
 	Servicio unServicio
 	ParadaDeColectivo unaParada
-	Point ubicacionX
+	Punto ubicacionX
 	Rubro rubroX
 	Comuna comunaX
 	ArrayList<POI> pois
@@ -58,16 +59,15 @@ class TestDisponibilidad {
 	@Before
 	def void setUp() {
 
-		ubicacionX = new Point(-1, 1)
+		ubicacionX = new Punto(-1, 1)
 		rubroX = new Rubro("x", 1)
 		clavesX = Arrays.asList("algunas", "palabras", "clave")
 		
 		comunaX = new Comuna => [
-			poligono = new Polygon()
-			poligono.add(new Point(-1, 1))
-			poligono.add(new Point(-2, 2))
-			poligono.add(new Point(-3, 3))
-			poligono.add(new Point(-4, 4))
+			poligono.add(new Punto(-1, 1))
+			poligono.add(new Punto(-2, 2))
+			poligono.add(new Punto(-3, 3))
+			poligono.add(new Punto(-4, 4))
 		]
 
 		unBanco = new BancoBuilder().nombre("Santander").

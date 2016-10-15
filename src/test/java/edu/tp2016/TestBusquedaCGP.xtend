@@ -8,7 +8,7 @@ import org.junit.Assert
 import edu.tp2016.pois.CGP
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
 
 class TestBusquedaCGP {
 	Buscador buscador
@@ -16,7 +16,7 @@ class TestBusquedaCGP {
 	@Before
 	def void setUp() {
 		buscador = new Buscador() => [
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 			usuarioActual = new Terminal("terminal")
 		]

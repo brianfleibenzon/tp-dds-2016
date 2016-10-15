@@ -1,13 +1,11 @@
 package edu.tp2016
 
 import org.junit.Before
-//import edu.tp2016.servidores.ServidorCentral
 import edu.tp2016.mod.Rubro
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.ParadaDeColectivo
 import edu.tp2016.mod.DiaDeAtencion
 import java.util.List
-//import static org.mockito.Matchers.*
 import static org.mockito.Mockito.*
 import java.util.Arrays
 import org.joda.time.LocalDateTime
@@ -40,7 +38,8 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.observersBusqueda.Busqueda
 import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.mod.Punto
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -58,7 +57,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	LocalDateTime fechaDeHoy
 	LocalDateTime unaFechaPasada
 	DiaDeAtencion unDiaX
-	Point ubicacionX
+	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	EnviarMailObserver notificacionAlAdministradorAnteDemora
 	RegistrarBusquedaObserver registroDeBusqueda
@@ -82,7 +81,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	@Before
 	def void setUp() {
 		// ¡IMPORTANTE! NO CAMBIAR EL ORDEN DEL SET UP PORQUE SE ROMPEN LOS TESTS
-		ubicacionX = new Point(-1, 1)
+		ubicacionX = new Punto(-1, 1)
 		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaDeHoy = new LocalDateTime()
 		unaFechaPasada = new LocalDateTime(2016, 5, 11, 12, 0)
@@ -131,7 +130,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscadorAbasto = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo
@@ -140,7 +139,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscadorFlorida = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo
@@ -149,7 +148,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscadorTeatroColon = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			repo = Repositorio.newInstance
+			repo = RepoPois.newInstance
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo
@@ -316,7 +315,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 	@Test
 	def void testDarDeBajaUTN7Parada() {
-		utn7parada.id = 1
+		utn7parada.id = 1 as long
 
 		Assert.assertFalse(buscadorAbasto.buscarPorId(1).isEmpty())
 		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
@@ -325,7 +324,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 	@Test
 	def void testDarDeBajaUTN114Parada() {
-		utn114parada.id = 2
+		utn114parada.id = 2 as long
 		
 		Assert.assertFalse(buscadorAbasto.buscarPor("114").isEmpty())
 		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
@@ -335,7 +334,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	@Test
 	def void testEjecutarProcesoMultiple() {
 		// Acciones previas al testeo de proceso DarDeBajaUnPOI
-		utn114parada.id = 2
+		utn114parada.id = 2 as long
 		// Acciones previas al testeo de proceso AtualizacionDeLocalesComerciales
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
 		//Acciones previas al testeo de proceso AgregarAccionesParaTodosLosUsuarios

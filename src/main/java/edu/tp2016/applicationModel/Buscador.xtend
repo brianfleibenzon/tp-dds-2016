@@ -8,7 +8,7 @@ import java.util.ArrayList
 import com.google.common.collect.Lists
 import org.joda.time.Duration
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
 import edu.tp2016.observersBusqueda.Busqueda
 import java.util.HashMap
 import edu.tp2016.usuarios.Administrador
@@ -21,25 +21,26 @@ import org.uqbar.geodds.Point
 import org.uqbar.commons.model.IModel
 import java.util.HashSet
 import java.util.Set
+import edu.tp2016.mod.Punto
 
 @Observable
 @Accessors
 class Buscador implements IModel<Buscador>{
 	List<POI> resultados = new ArrayList<POI>
-	public POI poiSeleccionado
+	POI poiSeleccionado
 	String nuevoCriterio = ""
 	List<String> criteriosBusqueda = new ArrayList<String>
 	String mensajeInvalido
 	String criterioSeleccionado
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
-	public Repositorio repo = Repositorio.getInstance
+	public RepoPois repo = RepoPois.getInstance
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Usuario usuarioActual
 	LocalDateTime fechaActual
 	MailSender mailSender
-	Point ubicacion = new Point(-34.6596291, -58.4681825) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
+	Punto ubicacion = new Punto(-34.6596291, -58.4681825) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
 	
 	new(){
 		fechaActual = new LocalDateTime()
@@ -47,7 +48,7 @@ class Buscador implements IModel<Buscador>{
 	
 	new(Usuario usuario){
 		this.usuarioActual = usuario
-		this.usuarioActual.ubicacionActual = ubicacion
+		this.usuarioActual.ubicacionActual = ubicacion	
 	}
 	
 	override Buscador getSource(){
@@ -210,6 +211,10 @@ class Buscador implements IModel<Buscador>{
 	
 	def eliminarCriterio(){
 		criteriosBusqueda.remove(criterioSeleccionado)
+	}
+	
+	def void setPoiSeleccionado(POI unPoi){
+		poiSeleccionado = RepoPois.instance.get(unPoi.id)
 	}
 	
 }

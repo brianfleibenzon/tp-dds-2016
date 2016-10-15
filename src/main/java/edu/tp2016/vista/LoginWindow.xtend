@@ -17,15 +17,17 @@ import org.uqbar.arena.bindings.ValueTransformer
 import edu.tp2016.applicationModel.Buscador
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.CheckBox
+import org.uqbar.arena.windows.SimpleWindow
+import org.uqbar.arena.windows.WindowOwner
 
-class LoginWindow extends MainWindow<UserLogin> {
+class LoginWindow extends SimpleWindow<UserLogin> {
 	
-	new() {
-		super(new UserLogin())
+	new(WindowOwner parent) {
+		super(parent, new UserLogin())
 		title = "Login al sistema"
 	}
 
-	override createContents(Panel mainPanel) {
+	override createFormPanel(Panel mainPanel) {
 		
 		mainPanel.layout = new VerticalLayout
 		new ErrorsPanel(mainPanel, "Ingrese usuario y contraseña")	
@@ -88,10 +90,11 @@ class LoginWindow extends MainWindow<UserLogin> {
 	def openDialog(Dialog<?> dialog) {
 		dialog.open
 	}
-
-	def static main(String[] args) {
-		new LoginWindow().startApplication
+	
+	override protected addActions(Panel actionsPanel) {
+		
 	}
+	
 	
 }
 

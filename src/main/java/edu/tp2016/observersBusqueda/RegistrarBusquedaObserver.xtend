@@ -4,8 +4,12 @@ import java.util.List
 import edu.tp2016.pois.POI
 import edu.tp2016.usuarios.Usuario
 import edu.tp2016.applicationModel.Buscador
+import javax.persistence.Entity
+import javax.persistence.DiscriminatorValue
 
-class RegistrarBusquedaObserver implements BusquedaObserver {
+@Entity
+@DiscriminatorValue("1")
+class RegistrarBusquedaObserver extends BusquedaObserver {
 
 	override def void registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora,
 		Usuario usuario, Buscador buscador) {

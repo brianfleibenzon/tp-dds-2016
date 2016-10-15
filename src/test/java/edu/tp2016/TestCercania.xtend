@@ -24,6 +24,7 @@ import com.google.common.collect.Lists
 import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.mod.Punto
 
 class TestCercania {
 
@@ -54,51 +55,49 @@ class TestCercania {
 		fechaX = new LocalDateTime()
 		clavesX = Arrays.asList("algunas", "palabras", "clave")
 		poiReferencia = new Banco() => [
-			ubicacion = new Point(-34.598574, -58.420280)
+			ubicacion = new Punto(-34.598574, -58.420280)
 		]
 
 		serviciosX = Arrays.asList(new Servicio("x", rangoX))
 
-		paradaCerca = new ParadaBuilder().nombre("114").ubicacion(new Point(-34.597768, -58.419860)).claves(clavesX).
+		paradaCerca = new ParadaBuilder().nombre("114").ubicacion(new Punto(-34.597768, -58.419860)).claves(clavesX).
 			build
 
-		paradaLejos = new ParadaBuilder().nombre("107").ubicacion(new Point(-34.597859, -58.423351)).claves(clavesX).
+		paradaLejos = new ParadaBuilder().nombre("107").ubicacion(new Punto(-34.597859, -58.423351)).claves(clavesX).
 			build
 
-		bancoCerca = new BancoBuilder().nombre("Santander").ubicacion(new Point(-34.597768, -58.419860)).claves(
+		bancoCerca = new BancoBuilder().nombre("Santander").ubicacion(new Punto(-34.597768, -58.419860)).claves(
 			clavesX).sucursal("Caballito").nombreGerente("Juan Perez").setearHorarios.build
 
-		bancoLejos = new BancoBuilder().nombre("Galicia").ubicacion(new Point(-34.594150, -58.416313)).claves(clavesX).
+		bancoLejos = new BancoBuilder().nombre("Galicia").ubicacion(new Punto(-34.594150, -58.416313)).claves(clavesX).
 			sucursal("Belgrano").nombreGerente("María García").setearHorarios.build
 
 		comunaInterior = new Comuna => [
-			poligono = new Polygon()
-			poligono.add(new Point(-34.597735, -58.421806))
-			poligono.add(new Point(-34.597771, -58.417300))
-			poligono.add(new Point(-34.600703, -58.420583))
-			poligono.add(new Point(-34.601497, -58.416227))
+			poligono.add(new Punto(-34.597735, -58.421806))
+			poligono.add(new Punto(-34.597771, -58.417300))
+			poligono.add(new Punto(-34.600703, -58.420583))
+			poligono.add(new Punto(-34.601497, -58.416227))
 		]
 		comunaExterior = new Comuna => [
-			poligono = new Polygon()
-			poligono.add(new Point(-34.597735, -58.421806))
-			poligono.add(new Point(-34.597771, -58.417300))
-			poligono.add(new Point(-34.594238, -58.419617))
-			poligono.add(new Point(-34.594167, -58.416334))
+			poligono.add(new Punto(-34.597735, -58.421806))
+			poligono.add(new Punto(-34.597771, -58.417300))
+			poligono.add(new Punto(-34.594238, -58.419617))
+			poligono.add(new Punto(-34.594167, -58.416334))
 		]
 
-		CGPCerca = new CGPBuilder().nombre("CGP Caballito").ubicacion(new Point(-34.597768, -58.419860)).claves(
+		CGPCerca = new CGPBuilder().nombre("CGP Caballito").ubicacion(new Punto(-34.597768, -58.419860)).claves(
 			clavesX).comuna(comunaInterior).servicio(serviciosX).zonasIncluidas("").nombreDirector("").telefono("").
 			build
 
-		CGPLejos = new CGPBuilder().nombre("CGP Almagro").ubicacion(new Point(-34.594150, -58.416313)).claves(clavesX).
+		CGPLejos = new CGPBuilder().nombre("CGP Almagro").ubicacion(new Punto(-34.594150, -58.416313)).claves(clavesX).
 			comuna(comunaExterior).servicio(serviciosX).zonasIncluidas("").nombreDirector("").telefono("").build
 
 		rubroTest = new Rubro("indumentaria", 2)
 
-		comercioCerca = new ComercioBuilder().nombre("test").ubicacion(new Point(-34.597768, -58.419860)).claves(
+		comercioCerca = new ComercioBuilder().nombre("test").ubicacion(new Punto(-34.597768, -58.419860)).claves(
 			clavesX).rubro(rubroTest).rango(rangoX).build
 
-		comercioLejos = new ComercioBuilder().nombre("test").ubicacion(new Point(-34.597824, -58.423415)).claves(
+		comercioLejos = new ComercioBuilder().nombre("test").ubicacion(new Punto(-34.597824, -58.423415)).claves(
 			clavesX).rubro(rubroTest).rango(rangoX).build
 
 		pois = Lists.newArrayList(bancoCerca, bancoLejos, CGPCerca, CGPLejos, comercioCerca, comercioLejos, paradaCerca,

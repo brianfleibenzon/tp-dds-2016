@@ -5,6 +5,7 @@ import edu.tp2016.mod.Rubro
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
 import org.uqbar.geodds.Point
+import edu.tp2016.mod.Punto
 
 class ComercioBuilder {
 		Comercio unPoi
@@ -22,7 +23,7 @@ class ComercioBuilder {
 		this
 	}
 	
-	def ubicacion(Point ubicado){
+	def ubicacion(Punto ubicado){
 		unPoi.ubicacion= ubicado
 		this
 	}

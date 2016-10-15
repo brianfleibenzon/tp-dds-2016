@@ -22,7 +22,8 @@ import edu.tp2016.builder.ComercioBuilder
 import edu.tp2016.builder.CGPBuilder
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.mod.Punto
 
 class TestBusquedaLibre {
 
@@ -42,7 +43,7 @@ class TestBusquedaLibre {
 	Servicio asesoramientoLegal
 	Servicio salud
 	Servicio turismo
-	Point ubicacionX
+	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	Comuna comunaX
 
@@ -52,11 +53,10 @@ class TestBusquedaLibre {
 		rangoX = Lists.newArrayList()
 		
 		comunaX = new Comuna => [
-			poligono = new Polygon()
-			poligono.add(new Point(-1, 1))
-			poligono.add(new Point(-2, 2))
-			poligono.add(new Point(-3, 3))
-			poligono.add(new Point(-4, 4))
+			poligono.add(new Punto(-1, 1))
+			poligono.add(new Punto(-2, 2))
+			poligono.add(new Punto(-3, 3))
+			poligono.add(new Punto(-4, 4))
 		]
 
 		utn7parada = new ParadaBuilder().nombre("7").ubicacion(ubicacionX).claves(Arrays.asList("utn", "campus")).build
@@ -102,7 +102,7 @@ class TestBusquedaLibre {
 
 		buscador = new Buscador() =>
 			[
-				repo = Repositorio.newInstance
+				repo = RepoPois.newInstance
 				repo.agregarVariosPois(
 					Lists.newArrayList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2,
 						comercioFarmacity, comercioLoDeJuan, bancoGalicia))

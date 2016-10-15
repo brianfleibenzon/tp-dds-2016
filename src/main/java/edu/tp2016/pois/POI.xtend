@@ -7,30 +7,76 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
-import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
-import org.uqbar.commons.model.UserException
 import edu.tp2016.mod.Servicio
 import org.apache.commons.lang.StringUtils
 import edu.tp2016.usuarios.Usuario
+import javax.persistence.Entity
+import javax.persistence.Column
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.OneToMany
+import javax.persistence.ElementCollection
+import javax.persistence.CollectionTable
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.Inheritance
+import javax.persistence.InheritanceType
+import javax.persistence.DiscriminatorColumn
+import javax.persistence.DiscriminatorType
+import edu.tp2016.mod.Punto
+import javax.persistence.FetchType
+import javax.persistence.CascadeType
+import java.util.HashSet
+import java.util.Set
 
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipoPoi", 
+   discriminatorType=DiscriminatorType.INTEGER)
 @Observable
 @Accessors
-class POI extends Entity implements Cloneable {
+class POI implements Cloneable {
+	@Id
+	@GeneratedValue
+	private Long id
+	
+	@Column(length=100)
 	String nombre
-	String direccion
-	Point ubicacion
+	
+	@Column(length=100)
+	String direccion	
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	Punto ubicacion
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name="PalabrasClave", joinColumns=@JoinColumn(name="clave_id"))
+	@Column(name="palabrasClave")
 	List<String> palabrasClave = new ArrayList<String>
-	List<Review> reviews = new ArrayList<Review>
-	Servicio servicioSeleccionado
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	Set<Review> reviews = new HashSet<Review>
+	
+	@ManyToOne()
+	Servicio servicioSeleccionado	
+	
+	@Column(length=100)
 	String comentario
+	
+	@Column()
 	int calificacion
+	
+	@Column()
 	boolean favorito
-	String cercania
-	String distancia
-	String favoritoStatus
+	
+	@Column()
 	float calificacionGeneral
+	
+	@ManyToOne()
 	Usuario usuario
 
 	/**
@@ -42,7 +88,7 @@ class POI extends Entity implements Cloneable {
 	 */
 	new(String unNombre, Point unaUbicacion, List<String> claves) {
 		nombre = unNombre
-		ubicacion = unaUbicacion
+		ubicacion = new Punto(unaUbicacion.latitude, unaUbicacion.longitude)
 		palabrasClave = claves
 	}
 	
@@ -60,12 +106,14 @@ class POI extends Entity implements Cloneable {
 		rangoDeAtencion.exists [unRango | unRango.fechaEstaEnRango(fecha)]
 	}
 
-	def boolean estaCercaA(Point ubicacionDispositivo) {
+	def boolean estaCercaA(Punto ubicacionDispositivo) {
 		distanciaA(ubicacionDispositivo) < 5
 	}
 
-	def double distanciaA(Point unPunto) {
-		unPunto.distance(ubicacion) * 10
+	def double distanciaA(Punto unPunto) {
+		val ubi = new Point(ubicacion.x, ubicacion.y)
+		val punto = new Point(unPunto.x, unPunto.y)
+		punto.distance(ubi) * 10
 	}
 
 	/**
@@ -139,15 +187,15 @@ class POI extends Entity implements Cloneable {
 	}
 	
 	def String getFavoritoStatus(){
-		favoritoStatus = if(favorito) "     ✓" else ""
+		if(favorito) "     ✓" else ""
 	}
 	
-	def getCercania(){
-		cercania = if(estaCercaA(usuario.ubicacionActual)) "Sí" else "No"
+	def String getCercania(){
+		if(estaCercaA(usuario.ubicacionActual)) "Sí" else "No"
 	}
 	
-	def getDistancia(){
-		distancia = String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
+	def String getDistancia(){
+		String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
 	}
 	
 	def limpiarReviewInputs(){
