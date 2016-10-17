@@ -8,5 +8,3 @@ generated*
 
 .idea/
 node_modules/
-
-/src/main/resources/hibernate.cfg.xml
