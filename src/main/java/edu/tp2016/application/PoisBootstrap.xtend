@@ -106,6 +106,7 @@ class PoisBootstrap implements Bootstrap {
 	}
 	
 	def crearPoi(POI poi){
+		poi.isActive = true // TODO
 		val repoPois = RepoPois.instance
 		val busquedaPoi = repoPois.searchByExample(poi)
 		if (busquedaPoi.isEmpty) {
@@ -115,7 +116,6 @@ class PoisBootstrap implements Bootstrap {
 			poi.id = poiBD.id
 			repoPois.update(poi)*/
 		}
-		poi.isActive = true // TODO
 	}
 	
 	override run() {

@@ -140,11 +140,15 @@ class BuscadorWindow extends Dialog<Buscador>{
 			onClick[ | this.openDialogDefault(new BajaPoiWindow(this, modelObject.poiSeleccionado, model.getSource))
 			]
 			bindEnabled(new NotNullObservable("poiSeleccionado"))
+			]
 		]
-		]
-			new Button(mainPanel)
-			.setCaption("Salir")
-			.onClick[ | this.cancel ]
+			new Panel(mainPanel) => [
+				it.layout = new ColumnLayout(3)
+				new Label(it) => [ text = "" ]			
+				new Button(mainPanel)
+					.setCaption("Salir")
+					.onClick[ | this.cancel ]
+				]
 	}
 	
 	def editarPoi(){

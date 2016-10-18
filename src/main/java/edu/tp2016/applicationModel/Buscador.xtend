@@ -92,7 +92,6 @@ class Buscador implements IModel<Buscador>{
 		poisBusqueda.addAll(repo.allInstances)
 
 		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
-
 		poisBusqueda.filter [ poi | texto != null && !texto.isEmpty &&
 			(poi.tienePalabraClave(texto) || poi.coincide(texto))
 		]
@@ -217,7 +216,6 @@ class Buscador implements IModel<Buscador>{
 	}
 	
 	def eliminarPoi(POI poi){
-		// repo.eliminarPoi(poiSeleccionado)
 		repo.eliminarPoi(poi)
 	}
 	

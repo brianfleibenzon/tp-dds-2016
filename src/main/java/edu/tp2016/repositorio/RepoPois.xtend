@@ -28,14 +28,14 @@ class RepoPois extends RepoDefault<POI>{
 	def isEmpty(){
 		allInstances.size == 0
 	}
-	/*
+/*	
 	override def allInstances(){
 		// Filtra por los Pois que estén activos
-		super.allInstances.filter[ poi | poi.isActive ].toList
-	}*/ // TODO
-	
+		super.allInstances.filter [ poi | poi.isActive != null && poi.isActive ].toList
+	} // TODO
+*/
 	def agregarPoi(POI poi){
-		poi.isActive = true // TODO
+		poi.isActive = true
 		this.create(poi)
 	}
 	
@@ -46,6 +46,7 @@ class RepoPois extends RepoDefault<POI>{
 	def eliminarPoi(POI poi){
 		//this.delete(poi) --> Baja Física
 		poi.isActive = false // --> Baja Lógica // TODO
+		actualizarPoi(poi)
 	}
 	
 	def actualizarPoi(POI poi){
