@@ -14,6 +14,7 @@ class ComercioBuilder {
 	}
 	
 	def build(){
+		unPoi.isActive = true
 		unPoi
 	}
 	

@@ -13,6 +13,7 @@ class ParadaBuilder {
 	}
 
 	def build() {
+		unPoi.isActive = true
 		unPoi
 	}
 	

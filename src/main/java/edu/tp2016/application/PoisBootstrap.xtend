@@ -106,7 +106,6 @@ class PoisBootstrap implements Bootstrap {
 	}
 	
 	def crearPoi(POI poi){
-		poi.isActive = true
 		val repoPois = RepoPois.instance
 		val listaPois = repoPois.searchByExample(poi)
 		if (listaPois.isEmpty) {

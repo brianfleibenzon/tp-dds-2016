@@ -98,12 +98,9 @@ class POI implements Cloneable {
 		nombre = unNombre
 		ubicacion = new Punto(unaUbicacion.latitude, unaUbicacion.longitude)
 		palabrasClave = claves
-		isActive = true
 	}
 	
-	new(){
-		isActive = true
-	} // default
+	new(){ } // default
 	
 	def copy() {
 		super.clone as POI

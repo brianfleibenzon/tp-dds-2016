@@ -15,6 +15,7 @@ class CGPBuilder {
 	}
 
 	def build() {
+		unPoi.isActive = true
 		unPoi
 	}
 
