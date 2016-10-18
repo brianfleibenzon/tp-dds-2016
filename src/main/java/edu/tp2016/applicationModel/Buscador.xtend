@@ -78,6 +78,10 @@ class Buscador implements IModel<Buscador>{
 		
 		val listaDePoisDevueltos = repo.buscar(criterios)
 		
+		criterios.forEach[
+			obtenerPoisDeInterfacesExternas(it, listaDePoisDevueltos)
+		]
+		
 		val t2 = new LocalDateTime()
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
 		usuarioActual.registrarBusqueda(criterios, listaDePoisDevueltos, demora, this)
@@ -90,7 +94,6 @@ class Buscador implements IModel<Buscador>{
 			poisBusqueda.addAll(unaInterfaz.buscar(texto))
 		]
 	}
-	
 	
 	/**
 	 * Devuelve el POI cuyo id se pasó como parámetro de búsqueda.
@@ -207,7 +210,6 @@ class Buscador implements IModel<Buscador>{
 	}
 	
 	def eliminarPoi(POI poi){
-		// repo.eliminarPoi(poiSeleccionado)
 		repo.eliminarPoi(poi)
 	}
 	

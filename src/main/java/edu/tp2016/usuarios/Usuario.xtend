@@ -20,6 +20,7 @@ import javax.persistence.Inheritance
 import javax.persistence.DiscriminatorType
 import javax.persistence.ManyToOne
 import javax.persistence.FetchType
+import javax.persistence.CascadeType
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -44,8 +45,8 @@ abstract class Usuario implements Cloneable {
 	@OneToMany(fetch=FetchType.EAGER)
 	Set<BusquedaObserver> busquedaObservers = new HashSet<BusquedaObserver>
 	
-	@ManyToOne()
-	public Punto ubicacionActual
+	@ManyToOne(cascade=CascadeType.ALL)
+	Punto ubicacionActual
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	Set<POI> poisFavoritos = new HashSet<POI>

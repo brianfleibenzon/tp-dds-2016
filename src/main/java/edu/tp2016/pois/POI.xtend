@@ -30,7 +30,7 @@ import javax.persistence.CascadeType
 import java.util.HashSet
 import java.util.Set
 import edu.tp2016.repositorio.RepoPois
-import javax.persistence.OneToOne
+import edu.tp2016.repositorio.RepoUsuarios
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -73,15 +73,15 @@ class POI implements Cloneable {
 	int calificacion
 	
 	@Column()
-	boolean favorito
+	Boolean favorito = false
 	
-	//@Column()
-	//boolean isActive // TODO: para la baja lógica de un POI
+	@Column()
+	Boolean isActive = true // TODO: para la baja lógica de un POI
 	
 	@Column()
 	float calificacionGeneral
 	
-	@OneToOne
+	@ManyToOne()
 	Usuario usuarioActual // Ajeno a la relación Usuario-Poi_Favorito
 	
 	@Column()
@@ -190,7 +190,7 @@ class POI implements Cloneable {
 		inicializarDatos
 	}
 	
-	def void setFavorito(boolean valor){
+	def void setFavorito(Boolean valor){
 		favorito = valor
 		if(usuarioActual != null){
 			usuarioActual.modificarPoiFavorito(this, valor)
@@ -211,5 +211,6 @@ class POI implements Cloneable {
 	
 	def guardarDatos(){
 		RepoPois.instance.update(this)
+		RepoUsuarios.instance.update(usuarioActual)
 	}
 }

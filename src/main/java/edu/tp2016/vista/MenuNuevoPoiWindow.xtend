@@ -11,6 +11,7 @@ import edu.tp2016.pois.ParadaDeColectivo
 import edu.tp2016.pois.Comercio
 import edu.tp2016.pois.CGP
 import edu.tp2016.applicationModel.Buscador
+import org.uqbar.arena.layout.ColumnLayout
 
 class MenuNuevoPoiWindow extends Dialog<POI> {
 	
@@ -62,21 +63,24 @@ class BajaPoiWindow extends Dialog<POI>{
 		super(owner, model)
 		buscador = _buscador
 		this.delegate.errorViewer = this
-		title = "Baja POI"
+		title = "Eliminar POI"
 	}
 	
 	override protected createFormPanel(Panel mainPanel) {
 		new Panel(mainPanel) => [
 			new Label(mainPanel)
-				.text = "¿Está seguro de eliminar este POI?"
+				.text = "¿Está seguro de que desesa eliminar este POI?"
 	
 			new Label(mainPanel) => [ text = "" ]
-			new Button(mainPanel)
+			new Panel(mainPanel)=> [
+				it.layout = new ColumnLayout(2)
+			new Button(it)
 				.setCaption("Confirmar")
 				.onClick[ | buscador.eliminarPoi(buscador.poiSeleccionado) ]
-			new Button(mainPanel)
+			new Button(it)
 				.setCaption("Cancelar")
 				.onClick[ | this.cancel ]
+			]
 		]
 	}
 }
