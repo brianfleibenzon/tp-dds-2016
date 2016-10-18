@@ -48,8 +48,7 @@ class Banco extends POI {
 		setRangoDeAtencionBancario
 	}
 
-	new() {
-	} // default
+	new(){ } // default
 
 	override boolean estaDisponible(LocalDateTime fecha, String nombre) {
 		this.tieneRangoDeAtencionDisponibleEn(fecha)

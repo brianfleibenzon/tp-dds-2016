@@ -12,7 +12,6 @@ class BancoBuilder {
 	}
 
 	def build() {
-		unPoi.isActive = true
 		unPoi
 	}
 

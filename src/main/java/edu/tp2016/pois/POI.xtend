@@ -75,8 +75,8 @@ class POI implements Cloneable {
 	@Column()
 	boolean favorito
 	
-	@Column()
-	boolean isActive // TODO: para la baja lógica de un POI
+	//@Column()
+	//boolean isActive // TODO: para la baja lógica de un POI
 	
 	@Column()
 	float calificacionGeneral
