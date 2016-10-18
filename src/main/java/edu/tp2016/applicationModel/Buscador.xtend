@@ -69,11 +69,11 @@ class Buscador implements IModel<Buscador>{
 	}
 	
 // BÚSQUEDA EN EL REPOSITORIO:
-	def List<POI> buscar(String texto){
+	def Set<POI> buscar(String texto){
 		this.buscar(Arrays.asList(texto))
 	}
 	
-	def List<POI> buscar(List<String> criterios){
+	def Set<POI> buscar(List<String> criterios){
 		val t1 = new LocalDateTime()
 		
 		val listaDePoisDevueltos = repo.buscar(criterios)
@@ -89,9 +89,11 @@ class Buscador implements IModel<Buscador>{
 		listaDePoisDevueltos
 	}
 
-	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
+	def void obtenerPoisDeInterfacesExternas(String texto, Set<POI> poisBusqueda) {
 		interfacesExternas.forEach [ unaInterfaz |
-			poisBusqueda.addAll(unaInterfaz.buscar(texto))
+			poisBusqueda.addAll(unaInterfaz.buscar(texto).filter [ poi | texto != null && !texto.isEmpty &&
+				(poi.tienePalabraClave(texto) || poi.coincide(texto))
+			])
 		]
 	}
 	

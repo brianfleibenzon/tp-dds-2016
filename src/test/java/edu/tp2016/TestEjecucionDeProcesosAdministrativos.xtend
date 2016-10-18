@@ -55,7 +55,6 @@ class TestEjecucionDeProcesosAdministrativos {
 	ParadaDeColectivo utn114parada
 	LocalDateTime fechaDeHoy
 	LocalDateTime unaFechaPasada
-	DiaDeAtencion unDiaX
 	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	EnviarMailObserver notificacionAlAdministradorAnteDemora
@@ -81,7 +80,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void setUp() {
 		// ¡IMPORTANTE! NO CAMBIAR EL ORDEN DEL SET UP PORQUE SE ROMPEN LOS TESTS
 		ubicacionX = new Punto(-1, 1)
-		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
+		rangoX = Arrays.asList(Lists.newArrayList())
 		fechaDeHoy = new LocalDateTime()
 		unaFechaPasada = new LocalDateTime(2016, 5, 11, 12, 0)
 

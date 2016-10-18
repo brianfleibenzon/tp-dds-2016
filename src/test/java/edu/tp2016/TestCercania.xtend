@@ -23,6 +23,7 @@ import java.util.ArrayList
 import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
 import edu.tp2016.mod.Punto
+import edu.tp2016.repositorio.RepoPois
 
 class TestCercania {
 
@@ -49,14 +50,14 @@ class TestCercania {
 	@Before
 	def void setUp() {
 
-		rangoX = Arrays.asList(unDiaX)
+		rangoX = Arrays.asList()
 		fechaX = new LocalDateTime()
-		clavesX = Arrays.asList("algunas", "palabras", "clave")
+		clavesX = Arrays.asList()
 		poiReferencia = new Banco() => [
 			ubicacion = new Punto(-34.598574, -58.420280)
 		]
 
-		serviciosX = Arrays.asList(new Servicio("x", rangoX))
+		serviciosX = Arrays.asList()
 
 		paradaCerca = new ParadaBuilder().nombre("114").ubicacion(new Punto(-34.597768, -58.419860)).claves(clavesX).
 			build
@@ -102,6 +103,8 @@ class TestCercania {
 			paradaLejos)
 
 		buscador = new Buscador() => [
+			repo = RepoPois.instance
+			repo.borrarDatos();	
 			repo.agregarVariosPois(pois)
 		]
 	}

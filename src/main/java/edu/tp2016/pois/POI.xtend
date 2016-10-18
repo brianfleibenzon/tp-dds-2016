@@ -84,8 +84,6 @@ class POI implements Cloneable {
 	@ManyToOne()
 	Usuario usuarioActual // Ajeno a la relación Usuario-Poi_Favorito
 	
-	@Column()
-	String favoritoStatus
 
 	/**
 	 * Constructor de POI, será redefinido en las subclases, por lo que hay que llamar a 'super'

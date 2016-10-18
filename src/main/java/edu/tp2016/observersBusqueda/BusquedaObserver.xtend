@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType
 import javax.persistence.DiscriminatorType
 import javax.persistence.Inheritance
 import javax.persistence.DiscriminatorColumn
+import java.util.Set
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -21,7 +22,7 @@ abstract class BusquedaObserver {
 	@GeneratedValue
 	private Long id
 	
-	def void registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora,
+	def void registrarBusqueda(List<String> criterios, Set<POI> poisDevueltos, long demora,
 		Usuario usuario, Buscador buscador)
 		
 }

@@ -21,6 +21,7 @@ import javax.persistence.DiscriminatorType
 import javax.persistence.ManyToOne
 import javax.persistence.FetchType
 import javax.persistence.CascadeType
+import edu.tp2016.repositorio.RepoUsuarios
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -61,7 +62,7 @@ abstract class Usuario implements Cloneable {
 		busquedaObservers.remove(observador)
 	}
 	
-	def registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora, Buscador buscador){
+	def registrarBusqueda(List<String> criterios, Set<POI> poisDevueltos, long demora, Buscador buscador){
 		busquedaObservers.forEach [ observer |
 			observer.registrarBusqueda(criterios, poisDevueltos, demora, this, buscador) ]
 	}

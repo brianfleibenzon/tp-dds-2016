@@ -50,7 +50,6 @@ class TestRegistroDeBusquedasConObservers {
 	ParadaDeColectivo utn114parada
 	LocalDateTime fechaDeHoy
 	LocalDateTime unaFechaPasada
-	DiaDeAtencion unDiaX
 	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	ArrayList<POI> pois
@@ -61,7 +60,7 @@ class TestRegistroDeBusquedasConObservers {
 	@Before
 	def void setUp() {
 		ubicacionX = new Punto(-1, 1)
-		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
+		rangoX = Arrays.asList()
 		fechaDeHoy = new LocalDateTime()
 		unaFechaPasada = new LocalDateTime(2016, 5, 11, 12, 0)
 

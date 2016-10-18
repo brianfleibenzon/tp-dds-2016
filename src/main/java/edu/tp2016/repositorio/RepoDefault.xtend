@@ -108,6 +108,35 @@ abstract class RepoDefault<T> {
 		}
 	}	
 	
+	def void borrarDatos() {
+		val session = sessionFactory.openSession
+		try {
+			session.beginTransaction
+			/*session.createSQLQuery("DROP SCHEMA pois").executeUpdate()
+			session.createSQLQuery("CREATE SCHEMA pois").executeUpdate()
+			*/
+			session.createSQLQuery("SET FOREIGN_KEY_CHECKS=0").executeUpdate()
+			
+			session.createSQLQuery("SELECT CONCAT('truncate table ',table_name,';')
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'pois' AND table_name <> 'hibernate_sequence';").list().forEach[
+				session.createSQLQuery(it).executeUpdate()
+	
+			]
+
+			session.createSQLQuery("SET FOREIGN_KEY_CHECKS=1").executeUpdate()
+			
+			
+			session.getTransaction.commit
+		} catch (HibernateException e) {
+			session.getTransaction.rollback
+			throw new RuntimeException(e)
+		} finally {
+			session.close
+		}
+	}
+	
+	
 
 	def abstract Class<T> getEntityType()
 

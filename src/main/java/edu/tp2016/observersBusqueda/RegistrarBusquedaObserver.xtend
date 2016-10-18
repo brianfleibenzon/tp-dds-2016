@@ -6,12 +6,13 @@ import edu.tp2016.usuarios.Usuario
 import edu.tp2016.applicationModel.Buscador
 import javax.persistence.Entity
 import javax.persistence.DiscriminatorValue
+import java.util.Set
 
 @Entity
 @DiscriminatorValue("1")
 class RegistrarBusquedaObserver extends BusquedaObserver {
 
-	override def void registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora,
+	override def void registrarBusqueda(List<String> criterios, Set<POI> poisDevueltos, long demora,
 		Usuario usuario, Buscador buscador) {
 	
 		val busqueda = new Busqueda()

@@ -25,6 +25,7 @@ import edu.tp2016.usuarios.Terminal
 import edu.tp2016.applicationModel.Buscador
 import edu.tp2016.repositorio.RepoPois
 import edu.tp2016.mod.Punto
+import java.util.Set
 
 class TestBusquedaEnTodosLosDatos {
 	Buscador buscador
@@ -46,7 +47,7 @@ class TestBusquedaEnTodosLosDatos {
 
 		utn7parada = new ParadaBuilder().nombre("7").
 		ubicacion(ubicacionX).
-		claves( Arrays.asList("utn", "campus")).build
+		claves( Arrays.asList("utn", "campus")).build	
 
 		miserere7parada = new ParadaBuilder().nombre("7").
 		ubicacion(ubicacionX).
@@ -83,39 +84,44 @@ class TestBusquedaEnTodosLosDatos {
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			repo = RepoPois.instance
+			repo.borrarDatos();	
 			repo.agregarVariosPois(pois)
 			usuarioActual = new Terminal("terminal")
 		]
 	}
+	
+	def boolean coinciden (Set<POI> resultado, List<POI> esperado){
+		resultado.size == esperado.size && esperado.forall[poi | resultado.exists[it.id == poi.id]]
+	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertTrue(coinciden(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada)))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(buscador.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertTrue(coinciden(buscador.buscar("114"), Arrays.asList(utn114parada)))
 	}
 	
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(buscador.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertTrue(coinciden(buscador.buscar("campus"), Arrays.asList(utn7parada, utn114parada)))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(buscador.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertTrue(coinciden(buscador.buscar("libreria"), Arrays.asList(comercioLoDeJuan)))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertTrue(coinciden(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity)))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertTrue(coinciden(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity)))
 	}
 
 	@Test

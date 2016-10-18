@@ -9,6 +9,7 @@ import edu.tp2016.applicationModel.Buscador
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.DiscriminatorValue
+import java.util.Set
 
 @Entity
 @DiscriminatorValue("2")
@@ -24,7 +25,7 @@ class EnviarMailObserver extends BusquedaObserver {
 		timeout = _timeout
 	}
 
-	override registrarBusqueda(List<String> criterios, List<POI> poisDevueltos, long demora, Usuario usuario, Buscador buscador) {
+	override registrarBusqueda(List<String> criterios, Set<POI> poisDevueltos, long demora, Usuario usuario, Buscador buscador) {
 		
 		if (demora >= timeout)
 			(buscador.mailSender).sendMail(new Mail(administradorMailAdress, "un mensaje", "un asunto"))

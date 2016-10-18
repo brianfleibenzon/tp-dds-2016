@@ -23,6 +23,7 @@ import com.google.common.collect.Lists
 import java.util.ArrayList
 import edu.tp2016.applicationModel.Buscador
 import edu.tp2016.mod.Punto
+import edu.tp2016.repositorio.RepoPois
 
 class TestDisponibilidad {
 
@@ -115,24 +116,22 @@ class TestDisponibilidad {
 		build
 
 		pois = Lists.newArrayList(unBanco, unCGP, unComercio, unaParada)
+		RepoPois.instance.borrarDatos()
+		RepoPois.instance.agregarVariosPois(pois)
 		
 		busquedaConFechaDisponible = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0)
 		]
 
 		busquedaConFechaNoDisponible = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0)
 		]
 
 		busquedaConFechaDisponibleParaRentas = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
 		]
 
 		busquedaConFechaNODisponibleParaRentas = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
 		]
 	}

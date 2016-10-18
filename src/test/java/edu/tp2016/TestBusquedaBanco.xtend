@@ -16,7 +16,8 @@ class TestBusquedaBanco {
 	@Before
 	def void setUp() {
 		buscador = new Buscador() => [
-			repo = RepoPois.newInstance
+			repo = RepoPois.instance
+			repo.borrarDatos();			
 			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 			usuarioActual = new Terminal("terminal")
 		]

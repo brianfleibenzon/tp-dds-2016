@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions
 import org.hibernate.HibernateException
 import org.hibernate.Criteria
 import org.hibernate.FetchMode
+import java.util.Set
 
 @Accessors
 class RepoPois extends RepoDefault<POI>{
@@ -19,22 +20,22 @@ class RepoPois extends RepoDefault<POI>{
 		typeof(POI)
 	}
 	
-	def List<POI> buscar(List<String> criterios) {
+	def Set<POI> buscar(List<String> criterios) {
 		val session = sessionFactory.openSession
 		try {
 			
 			val StringBuilder query = new StringBuilder();
 			
-			query.append("SELECT poi.* FROM poi JOIN palabrasclave ON id = clave_id WHERE")
+			query.append("SELECT poi.* FROM poi LEFT JOIN palabrasclave ON poi.id = clave_id LEFT JOIN poi_servicio ON CGP_id = id LEFT JOIN servicio ON servicio.id = servicios_id WHERE")
 			criterios.forEach[
-				query.append(" nombre LIKE '%"+it+"%' OR palabrasClave = '"+it+"' OR")
+				query.append(" poi.nombre LIKE '%"+it+"%' OR palabrasClave LIKE '%"+it+"%' OR servicio.nombre LIKE '%"+it+"%' OR")
 				
 			]
 			query.append(" 1=0")	// PARA SACAR EL ULTIMO OR
 			
 			val criteria = session.createSQLQuery(query.toString).addEntity(POI);
 			
-			return criteria.list()
+			return criteria.list().toSet
 		} catch (HibernateException e) {
 			throw new RuntimeException(e)
 		} finally {
