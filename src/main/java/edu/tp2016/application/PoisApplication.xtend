@@ -4,6 +4,7 @@ import org.uqbar.arena.Application
 import edu.tp2016.vista.LoginWindow
 
 class PoisApplication extends Application{
+	
 	new(PoisBootstrap bootstrap) {
 		super(bootstrap)
 	}

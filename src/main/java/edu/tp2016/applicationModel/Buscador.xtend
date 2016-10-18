@@ -214,7 +214,7 @@ class Buscador implements IModel<Buscador>{
 	}
 	
 	def void setPoiSeleccionado(POI unPoi){
-		poiSeleccionado = RepoPois.instance.get(unPoi.id)
+		if(unPoi != null) poiSeleccionado = RepoPois.instance.get(unPoi.id)
 	}
 	
 }

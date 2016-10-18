@@ -53,7 +53,7 @@ class POI implements Cloneable {
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
 	
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="PalabrasClave", joinColumns=@JoinColumn(name="clave_id"))
 	@Column(name="palabrasClave")
 	List<String> palabrasClave = new ArrayList<String>

@@ -21,7 +21,6 @@ import org.uqbar.arena.bootstrap.Bootstrap
 
 class PoisBootstrap implements Bootstrap {
 	
-	
 	def initUsuarios(){
 		this.crearUsuario(new Terminal("juanPerez", "1234"))
 		this.crearUsuario(new Terminal("usr", "usr"))
