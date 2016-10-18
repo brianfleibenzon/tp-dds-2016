@@ -33,9 +33,9 @@ class PoisBootstrap implements Bootstrap {
 		if (listaUsuarios.isEmpty) {
 			repoUsuarios.create(usr)
 		} else {
-			val usuarioBD = listaUsuarios.head
+			/*val usuarioBD = listaUsuarios.head
 			usr.id = usuarioBD.id
-			repoUsuarios.update(usr)
+			repoUsuarios.update(usr)*/
 		}
 	}
 	
@@ -112,9 +112,9 @@ class PoisBootstrap implements Bootstrap {
 		if (listaPois.isEmpty) {
 			repoPois.create(poi)
 		} else {
-			val poiBD = listaPois.head
+			/*val poiBD = listaPois.head
 			poi.id = poiBD.id
-			repoPois.update(poi)
+			repoPois.update(poi)*/
 		}
 	}
 	

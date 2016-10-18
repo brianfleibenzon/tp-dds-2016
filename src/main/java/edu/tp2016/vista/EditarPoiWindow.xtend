@@ -95,7 +95,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 		
 		new Button(mainPanel)
 			.setCaption("Aceptar")
-			.onClick [ | modelObject.limpiarReviewInputs
+			.onClick [ | modelObject.guardarDatos
 						 this.accept
 			]
 			.setAsDefault

@@ -29,6 +29,7 @@ import javax.persistence.FetchType
 import javax.persistence.CascadeType
 import java.util.HashSet
 import java.util.Set
+import edu.tp2016.repositorio.RepoPois
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -50,15 +51,15 @@ class POI implements Cloneable {
 	@ManyToOne(cascade=CascadeType.ALL)
 	Punto ubicacion
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	Set<DiaDeAtencion> rangoDeAtencion = new HashSet<DiaDeAtencion>
 	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="PalabrasClave", joinColumns=@JoinColumn(name="clave_id"))
 	@Column(name="palabrasClave")
 	List<String> palabrasClave = new ArrayList<String>
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<Review> reviews = new HashSet<Review>
 	
 	@ManyToOne()
@@ -154,7 +155,10 @@ class POI implements Cloneable {
 				comentario = it.comentario
 			}
 		]
-		calificacionGeneral = calificacionGeneral / reviews.size
+		if (reviews.size>0)
+			calificacionGeneral = calificacionGeneral / reviews.size
+		else
+			calificacionGeneral = 0
 	}
 	
 	def inicializar(Usuario usuarioActivo){
@@ -168,7 +172,7 @@ class POI implements Cloneable {
 	
 	def guardarCalificacion(){
 		val review = reviews.findFirst [
-			it.usuario == usuario
+			it.usuario.id == usuario.id
 		]
 		if (review == null){
 			reviews.add(new Review(calificacion, usuario, comentario))
@@ -198,8 +202,10 @@ class POI implements Cloneable {
 		String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
 	}
 	
-	def limpiarReviewInputs(){
+	def guardarDatos(){
+		RepoPois.instance.update(this)
 		comentario = ""
 		calificacion = 1
+		
 	}
 }
