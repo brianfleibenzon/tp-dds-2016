@@ -29,7 +29,7 @@ class Banco extends POI {
 		val jueves = new DiaDeAtencion(4, 10, 15, 0, 0)
 		val viernes = new DiaDeAtencion(5, 10, 15, 0, 0)
 
-		rangoDeAtencion = Arrays.asList(lunes, martes, miercoles, jueves, viernes)
+		rangoDeAtencion.addAll(Arrays.asList(lunes, martes, miercoles, jueves, viernes))
 	}
 
 	/**
