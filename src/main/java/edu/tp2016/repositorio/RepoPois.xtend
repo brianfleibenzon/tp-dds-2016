@@ -19,10 +19,34 @@ class RepoPois extends RepoDefault<POI>{
 		typeof(POI)
 	}
 	
+	def List<POI> buscar(List<String> criterios) {
+		val session = sessionFactory.openSession
+		try {
+			
+			val StringBuilder query = new StringBuilder();
+			
+			query.append("SELECT poi.* FROM poi JOIN palabrasclave ON id = clave_id WHERE")
+			criterios.forEach[
+				query.append(" nombre LIKE '%"+it+"%' OR palabrasClave = '"+it+"' OR")
+				
+			]
+			query.append(" 1=0")	// PARA SACAR EL ULTIMO OR
+			
+			val criteria = session.createSQLQuery(query.toString).addEntity(POI);
+			
+			return criteria.list()
+		} catch (HibernateException e) {
+			throw new RuntimeException(e)
+		} finally {
+			session.close
+		}
+	}
+	
 	override addQueryByExample(Criteria criteria, POI poi) {
 		if (poi.nombre != null) {
-			criteria.add(Restrictions.like("nombre", poi.nombre))
+			criteria.add(Restrictions.like("nombre", poi.nombre))			
 		}
+		
 	}
 	
 	def isEmpty(){

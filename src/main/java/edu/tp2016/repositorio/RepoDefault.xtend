@@ -106,7 +106,8 @@ abstract class RepoDefault<T> {
 		} finally {
 			session.close
 		}
-	}
+	}	
+	
 
 	def abstract Class<T> getEntityType()
 

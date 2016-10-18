@@ -58,7 +58,7 @@ class POI implements Cloneable {
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="PalabrasClave", joinColumns=@JoinColumn(name="clave_id"))
 	@Column(name="palabrasClave")
-	List<String> palabrasClave = new ArrayList<String>
+	Set<String> palabrasClave = new HashSet<String>
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<Review> reviews = new HashSet<Review>
@@ -97,7 +97,7 @@ class POI implements Cloneable {
 	new(String unNombre, Point unaUbicacion, List<String> claves) {
 		nombre = unNombre
 		ubicacion = new Punto(unaUbicacion.latitude, unaUbicacion.longitude)
-		palabrasClave = claves
+		palabrasClave.addAll(claves)
 	}
 	
 	new(){ } // default

@@ -325,9 +325,9 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void testDarDeBajaUTN114Parada() {
 		utn114parada.id = 2 as long
 		
-		Assert.assertFalse(buscadorAbasto.buscarPor("114").isEmpty())
+		Assert.assertFalse(buscadorAbasto.buscar("114").isEmpty())
 		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
-		Assert.assertTrue(buscadorAbasto.buscarPor("114").isEmpty())
+		Assert.assertTrue(buscadorAbasto.buscar("114").isEmpty())
 	}
 
 	@Test
@@ -346,7 +346,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
-		Assert.assertTrue(buscadorAbasto.buscarPor("114").isEmpty())
+		Assert.assertTrue(buscadorAbasto.buscar("114").isEmpty())
 
 		// Continuación de chequeos para proceso AgregarAccionesParaTodosLosUsuarios
         busquedasEnVariasTerminalesYEnDistintasFechas()

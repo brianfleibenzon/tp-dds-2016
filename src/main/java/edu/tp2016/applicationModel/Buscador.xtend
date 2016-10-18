@@ -70,13 +70,17 @@ class Buscador implements IModel<Buscador>{
 	
 // BÚSQUEDA EN EL REPOSITORIO:
 	def List<POI> buscar(String texto){
+		this.buscar(Arrays.asList(texto))
+	}
+	
+	def List<POI> buscar(List<String> criterios){
 		val t1 = new LocalDateTime()
 		
-		val listaDePoisDevueltos = buscarPor(texto).toList
+		val listaDePoisDevueltos = repo.buscar(criterios)
 		
 		val t2 = new LocalDateTime()
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
-		usuarioActual.registrarBusqueda(Arrays.asList(texto), listaDePoisDevueltos, demora, this)
+		usuarioActual.registrarBusqueda(criterios, listaDePoisDevueltos, demora, this)
 
 		listaDePoisDevueltos
 	}
@@ -87,16 +91,6 @@ class Buscador implements IModel<Buscador>{
 		]
 	}
 	
-	def Iterable<POI> buscarPor(String texto) {
-		val poisBusqueda = new ArrayList<POI>
-		poisBusqueda.addAll(repo.allInstances)
-
-		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
-
-		poisBusqueda.filter [ poi | texto != null && !texto.isEmpty &&
-			(poi.tienePalabraClave(texto) || poi.coincide(texto))
-		]
-	}
 	
 	/**
 	 * Devuelve el POI cuyo id se pasó como parámetro de búsqueda.
@@ -105,11 +99,10 @@ class Buscador implements IModel<Buscador>{
 	 * @params id de un POI
 	 * @return un POI
 	 */
-	def List<POI> buscarPorId(int _id) {
+	def List<POI> buscarPorId(long _id) {
 		val repoDePois = new ArrayList<POI>
-		repoDePois.addAll(repo.allInstances)
-		
-		Lists.newArrayList( repoDePois.filter [ poi | poi.id.equals(_id)] )
+		repoDePois.addAll(repo.get(_id))
+		repoDePois
 	}
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){
@@ -173,15 +166,12 @@ class Buscador implements IModel<Buscador>{
 		init
 		resultados.clear
 		mensajeInvalido = ""
-		val Set<POI> search = new HashSet<POI>(resultados)
-		val t1 = new LocalDateTime()
 		
 		if(criteriosBusqueda.isEmpty) mensajeInvalido = "<< Debe ingresar un criterio de búsqueda >>"
-		criteriosBusqueda.forEach [ criterio | search.addAll(buscarPor(criterio).toList) ]
 		
-		val t2 = new LocalDateTime()
-		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
-		usuarioActual.registrarBusqueda(criteriosBusqueda, new ArrayList(search), demora, this)
+		val Set<POI> search = new HashSet<POI>(resultados)
+		
+		search.addAll(this.buscar(criteriosBusqueda))		
 		
 		if(search.isEmpty && !criteriosBusqueda.isEmpty) mensajeInvalido = "<< No se han encontrado resultados para su búsqueda >>"
 		search.forEach[

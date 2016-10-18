@@ -36,15 +36,12 @@ class TestBusquedaEnTodosLosDatos {
 	ParadaDeColectivo miserere7parada
 	ParadaDeColectivo utn114parada
 	LocalDateTime fechaX
-	DiaDeAtencion unDiaX
 	Punto ubicacionX
-	List<DiaDeAtencion> rangoX
 	ArrayList<POI> pois
 
 	@Before
 	def void setUp() {
 		ubicacionX = new Punto(-1, 1)
-		rangoX = Arrays.asList(Lists.newArrayList(unDiaX))
 		fechaX = new LocalDateTime()
 
 		utn7parada = new ParadaBuilder().nombre("7").
@@ -68,13 +65,13 @@ class TestBusquedaEnTodosLosDatos {
 		ubicacion(ubicacionX).
 		claves(Arrays.asList("medicamentos", "salud")).
 		rubro(rubroFarmacia).
-		rango(rangoX).build
+		rango(Lists.newArrayList(new DiaDeAtencion())).build
 
 		comercioLoDeJuan = new ComercioBuilder().nombre("Libreria Juan").
 		ubicacion(ubicacionX).
 		claves(Arrays.asList("fotocopias", "utiles", "libros")).
 		rubro(rubroLibreria).
-		rango(rangoX).build
+		rango(Lists.newArrayList(new DiaDeAtencion())).build
 	
 		pois = Lists.newArrayList(utn7parada,
 								  utn114parada,
@@ -85,7 +82,7 @@ class TestBusquedaEnTodosLosDatos {
 		buscador = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			repo = RepoPois.newInstance
+			repo = RepoPois.instance
 			repo.agregarVariosPois(pois)
 			usuarioActual = new Terminal("terminal")
 		]
