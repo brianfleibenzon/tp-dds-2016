@@ -3,10 +3,10 @@ package edu.tp2016.repositorio
 import edu.tp2016.usuarios.Usuario
 import java.util.ArrayList
 import edu.tp2016.usuarios.Terminal
-import edu.tp2016.usuarios.Administrador
-import com.google.common.collect.Lists
 import org.hibernate.Criteria
 import org.hibernate.criterion.Restrictions
+import org.hibernate.FetchMode
+import org.hibernate.HibernateException
 
 class RepoUsuarios extends RepoDefault<Usuario>{
 	private static RepoUsuarios instance = null
@@ -26,7 +26,6 @@ class RepoUsuarios extends RepoDefault<Usuario>{
 		instance
 	}
 	
-
 	def agregarVariosUsuarios(ArrayList<Terminal> usuarios){
 		usuarios.forEach [ usuario | this.agregarUsuario(usuario)]
 	}
@@ -40,6 +39,20 @@ class RepoUsuarios extends RepoDefault<Usuario>{
 	override addQueryByExample(Criteria criteria, Usuario usuario) {
 		if (usuario.userName != null) {
 			criteria.add(Restrictions.eq("userName", usuario.userName))
+		}
+	}
+	
+	def Usuario get(Long id) {
+		val session = sessionFactory.openSession
+		try {
+			return session.createCriteria(typeof(Usuario))
+				.add(Restrictions.idEq(id))
+				.setFetchMode("poisFavoritos", FetchMode.JOIN)
+				.uniqueResult() as Usuario
+		} catch (HibernateException e) {
+			throw new RuntimeException(e)
+		} finally {
+			session.close
 		}
 	}
 	

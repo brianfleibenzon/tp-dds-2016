@@ -30,6 +30,7 @@ import javax.persistence.CascadeType
 import java.util.HashSet
 import java.util.Set
 import edu.tp2016.repositorio.RepoPois
+import javax.persistence.OneToOne
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -61,7 +62,7 @@ class POI implements Cloneable {
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<Review> reviews = new HashSet<Review>
-	
+
 	@ManyToOne()
 	Servicio servicioSeleccionado	
 	
@@ -75,10 +76,16 @@ class POI implements Cloneable {
 	boolean favorito
 	
 	@Column()
+	boolean isActive // TODO: para la baja lógica de un POI
+	
+	@Column()
 	float calificacionGeneral
 	
-	@ManyToOne()
-	Usuario usuario
+	@OneToOne
+	Usuario usuarioActual // Ajeno a la relación Usuario-Poi_Favorito
+	
+	@Column()
+	String favoritoStatus
 
 	/**
 	 * Constructor de POI, será redefinido en las subclases, por lo que hay que llamar a 'super'
@@ -91,9 +98,12 @@ class POI implements Cloneable {
 		nombre = unNombre
 		ubicacion = new Punto(unaUbicacion.latitude, unaUbicacion.longitude)
 		palabrasClave = claves
+		isActive = true
 	}
 	
-	new(){ } // default
+	new(){
+		isActive = true
+	} // default
 	
 	def copy() {
 		super.clone as POI
@@ -143,26 +153,26 @@ class POI implements Cloneable {
 	}
 	
 	def inicializarDatos(){
-		calificacionGeneral = 0
 		calificacion = 1
 		comentario = ""
-		
-		favorito = usuario.tienePoiFavorito(this)
+		favorito = usuarioActual.tienePoiFavorito(this)
+		calificacionGeneral = 0
+
 		reviews.forEach [
 			calificacionGeneral += it.calificacion
-			if (it.usuario.id == usuario.id){
+			if (it.usuario.id == usuarioActual.id){
 				calificacion = it.calificacion
 				comentario = it.comentario
 			}
 		]
-		if (reviews.size>0)
+		if (reviews.size > 0)
 			calificacionGeneral = calificacionGeneral / reviews.size
 		else
 			calificacionGeneral = 0
 	}
 	
-	def inicializar(Usuario usuarioActivo){
-		usuario = usuarioActivo
+	def inicializar(Usuario usuario){
+		usuarioActual = usuario
 		inicializarDatos
 	}
 	
@@ -172,10 +182,10 @@ class POI implements Cloneable {
 	
 	def guardarCalificacion(){
 		val review = reviews.findFirst [
-			it.usuario.id == usuario.id
+			it.usuario.id == usuarioActual.id
 		]
 		if (review == null){
-			reviews.add(new Review(calificacion, usuario, comentario))
+			reviews.add(new Review(calificacion, usuarioActual, comentario))
 		}else{
 			review.calificacion = calificacion
 			review.comentario = comentario
@@ -185,8 +195,8 @@ class POI implements Cloneable {
 	
 	def void setFavorito(boolean valor){
 		favorito = valor
-		if(usuario != null){
-			usuario.modificarPoiFavorito(this, valor)
+		if(usuarioActual != null){
+			usuarioActual.modificarPoiFavorito(this, valor)
 		}
 	}
 	
@@ -195,17 +205,14 @@ class POI implements Cloneable {
 	}
 	
 	def String getCercania(){
-		if(estaCercaA(usuario.ubicacionActual)) "Sí" else "No"
+		if(estaCercaA(usuarioActual.ubicacionActual)) "Sí" else "No"
 	}
 	
 	def String getDistancia(){
-		String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
+		String.format("%.2f", distanciaA(usuarioActual.ubicacionActual)/10) + ' km'
 	}
 	
 	def guardarDatos(){
 		RepoPois.instance.update(this)
-		comentario = ""
-		calificacion = 1
-		
 	}
 }

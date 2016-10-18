@@ -6,7 +6,6 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.PasswordField
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.ErrorsPanel
-import org.uqbar.arena.windows.MainWindow
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import edu.tp2016.applicationModel.UserLogin
 import org.uqbar.arena.layout.ColumnLayout

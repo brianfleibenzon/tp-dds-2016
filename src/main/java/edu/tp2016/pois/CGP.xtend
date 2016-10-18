@@ -3,7 +3,6 @@ package edu.tp2016.pois
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.Servicio
 import java.util.ArrayList
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point

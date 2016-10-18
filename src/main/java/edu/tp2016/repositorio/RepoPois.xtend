@@ -1,26 +1,13 @@
 package edu.tp2016.repositorio
 
-import com.google.common.collect.Lists
-import edu.tp2016.builder.BancoBuilder
-import edu.tp2016.builder.CGPBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.mod.Comuna
-import edu.tp2016.mod.DiaDeAtencion
-import edu.tp2016.mod.Rubro
-import edu.tp2016.mod.Servicio
 import edu.tp2016.pois.POI
 import edu.tp2016.procesos.ResultadoDeDarDeBajaUnPoi
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.geodds.Point
-import org.uqbar.geodds.Polygon
 import org.hibernate.criterion.Restrictions
 import org.hibernate.HibernateException
 import org.hibernate.Criteria
-import edu.tp2016.mod.Punto
 import org.hibernate.FetchMode
 
 @Accessors
@@ -42,7 +29,13 @@ class RepoPois extends RepoDefault<POI>{
 		allInstances.size == 0
 	}
 	
+	override def allInstances(){
+		// Filtra por los Pois que estén activos
+		super.allInstances.filter[ poi | poi.isActive ].toList
+	}
+	
 	def agregarPoi(POI poi){
+		poi.isActive = true
 		this.create(poi)
 	}
 	
@@ -51,7 +44,8 @@ class RepoPois extends RepoDefault<POI>{
 	}
 	
 	def eliminarPoi(POI poi){
-		this.delete(poi)
+		//this.delete(poi) --> Baja Física
+		poi.isActive = false // --> Baja Lógica
 	}
 	
 	def actualizarPoi(POI poi){

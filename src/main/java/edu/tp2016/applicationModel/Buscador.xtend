@@ -17,7 +17,6 @@ import org.joda.time.LocalDate
 import edu.tp2016.serviciosExternos.MailSender
 import org.uqbar.commons.utils.Observable
 import java.util.Arrays
-import org.uqbar.geodds.Point
 import org.uqbar.commons.model.IModel
 import java.util.HashSet
 import java.util.Set
@@ -186,7 +185,7 @@ class Buscador implements IModel<Buscador>{
 		
 		if(search.isEmpty && !criteriosBusqueda.isEmpty) mensajeInvalido = "<< No se han encontrado resultados para su búsqueda >>"
 		search.forEach[
-			it.usuario = usuarioActual
+			it.usuarioActual = usuarioActual
 			it.favorito = usuarioActual.tienePoiFavorito(it)
 		]
 		
@@ -215,6 +214,11 @@ class Buscador implements IModel<Buscador>{
 	
 	def void setPoiSeleccionado(POI unPoi){
 		if(unPoi != null) poiSeleccionado = RepoPois.instance.get(unPoi.id)
+	}
+	
+	def eliminarPoi(POI poi){
+		// repo.eliminarPoi(poiSeleccionado)
+		repo.eliminarPoi(poi)
 	}
 	
 }

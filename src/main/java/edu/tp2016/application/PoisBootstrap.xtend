@@ -12,7 +12,6 @@ import edu.tp2016.mod.Servicio
 import edu.tp2016.pois.POI
 import edu.tp2016.repositorio.RepoPois
 import edu.tp2016.repositorio.RepoUsuarios
-import edu.tp2016.usuarios.Administrador
 import edu.tp2016.usuarios.Terminal
 import edu.tp2016.usuarios.Usuario
 import java.util.Arrays

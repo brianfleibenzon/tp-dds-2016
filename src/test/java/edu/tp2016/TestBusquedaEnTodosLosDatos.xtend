@@ -9,7 +9,6 @@ import edu.tp2016.pois.ParadaDeColectivo
 import java.util.List
 import org.joda.time.LocalDateTime
 import org.junit.Before
-import org.uqbar.geodds.Point
 import edu.tp2016.mod.Rubro
 import edu.tp2016.mod.DiaDeAtencion
 import java.util.Arrays

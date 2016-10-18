@@ -9,7 +9,6 @@ import java.util.List
 import java.util.Arrays
 import org.joda.time.LocalDateTime
 import com.google.common.collect.Lists
-import org.uqbar.geodds.Point
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco

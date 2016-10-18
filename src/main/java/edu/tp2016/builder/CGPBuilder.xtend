@@ -1,7 +1,6 @@
 package edu.tp2016.builder
 
 import edu.tp2016.pois.CGP
-import org.uqbar.geodds.Point
 import java.util.List
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.Servicio

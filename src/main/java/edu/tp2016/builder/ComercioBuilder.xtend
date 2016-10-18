@@ -4,7 +4,6 @@ import edu.tp2016.pois.Comercio
 import edu.tp2016.mod.Rubro
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
-import org.uqbar.geodds.Point
 import edu.tp2016.mod.Punto
 
 class ComercioBuilder {

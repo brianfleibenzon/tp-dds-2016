@@ -5,8 +5,6 @@ import org.junit.Test
 import org.junit.Assert
 import org.joda.time.LocalDateTime
 import java.util.Arrays
-import org.uqbar.geodds.Point
-import org.uqbar.geodds.Polygon
 import java.util.List
 import edu.tp2016.mod.DiaDeAtencion
 import edu.tp2016.pois.Banco

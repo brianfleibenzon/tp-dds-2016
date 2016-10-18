@@ -14,8 +14,6 @@ import java.util.List
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.uqbar.geodds.Point
-import org.uqbar.geodds.Polygon
 import edu.tp2016.builder.BancoBuilder
 import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.builder.ComercioBuilder
