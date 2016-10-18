@@ -104,10 +104,8 @@ class Buscador implements IModel<Buscador>{
 	 * @params id de un POI
 	 * @return un POI
 	 */
-	def List<POI> buscarPorId(long _id) {
-		val repoDePois = new ArrayList<POI>
-		repoDePois.addAll(repo.get(_id))
-		repoDePois
+	def POI buscarPorId(long _id) {
+		repo.get(_id)
 	}
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){

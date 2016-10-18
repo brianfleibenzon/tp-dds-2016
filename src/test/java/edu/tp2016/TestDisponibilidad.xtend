@@ -1,29 +1,30 @@
 package edu.tp2016
 
-import org.junit.Before
-import org.junit.Test
-import org.junit.Assert
-import org.joda.time.LocalDateTime
+import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.builder.CGPBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.mod.Comuna
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Punto
+import edu.tp2016.mod.Rubro
+import edu.tp2016.mod.Servicio
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.CGP
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.repositorio.RepoPois
+import java.util.ArrayList
 import java.util.Arrays
 import java.util.List
-import edu.tp2016.mod.DiaDeAtencion
-import edu.tp2016.pois.Banco
-import edu.tp2016.pois.ParadaDeColectivo
-import edu.tp2016.pois.CGP
-import edu.tp2016.mod.Servicio
-import edu.tp2016.mod.Rubro
-import edu.tp2016.mod.Comuna
-import edu.tp2016.pois.POI
-import edu.tp2016.pois.Comercio
-import edu.tp2016.builder.CGPBuilder
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.builder.BancoBuilder
-import com.google.common.collect.Lists
-import java.util.ArrayList
-import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.mod.Punto
-import edu.tp2016.repositorio.RepoPois
+import org.joda.time.LocalDateTime
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 
 class TestDisponibilidad {
 
@@ -134,6 +135,11 @@ class TestDisponibilidad {
 		busquedaConFechaNODisponibleParaRentas = new Buscador() => [
 			fechaActual = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
 		]
+	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
 	}
 
 	@Test

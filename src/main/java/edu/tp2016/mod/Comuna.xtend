@@ -29,7 +29,7 @@ class Comuna {
 	int numero
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	public Set<Punto> poligono = new HashSet<Punto>
+	Set<Punto> poligono = new HashSet<Punto>
 	
 	@ElementCollection
 	@CollectionTable(name="Barrios", joinColumns=@JoinColumn(name="barrio_id"))
@@ -43,8 +43,9 @@ class Comuna {
 	
 	
 	def boolean pertenecePunto(Punto unPunto){
-		val polig = new Polygon
+		val polig = new Polygon()
 		poligono.forEach[polig.add(new Point(it.x, it.y))]
+		
 		polig.isInside(new Point(unPunto.x, unPunto.y))
 	}
 }

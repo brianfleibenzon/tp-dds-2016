@@ -1,29 +1,30 @@
 package edu.tp2016
 
 import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.builder.CGPBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Punto
 import edu.tp2016.mod.Rubro
 import edu.tp2016.mod.Servicio
 import edu.tp2016.pois.Banco
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
 import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.usuarios.Terminal
 import java.util.Arrays
 import java.util.List
+import java.util.Set
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import edu.tp2016.builder.BancoBuilder
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.builder.CGPBuilder
-import edu.tp2016.usuarios.Terminal
-import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.RepoPois
-import edu.tp2016.mod.Punto
-import java.util.Set
-import edu.tp2016.pois.POI
 
 class TestBusquedaLibre {
 
@@ -113,6 +114,11 @@ class TestBusquedaLibre {
 				usuarioActual = new Terminal("terminal")
 			]
 
+	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
 	}
 	
 	def boolean coinciden (Set<POI> resultado, List<POI> esperado){

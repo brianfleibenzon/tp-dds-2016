@@ -39,10 +39,10 @@ class DarDeBajaUnPOI extends Proceso {
 
 		resultado = new ResultadoDeDarDeBajaUnPoi(fecha, poi.id)
 
-		val busquedaPOI = buscador.buscarPorId(poi.id)
+		val poiEncontrado = buscador.buscarPorId(poi.id)
 
-		if (!busquedaPOI.isEmpty) {
-			eliminarPOI(busquedaPOI.get(0), fecha)
+		if (poiEncontrado != null) {
+			eliminarPOI(poiEncontrado, fecha)
 			buscador.repo.registrarResultadoDeBaja(resultado)
 
 		}

@@ -24,6 +24,7 @@ import edu.tp2016.pois.POI
 import edu.tp2016.applicationModel.Buscador
 import edu.tp2016.mod.Punto
 import edu.tp2016.repositorio.RepoPois
+import org.junit.After
 
 class TestCercania {
 
@@ -77,6 +78,7 @@ class TestCercania {
 			poligono.add(new Punto(-34.600703, -58.420583))
 			poligono.add(new Punto(-34.601497, -58.416227))
 		]
+		
 		comunaExterior = new Comuna => [
 			poligono.add(new Punto(-34.597735, -58.421806))
 			poligono.add(new Punto(-34.597771, -58.417300))
@@ -107,6 +109,11 @@ class TestCercania {
 			repo.borrarDatos();	
 			repo.agregarVariosPois(pois)
 		]
+	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
 	}
 
 	@Test

@@ -1,41 +1,41 @@
 package edu.tp2016
 
-import org.junit.Before
-import edu.tp2016.mod.Rubro
-import edu.tp2016.pois.Comercio
-import edu.tp2016.pois.ParadaDeColectivo
-import edu.tp2016.mod.DiaDeAtencion
-import java.util.List
-import java.util.Arrays
-import org.joda.time.LocalDateTime
 import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Punto
+import edu.tp2016.mod.Rubro
+import edu.tp2016.observersBusqueda.Busqueda
+import edu.tp2016.observersBusqueda.EnviarMailObserver
+import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.serviciosExternos.Mail
+import edu.tp2016.serviciosExternos.MailSender
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
-import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.serviciosExternos.cgp.AdapterCGP
-import org.junit.Assert
-import org.junit.Test
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.serviciosExternos.MailSender
-import static org.mockito.Matchers.*
-import static org.mockito.Mockito.*
-import edu.tp2016.serviciosExternos.Mail
-import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
-import edu.tp2016.observersBusqueda.EnviarMailObserver
+import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import edu.tp2016.usuarios.Terminal
 import java.util.ArrayList
-import edu.tp2016.pois.POI
-import edu.tp2016.observersBusqueda.Busqueda
-import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.RepoPois
-import edu.tp2016.mod.Punto
+import java.util.Arrays
+import java.util.List
+import org.joda.time.LocalDateTime
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+
+import static org.mockito.Matchers.*
+import static org.mockito.Mockito.*
 
 class TestRegistroDeBusquedasConObservers {
 
-	Buscador buscadorAbasto
-	Buscador buscadorFlorida
-	Buscador buscadorTeatroColon
+	Buscador buscador
 	Buscador mockBuscador
 	Terminal terminalAbasto
 	Terminal terminalFlorida
@@ -104,30 +104,12 @@ class TestRegistroDeBusquedasConObservers {
 		
 		busquedasRepo = new ArrayList<Busqueda>
 		
-		buscadorFlorida = new Buscador() => [
+		buscador = new Buscador() => [
 			repo = RepoPois.newInstance
+			repo.borrarDatos()
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			usuarioActual = terminalFlorida
-			busquedas = busquedasRepo
-			mailSender = mockedMailSender
-		]
-		buscadorAbasto = new Buscador() => [
-			repo = RepoPois.newInstance
-			repo.agregarVariosPois(pois)
-			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
-									  new AdapterCGP(new StubInterfazCGP))
-			usuarioActual = terminalAbasto
-			busquedas = busquedasRepo
-			mailSender = mockedMailSender
-		]
-		buscadorTeatroColon = new Buscador() => [
-			repo = RepoPois.newInstance
-			repo.agregarVariosPois(pois)
-			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
-									  new AdapterCGP(new StubInterfazCGP))
-			usuarioActual = terminalTeatroColon
 			busquedas = busquedasRepo
 			mailSender = mockedMailSender
 		]
@@ -136,6 +118,7 @@ class TestRegistroDeBusquedasConObservers {
 		mockTerminal = new Terminal("mockTerminal") => [
 			adscribirObserver(new EnviarMailObserver(0))
 		]
+		
 		mockBuscador = new Buscador() => [
 			repo.create(utn7parada)
 			usuarioActual = mockTerminal
@@ -144,37 +127,55 @@ class TestRegistroDeBusquedasConObservers {
 	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
-		buscadorAbasto.buscar("114") // encuentra
-		buscadorAbasto.buscar("Banco Nacion") // no encuentra
-		buscadorFlorida.buscar("plaza miserere") // encuentra
-		buscadorFlorida.buscar("Libreria Juan") // encuentra
-		buscadorTeatroColon.buscar("seguros") // encuentra
-		buscadorTeatroColon.buscar("plaza miserere") // encuentra
-		buscadorAbasto.fechaActual = unaFechaPasada
-		buscadorFlorida.fechaActual = unaFechaPasada
-		buscadorTeatroColon.fechaActual = unaFechaPasada
-		buscadorAbasto.buscar("Banco de la Plaza") // encuentra
-		buscadorAbasto.buscar("utn") // encuentra
-		buscadorFlorida.buscar("Farmacity") // encuentra
-		buscadorFlorida.buscar("facultad de medicina") // no encuentra 
-		buscadorTeatroColon.buscar("Atencion ciudadana") // encuentra
-		buscadorTeatroColon.buscar("cine") // no encuentra
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("114") // encuentra
+		buscador.buscar("Banco Nacion") // no encuentra
+		
+		buscador.usuarioActual = terminalFlorida
+		buscador.buscar("plaza miserere") // encuentra
+		buscador.buscar("Libreria Juan") // encuentra
+		
+		buscador.usuarioActual = terminalTeatroColon
+		buscador.buscar("seguros") // encuentra
+		buscador.buscar("plaza miserere") // encuentra
+		
+		buscador.fechaActual = unaFechaPasada
+		
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("Banco de la Plaza") // encuentra
+		buscador.buscar("utn") // encuentra
+		
+		buscador.usuarioActual = terminalFlorida
+		buscador.buscar("Farmacity") // encuentra
+		buscador.buscar("facultad de medicina") // no encuentra 
+		
+		buscador.usuarioActual = terminalTeatroColon
+		buscador.buscar("Atencion ciudadana") // encuentra
+		buscador.buscar("cine") // no encuentra
 		// En total 12 terminales
+	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
 	}
 
 	@Test
 	def void testRegistroDeFrasesBuscadas() {
-		buscadorAbasto.buscar("114")
-		buscadorAbasto.buscar("7")
-		buscadorFlorida.buscar("plaza miserere")
-		buscadorFlorida.buscar("Libreria Juan")
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("114")
+		buscador.buscar("7")
+		
+		buscador.usuarioActual = terminalFlorida
+		buscador.buscar("plaza miserere")
+		buscador.buscar("Libreria Juan")
 		
 		val frasesBuscadasDeAbasto = new ArrayList()
-		val frases1 = buscadorAbasto.busquedas.filter [ reg | reg.nombreUsuario == terminalAbasto.userName ]
+		val frases1 = buscador.busquedas.filter [ reg | reg.nombreUsuario == terminalAbasto.userName ]
 		frases1.forEach [ reg | frasesBuscadasDeAbasto.addAll(reg.palabrasBuscadas) ]
 			
 		val frasesBuscadasDeFlorida = new ArrayList()
-		val frases2 = buscadorFlorida.busquedas.filter [ reg | reg.nombreUsuario == terminalFlorida.userName ]
+		val frases2 = buscador.busquedas.filter [ reg | reg.nombreUsuario == terminalFlorida.userName ]
 		frases2.forEach [ reg | frasesBuscadasDeFlorida.addAll(reg.palabrasBuscadas) ]
 			
 		Assert.assertTrue( frasesBuscadasDeAbasto.containsAll(Arrays.asList("114","7"))
@@ -183,9 +184,10 @@ class TestRegistroDeBusquedasConObservers {
 
 	@Test
 	def void testRegistroDeCantidadDeResultadosDevueltos() {
-		buscadorAbasto.buscar("utn")
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("utn")
 
-		val cantResultadosRegistrada = buscadorAbasto.busquedas
+		val cantResultadosRegistrada = buscador.busquedas
 			.filter [ registro | registro.nombreUsuario == terminalAbasto.userName]
 			.map [ registro | registro.cantidadDeResultados].toList.get(0)
 		
@@ -194,7 +196,8 @@ class TestRegistroDeBusquedasConObservers {
 
 	@Test
 	def void testRegistroDeDemoraDeConsulta() {
-		buscadorAbasto.buscar("7")
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("7")
 		val demoraRegistrada = (busquedasRepo.head).demoraConsulta
 
 		Assert.assertTrue(demoraRegistrada < (1).longValue())
@@ -212,7 +215,7 @@ class TestRegistroDeBusquedasConObservers {
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
-		val reporteGenerado = buscadorAbasto.generarReporteCantidadTotalDeBusquedasPorFecha()
+		val reporteGenerado = buscador.generarReporteCantidadTotalDeBusquedasPorFecha()
 
 		Assert.assertEquals(6, reporteGenerado.get(fechaDeHoy.toLocalDate))
 		Assert.assertEquals(6, reporteGenerado.get(unaFechaPasada.toLocalDate))
@@ -221,7 +224,7 @@ class TestRegistroDeBusquedasConObservers {
 	@Test
 	def void testReporteDeResultadosParcialesPorTerminal() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = buscadorAbasto.generarReporteCantidadDeResultadosParcialesPorTerminal()
+		val reporteGenerado = buscador.generarReporteCantidadDeResultadosParcialesPorTerminal()
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(Arrays.asList(1, 1, 1, 0), reporteGenerado.get("terminalFlorida"))
@@ -231,16 +234,16 @@ class TestRegistroDeBusquedasConObservers {
 	@Test
 	def void testReporteDeResultadosParcialesDeTerminalEspecifica() {
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = buscadorAbasto.
+		val reporteGenerado = buscador.
 			generarReporteCantidadDeResultadosParcialesDeUnaTerminalEspecifica("terminalAbasto")
 
 		Assert.assertEquals(Arrays.asList(1, 0, 2, 3), reporteGenerado)
 	}
 
 	@Test
-	def void testReporteDeResultadosTotalesPorTerminal() {
+	def void testReporteDeResultadosTotalesPorTerminal() {		
 		busquedasEnVariasTerminalesYEnDistintasFechas()
-		val reporteGenerado = buscadorAbasto.generarReporteCantidadTotalDeResultadosPorTerminal()
+		val reporteGenerado = buscador.generarReporteCantidadTotalDeResultadosPorTerminal()
 
 		Assert.assertEquals(6, reporteGenerado.get("terminalAbasto"))
 		Assert.assertEquals(3, reporteGenerado.get("terminalFlorida"))

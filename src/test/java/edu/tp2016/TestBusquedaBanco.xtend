@@ -1,14 +1,15 @@
 package edu.tp2016
 
-import org.junit.Before
-import org.junit.Test
-import org.junit.Assert
+import edu.tp2016.applicationModel.Buscador
 import edu.tp2016.pois.Banco
+import edu.tp2016.repositorio.RepoPois
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.usuarios.Terminal
-import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.RepoPois
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 
 class TestBusquedaBanco {
 	Buscador buscador
@@ -21,6 +22,11 @@ class TestBusquedaBanco {
 			interfacesExternas.add(new AdapterBanco(new StubInterfazBanco))
 			usuarioActual = new Terminal("terminal")
 		]
+	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
 	}
 	
 	@Test

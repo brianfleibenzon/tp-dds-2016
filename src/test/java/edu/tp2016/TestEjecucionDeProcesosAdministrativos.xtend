@@ -1,44 +1,47 @@
 package edu.tp2016
 
-import org.junit.Before
-import edu.tp2016.mod.Rubro
-import edu.tp2016.pois.Comercio
-import edu.tp2016.pois.ParadaDeColectivo
-import edu.tp2016.mod.DiaDeAtencion
-import java.util.List
-import static org.mockito.Mockito.*
-import java.util.Arrays
-import org.joda.time.LocalDateTime
 import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Punto
+import edu.tp2016.mod.Rubro
+import edu.tp2016.observersBusqueda.Busqueda
+import edu.tp2016.observersBusqueda.EnviarMailObserver
+import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.procesos.ActivarAccion
+import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
+import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
+import edu.tp2016.procesos.DarDeBajaUnPOI
+import edu.tp2016.procesos.DesactivarAccion
+import edu.tp2016.procesos.EnviarMail
+import edu.tp2016.procesos.ProcesoMultiple
+import edu.tp2016.procesos.StubProceso
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.serviciosExternos.Mail
+import edu.tp2016.serviciosExternos.MailSender
+import edu.tp2016.serviciosExternos.StubServicioREST
 import edu.tp2016.serviciosExternos.banco.AdapterBanco
-import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import edu.tp2016.serviciosExternos.banco.StubInterfazBanco
 import edu.tp2016.serviciosExternos.cgp.AdapterCGP
-import org.junit.Assert
-import org.junit.Test
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.observersBusqueda.RegistrarBusquedaObserver
-import edu.tp2016.observersBusqueda.EnviarMailObserver
-import edu.tp2016.usuarios.Terminal
+import edu.tp2016.serviciosExternos.cgp.StubInterfazCGP
 import edu.tp2016.usuarios.Administrador
-import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
-import edu.tp2016.procesos.ActivarAccion
-import edu.tp2016.procesos.DesactivarAccion
-import edu.tp2016.serviciosExternos.MailSender
-import edu.tp2016.serviciosExternos.Mail
-import edu.tp2016.procesos.ActualizacionDeLocalesComerciales
-import edu.tp2016.procesos.DarDeBajaUnPOI
-import edu.tp2016.procesos.ProcesoMultiple
-import edu.tp2016.serviciosExternos.StubServicioREST
-import edu.tp2016.procesos.StubProceso
-import edu.tp2016.procesos.EnviarMail
+import edu.tp2016.usuarios.Terminal
 import java.util.ArrayList
-import edu.tp2016.pois.POI
-import edu.tp2016.observersBusqueda.Busqueda
-import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.RepoPois
-import edu.tp2016.mod.Punto
+import java.util.Arrays
+import java.util.List
+import org.joda.time.LocalDateTime
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+
+import static org.mockito.Matchers.*
+import static org.mockito.Mockito.*
 
 class TestEjecucionDeProcesosAdministrativos {
 
@@ -69,9 +72,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	DarDeBajaUnPOI procesoDarDeBaja
 	ProcesoMultiple procesoMultiple
 	StubProceso procesoConError
-	Buscador buscadorAbasto
-	Buscador buscadorFlorida
-	Buscador buscadorTeatroColon
+	Buscador buscador
 	// Seteos Para Locales Comerciales
 	ActualizacionDeLocalesComerciales procesoActualizarLocalComercial
 	ArrayList<Busqueda> busquedasRepo
@@ -125,32 +126,15 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		busquedasRepo = new ArrayList<Busqueda>
 		
-		buscadorAbasto = new Buscador() => [
+		buscador = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
 			repo = RepoPois.newInstance
+			repo.borrarDatos()
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender
 			busquedas = busquedasRepo
 			usuarioActual = terminalAbasto
-		]
-		buscadorFlorida = new Buscador() => [
-			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
-									  new AdapterCGP(new StubInterfazCGP))
-			repo = RepoPois.newInstance
-			repo.agregarVariosPois(pois)
-			mailSender = mockedMailSender
-			busquedas = busquedasRepo
-			usuarioActual = terminalFlorida
-		]
-		buscadorTeatroColon = new Buscador() => [
-			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
-									  new AdapterCGP(new StubInterfazCGP))
-			repo = RepoPois.newInstance
-			repo.agregarVariosPois(pois)
-			mailSender = mockedMailSender
-			busquedas = busquedasRepo
-			usuarioActual = terminalTeatroColon
 		]
 
 		procesoAgregarAcciones = new AgregarAccionesParaTodosLosUsuarios() => [
@@ -161,11 +145,11 @@ class TestEjecucionDeProcesosAdministrativos {
 			agregarAccionAdministrativa(desactivarNotificacionAlAdministrador)
 		]
 
-		procesoDarDeBaja = new DarDeBajaUnPOI(buscadorAbasto) => [
+		procesoDarDeBaja = new DarDeBajaUnPOI(buscador) => [
 			servicioREST = new StubServicioREST()
 		]
 
-		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscadorAbasto)
+		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscador)
 
 		procesoMultiple = new ProcesoMultiple => [
 			anidarProceso(procesoDarDeBaja)
@@ -184,23 +168,38 @@ class TestEjecucionDeProcesosAdministrativos {
 		]
 
 	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
+	}
 
 	def busquedasEnVariasTerminalesYEnDistintasFechas() {
-		buscadorAbasto.buscar("114") // encuentra
-		buscadorAbasto.buscar("Banco Nacion") // no encuentra
-		buscadorFlorida.buscar("plaza miserere") // encuentra
-		buscadorFlorida.buscar("Libreria Juan") // encuentra
-		buscadorTeatroColon.buscar("seguros") // encuentra
-		buscadorTeatroColon.buscar("plaza miserere") // encuentra
-		buscadorAbasto.fechaActual = unaFechaPasada
-		buscadorFlorida.fechaActual = unaFechaPasada
-		buscadorTeatroColon.fechaActual = unaFechaPasada
-		buscadorAbasto.buscar("Banco de la Plaza") // encuentra
-		buscadorAbasto.buscar("utn") // encuentra
-		buscadorFlorida.buscar("Farmacity") // encuentra
-		buscadorFlorida.buscar("facultad de medicina") // no encuentra 
-		buscadorTeatroColon.buscar("Atencion ciudadana") // encuentra
-		buscadorTeatroColon.buscar("cine") // no encuentra
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("114") // encuentra
+		buscador.buscar("Banco Nacion") // no encuentra
+		
+		buscador.usuarioActual = terminalFlorida
+		buscador.buscar("plaza miserere") // encuentra
+		buscador.buscar("Libreria Juan") // encuentra
+		
+		buscador.usuarioActual = terminalTeatroColon
+		buscador.buscar("seguros") // encuentra
+		buscador.buscar("plaza miserere") // encuentra
+		
+		buscador.fechaActual = unaFechaPasada
+		
+		buscador.usuarioActual = terminalAbasto
+		buscador.buscar("Banco de la Plaza") // encuentra
+		buscador.buscar("utn") // encuentra
+		
+		buscador.usuarioActual = terminalFlorida
+		buscador.buscar("Farmacity") // encuentra
+		buscador.buscar("facultad de medicina") // no encuentra 
+		
+		buscador.usuarioActual = terminalTeatroColon
+		buscador.buscar("Atencion ciudadana") // encuentra
+		buscador.buscar("cine") // no encuentra
 		// En total 12 terminales
 	}
 
@@ -233,7 +232,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		 * 	El administrador corre el proceso y luego se realizan nuevas búsquedas en las terminales.
 		 * 	Resultado esperado: no se registra ninguna búsqueda y no se envía ningún mail (por más que haya demora).
 		 */
-		administrador.correrProceso(procesoAgregarAcciones, buscadorAbasto)
+		administrador.correrProceso(procesoAgregarAcciones, buscador)
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
@@ -277,7 +276,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		 * 	El administrador corre el proceso y luego se realizan nuevas búsquedas en las terminales.
 		 * 	Resultado esperado: ahora se registran todas las búsquedas y todas las terminales envían mails.
 		 */
-		administrador.correrProceso(procesoAgregarAcciones, buscadorAbasto)
+		administrador.correrProceso(procesoAgregarAcciones, buscador)
 
 		busquedasEnVariasTerminalesYEnDistintasFechas()
 
@@ -302,7 +301,9 @@ class TestEjecucionDeProcesosAdministrativos {
 		
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
 		
-		administrador.correrProceso(procesoActualizarLocalComercial, buscadorAbasto)
+		administrador.correrProceso(procesoActualizarLocalComercial, buscador)
+		
+		comercioLoDeJuan = buscador.buscarPorId(comercioLoDeJuan.id) as Comercio;
 		
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("fotocopias"))
@@ -315,18 +316,18 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void testDarDeBajaUTN7Parada() {
 		utn7parada.id = 1 as long
 
-		Assert.assertFalse(buscadorAbasto.buscarPorId(1).isEmpty())
-		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
-		Assert.assertTrue(buscadorAbasto.buscarPorId(1).isEmpty())
+		Assert.assertFalse(buscador.buscarPorId(1) == null)
+		administrador.correrProceso(procesoDarDeBaja, buscador)
+		Assert.assertTrue(buscador.buscarPorId(1) == null)
 	}
 
 	@Test
 	def void testDarDeBajaUTN114Parada() {
 		utn114parada.id = 2 as long
 		
-		Assert.assertFalse(buscadorAbasto.buscar("114").isEmpty())
-		administrador.correrProceso(procesoDarDeBaja, buscadorAbasto)
-		Assert.assertTrue(buscadorAbasto.buscar("114").isEmpty())
+		Assert.assertFalse(buscador.buscar("114").isEmpty())
+		administrador.correrProceso(procesoDarDeBaja, buscador)
+		Assert.assertTrue(buscador.buscar("114").isEmpty())
 	}
 
 	@Test
@@ -341,11 +342,11 @@ class TestEjecucionDeProcesosAdministrativos {
 		verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail)))
 		busquedasRepo.clear	
 
-		administrador.correrProceso(procesoMultiple, buscadorAbasto) // EJECUCION PROCESO MULTIPLE
+		administrador.correrProceso(procesoMultiple, buscador) // EJECUCION PROCESO MULTIPLE
 
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
-		Assert.assertTrue(buscadorAbasto.buscar("114").isEmpty())
+		Assert.assertTrue(buscador.buscar("114").isEmpty())
 
 		// Continuación de chequeos para proceso AgregarAccionesParaTodosLosUsuarios
         busquedasEnVariasTerminalesYEnDistintasFechas()
@@ -357,7 +358,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	@Test
 	def void testReintentarEjecucionDeProcesoYRegistrarError(){
 		procesoConError.reintentos = 3
-		administrador.correrProceso(procesoConError, buscadorAbasto)
+		administrador.correrProceso(procesoConError, buscador)
 		Assert.assertEquals(4, procesoConError.vecesEjecutado)
 		Assert.assertEquals(false, administrador.resultadosDeEjecucion.get(0).resultadoEjecucion)
 	}
@@ -366,7 +367,7 @@ class TestEjecucionDeProcesosAdministrativos {
 	def void testEnviarMailYRegistrarError(){
 		procesoConError.reintentos = 0
 		procesoConError.accionEnCasoDeError = new EnviarMail
-		administrador.correrProceso(procesoConError, buscadorAbasto)
+		administrador.correrProceso(procesoConError, buscador)
 		Assert.assertEquals(1, procesoConError.vecesEjecutado)
 		verify(mockedMailSender, times(1)).sendMail(any(typeof(Mail)))	
 		Assert.assertEquals(false, administrador.resultadosDeEjecucion.get(0).resultadoEjecucion)	
