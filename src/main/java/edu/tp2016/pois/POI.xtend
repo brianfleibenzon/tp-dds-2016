@@ -73,10 +73,10 @@ class POI implements Cloneable {
 	int calificacion
 	
 	@Column()
-	Boolean favorito = false
-	
+	boolean favorito = false
+		
 	@Column()
-	Boolean isActive = true // TODO: para la baja lógica de un POI
+	boolean isActive = true // TODO: para la baja lógica de un POI
 	
 	@Column()
 	float calificacionGeneral
@@ -188,13 +188,6 @@ class POI implements Cloneable {
 		inicializarDatos
 	}
 	
-	def void setFavorito(Boolean valor){
-		favorito = valor
-		if(usuarioActual != null){
-			usuarioActual.modificarPoiFavorito(this, valor)
-		}
-	}
-	
 	def String getFavoritoStatus(){
 		if(favorito) "     ✓" else ""
 	}
@@ -209,6 +202,9 @@ class POI implements Cloneable {
 	
 	def guardarDatos(){
 		RepoPois.instance.update(this)
+		if(usuarioActual != null){
+			usuarioActual.modificarPoiFavorito(this, favorito)
+		}
 		RepoUsuarios.instance.update(usuarioActual)
 	}
 }

@@ -76,7 +76,7 @@ class BajaPoiWindow extends Dialog<POI>{
 				it.layout = new ColumnLayout(2)
 			new Button(it)
 				.setCaption("Confirmar")
-				.onClick[ | buscador.eliminarPoi(buscador.poiSeleccionado) ]
+				.onClick[ | buscador.eliminarPoi(buscador.poiSeleccionado) this.accept ]
 			new Button(it)
 				.setCaption("Cancelar")
 				.onClick[ | this.cancel ]

@@ -49,7 +49,7 @@ abstract class Usuario implements Cloneable {
 	@ManyToOne(cascade=CascadeType.ALL)
 	Punto ubicacionActual
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<POI> poisFavoritos = new HashSet<POI>
 	
 	new(){ } // Constructor default de la superclase
@@ -68,14 +68,18 @@ abstract class Usuario implements Cloneable {
 	}
 	
 	def tienePoiFavorito(POI poi){
-		poisFavoritos.contains(poi)
+		poisFavoritos.exists[it.id == poi.id]
 	}
 	
 	def modificarPoiFavorito(POI poi, Boolean esFavorito){
 		if(esFavorito){
-			poisFavoritos.add(poi)
+			if (!tienePoiFavorito(poi)){
+				poisFavoritos.add(poi)
+			}			
 		}else{
-			poisFavoritos.remove(poi)
+			if (tienePoiFavorito(poi)){
+				poisFavoritos.removeIf[it.id == poi.id]
+			}			
 		}
 	}
 

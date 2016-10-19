@@ -26,12 +26,12 @@ class RepoPois extends RepoDefault<POI>{
 			
 			val StringBuilder query = new StringBuilder();
 			
-			query.append("SELECT poi.* FROM poi LEFT JOIN palabrasclave ON poi.id = clave_id LEFT JOIN poi_servicio ON CGP_id = id LEFT JOIN servicio ON servicio.id = servicios_id WHERE")
+			query.append("SELECT poi.* FROM poi LEFT JOIN palabrasclave ON poi.id = clave_id LEFT JOIN poi_servicio ON CGP_id = id LEFT JOIN servicio ON servicio.id = servicios_id WHERE (")
 			criterios.forEach[
 				query.append(" poi.nombre LIKE '%"+it+"%' OR palabrasClave LIKE '%"+it+"%' OR servicio.nombre LIKE '%"+it+"%' OR")
 				
 			]
-			query.append(" 1=0")	// PARA SACAR EL ULTIMO OR
+			query.append(" 1=0) AND poi.isActive = 1")	// PARA SACAR EL ULTIMO OR
 			
 			val criteria = session.createSQLQuery(query.toString).addEntity(POI);
 			
@@ -53,12 +53,7 @@ class RepoPois extends RepoDefault<POI>{
 	def isEmpty(){
 		allInstances.size == 0
 	}
-/*	
-	override def allInstances(){
-		// Filtra por los Pois que estén activos
-		super.allInstances.filter [ poi | poi.isActive != null && poi.isActive ].toList
-	} // TODO
-*/
+
 	def agregarPoi(POI poi){
 		poi.isActive = true
 		this.create(poi)
@@ -98,9 +93,9 @@ class RepoPois extends RepoDefault<POI>{
 	
 	def boolean isNew(POI poi){
 		if (get(poi.id) == null){
-			return false
+			return true
 		}
-		return true
+		return false
 	}
 	
 	def registrarResultadoDeBaja(ResultadoDeDarDeBajaUnPoi resultado){

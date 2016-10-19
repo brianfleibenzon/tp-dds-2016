@@ -343,6 +343,8 @@ class TestEjecucionDeProcesosAdministrativos {
 		busquedasRepo.clear	
 
 		administrador.correrProceso(procesoMultiple, buscador) // EJECUCION PROCESO MULTIPLE
+		
+		comercioLoDeJuan = buscador.buscarPorId(comercioLoDeJuan.id) as Comercio;
 
 		Assert.assertTrue(comercioLoDeJuan.palabrasClave.contains("borrador"))
 		Assert.assertFalse(comercioLoDeJuan.palabrasClave.contains("lapiz"))
