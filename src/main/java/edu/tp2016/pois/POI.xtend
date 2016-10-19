@@ -52,7 +52,7 @@ class POI implements Cloneable {
 	@ManyToOne(cascade=CascadeType.ALL)
 	Punto ubicacion
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	Set<DiaDeAtencion> rangoDeAtencion = new HashSet<DiaDeAtencion>
 	
 	@ElementCollection(fetch=FetchType.EAGER)
@@ -60,7 +60,7 @@ class POI implements Cloneable {
 	@Column(name="palabrasClave")
 	Set<String> palabrasClave = new HashSet<String>
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	Set<Review> reviews = new HashSet<Review>
 
 	@ManyToOne()
@@ -185,6 +185,7 @@ class POI implements Cloneable {
 			review.calificacion = calificacion
 			review.comentario = comentario
 		}
+		guardarDatos()
 		inicializarDatos
 	}
 	
