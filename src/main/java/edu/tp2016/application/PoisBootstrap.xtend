@@ -34,10 +34,9 @@ class PoisBootstrap implements Bootstrap {
 	
 	
 	def initPois(){
-		val ubicacionParadasUTN= new Punto(-34.659705, -58.468103)
 		
 		val utn7parada = new ParadaBuilder().nombre("7_utn").lineaColectivo("7").
-		ubicacion(ubicacionParadasUTN).direccion("Mozart 2300").
+		ubicacion(new Punto(-34.659705, -58.468103)).direccion("Mozart 2300").
 		claves( Arrays.asList("utn", "campus", "colectivo", "parada")).build
 		
 		val ubicacionColectivoOnce=new Punto(-34.653570, -58.549873)
@@ -46,7 +45,7 @@ class PoisBootstrap implements Bootstrap {
 		claves(Arrays.asList("plaza miserere", "once", "colectivo", "parada")).build
 
 		val utn114parada = new ParadaBuilder().nombre("114_utn").lineaColectivo("114").
-		ubicacion(ubicacionParadasUTN).direccion("Mozart 2300").
+		ubicacion(new Punto(-34.659705, -58.468103)).direccion("Mozart 2300").
 		claves(Arrays.asList("utn", "campus", "colectivo", "parada")).build
 
 		val rubroFarmacia = new Rubro("Farmacia", 1)

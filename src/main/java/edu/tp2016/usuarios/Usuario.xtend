@@ -21,6 +21,9 @@ import javax.persistence.DiscriminatorType
 import javax.persistence.ManyToOne
 import javax.persistence.FetchType
 import javax.persistence.CascadeType
+import javax.persistence.ElementCollection
+import javax.persistence.CollectionTable
+import javax.persistence.JoinColumn
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -47,9 +50,11 @@ abstract class Usuario implements Cloneable {
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	Punto ubicacionActual
-	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	Set<POI> poisFavoritos = new HashSet<POI>
+
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PoisFavoritos", joinColumns=@JoinColumn(name="usuario_id"))
+	@Column(name="poisFavoritos")
+	Set<Long> poisFavoritos = new HashSet<Long>
 	
 	new(){ } // Constructor default de la superclase
 	
@@ -67,17 +72,17 @@ abstract class Usuario implements Cloneable {
 	}
 	
 	def tienePoiFavorito(POI poi){
-		poisFavoritos.exists[it.id == poi.id]
+		poisFavoritos.exists[it == poi.id]
 	}
 	
 	def modificarPoiFavorito(POI poi, Boolean esFavorito){
 		if(esFavorito){
 			if (!tienePoiFavorito(poi)){
-				poisFavoritos.add(poi)
+				poisFavoritos.add(poi.id)
 			}			
 		}else{
 			if (tienePoiFavorito(poi)){
-				poisFavoritos.removeIf[it.id == poi.id]
+				poisFavoritos.removeIf[it == poi.id]
 			}			
 		}
 	}
