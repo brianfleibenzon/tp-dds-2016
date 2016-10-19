@@ -156,9 +156,9 @@ class TestEjecucionDeProcesosAdministrativos {
 		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscador)
 
 		procesoMultiple = new ProcesoMultiple => [
-			anidarProceso(procesoDarDeBaja)
-			anidarProceso(procesoActualizarLocalComercial)
 			anidarProceso(procesoAgregarAcciones)
+			anidarProceso(procesoDarDeBaja)
+			anidarProceso(procesoActualizarLocalComercial)			
 		]
 		
 		procesoConError = new StubProceso
