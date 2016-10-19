@@ -9,14 +9,22 @@ import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
 import edu.tp2016.applicationModel.Buscador
 import javax.persistence.Entity
 import javax.persistence.DiscriminatorValue
+import java.util.HashSet
+import javax.persistence.OneToMany
+import javax.persistence.FetchType
+import javax.persistence.CascadeType
+import java.util.Set
 
 @Entity
 @DiscriminatorValue("2")
 @Accessors
 class Administrador extends Usuario {
 	
-	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
-	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	Set<Proceso> procesosDisponibles = new HashSet<Proceso>
+	
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	Set<ResultadoDeProceso> resultadosDeEjecucion = new HashSet<ResultadoDeProceso>
 	
 	new(String nombre) {
 		userName = nombre
