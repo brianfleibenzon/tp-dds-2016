@@ -21,7 +21,6 @@ import javax.persistence.DiscriminatorType
 import javax.persistence.ManyToOne
 import javax.persistence.FetchType
 import javax.persistence.CascadeType
-import edu.tp2016.repositorio.RepoUsuarios
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)

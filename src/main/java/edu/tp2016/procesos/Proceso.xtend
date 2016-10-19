@@ -4,49 +4,17 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.usuarios.Administrador
 import org.joda.time.LocalDateTime
 import edu.tp2016.applicationModel.Buscador
-import javax.persistence.Entity
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
-import javax.persistence.DiscriminatorColumn
-import javax.persistence.DiscriminatorType
-import javax.persistence.Id
-import javax.persistence.GeneratedValue
-import javax.persistence.Column
-import javax.persistence.ManyToOne
-import javax.persistence.CascadeType
 
-@Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipoProceso", 
-   discriminatorType=DiscriminatorType.INTEGER)
 @Accessors
-abstract class Proceso implements Cloneable {
-	@Id
-	@GeneratedValue
-	private Long id
+abstract class Proceso {
 	
-	@ManyToOne(cascade=CascadeType.ALL)	
 	Proceso accionEnCasoDeError = null
-
-	@Column	
 	int reintentos = 0
-	
-	@Column
 	LocalDateTime inicio
-	
-	@Column
 	LocalDateTime fin
-	
-	@ManyToOne(cascade=CascadeType.ALL)
 	Administrador usuarioAdministrador
-	
-	@Column
 	public static final boolean OK = true
-
-	@Column
 	public static final boolean ERROR = false
-	
-	@ManyToOne(cascade=CascadeType.ALL)
 	Buscador buscador
 	
 	/**

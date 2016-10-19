@@ -23,19 +23,13 @@ class PoisBootstrap implements Bootstrap {
 	def initUsuarios(){
 		this.crearUsuario(new Terminal("juanPerez", "1234"))
 		this.crearUsuario(new Terminal("usr", "usr"))
-		//this.crearUsuario(new Administrador("admin", "admin"))
+		this.crearUsuario(new Terminal("jamesBond", "007"))
 	}
 	
 	def crearUsuario(Usuario usr){
 		val repoUsuarios = RepoUsuarios.instance
 		val listaUsuarios = repoUsuarios.searchByExample(usr)
-		if (listaUsuarios.isEmpty) {
-			repoUsuarios.create(usr)
-		} else {
-			/*val usuarioBD = listaUsuarios.head
-			usr.id = usuarioBD.id
-			repoUsuarios.update(usr)*/
-		}
+		if (listaUsuarios.isEmpty) repoUsuarios.create(usr)
 	}
 	
 	
@@ -106,16 +100,10 @@ class PoisBootstrap implements Bootstrap {
 	}
 	
 	def crearPoi(POI poi){
-		poi.isActive = true // TODO
+		poi.isActive = true
 		val repoPois = RepoPois.instance
 		val busquedaPoi = repoPois.searchByExample(poi)
-		if (busquedaPoi.isEmpty) {
-			repoPois.create(poi)
-		} else {
-			/*val poiBD = listaPois.head
-			poi.id = poiBD.id
-			repoPois.update(poi)*/
-		}
+		if (busquedaPoi.isEmpty) repoPois.create(poi)
 	}
 	
 	override run() {

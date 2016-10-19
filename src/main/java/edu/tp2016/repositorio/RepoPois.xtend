@@ -47,7 +47,6 @@ class RepoPois extends RepoDefault<POI>{
 		if (poi.nombre != null) {
 			criteria.add(Restrictions.like("nombre", poi.nombre))			
 		}
-		
 	}
 	
 	def isEmpty(){
@@ -65,7 +64,7 @@ class RepoPois extends RepoDefault<POI>{
 	
 	def eliminarPoi(POI poi){
 		//this.delete(poi) --> Baja Física
-		poi.isActive = false // --> Baja Lógica // TODO
+		poi.isActive = false // --> Baja Lógica
 		actualizarPoi(poi)
 	}
 	

@@ -1,18 +1,13 @@
 package edu.tp2016.usuarios
 
 import edu.tp2016.procesos.ResultadoDeProceso
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
-import java.util.ArrayList
 import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
 import edu.tp2016.applicationModel.Buscador
 import javax.persistence.Entity
 import javax.persistence.DiscriminatorValue
 import java.util.HashSet
-import javax.persistence.OneToMany
-import javax.persistence.FetchType
-import javax.persistence.CascadeType
 import java.util.Set
 
 @Entity
@@ -20,10 +15,7 @@ import java.util.Set
 @Accessors
 class Administrador extends Usuario {
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<Proceso> procesosDisponibles = new HashSet<Proceso>
-	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<ResultadoDeProceso> resultadosDeEjecucion = new HashSet<ResultadoDeProceso>
 	
 	new(String nombre) {

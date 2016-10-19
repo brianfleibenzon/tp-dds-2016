@@ -2,7 +2,6 @@ package edu.tp2016.pois
 
 import edu.tp2016.mod.DiaDeAtencion
 import edu.tp2016.mod.Review
-import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
@@ -76,13 +75,13 @@ class POI implements Cloneable {
 	boolean favorito = false
 		
 	@Column()
-	boolean isActive = true // TODO: para la baja lógica de un POI
+	boolean isActive = true 
 	
 	@Column()
 	float calificacionGeneral
 	
 	@ManyToOne()
-	Usuario usuarioActual // Ajeno a la relación Usuario-Poi_Favorito
+	Usuario usuarioActual
 	
 
 	/**

@@ -5,7 +5,6 @@ import java.util.List
 import edu.tp2016.pois.POI
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
-import com.google.common.collect.Lists
 import org.joda.time.Duration
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
 import edu.tp2016.repositorio.RepoPois
