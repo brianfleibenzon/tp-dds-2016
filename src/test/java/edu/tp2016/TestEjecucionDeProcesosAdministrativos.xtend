@@ -87,10 +87,12 @@ class TestEjecucionDeProcesosAdministrativos {
 
 		// Set up de POIs:
 		utn7parada = new ParadaBuilder().nombre("7").ubicacion(ubicacionX).claves(Arrays.asList("utn", "campus")).build
+		
 		miserere7parada = new ParadaBuilder().nombre("7").ubicacion(ubicacionX).claves(
 			Arrays.asList("utn", "plaza miserere", "once")).build
 		utn114parada = new ParadaBuilder().nombre("114").ubicacion(ubicacionX).claves(Arrays.asList("utn", "campus")).
 			build
+			
 		rubroFarmacia = new Rubro("Farmacia", 1)
 		rubroLibreria = new Rubro("Libreria", 2)
 		comercioFarmacity = new ComercioBuilder().nombre("Farmacity").ubicacion(ubicacionX).claves(
@@ -115,10 +117,12 @@ class TestEjecucionDeProcesosAdministrativos {
 			adscribirObserver(registroDeBusqueda)
 			adscribirObserver(notificacionAlAdministradorAnteDemora)
 		]
+		
 		terminalFlorida = new Terminal("terminalFlorida") => [
 			adscribirObserver(registroDeBusqueda)
 			adscribirObserver(notificacionAlAdministradorAnteDemora)
 		]
+		
 		terminalTeatroColon = new Terminal("terminalTeatroColon") => [
 			adscribirObserver(registroDeBusqueda)
 			adscribirObserver(notificacionAlAdministradorAnteDemora)
@@ -146,7 +150,7 @@ class TestEjecucionDeProcesosAdministrativos {
 		]
 
 		procesoDarDeBaja = new DarDeBajaUnPOI(buscador) => [
-			servicioREST = new StubServicioREST()
+			servicioREST = new StubServicioREST(Arrays.asList(utn7parada.id, utn114parada.id))
 		]
 
 		procesoActualizarLocalComercial = new ActualizacionDeLocalesComerciales(buscador)
@@ -313,18 +317,14 @@ class TestEjecucionDeProcesosAdministrativos {
 	}
 
 	@Test
-	def void testDarDeBajaUTN7Parada() {
-		utn7parada.id = 1 as long
-
-		Assert.assertFalse(buscador.buscarPorId(1) == null)
+	def void testDarDeBajaUTN7Parada() {		
+		Assert.assertTrue(buscador.buscarPorId(utn7parada.id).isActive == true)
 		administrador.correrProceso(procesoDarDeBaja, buscador)
-		Assert.assertTrue(buscador.buscarPorId(1) == null)
+		Assert.assertTrue(buscador.buscarPorId(utn7parada.id).isActive == false)
 	}
 
 	@Test
-	def void testDarDeBajaUTN114Parada() {
-		utn114parada.id = 2 as long
-		
+	def void testDarDeBajaUTN114Parada() {		
 		Assert.assertFalse(buscador.buscar("114").isEmpty())
 		administrador.correrProceso(procesoDarDeBaja, buscador)
 		Assert.assertTrue(buscador.buscar("114").isEmpty())
@@ -332,8 +332,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 	@Test
 	def void testEjecutarProcesoMultiple() {
-		// Acciones previas al testeo de proceso DarDeBajaUnPOI
-		utn114parada.id = 2 as long
+
 		// Acciones previas al testeo de proceso AtualizacionDeLocalesComerciales
 		procesoActualizarLocalComercial.textoParaActualizarComercios = "Libreria Juan;fotocopias utiles borrador"
 		//Acciones previas al testeo de proceso AgregarAccionesParaTodosLosUsuarios
@@ -352,7 +351,7 @@ class TestEjecucionDeProcesosAdministrativos {
 
 		// Continuación de chequeos para proceso AgregarAccionesParaTodosLosUsuarios
         busquedasEnVariasTerminalesYEnDistintasFechas()
-        Assert.assertTrue(busquedasRepo.isEmpty)
+        //Assert.assertTrue(busquedasRepo.isEmpty) NO ES VACIO PORQUE AHORA ES UN REPO GLOBAL
         verify(mockedMailSender, times(12)).sendMail(any(typeof(Mail))) // Verifico que se haya corrido 0 veces (12 de la anterior prueba)
 		
 	}
