@@ -18,7 +18,8 @@ class TestBusquedaCGP {
 	def void setUp() {
 		buscador = new Buscador() => [
 			repo = RepoPois.newInstance
-			repo.borrarDatos();	
+			repo.modificarAEsquemaTest()
+			repo.borrarDatos()
 			interfacesExternas.add(new AdapterCGP(new StubInterfazCGP))
 			usuarioActual = new Terminal("terminal")
 		]

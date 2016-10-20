@@ -24,7 +24,13 @@ import org.hibernate.SessionFactory
 import org.hibernate.cfg.Configuration
 
 abstract class RepoDefault<T> {
-	protected static final SessionFactory sessionFactory = new Configuration().configure()
+	static String esquema = "pois"
+	
+	protected static SessionFactory sessionFactory = generarSessionFactory()
+	
+	static def SessionFactory generarSessionFactory(){
+		sessionFactory = new Configuration().configure()
+		.setProperty("hibernate.connection.url", "jdbc:mysql://localhost/"+esquema)
 		.addAnnotatedClass(POI)
 		.addAnnotatedClass(Banco)
 		.addAnnotatedClass(CGP)
@@ -43,6 +49,13 @@ abstract class RepoDefault<T> {
 		.addAnnotatedClass(EnviarMailObserver)
 		.addAnnotatedClass(RegistrarBusquedaObserver)
 		.buildSessionFactory()
+	}
+	
+	public def modificarAEsquemaTest(){
+		esquema = "poistest"
+		sessionFactory = generarSessionFactory()		
+	}
+	
 
 	def List<T> allInstances() {
 		val session = sessionFactory.openSession
@@ -119,7 +132,7 @@ abstract class RepoDefault<T> {
 			
 			session.createSQLQuery("SELECT CONCAT('truncate table ',table_name,';')
 FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_SCHEMA = 'pois' AND table_name <> 'hibernate_sequence';").list().forEach[
+WHERE TABLE_SCHEMA = '"+esquema+"' AND table_name <> 'hibernate_sequence';").list().forEach[
 				session.createSQLQuery(it).executeUpdate()
 	
 			]

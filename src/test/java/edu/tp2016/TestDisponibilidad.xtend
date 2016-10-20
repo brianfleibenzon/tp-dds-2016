@@ -117,6 +117,7 @@ class TestDisponibilidad {
 		build
 
 		pois = Lists.newArrayList(unBanco, unCGP, unComercio, unaParada)
+		RepoPois.instance.modificarAEsquemaTest()
 		RepoPois.instance.borrarDatos()
 		RepoPois.instance.agregarVariosPois(pois)
 		

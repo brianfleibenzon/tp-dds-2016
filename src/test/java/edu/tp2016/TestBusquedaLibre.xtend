@@ -107,7 +107,8 @@ class TestBusquedaLibre {
 		buscador = new Buscador() =>
 			[
 				repo = RepoPois.instance
-				repo.borrarDatos();	
+				repo.modificarAEsquemaTest()
+				repo.borrarDatos()
 				repo.agregarVariosPois(
 					Lists.newArrayList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2,
 						comercioFarmacity, comercioLoDeJuan, bancoGalicia))

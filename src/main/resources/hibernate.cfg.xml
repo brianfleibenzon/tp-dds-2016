@@ -13,9 +13,7 @@
 			com.mysql.jdbc.Driver
 		</property>
 
-		<property name="hibernate.connection.url">
-			jdbc:mysql://localhost/pois
-		</property>
+
 		<property name="hibernate.connection.username">
 			root
 		</property>

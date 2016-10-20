@@ -105,7 +105,8 @@ class TestRegistroDeBusquedasConObservers {
 		busquedasRepo = new ArrayList<Busqueda>
 		
 		buscador = new Buscador() => [
-			repo = RepoPois.newInstance
+			repo = RepoPois.instance
+			repo.modificarAEsquemaTest()
 			repo.borrarDatos()
 			repo.agregarVariosPois(pois)
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),

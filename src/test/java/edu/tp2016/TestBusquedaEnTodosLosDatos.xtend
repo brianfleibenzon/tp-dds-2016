@@ -71,7 +71,8 @@ class TestBusquedaEnTodosLosDatos {
 		buscador = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco), new AdapterCGP(new StubInterfazCGP))
 			repo = RepoPois.instance
-			repo.borrarDatos();
+			repo.modificarAEsquemaTest()
+			repo.borrarDatos()
 			repo.agregarVariosPois(pois)
 			usuarioActual = new Terminal("terminal")
 		]

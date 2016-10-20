@@ -133,7 +133,8 @@ class TestEjecucionDeProcesosAdministrativos {
 		buscador = new Buscador() => [
 			interfacesExternas.addAll(new AdapterBanco(new StubInterfazBanco),
 									  new AdapterCGP(new StubInterfazCGP))
-			repo = RepoPois.newInstance
+			repo = RepoPois.instance
+			repo.modificarAEsquemaTest()
 			repo.borrarDatos()
 			repo.agregarVariosPois(pois)
 			mailSender = mockedMailSender

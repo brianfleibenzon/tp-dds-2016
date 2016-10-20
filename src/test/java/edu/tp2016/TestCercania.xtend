@@ -40,7 +40,6 @@ class TestCercania {
 	Rubro rubroTest
 	Comercio comercioCerca
 	Comercio comercioLejos
-	DiaDeAtencion unDiaX
 	List<DiaDeAtencion> rangoX
 	LocalDateTime fechaX
 	List<String> clavesX
@@ -106,7 +105,8 @@ class TestCercania {
 
 		buscador = new Buscador() => [
 			repo = RepoPois.instance
-			repo.borrarDatos();	
+			repo.modificarAEsquemaTest()
+			repo.borrarDatos()
 			repo.agregarVariosPois(pois)
 		]
 	}
