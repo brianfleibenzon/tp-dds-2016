@@ -5,6 +5,9 @@ import edu.tp2016.usuarios.Usuario
 import java.util.Random
 import org.apache.commons.collections15.Predicate
 import java.util.ArrayList
+import edu.tp2016.usuarios.Terminal
+import edu.tp2016.usuarios.Administrador
+import com.google.common.collect.Lists
 
 class RepoUsuarios extends CollectionBasedRepo<Usuario>{
 	private static RepoUsuarios instance = null
@@ -35,6 +38,7 @@ class RepoUsuarios extends CollectionBasedRepo<Usuario>{
 	static def getInstance() {
 		if (instance == null) {
 			instance = new RepoUsuarios
+			instance.agregarVariosUsuarios(crearJuegoDeDatos())
 		}
 		instance
 	}
@@ -58,5 +62,10 @@ class RepoUsuarios extends CollectionBasedRepo<Usuario>{
 	        it.password.equals(clave)]
 	}
 	
+	static def crearJuegoDeDatos(){
+		val usuarioTerminal = new Terminal("juanPerez", "1234")
+		val usuarioAdministrador = new Administrador("admin", "helloWorld")
+		Lists.newArrayList(new Terminal("usr", "usr"), usuarioTerminal, usuarioAdministrador)
+	}
 	
 }
