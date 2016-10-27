@@ -1,2 +1,6 @@
 language: java
 jdk: oraclejdk8
+services:
+  - mysql
+before_script:
+  - mysql -e 'create schema pois; create schema poistest;'
