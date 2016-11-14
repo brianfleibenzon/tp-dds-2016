@@ -2,36 +2,87 @@ package edu.tp2016.pois
 
 import edu.tp2016.mod.DiaDeAtencion
 import edu.tp2016.mod.Review
-import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
-import org.uqbar.commons.model.Entity
 import org.uqbar.commons.utils.Observable
-import org.uqbar.commons.model.UserException
 import edu.tp2016.mod.Servicio
 import org.apache.commons.lang.StringUtils
 import edu.tp2016.usuarios.Usuario
+import javax.persistence.Entity
+import javax.persistence.Column
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.OneToMany
+import javax.persistence.ElementCollection
+import javax.persistence.CollectionTable
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.Inheritance
+import javax.persistence.InheritanceType
+import javax.persistence.DiscriminatorColumn
+import javax.persistence.DiscriminatorType
+import edu.tp2016.mod.Punto
+import javax.persistence.FetchType
+import javax.persistence.CascadeType
+import java.util.HashSet
+import java.util.Set
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.repositorio.RepoUsuarios
 
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipoPoi", 
+   discriminatorType=DiscriminatorType.INTEGER)
 @Observable
 @Accessors
-class POI extends Entity implements Cloneable {
+class POI implements Cloneable {
+	@Id
+	@GeneratedValue
+	private Long id
+	
+	@Column(length=100)
 	String nombre
-	String direccion
-	Point ubicacion
-	List<DiaDeAtencion> rangoDeAtencion = new ArrayList<DiaDeAtencion>
-	List<String> palabrasClave = new ArrayList<String>
-	List<Review> reviews = new ArrayList<Review>
-	Servicio servicioSeleccionado
+	
+	@Column(length=100)
+	String direccion	
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	Punto ubicacion
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	Set<DiaDeAtencion> rangoDeAtencion = new HashSet<DiaDeAtencion>
+	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PalabrasClave", joinColumns=@JoinColumn(name="clave_id"))
+	@Column(name="palabrasClave")
+	Set<String> palabrasClave = new HashSet<String>
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	Set<Review> reviews = new HashSet<Review>
+
+	@ManyToOne()
+	Servicio servicioSeleccionado	
+	
+	@Column(length=100)
 	String comentario
+	
+	@Column()
 	int calificacion
-	boolean favorito
-	String cercania
-	String distancia
-	String favoritoStatus
+	
+	@Column()
+	boolean favorito = false
+		
+	@Column()
+	boolean isActive = true 
+	
+	@Column()
 	float calificacionGeneral
-	Usuario usuario
+	
+	@ManyToOne()
+	Usuario usuarioActual
+	
 
 	/**
 	 * Constructor de POI, será redefinido en las subclases, por lo que hay que llamar a 'super'
@@ -42,8 +93,8 @@ class POI extends Entity implements Cloneable {
 	 */
 	new(String unNombre, Point unaUbicacion, List<String> claves) {
 		nombre = unNombre
-		ubicacion = unaUbicacion
-		palabrasClave = claves
+		ubicacion = new Punto(unaUbicacion.latitude, unaUbicacion.longitude)
+		palabrasClave.addAll(claves)
 	}
 	
 	new(){ } // default
@@ -60,12 +111,14 @@ class POI extends Entity implements Cloneable {
 		rangoDeAtencion.exists [unRango | unRango.fechaEstaEnRango(fecha)]
 	}
 
-	def boolean estaCercaA(Point ubicacionDispositivo) {
+	def boolean estaCercaA(Punto ubicacionDispositivo) {
 		distanciaA(ubicacionDispositivo) < 5
 	}
 
-	def double distanciaA(Point unPunto) {
-		unPunto.distance(ubicacion) * 10
+	def double distanciaA(Punto unPunto) {
+		val ubi = new Point(ubicacion.x, ubicacion.y)
+		val punto = new Point(unPunto.x, unPunto.y)
+		punto.distance(ubi) * 10
 	}
 
 	/**
@@ -94,23 +147,26 @@ class POI extends Entity implements Cloneable {
 	}
 	
 	def inicializarDatos(){
-		calificacionGeneral = 0
 		calificacion = 1
 		comentario = ""
-		
-		favorito = usuario.tienePoiFavorito(this)
+		favorito = usuarioActual.tienePoiFavorito(this)
+		calificacionGeneral = 0
+
 		reviews.forEach [
 			calificacionGeneral += it.calificacion
-			if (it.usuario.id == usuario.id){
+			if (it.usuario.id == usuarioActual.id){
 				calificacion = it.calificacion
 				comentario = it.comentario
 			}
 		]
-		calificacionGeneral = calificacionGeneral / reviews.size
+		if (reviews.size > 0)
+			calificacionGeneral = calificacionGeneral / reviews.size
+		else
+			calificacionGeneral = 0
 	}
 	
-	def inicializar(Usuario usuarioActivo){
-		usuario = usuarioActivo
+	def inicializar(Usuario usuario){
+		usuarioActual = usuario
 		inicializarDatos
 	}
 	
@@ -120,38 +176,35 @@ class POI extends Entity implements Cloneable {
 	
 	def guardarCalificacion(){
 		val review = reviews.findFirst [
-			it.usuario == usuario
+			it.usuario.id == usuarioActual.id
 		]
 		if (review == null){
-			reviews.add(new Review(calificacion, usuario, comentario))
+			reviews.add(new Review(calificacion, usuarioActual, comentario))
 		}else{
 			review.calificacion = calificacion
 			review.comentario = comentario
 		}
+		guardarDatos()
 		inicializarDatos
 	}
 	
-	def void setFavorito(boolean valor){
-		favorito = valor
-		if(usuario != null){
-			usuario.modificarPoiFavorito(this, valor)
-		}
-	}
-	
 	def String getFavoritoStatus(){
-		favoritoStatus = if(favorito) "     ✓" else ""
+		if(favorito) "     ✓" else ""
 	}
 	
-	def getCercania(){
-		cercania = if(estaCercaA(usuario.ubicacionActual)) "Sí" else "No"
+	def String getCercania(){
+		if(estaCercaA(usuarioActual.ubicacionActual)) "Sí" else "No"
 	}
 	
-	def getDistancia(){
-		distancia = String.format("%.2f", distanciaA(usuario.ubicacionActual)/10) + ' km'
+	def String getDistancia(){
+		String.format("%.2f", distanciaA(usuarioActual.ubicacionActual)/10) + ' km'
 	}
 	
-	def limpiarReviewInputs(){
-		comentario = ""
-		calificacion = 1
+	def guardarDatos(){
+		RepoPois.instance.update(this)
+		if(usuarioActual != null){
+			usuarioActual.modificarPoiFavorito(this, favorito)
+		}
+		RepoUsuarios.instance.update(usuarioActual)
 	}
 }

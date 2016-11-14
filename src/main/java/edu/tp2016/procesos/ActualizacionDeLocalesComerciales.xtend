@@ -5,6 +5,7 @@ import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.repositorio.RepoPois
 
 @Accessors
 class ActualizacionDeLocalesComerciales extends Proceso {
@@ -24,12 +25,12 @@ class ActualizacionDeLocalesComerciales extends Proceso {
 		textoParaFiltrarNombre = textoParaActualizarComercios.split(";")
 		textoParaFiltrarPalabrasClave = textoParaFiltrarNombre.get(1).split(" ")
 
-		POIS.addAll(buscador.buscarPor(textoParaFiltrarNombre.get(0).toString()))
+		POIS.addAll(buscador.buscar(textoParaFiltrarNombre.get(0).toString()))
 
 		POIS.forEach [ unPoi |
 			unPoi.palabrasClave.clear()
 			unPoi.palabrasClave.addAll(textoParaFiltrarPalabrasClave)
-
+			RepoPois.instance.update(unPoi)
 		]
 
 	}

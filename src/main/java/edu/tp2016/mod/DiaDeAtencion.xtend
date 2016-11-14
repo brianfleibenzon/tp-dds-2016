@@ -3,14 +3,32 @@ package edu.tp2016.mod
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.commons.utils.Observable
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
 
+@Entity
 @Observable
 @Accessors
 class DiaDeAtencion {
+	@Id
+	@GeneratedValue
+	private Long id
+	
+	@Column()
 	int dia
+	
+	@Column()
 	int horaInicio
+	
+	@Column()
 	int minutoInicio
+	
+	@Column()
 	int horaFin
+	
+	@Column()
 	int minutoFin
 	
 	new(int unDia, int startHour, int endHour, int startMinute, int endMinute) {
@@ -60,5 +78,7 @@ class DiaDeAtencion {
 		(horaInicio < unaFecha.getHourOfDay || (horaInicio == unaFecha.getHourOfDay && minutoInicio <= unaFecha.getMinuteOfHour)) && 
 		(horaFin > unaFecha.getHourOfDay || (horaFin == unaFecha.getHourOfDay && minutoFin >= unaFecha.getMinuteOfHour))
 	}
+	
+	new(){}
 }
 				

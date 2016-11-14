@@ -1,10 +1,10 @@
 package edu.tp2016.builder
 
 import edu.tp2016.pois.CGP
-import org.uqbar.geodds.Point
 import java.util.List
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.Servicio
+import edu.tp2016.mod.Punto
 
 class CGPBuilder {
 
@@ -23,7 +23,7 @@ class CGPBuilder {
 		this
 	}
 
-	def ubicacion(Point ubicado) {
+	def ubicacion(Punto ubicado) {
 		unPoi.ubicacion = ubicado
 		this
 	}

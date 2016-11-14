@@ -1,29 +1,30 @@
 package edu.tp2016
 
+import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.builder.CGPBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
+import edu.tp2016.mod.Comuna
+import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Punto
+import edu.tp2016.mod.Rubro
+import edu.tp2016.mod.Servicio
+import edu.tp2016.pois.Banco
+import edu.tp2016.pois.CGP
+import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
+import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.repositorio.RepoPois
+import java.util.ArrayList
+import java.util.Arrays
+import java.util.List
+import org.joda.time.LocalDateTime
+import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert
-import org.joda.time.LocalDateTime
-import java.util.Arrays
-import org.uqbar.geodds.Point
-import org.uqbar.geodds.Polygon
-import java.util.List
-import edu.tp2016.mod.DiaDeAtencion
-import edu.tp2016.pois.Banco
-import edu.tp2016.pois.ParadaDeColectivo
-import edu.tp2016.pois.CGP
-import edu.tp2016.mod.Servicio
-import edu.tp2016.mod.Rubro
-import edu.tp2016.mod.Comuna
-import edu.tp2016.pois.POI
-import edu.tp2016.pois.Comercio
-import edu.tp2016.builder.CGPBuilder
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.builder.BancoBuilder
-import com.google.common.collect.Lists
-import java.util.ArrayList
-import edu.tp2016.applicationModel.Buscador
 
 class TestDisponibilidad {
 
@@ -49,7 +50,7 @@ class TestDisponibilidad {
 	DiaDeAtencion lunesRentas
 	Servicio unServicio
 	ParadaDeColectivo unaParada
-	Point ubicacionX
+	Punto ubicacionX
 	Rubro rubroX
 	Comuna comunaX
 	ArrayList<POI> pois
@@ -58,16 +59,15 @@ class TestDisponibilidad {
 	@Before
 	def void setUp() {
 
-		ubicacionX = new Point(-1, 1)
+		ubicacionX = new Punto(-1, 1)
 		rubroX = new Rubro("x", 1)
 		clavesX = Arrays.asList("algunas", "palabras", "clave")
 		
 		comunaX = new Comuna => [
-			poligono = new Polygon()
-			poligono.add(new Point(-1, 1))
-			poligono.add(new Point(-2, 2))
-			poligono.add(new Point(-3, 3))
-			poligono.add(new Point(-4, 4))
+			poligono.add(new Punto(-1, 1))
+			poligono.add(new Punto(-2, 2))
+			poligono.add(new Punto(-3, 3))
+			poligono.add(new Punto(-4, 4))
 		]
 
 		unBanco = new BancoBuilder().nombre("Santander").
@@ -117,26 +117,30 @@ class TestDisponibilidad {
 		build
 
 		pois = Lists.newArrayList(unBanco, unCGP, unComercio, unaParada)
+		RepoPois.instance.modificarAEsquemaTest()
+		RepoPois.instance.borrarDatos()
+		RepoPois.instance.agregarVariosPois(pois)
 		
 		busquedaConFechaDisponible = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(3).withHourOfDay(12).withMinuteOfHour(59).withSecondOfMinute(0)
 		]
 
 		busquedaConFechaNoDisponible = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(3).withHourOfDay(16).withMinuteOfHour(1).withSecondOfMinute(0)
 		]
 
 		busquedaConFechaDisponibleParaRentas = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(1).withHourOfDay(10).withMinuteOfHour(30).withSecondOfMinute(0)
 		]
 
 		busquedaConFechaNODisponibleParaRentas = new Buscador() => [
-			repo.agregarVariosPois(pois)
 			fechaActual = new LocalDateTime().withDayOfWeek(6).withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
 		]
+	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
 	}
 
 	@Test

@@ -3,9 +3,15 @@ package edu.tp2016.usuarios
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.observersBusqueda.BusquedaObserver
 import java.util.List
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Entity
 
 @Accessors
+@Entity
+@DiscriminatorValue("1")
 class Terminal extends Usuario {
+	
+	new(){}
 		
 	new(String nombre) {
 		userName = nombre

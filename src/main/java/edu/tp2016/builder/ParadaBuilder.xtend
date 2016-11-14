@@ -1,8 +1,8 @@
 package edu.tp2016.builder
 
 import edu.tp2016.pois.ParadaDeColectivo
-import org.uqbar.geodds.Point
 import java.util.List
+import edu.tp2016.mod.Punto
 
 class ParadaBuilder {
 
@@ -26,7 +26,7 @@ class ParadaBuilder {
 		this
 	}
 
-	def ubicacion(Point ubicacion) {
+	def ubicacion(Punto ubicacion) {
 		unPoi.ubicacion = ubicacion
 		this
 	}

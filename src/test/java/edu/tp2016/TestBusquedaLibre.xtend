@@ -1,28 +1,30 @@
 package edu.tp2016
 
 import com.google.common.collect.Lists
+import edu.tp2016.applicationModel.Buscador
+import edu.tp2016.builder.BancoBuilder
+import edu.tp2016.builder.CGPBuilder
+import edu.tp2016.builder.ComercioBuilder
+import edu.tp2016.builder.ParadaBuilder
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.DiaDeAtencion
+import edu.tp2016.mod.Punto
 import edu.tp2016.mod.Rubro
 import edu.tp2016.mod.Servicio
 import edu.tp2016.pois.Banco
 import edu.tp2016.pois.CGP
 import edu.tp2016.pois.Comercio
+import edu.tp2016.pois.POI
 import edu.tp2016.pois.ParadaDeColectivo
+import edu.tp2016.repositorio.RepoPois
+import edu.tp2016.usuarios.Terminal
 import java.util.Arrays
 import java.util.List
+import java.util.Set
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.uqbar.geodds.Point
-import org.uqbar.geodds.Polygon
-import edu.tp2016.builder.BancoBuilder
-import edu.tp2016.builder.ParadaBuilder
-import edu.tp2016.builder.ComercioBuilder
-import edu.tp2016.builder.CGPBuilder
-import edu.tp2016.usuarios.Terminal
-import edu.tp2016.applicationModel.Buscador
-import edu.tp2016.repositorio.Repositorio
 
 class TestBusquedaLibre {
 
@@ -38,11 +40,12 @@ class TestBusquedaLibre {
 	Comercio comercioLoDeJuan
 	Banco bancoGalicia
 	Servicio cultura
+	Servicio cultura2
 	Servicio deportes
 	Servicio asesoramientoLegal
 	Servicio salud
 	Servicio turismo
-	Point ubicacionX
+	Punto ubicacionX
 	List<DiaDeAtencion> rangoX
 	Comuna comunaX
 
@@ -52,11 +55,10 @@ class TestBusquedaLibre {
 		rangoX = Lists.newArrayList()
 		
 		comunaX = new Comuna => [
-			poligono = new Polygon()
-			poligono.add(new Point(-1, 1))
-			poligono.add(new Point(-2, 2))
-			poligono.add(new Point(-3, 3))
-			poligono.add(new Point(-4, 4))
+			poligono.add(new Punto(-1, 1))
+			poligono.add(new Punto(-2, 2))
+			poligono.add(new Punto(-3, 3))
+			poligono.add(new Punto(-4, 4))
 		]
 
 		utn7parada = new ParadaBuilder().nombre("7").ubicacion(ubicacionX).claves(Arrays.asList("utn", "campus")).build
@@ -71,9 +73,11 @@ class TestBusquedaLibre {
 			Arrays.asList("cajero", "sucursal galicia", "banco")).sucursal("Almagro").nombreGerente("Juan Perez").
 			setearHorarios.build
 
-		cultura = new Servicio("cultura", rangoX)
+		cultura = new Servicio("cultura", Lists.newArrayList(new DiaDeAtencion()))
+		
+		cultura2 = new Servicio("cultura", Lists.newArrayList(new DiaDeAtencion()))
 
-		deportes = new Servicio("deportes", rangoX)
+		deportes = new Servicio("deportes", Lists.newArrayList(new DiaDeAtencion()))
 
 		asesoramientoLegal = new Servicio("asesoramiento legal", rangoX)
 
@@ -88,7 +92,7 @@ class TestBusquedaLibre {
 
 		CGPComuna2 = new CGPBuilder().nombre("CGP Comuna 2").ubicacion(ubicacionX).claves(
 			Arrays.asList("CGP", "centro de atencion", "servicios sociales", "comuna 2")).comuna(comunaX).servicio(
-			Arrays.asList(turismo, cultura, salud)).zonasIncluidas("").nombreDirector("").telefono("").build
+			Arrays.asList(turismo, cultura2, salud)).zonasIncluidas("").nombreDirector("").telefono("").build
 
 		rubroFarmacia = new Rubro("Farmacia", 1)
 
@@ -102,7 +106,9 @@ class TestBusquedaLibre {
 
 		buscador = new Buscador() =>
 			[
-				repo = Repositorio.newInstance
+				repo = RepoPois.instance
+				repo.modificarAEsquemaTest()
+				repo.borrarDatos()
 				repo.agregarVariosPois(
 					Lists.newArrayList(utn7parada, miserere7parada, utn114parada, CGPComuna1, CGPComuna2,
 						comercioFarmacity, comercioLoDeJuan, bancoGalicia))
@@ -110,65 +116,74 @@ class TestBusquedaLibre {
 			]
 
 	}
+	
+	@After
+	def void finalizar(){
+		RepoPois.instance.borrarDatos()
+	}
+	
+	def boolean coinciden (Set<POI> resultado, List<POI> esperado){
+		resultado.size == esperado.size && esperado.forall[poi | resultado.exists[it.id == poi.id]]
+	}
 
 	@Test
 	def void buscarParadaDeColectivo7() {
-		Assert.assertEquals(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada))
+		Assert.assertTrue(coinciden(buscador.buscar("7"), Arrays.asList(utn7parada, miserere7parada)))
 	}
 
 	@Test
 	def void buscarParadaDeColectivo114() {
-		Assert.assertEquals(buscador.buscar("114"), Arrays.asList(utn114parada))
+		Assert.assertTrue(coinciden(buscador.buscar("114"), Arrays.asList(utn114parada)))
 	}
 
 	@Test
 	def void buscarBancoPorNombre() {
-		Assert.assertEquals(buscador.buscar("banco galicia callao"), Arrays.asList(bancoGalicia))
+		Assert.assertTrue(coinciden(buscador.buscar("banco galicia callao"), Arrays.asList(bancoGalicia)))
 	}
 
 	@Test
 	def void buscarBancoConUnaPalabraClave() {
-		Assert.assertEquals(buscador.buscar("sucursal galicia"), Arrays.asList(bancoGalicia))
+		Assert.assertTrue(coinciden(buscador.buscar("sucursal galicia"), Arrays.asList(bancoGalicia)))
 	}
 
 	@Test
 	def void buscarParadaDeColectivoConUnaPalabraClave() {
-		Assert.assertEquals(buscador.buscar("campus"), Arrays.asList(utn7parada, utn114parada))
+		Assert.assertTrue(coinciden(buscador.buscar("campus"), Arrays.asList(utn7parada, utn114parada)))
 	}
 
 	@Test
 	def void buscarComercioPorRubro() {
-		Assert.assertEquals(buscador.buscar("libreria"), Arrays.asList(comercioLoDeJuan))
+		Assert.assertTrue(coinciden(buscador.buscar("libreria"), Arrays.asList(comercioLoDeJuan)))
 	}
 
 	@Test
 	def void buscarComercioPorNombre() {
-		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertTrue(coinciden(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity)))
 	}
 
 	@Test
 	def void buscarComercioConUnaPalabraClave() {
-		Assert.assertEquals(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity))
+		Assert.assertTrue(coinciden(buscador.buscar("farmacity"), Arrays.asList(comercioFarmacity)))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioEntero() {
-		Assert.assertEquals(buscador.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2))
+		Assert.assertTrue(coinciden(buscador.buscar("cultura"), Arrays.asList(CGPComuna1, CGPComuna2)))
 	}
 
 	@Test
 	def void buscarCGPEscribiendoServicioParcial() {
-		Assert.assertEquals(buscador.buscar("asesoramiento"), Arrays.asList(CGPComuna1))
+		Assert.assertTrue(coinciden(buscador.buscar("asesoramiento"), Arrays.asList(CGPComuna1)))
 	}
 
 	@Test
 	def void buscarCGPEscrbiendoPalabraClave() {
-		Assert.assertEquals(buscador.buscar("comuna 2"), Arrays.asList(CGPComuna2))
+		Assert.assertTrue(coinciden(buscador.buscar("comuna 2"), Arrays.asList(CGPComuna2)))
 	}
 
 	@Test
 	def void buscarYQueNoHayaCoincidencias() {
-		Assert.assertEquals(buscador.buscar("palabraInexistente"), Arrays.asList())
+		Assert.assertTrue(coinciden(buscador.buscar("palabraInexistente"), Arrays.asList()))
 	}
 
 }

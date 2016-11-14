@@ -1,58 +1,32 @@
 package edu.tp2016.repositorio
 
-import org.uqbar.commons.model.CollectionBasedRepo
 import edu.tp2016.usuarios.Usuario
-import java.util.Random
-import org.apache.commons.collections15.Predicate
 import java.util.ArrayList
 import edu.tp2016.usuarios.Terminal
-import edu.tp2016.usuarios.Administrador
-import com.google.common.collect.Lists
+import org.hibernate.Criteria
+import org.hibernate.criterion.Restrictions
+import org.hibernate.FetchMode
+import org.hibernate.HibernateException
 
-class RepoUsuarios extends CollectionBasedRepo<Usuario>{
+class RepoUsuarios extends RepoDefault<Usuario>{
 	private static RepoUsuarios instance = null
-	Random rand = new Random()
 
-	override createExample() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
 	override def getEntityType() {
 		typeof(Usuario)
 	}
 	
 	def agregarUsuario(Usuario usuario){
-		var nuevoId = rand.nextInt(1000) // le asigna un id aleatorio entre 0 y 999
-			while(idEnUso(nuevoId)){
-				nuevoId = rand.nextInt(1000)
-			}
-		usuario.id = nuevoId
-		
 		this.create(usuario)
-	}
-	
-	def idEnUso(int id){
-		!((objects.filter [ usuario | usuario.id.equals(id)]).isEmpty)
 	}
 	
 	static def getInstance() {
 		if (instance == null) {
 			instance = new RepoUsuarios
-			instance.agregarVariosUsuarios(crearJuegoDeDatos())
 		}
 		instance
 	}
 	
-	override def Predicate<Usuario> getCriterio(Usuario unUsuario) {
-		var result = this.criterioTodas
-		result
-	}
-	
-	override getCriterioTodas() {
-		[Usuario usuario|true] as Predicate<Usuario>
-	}
-	
-	def agregarVariosUsuarios(ArrayList<Usuario> usuarios){
+	def agregarVariosUsuarios(ArrayList<Terminal> usuarios){
 		usuarios.forEach [ usuario | this.agregarUsuario(usuario)]
 	}
 	
@@ -62,10 +36,24 @@ class RepoUsuarios extends CollectionBasedRepo<Usuario>{
 	        it.password.equals(clave)]
 	}
 	
-	static def crearJuegoDeDatos(){
-		val usuarioTerminal = new Terminal("juanPerez", "1234")
-		val usuarioAdministrador = new Administrador("admin", "helloWorld")
-		Lists.newArrayList(new Terminal("usr", "usr"), usuarioTerminal, usuarioAdministrador)
+	override addQueryByExample(Criteria criteria, Usuario usuario) {
+		if (usuario.userName != null) {
+			criteria.add(Restrictions.eq("userName", usuario.userName))
+		}
+	}
+	
+	def Usuario get(Long id) {
+		val session = sessionFactory.openSession
+		try {
+			return session.createCriteria(typeof(Usuario))
+				.add(Restrictions.idEq(id))
+				.setFetchMode("poisFavoritos", FetchMode.JOIN)
+				.uniqueResult() as Usuario
+		} catch (HibernateException e) {
+			throw new RuntimeException(e)
+		} finally {
+			session.close
+		}
 	}
 	
 }

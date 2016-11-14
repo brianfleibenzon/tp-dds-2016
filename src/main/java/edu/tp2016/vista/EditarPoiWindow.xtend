@@ -95,7 +95,7 @@ abstract class EditarPoiWindow extends Dialog<POI> {
 		
 		new Button(mainPanel)
 			.setCaption("Aceptar")
-			.onClick [ | modelObject.limpiarReviewInputs
+			.onClick [ | modelObject.guardarDatos
 						 this.accept
 			]
 			.setAsDefault
@@ -176,8 +176,6 @@ class EditarCGPWindow extends EditarPoiWindow {
 			value <=> "barriosIncluidos"
 			width = 200
 		]
-		new Label(panel).text = "" /* Labels nulos para alinear */
-		new Label(panel).text = ""
         new Label(panel).text = "Lista de Servicios:"
         
         new Panel(panel)=> [
@@ -192,8 +190,6 @@ class EditarCGPWindow extends EditarPoiWindow {
 				fixedSize = 350
 			]
 		]
-		new Label(panel).text = "" /* Labels nulos para alinear */
-		new Label(panel).text = ""
 		new Label(panel).text = "Horarios de Atención:"
 		
         new Panel(panel)=> [        	
@@ -216,8 +212,6 @@ class EditarCGPWindow extends EditarPoiWindow {
 				fixedSize = 60
 			]
 		]
-		new Label(panel).text = "" /* Labels nulos para alinear */
-		new Label(panel).text = ""
 	}
 }
 

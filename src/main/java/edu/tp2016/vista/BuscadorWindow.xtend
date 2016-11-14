@@ -83,7 +83,7 @@ class BuscadorWindow extends Dialog<Buscador>{
 				]
 				new Button(it) => [
 					caption = "Nuevo POI"	
-					onClick[| this.openDialogEditar(new MenuNuevoPoiWindow(this, new POI(), model.getSource)) ]	
+					onClick[| this.openDialogDefault(new MenuNuevoPoiWindow(this, new POI(), model.getSource)) ]	
 				]
 				new Label(mainPanel) => [
  					(foreground <=> "mensajeInvalido").transformer = new BusquedaInvalidaTransformer 
@@ -125,21 +125,35 @@ class BuscadorWindow extends Dialog<Buscador>{
 			fixedSize = 150
 			bindContentsToProperty("cercania")
 		]
+		
+		new Label(mainPanel) => [ text = "" ]
+		new Panel(mainPanel) => [
+			it.layout = new ColumnLayout(4)
 
-		new Button(mainPanel) => [
-			caption = "Editar"	
+		new Button(it) => [
+			caption = "Editar POI"	
 			onClick[ | this.editarPoi ]
 			bindEnabled(new NotNullObservable("poiSeleccionado"))
 		]
-		new Button(mainPanel)
-			.setCaption("Salir")
-			.onClick[ | this.cancel ]
+		new Button(it) => [
+			caption = "Eliminar POI"	
+			onClick[ | this.openDialogDefault(new BajaPoiWindow(this, modelObject.poiSeleccionado, model.getSource))
+			]
+			bindEnabled(new NotNullObservable("poiSeleccionado"))
+			]
+		]
+			new Panel(mainPanel) => [
+				it.layout = new ColumnLayout(3)
+				new Label(it) => [ text = "" ]			
+				new Button(mainPanel)
+					.setCaption("Salir")
+					.onClick[ | this.cancel ]
+				]
 	}
-	
 	
 	def editarPoi(){
 		val bloqueQueConstruyeVentana = mapaVentanas.get(modelObject.poiSeleccionado.class)
-		this.openDialogEditar(bloqueQueConstruyeVentana.apply)
+		this.openDialogDefault(bloqueQueConstruyeVentana.apply)
 	}
 	
 	def getMapaVentanas() {
@@ -151,12 +165,8 @@ class BuscadorWindow extends Dialog<Buscador>{
 		]
 	}
 	
-	def openDialogEditar(Dialog<?> dialog) {
+	def openDialogDefault(Dialog<?> dialog) {
 		dialog.onAccept[ | modelObject.buscar ]
-		dialog.open
-	}
-	
-	def openDialogAgregar(Dialog<?> dialog) {
 		dialog.open
 	}
 

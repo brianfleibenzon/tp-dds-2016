@@ -5,10 +5,9 @@ import java.util.List
 import edu.tp2016.pois.POI
 import org.joda.time.LocalDateTime
 import java.util.ArrayList
-import com.google.common.collect.Lists
 import org.joda.time.Duration
 import edu.tp2016.serviciosExternos.ExternalServiceAdapter
-import edu.tp2016.repositorio.Repositorio
+import edu.tp2016.repositorio.RepoPois
 import edu.tp2016.observersBusqueda.Busqueda
 import java.util.HashMap
 import edu.tp2016.usuarios.Administrador
@@ -17,29 +16,29 @@ import org.joda.time.LocalDate
 import edu.tp2016.serviciosExternos.MailSender
 import org.uqbar.commons.utils.Observable
 import java.util.Arrays
-import org.uqbar.geodds.Point
 import org.uqbar.commons.model.IModel
 import java.util.HashSet
 import java.util.Set
+import edu.tp2016.mod.Punto
 
 @Observable
 @Accessors
 class Buscador implements IModel<Buscador>{
 	List<POI> resultados = new ArrayList<POI>
-	public POI poiSeleccionado
+	POI poiSeleccionado
 	String nuevoCriterio = ""
 	List<String> criteriosBusqueda = new ArrayList<String>
 	String mensajeInvalido
 	String criterioSeleccionado
 	/*-----------------------------------------------------------------------------------*/
 	List<ExternalServiceAdapter> interfacesExternas = new ArrayList<ExternalServiceAdapter>
-	public Repositorio repo = Repositorio.getInstance
+	public RepoPois repo = RepoPois.getInstance
 	List<Busqueda> busquedas = new ArrayList<Busqueda>
 	List<Administrador> administradores = new ArrayList<Administrador>
 	Usuario usuarioActual
 	LocalDateTime fechaActual
 	MailSender mailSender
-	Point ubicacion = new Point(-34.6596291, -58.4681825) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
+	Punto ubicacion = new Punto(-34.6596291, -58.4681825) //Bartolome Mitre y Callao: (-34.607984, -58.392070) 
 	
 	new(){
 		fechaActual = new LocalDateTime()
@@ -47,7 +46,7 @@ class Buscador implements IModel<Buscador>{
 	
 	new(Usuario usuario){
 		this.usuarioActual = usuario
-		this.usuarioActual.ubicacionActual = ubicacion
+		this.usuarioActual.ubicacionActual = ubicacion	
 	}
 	
 	override Buscador getSource(){
@@ -69,32 +68,31 @@ class Buscador implements IModel<Buscador>{
 	}
 	
 // BÚSQUEDA EN EL REPOSITORIO:
-	def List<POI> buscar(String texto){
+	def Set<POI> buscar(String texto){
+		this.buscar(Arrays.asList(texto))
+	}
+	
+	def Set<POI> buscar(List<String> criterios){
 		val t1 = new LocalDateTime()
 		
-		val listaDePoisDevueltos = buscarPor(texto).toList
+		val listaDePoisDevueltos = repo.buscar(criterios)
+		
+		criterios.forEach[
+			obtenerPoisDeInterfacesExternas(it, listaDePoisDevueltos)
+		]
 		
 		val t2 = new LocalDateTime()
 		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
-		usuarioActual.registrarBusqueda(Arrays.asList(texto), listaDePoisDevueltos, demora, this)
+		usuarioActual.registrarBusqueda(criterios, listaDePoisDevueltos, demora, this)
 
 		listaDePoisDevueltos
 	}
 
-	def void obtenerPoisDeInterfacesExternas(String texto, List<POI> poisBusqueda) {
+	def void obtenerPoisDeInterfacesExternas(String texto, Set<POI> poisBusqueda) {
 		interfacesExternas.forEach [ unaInterfaz |
-			poisBusqueda.addAll(unaInterfaz.buscar(texto))
-		]
-	}
-	
-	def Iterable<POI> buscarPor(String texto) {
-		val poisBusqueda = new ArrayList<POI>
-		poisBusqueda.addAll(repo.allInstances)
-
-		obtenerPoisDeInterfacesExternas(texto, poisBusqueda)
-
-		poisBusqueda.filter [ poi | texto != null && !texto.isEmpty &&
-			(poi.tienePalabraClave(texto) || poi.coincide(texto))
+			poisBusqueda.addAll(unaInterfaz.buscar(texto).filter [ poi | texto != null && !texto.isEmpty &&
+				(poi.tienePalabraClave(texto) || poi.coincide(texto))
+			])
 		]
 	}
 	
@@ -105,11 +103,8 @@ class Buscador implements IModel<Buscador>{
 	 * @params id de un POI
 	 * @return un POI
 	 */
-	def List<POI> buscarPorId(int _id) {
-		val repoDePois = new ArrayList<POI>
-		repoDePois.addAll(repo.allInstances)
-		
-		Lists.newArrayList( repoDePois.filter [ poi | poi.id.equals(_id)] )
+	def POI buscarPorId(long _id) {
+		repo.get(_id)
 	}
 	
 	def void registrarBusqueda(Busqueda unaBusqueda){
@@ -173,19 +168,16 @@ class Buscador implements IModel<Buscador>{
 		init
 		resultados.clear
 		mensajeInvalido = ""
-		val Set<POI> search = new HashSet<POI>(resultados)
-		val t1 = new LocalDateTime()
 		
 		if(criteriosBusqueda.isEmpty) mensajeInvalido = "<< Debe ingresar un criterio de búsqueda >>"
-		criteriosBusqueda.forEach [ criterio | search.addAll(buscarPor(criterio).toList) ]
 		
-		val t2 = new LocalDateTime()
-		val demora = (new Duration(t1.toDateTime, t2.toDateTime)).standardSeconds
-		usuarioActual.registrarBusqueda(criteriosBusqueda, new ArrayList(search), demora, this)
+		val Set<POI> search = new HashSet<POI>(resultados)
+		
+		search.addAll(this.buscar(criteriosBusqueda))		
 		
 		if(search.isEmpty && !criteriosBusqueda.isEmpty) mensajeInvalido = "<< No se han encontrado resultados para su búsqueda >>"
 		search.forEach[
-			it.usuario = usuarioActual
+			it.usuarioActual = usuarioActual
 			it.favorito = usuarioActual.tienePoiFavorito(it)
 		]
 		
@@ -210,6 +202,14 @@ class Buscador implements IModel<Buscador>{
 	
 	def eliminarCriterio(){
 		criteriosBusqueda.remove(criterioSeleccionado)
+	}
+	
+	def void setPoiSeleccionado(POI unPoi){
+		if(unPoi != null) poiSeleccionado = RepoPois.instance.get(unPoi.id)
+	}
+	
+	def eliminarPoi(POI poi){
+		repo.eliminarPoi(poi)
 	}
 	
 }

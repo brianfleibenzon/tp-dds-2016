@@ -3,7 +3,6 @@ package edu.tp2016.pois
 import edu.tp2016.mod.Comuna
 import edu.tp2016.mod.Servicio
 import java.util.ArrayList
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.LocalDateTime
 import org.uqbar.geodds.Point
@@ -11,14 +10,35 @@ import edu.tp2016.serviciosExternos.cgp.CentroDTO
 import java.util.Arrays
 import edu.tp2016.mod.DiaDeAtencion
 import org.uqbar.commons.utils.Observable
+import javax.persistence.Entity
+import javax.persistence.Column
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
+import javax.persistence.FetchType
+import javax.persistence.DiscriminatorValue
+import javax.persistence.CascadeType
+import java.util.Set
+import java.util.HashSet
+import edu.tp2016.mod.Punto
 
+@Entity
+@DiscriminatorValue("2")
 @Observable
 @Accessors
 class CGP extends POI {
-	List<Servicio> servicios = new ArrayList<Servicio>
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	Set<Servicio> servicios = new HashSet<Servicio>
+	
+	@ManyToOne(cascade=CascadeType.ALL)
 	Comuna comuna
+	
+	@Column(length=100)
 	String barriosIncluidos
+	
+	@Column(length=100)
 	String nombreDirector
+	
+	@Column(length=100)
 	String telefono
 	
 	new(CentroDTO unCentro) {
@@ -43,7 +63,7 @@ class CGP extends POI {
 
     new(){ } // default
     
-	override boolean estaCercaA(Point ubicacionDispositivo) {
+	override boolean estaCercaA(Punto ubicacionDispositivo) {
 		comuna.pertenecePunto(ubicacionDispositivo)
 	}
 

@@ -1,17 +1,22 @@
 package edu.tp2016.usuarios
 
 import edu.tp2016.procesos.ResultadoDeProceso
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.tp2016.procesos.Proceso
-import java.util.ArrayList
 import edu.tp2016.procesos.AgregarAccionesParaTodosLosUsuarios
 import edu.tp2016.applicationModel.Buscador
+import javax.persistence.Entity
+import javax.persistence.DiscriminatorValue
+import java.util.HashSet
+import java.util.Set
 
+@Entity
+@DiscriminatorValue("2")
 @Accessors
 class Administrador extends Usuario {
-	List<Proceso> procesosDisponibles = new ArrayList<Proceso>
-	List<ResultadoDeProceso> resultadosDeEjecucion = new ArrayList<ResultadoDeProceso>
+	
+	Set<Proceso> procesosDisponibles = new HashSet<Proceso>
+	Set<ResultadoDeProceso> resultadosDeEjecucion = new HashSet<ResultadoDeProceso>
 	
 	new(String nombre) {
 		userName = nombre

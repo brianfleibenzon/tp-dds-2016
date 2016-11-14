@@ -6,13 +6,13 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class ResultadoDeProceso {
+
 	LocalDateTime inicioEjecucion
 	LocalDateTime finEjecucion
 	Proceso procesoEjecutado
 	Administrador idUsuario
 	boolean resultadoEjecucion // OK o ERROR
 	String mensajeDeError // opcional
-
 	
 	/**
 	 * Construye el resultado de ejecución de un proceso incluyendo un mensaje de error.
